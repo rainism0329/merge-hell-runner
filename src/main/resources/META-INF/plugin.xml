@@ -1,0 +1,31 @@
+<idea-plugin>
+    <id>com.bigphil.mergehell</id>
+    <name>Merge Hell Runner</name>
+    <version>1.5.2</version>
+    <vendor email="bigphil.zhang@qq.com">Phil Zhang</vendor>
+
+    <description>
+        A lightweight side-scrolling game inside IntelliJ IDEA: Escape from Merge Conflict Hell!
+    </description>
+
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow factoryClass="com.bigphil.mergehell.MergeHellToolWindowFactory"
+                    id="Merge Hell"
+                    icon="/icons/Merge Hell T.svg"
+                    anchor="bottom"/>
+            <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>
