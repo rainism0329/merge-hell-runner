@@ -16,6 +16,7 @@ public class Player {
     private final int groundY;
 
     private boolean jumpPressed;
+    private final int moveSpeed = 7;
 
     public Player(int startX, int groundY) {
         this.startX = startX;
@@ -47,10 +48,10 @@ public class Player {
 
         // Horizontal movement
         if (moveLeft) {
-            x -= 5;
+            x -= moveSpeed;
         }
         if (moveRight) {
-            x += 5;
+            x += moveSpeed;
         }
 
         // Prevent going off screen (left)
