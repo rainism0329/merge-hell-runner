@@ -17,7 +17,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener {
 
     private enum GameState {
-        MENU, RUNNING, BOSS_WARNING, BOSS_FIGHT, LEVEL_CLEAR, GAME_OVER, VICTORY
+        MENU, RUNNING, BOSS_WARNING, BOSS_FIGHT, LEVEL_CLEAR, GAME_OVER, VICTORY, PAUSED
     }
 
     private class CodeRain {
@@ -69,11 +69,14 @@ public class GamePanel extends JPanel implements ActionListener {
     private final SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm:ss");
 
     private GameState state = GameState.MENU;
+    private GameState prePauseState = GameState.RUNNING;
+
     private int score = 0;
     private int level = 0;
     private int shakeTimer = 0;
     private int combo = 0;
     private int comboTimer = 0;
+    private long frameCount = 0;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
@@ -110,13 +113,18 @@ public class GamePanel extends JPanel implements ActionListener {
         registerKey(im, am, "LEFT_R", KeyEvent.VK_LEFT, false, () -> keyLeft = false);
         registerKey(im, am, "RIGHT", KeyEvent.VK_RIGHT, true, () -> keyRight = true);
         registerKey(im, am, "RIGHT_R", KeyEvent.VK_RIGHT, false, () -> keyRight = false);
+
         registerKey(im, am, "JUMP", KeyEvent.VK_SPACE, true, () -> {
             keyJump = true;
             if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) startGame();
         });
         registerKey(im, am, "JUMP_R", KeyEvent.VK_SPACE, false, () -> keyJump = false);
+
         registerKey(im, am, "SHOOT", KeyEvent.VK_C, true, () -> keyShoot = true);
         registerKey(im, am, "SHOOT_R", KeyEvent.VK_C, false, () -> keyShoot = false);
+
+        registerKey(im, am, "PAUSE_P", KeyEvent.VK_P, true, this::togglePause);
+        registerKey(im, am, "PAUSE_ESC", KeyEvent.VK_ESCAPE, true, this::togglePause);
     }
 
     private void registerKey(InputMap im, ActionMap am, String name, int keyCode, boolean pressed, Runnable action) {
@@ -127,6 +135,17 @@ public class GamePanel extends JPanel implements ActionListener {
                 action.run();
             }
         });
+    }
+
+    private void togglePause() {
+        if (state == GameState.PAUSED) {
+            state = prePauseState;
+            addLog("System resumed.");
+        } else if (state == GameState.RUNNING || state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT) {
+            prePauseState = state;
+            state = GameState.PAUSED;
+            addLog("System paused by user.");
+        }
     }
 
     public void addLog(String msg) {
@@ -163,12 +182,18 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (state == GameState.PAUSED) {
+            repaint();
+            return;
+        }
+
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
             for (CodeRain cr : backgroundCodes) cr.update(getWidth(), getHeight() - TERMINAL_HEIGHT);
             repaint();
             return;
         }
 
+        frameCount++;
         int groundY = getHeight() - TERMINAL_HEIGHT;
 
         for (CodeRain cr : backgroundCodes) cr.update(getWidth(), groundY);
@@ -193,9 +218,14 @@ public class GamePanel extends JPanel implements ActionListener {
                 state = GameState.BOSS_WARNING;
                 addLog("WARNING: CPU usage at 100%!");
                 Timer t = new Timer(2000, evt -> {
-                    state = GameState.BOSS_FIGHT;
-                    boss.activate();
-                    addLog("ALERT: " + boss.name + " process started!");
+                    if (state != GameState.PAUSED && state != GameState.GAME_OVER) {
+                        state = GameState.BOSS_FIGHT;
+                        boss.activate();
+                        addLog("ALERT: " + boss.name + " process started!");
+                    } else if (state == GameState.PAUSED) {
+                        prePauseState = GameState.BOSS_FIGHT;
+                        boss.activate();
+                    }
                     ((Timer)evt.getSource()).stop();
                 });
                 t.setRepeats(false);
@@ -285,18 +315,24 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
 
-        // --- Boss 碰撞核心修复 ---
+        // --- Boss 碰撞修复：增加伤害和反馈 ---
         if (state == GameState.BOSS_FIGHT && boss.active && player.getBounds().intersects(boss.getBounds())) {
-            // 如果 Boss 正在冲刺，伤害极高；否则只是轻微接触伤害
-            int damage = boss.isDashing() ? 30 : 1;
+            // 普通接触改为 5 点伤害，冲刺接触 35 点
+            int damage = boss.isDashing() ? 35 : 5;
 
-            // 只有当玩家没有护盾且没有无敌时才受伤，或者冲刺强制造成大量击退
             if (player.shieldTimer <= 0 && player.invincibleTimer <= 0) {
                 player.takeDamage(damage);
-                if (damage > 1) { // 冲刺造成大震动
+
+                // 无论哪种伤害，都增加反馈
+                if (boss.isDashing()) {
+                    // 冲刺重击
                     shakeTimer = 30;
                     floatingTexts.add(new FloatingText(player.x, player.y, "CRITICAL ERROR!", Color.RED));
                     addLog("CRITICAL: Hit by core dump!");
+                } else {
+                    // 普通接触，轻微震动
+                    shakeTimer = 5;
+                    floatingTexts.add(new FloatingText(player.x, player.y, "CONTACT -" + damage, Color.ORANGE));
                 }
             }
         }
@@ -348,11 +384,14 @@ public class GamePanel extends JPanel implements ActionListener {
         for (FloatingText t : floatingTexts) t.draw(g2);
 
         drawScanlines(g2, groundY);
-
         drawHUD(g2);
 
         if (state == GameState.MENU) {
             drawOverlay(g2, "MERGE HELL 2.0", "PRESS SPACE TO DEPLOY", Color.decode("#3574f0"));
+            drawControls(g2, (getHeight() - TERMINAL_HEIGHT) / 2);
+        } else if (state == GameState.PAUSED) {
+            drawOverlay(g2, "SYSTEM PAUSED", "PRESS 'P' TO RESUME", Color.YELLOW);
+            drawControls(g2, (getHeight() - TERMINAL_HEIGHT) / 2);
         } else if (state == GameState.GAME_OVER) {
             drawOverlay(g2, "BUILD FAILED", "See terminal for logs", COLOR_BOSS_RED);
         } else if (state == GameState.BOSS_WARNING) {
@@ -363,6 +402,28 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (shakeTimer > 0) g2.translate(0, 0);
         drawTerminal(g2, groundY);
+    }
+
+    private void drawControls(Graphics2D g, int centerY) {
+        g.setColor(new Color(200, 200, 200));
+        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 16));
+
+        int startY = centerY + 80;
+        int lineHeight = 25;
+
+        String[] lines = {
+                "[ ← / → ]   MOVE",
+                "[ SPACE ]   JUMP / DOUBLE JUMP",
+                "[ C ]       COMMIT (SHOOT)",
+                "[ P / ESC]  PAUSE"
+        };
+
+        FontMetrics fm = g.getFontMetrics();
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            int x = (getWidth() - fm.stringWidth(line)) / 2;
+            g.drawString(line, x, startY + i * lineHeight);
+        }
     }
 
     private void drawScanlines(Graphics2D g, int height) {
@@ -415,7 +476,6 @@ public class GamePanel extends JPanel implements ActionListener {
 
         int buffY = 50;
 
-        // --- 修复：使用 SansSerif 字体显示 Buff Emoji，防止乱码 ---
         g.setFont(new Font("SansSerif", Font.BOLD, 12));
 
         if (player.sudoTimer > 0) {
