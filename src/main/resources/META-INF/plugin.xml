@@ -5,14 +5,16 @@
     <vendor url="https://phil-zhang.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
     <description><![CDATA[
-        <h1>🔥 Escape the Merge Hell! 🔥</h1>
+        Merge Hell Runner is a hardcore side-scrolling survival game running directly inside your IntelliJ IDEA.
+        <br>
         <p>
             <b>Code. Commit. PANIC.</b><br>
             Tired of resolving conflicts manually? Why not <i>jump</i> over them?
         </p>
         <br>
+        <h1>🔥 Escape the Merge Hell! 🔥</h1>
         <p>
-            Welcome to <b>Merge Hell Runner</b>, the ultimate procrastination tool inside your IDE.
+            Welcome to <b>Merge Hell Runner</b>, the ultimate procrastination tool.
             Turn your coding nightmare into a cyberpunk parkour survival game!
         </p>
         <br>
