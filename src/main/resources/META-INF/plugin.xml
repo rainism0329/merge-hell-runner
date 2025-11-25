@@ -1,19 +1,53 @@
 <idea-plugin>
     <id>com.bigphil.mergehell</id>
     <name>Merge Hell Runner</name>
-    <version>1.5.2</version>
-    <vendor email="bigphil.zhang@qq.com">Phil Zhang</vendor>
+    <version>2.0.0</version>
+    <vendor url="https://phil-zhang.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
-    <description>
-        A lightweight side-scrolling game inside IntelliJ IDEA: Escape from Merge Conflict Hell!
-    </description>
+    <description><![CDATA[
+        <h1>🔥 Escape the Merge Hell! 🔥</h1>
+        <p>
+            <b>Code. Commit. PANIC.</b><br>
+            Tired of resolving conflicts manually? Why not <i>jump</i> over them?
+        </p>
+        <br>
+        <p>
+            Welcome to <b>Merge Hell Runner</b>, the ultimate procrastination tool inside your IDE.
+            Turn your coding nightmare into a cyberpunk parkour survival game!
+        </p>
+        <br>
+        <h3>🚀 Features V2.0:</h3>
+        <ul>
+            <li>🏃 <b>Hardcore Parkour:</b> Dodge <code>&lt;&lt;&lt;HEAD</code> blocks, <code>NullPointerExceptions</code>, and flying <code>TechDebts</code>.</li>
+            <li>⚔️ <b>Epic Boss Fights:</b> Can you defeat the <i>Legacy Code Monstrosity</i> and the dreaded <i>Memory Leak Daemon</i>?</li>
+            <li>⚡ <b>Sudo Mode:</b> Grab the Golden Thunderbolt to gain <b>ROOT ACCESS</b> and blast bugs with shotgun-style commits!</li>
+            <li>🛡️ <b>Defense Matrix:</b> Equip Shields to survive fatal crashes.</li>
+            <li>🎨 <b>Immersive Visuals:</b> CRT scanlines, parallax code rain, and satisfying damage numbers.</li>
+        </ul>
+        <br>
+        <p>
+            <i>"The only plugin where <code>rm -rf /</code> is a valid strategy."</i>
+        </p>
+        <br>
+        <hr>
+        <p>
+            Crafted with ❤️ (and caffeine) by <b>Phil Zhang</b>.<br>
+            Check out my portfolio: <a href="https://phil-zhang.netlify.app/">phil-zhang.netlify.app</a>
+        </p>
+    ]]></description>
 
+    <change-notes><![CDATA[
+        <h3>v2.0.0 - The "Sudo" Update</h3>
+        <ul>
+            <li><b>NEW:</b> Added Boss Battles (Legacy Code & Memory Leak).</li>
+            <li><b>NEW:</b> Added "Sudo Mode" power-up (Spread shot).</li>
+            <li><b>NEW:</b> Added floating combat text and combo system.</li>
+            <li><b>UX:</b> Improved jump physics and key bindings.</li>
+            <li><b>VISUAL:</b> Added CRT filter and parallax background.</li>
+        </ul>
+    ]]></change-notes>
 
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
-    <idea-version since-build="173.0"/>
-
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
-         on how to target different products -->
+    <idea-version since-build="212.0"/>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -21,11 +55,6 @@
                     id="Merge Hell"
                     icon="/icons/Merge Hell T.svg"
                     anchor="bottom"/>
-            <!-- Add your extensions here -->
     </extensions>
-
-    <actions>
-        <!-- Add your actions here -->
-    </actions>
 
 </idea-plugin>

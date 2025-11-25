@@ -1,104 +1,125 @@
 package com.bigphil.mergehell.model;
 
 import java.awt.*;
+import java.util.List;
 
 public class Player {
+    public double x, y, dy;
+    public int width = 30, height = 30;
+    public boolean grounded = false;
 
-    private final int width = 40;
-    private final int height = 60;
+    // 状态
+    public int hp = 100;
+    public int maxHp = 100;
+    public int sudoTimer = 0;
+    public int shieldTimer = 0;
+    public int invincibleTimer = 0;
 
-    private int x;
-    private int y;
-    private int velocityY;
-    private final int gravity = 1;
+    // 射击
+    private int cooldown = 0;
 
-    private final int startX;
-    private final int groundY;
+    // 常量
+    private final double GRAVITY = 0.6;
+    private final double JUMP_FORCE = -13; // 稍微增加跳跃力度，手感更轻盈
+    private final double SPEED = 5;
 
-    private boolean jumpPressed;
-    private final int moveSpeed = 7;
-
-    public Player(int startX, int groundY) {
-        this.startX = startX;
-        this.groundY = groundY;
+    public Player(int startX, int startY) {
         this.x = startX;
-        this.y = groundY - height;
-        this.velocityY = 0;
-        this.jumpPressed = false;
+        this.y = startY;
     }
 
-    public void reset() {
+    public void reset(int startX, int startY) {
         this.x = startX;
-        this.y = groundY - height;
-        this.velocityY = 0;
-        this.jumpPressed = false;
+        this.y = startY;
+        this.hp = 100;
+        this.dy = 0;
+        this.sudoTimer = 0;
+        this.shieldTimer = 0;
+        this.invincibleTimer = 0;
+        this.cooldown = 0;
     }
 
-    public void update(int panelWidth, int panelHeight, boolean moveLeft, boolean moveRight) {
-        // Apply gravity
-        velocityY += gravity;
-        y += velocityY;
+    public void update(boolean left, boolean right, boolean jump, boolean shoot, int groundY, int panelWidth, List<Projectile> projectiles) {
+        // 移动
+        if (left) x -= SPEED;
+        if (right) x += SPEED;
 
-        // Floor collision
-        int groundLevel = panelHeight - height;
-        if (y > groundLevel) {
-            y = groundLevel;
-            velocityY = 0;
+        // 边界
+        if (x < 0) x = 0;
+        if (x > panelWidth - width) x = panelWidth - width;
+
+        // 物理
+        dy += GRAVITY;
+        y += dy;
+
+        // 地面检测
+        if (y + height > groundY) {
+            y = groundY - height;
+            dy = 0;
+            grounded = true;
+        } else {
+            grounded = false;
         }
 
-        // Horizontal movement
-        if (moveLeft) {
-            x -= moveSpeed;
-        }
-        if (moveRight) {
-            x += moveSpeed;
+        // 跳跃
+        if (jump && grounded) {
+            dy = JUMP_FORCE;
+            grounded = false;
         }
 
-        // Prevent going off screen (left)
-        if (x < 0) {
-            x = 0;
-        }
+        // 冷却与Buff计时
+        if (cooldown > 0) cooldown--;
+        if (sudoTimer > 0) sudoTimer--;
+        if (shieldTimer > 0) shieldTimer--;
+        if (invincibleTimer > 0) invincibleTimer--;
 
-        // Prevent going off screen (right)
-        if (x + width > panelWidth) {
-            x = panelWidth - width;
+        // 射击逻辑
+        if (shoot && cooldown <= 0) {
+            boolean isSudo = sudoTimer > 0;
+
+            if (isSudo) {
+                // Sudo 模式：散射三发
+                projectiles.add(new Projectile(x + width, y + height / 2.0, 12, 0, "sudo"));
+                projectiles.add(new Projectile(x + width, y + height / 2.0, 11, -1.5, "sudo")); // 向上偏
+                projectiles.add(new Projectile(x + width, y + height / 2.0, 11, 1.5, "sudo"));  // 向下偏
+                cooldown = 10;
+            } else {
+                // 普通模式：单发
+                projectiles.add(new Projectile(x + width, y + height / 2.0, 10, 0, "commit"));
+                cooldown = 20;
+            }
         }
     }
 
-    public void jump() {
-        if (velocityY == 0 && !jumpPressed) {
-            velocityY = -15;
-            jumpPressed = true;
+    public void takeDamage(int amount) {
+        if (shieldTimer > 0 || invincibleTimer > 0) return;
+        hp -= amount;
+        invincibleTimer = 60;
+    }
+
+    public void draw(Graphics2D g) {
+        // 无敌闪烁
+        if (invincibleTimer > 0 && (invincibleTimer / 4) % 2 == 0) return;
+
+        // 玩家本体
+        g.setColor(sudoTimer > 0 ? Color.decode("#f2c55c") : Color.decode("#3574f0"));
+        g.fillRoundRect((int)x, (int)y, width, height, 8, 8); // 更圆润一点
+
+        // 文字
+        g.setColor(Color.BLACK); // 金色状态下用黑字更清晰
+        if (sudoTimer <= 0) g.setColor(Color.WHITE);
+        g.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
+        g.drawString("J", (int)x + 10, (int)y + 22);
+
+        // 护盾特效
+        if (shieldTimer > 0) {
+            g.setColor(Color.decode("#40c4ff"));
+            g.setStroke(new BasicStroke(2));
+            g.drawOval((int)x - 8, (int)y - 8, width + 16, height + 16);
         }
-    }
-
-    public void releaseJump() {
-        jumpPressed = false;
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillRect(x, y, width, height);
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
-    }
-
-    // Getters
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+        return new Rectangle((int)x, (int)y, width, height);
     }
 }
