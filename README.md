@@ -77,9 +77,9 @@ Know your enemy to survive the sprint:
 
 ## 📸 Screenshots
 
-| Boss Fight | Sudo Mode |
+| Boss Fight | Start Screen |
 | :---: | :---: |
-| ![Boss](docs/boss_preview.png) | ![Sudo](docs/sudo_preview.png) |
+| ![docs/boss_preview.png](https://github.com/rainism0329/springclouddemo/blob/master/merge%20hell2.png) | ![docs/sudo_preview.png](https://github.com/rainism0329/springclouddemo/blob/master/merge%20hell.png) |
 
 ---
 
