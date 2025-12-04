@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>com.bigphil.mergehell</id>
     <name>Merge Hell Runner</name>
-    <version>0.3.3</version>
-    <vendor url="https://phil-zhang.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
+    <version>0.3.4</version>
+    <vendor url="https://phil-the-guy.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
     <description><![CDATA[
         Merge Hell Runner is a hardcore side-scrolling survival game running directly inside your IntelliJ IDEA.
