@@ -87,7 +87,7 @@ Know your enemy to survive the sprint:
 
 Crafted with ❤️, ☕, and a lot of `git merge --abort` by **Phil Zhang**.
 
-* 🌍 **Portfolio:** [HomePage](https://phil-the-guy.netlify.app/)
+* 🌍 **Portfolio:** [HomePage](https://phil-the-guy.zeabur.app/)
 * 📧 **Contact:** bigphil.zhang@qq.com
 
 ---

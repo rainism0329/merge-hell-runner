@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>com.bigphil.mergehell</id>
     <name>Merge Hell Runner</name>
-    <version>0.3.6</version>
-    <vendor url="https://phil-the-guy.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
+    <version>0.3.7</version>
+    <vendor url="https://phil-the-guy.zeabur.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
     <description><![CDATA[
         Merge Hell Runner is a hardcore side-scrolling survival game running directly inside your IntelliJ IDEA.
@@ -18,7 +18,7 @@
             Turn your coding nightmare into a cyberpunk parkour survival game!
         </p>
         <br>
-        <h3>🚀 Features 0.3.6:</h3>
+        <h3>🚀 Features 0.3.7:</h3>
         <ul>
             <li>🏃 <b>Hardcore Parkour:</b> Dodge <code>&lt;&lt;&lt;HEAD</code> blocks, <code>NullPointerExceptions</code>, and flying <code>TechDebts</code>.</li>
             <li>⚔️ <b>Epic Boss Fights:</b> Can you defeat the <i>Legacy Code Monstrosity</i> and the dreaded <i>Memory Leak Daemon</i>?</li>
@@ -34,12 +34,12 @@
         <hr>
         <p>
             Crafted with ❤️ (and caffeine) by <b>Phil Zhang</b>.<br>
-            Check out my portfolio: <a href="https://phil-zhang.netlify.app/">phil-zhang.netlify.app</a>
+            Check out my portfolio: <a href="https://phil-the-guy.zeabur.app/">phil-zhang.netlify.app</a>
         </p>
     ]]></description>
 
     <change-notes><![CDATA[
-        <h3>v0.3.6 - The "Sudo" Update</h3>
+        <h3>v0.3.7 - The "Sudo" Update</h3>
         <ul>
             <li><b>NEW:</b> Added Boss Battles (Legacy Code & Memory Leak).</li>
             <li><b>NEW:</b> Added "Sudo Mode" power-up (Spread shot).</li>
