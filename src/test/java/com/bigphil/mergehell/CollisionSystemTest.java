@@ -48,7 +48,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertTrue(enemyManager.getEnemies().get(0).isDead());
@@ -61,7 +61,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertTrue(enemyManager.getEnemies().get(0).isDead());
@@ -75,7 +75,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertTrue(ctx.score > 0);
@@ -89,7 +89,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertFalse(particles.isEmpty());
@@ -99,10 +99,10 @@ class CollisionSystemTest {
     @Test
     void projectileShouldNotHitPowerup() {
         projectiles.add(new Projectile(100, 200, 0, 0, ProjectileType.COMMIT));
-        enemyManager.spawnEnemy(110, 195, EntityType.POWERUP_SUDO);
+        enemyManager.spawnEnemy(110, 195, EntityType.PICKUP_SPREAD);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertFalse(enemyManager.getEnemies().get(0).isDead());
@@ -111,10 +111,10 @@ class CollisionSystemTest {
 
     @Test
     void offscreenProjectile_shouldBeRemoved() {
-        projectiles.add(new Projectile(PANEL_WIDTH + 100, 200, 0, 0, ProjectileType.COMMIT));
+        projectiles.add(new Projectile(PANEL_WIDTH + 200, 200, 0, 0, ProjectileType.COMMIT));
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(0, projectiles.size());
@@ -129,7 +129,7 @@ class CollisionSystemTest {
 
         int hpBefore = boss.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpBefore - projectiles.get(0).getDamage(), boss.getHp());
@@ -141,7 +141,7 @@ class CollisionSystemTest {
 
         int hpBefore = boss.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpBefore, boss.getHp());
@@ -155,7 +155,7 @@ class CollisionSystemTest {
         int hpBefore = player.getHp();
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertTrue(hpBefore > player.getHp());
@@ -168,7 +168,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.BUG);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(15, ctx.shakeTimer);
@@ -176,14 +176,15 @@ class CollisionSystemTest {
     }
 
     @Test
-    void playerCollectingSudoPowerup_shouldSetSudoTimer() {
-        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.POWERUP_SUDO);
+    void playerCollectingWeapon_shouldEquipSpread() {
+        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.PICKUP_SPREAD);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
-        assertEquals(600, player.getSudoTimer());
+        assertEquals(WeaponType.SPREAD, player.getWeapon());
+        assertTrue(player.getWeaponAmmo() > 0);
         assertTrue(enemyManager.getEnemies().get(0).isDead());
     }
 
@@ -192,7 +193,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.POWERUP_SHIELD);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(400, player.getShieldTimer());
@@ -201,14 +202,14 @@ class CollisionSystemTest {
 
     @Test
     void powerupCollect_shouldLogMessage() {
-        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.POWERUP_SUDO);
+        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.PICKUP_SPREAD);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertFalse(logMessages.isEmpty());
-        assertTrue(logMessages.get(0).contains("ROOT ACCESS"));
+        assertTrue(logMessages.get(0).contains("SPREAD"));
     }
 
     // --- Player vs Boss ---
@@ -221,7 +222,7 @@ class CollisionSystemTest {
 
         int hpBefore = player.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpBefore - 5, player.getHp());
@@ -235,7 +236,7 @@ class CollisionSystemTest {
 
         int hpBefore = player.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpBefore, player.getHp());
@@ -249,7 +250,7 @@ class CollisionSystemTest {
 
         int hpAfterFirstHit = player.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpAfterFirstHit, player.getHp());
@@ -263,7 +264,7 @@ class CollisionSystemTest {
 
         int hpBefore = player.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(hpBefore, player.getHp());
@@ -278,7 +279,7 @@ class CollisionSystemTest {
 
         int hpBefore = player.getHp();
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         // Boss is not dashing, so damage should be 5
@@ -294,7 +295,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.HEALTH);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertTrue(player.getHp() > hpBefore);
@@ -307,7 +308,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.TECHDEBT);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertFalse(enemyManager.getEnemies().get(0).isDead());
@@ -320,7 +321,7 @@ class CollisionSystemTest {
         enemyManager.spawnEnemy(110, 195, EntityType.CRASH);
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
-                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
         assertEquals(2, ctx.combo);

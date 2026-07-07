@@ -8,27 +8,27 @@ public class CodeRain {
     private double speed;
     private float alpha;
 
-    public CodeRain(int startX, int maxY) {
-        reset(startX, maxY);
-    }
-
     private static final String[] SNIPPETS = {
             "public void fix() {", "return null;", "throw new Exception();",
             "// TODO: Remove this", "git merge master", "Segmentation fault",
             "System.exit(0);", "if (bug) panic();", "while(true) {", ">> HEAD"
     };
 
-    public void reset(int startX, int maxY) {
-        this.text = SNIPPETS[(int) (Math.random() * SNIPPETS.length)];
-        this.x = startX + Math.random() * 300;
-        this.y = 50 + Math.random() * (maxY - 100);
-        this.speed = 2 + Math.random() * 3;
-        this.alpha = 0.1f + (float) Math.random() * 0.2f;
+    public CodeRain(double startWorldX, int maxY) {
+        reset(startWorldX, maxY, 0);
     }
 
-    public void update(int width, int maxY, double speedMult) {
+    public void reset(double screenRight, int maxY, double cameraX) {
+        this.text = SNIPPETS[(int) (Math.random() * SNIPPETS.length)];
+        this.x = cameraX + Math.random() * (screenRight - cameraX + 300);
+        this.y = 50 + Math.random() * (maxY - 100);
+        this.speed = 2 + Math.random() * 3;
+        this.alpha = 0.04f + (float) Math.random() * 0.06f;
+    }
+
+    public void update(double screenWidth, int maxY, double speedMult, double cameraX) {
         x -= speed * speedMult;
-        if (x < -200) reset(width, maxY);
+        if (x < cameraX - 200) reset(cameraX + screenWidth, maxY, cameraX);
     }
 
     public void draw(Graphics2D g) {

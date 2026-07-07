@@ -16,9 +16,11 @@ public class GameRenderer {
                        List<Projectile> projectiles, List<Projectile> enemyBullets,
                        List<Particle> particles, List<FloatingText> floatingTexts,
                        List<CodeRain> bgLayer1, List<CodeRain> bgLayer2,
+                       List<Platform> platforms, List<LevelManager.Coin> coins,
                        LinkedList<String> logs, int score, int combo,
                        int shakeTimer, int flashTimer, int level, double difficulty,
-                       boolean isNewHighScore) {
+                       boolean isNewHighScore, double cameraX,
+                       boolean inBattle, int currentWave, int totalWaves) {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -28,24 +30,37 @@ public class GameRenderer {
             g.translate(dx, dy);
         }
 
-        g.setColor(GameColors.BG);
-        g.fillRect(0, 0, width, groundY);
+        // Camera scroll offset (saved for UI later)
+        g.translate(-cameraX, 0);
+
+        // Level-specific background tint
+        Color levelBg = switch (level % 3) {
+            case 0 -> GameColors.BG;
+            case 1 -> new Color(20, 25, 35);
+            default -> new Color(25, 20, 30);
+        };
+        g.setColor(levelBg);
+        g.fillRect((int) cameraX, 0, width + 200, groundY);
 
         // Background grid
-        drawBackgroundGrid(g, width, groundY);
+        drawBackgroundGrid(g, width, groundY, cameraX);
 
-        // Parallax code rain - far layer (slower, darker)
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
+        // Parallax code rain - far layer (very subtle)
+        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
         for (CodeRain cr : bgLayer2) cr.draw(g);
 
-        // Parallax code rain - near layer (faster, brighter)
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 13));
+        // Parallax code rain - near layer (subtle)
+        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
         for (CodeRain cr : bgLayer1) cr.draw(g);
 
         g.setColor(GameColors.GROUND);
-        g.fillRect(0, groundY, width, 10);
+        g.fillRect((int) cameraX, groundY, width + 200, 10);
         g.setColor(Color.GRAY);
-        g.drawLine(0, groundY, width, groundY);
+        g.drawLine((int) cameraX, groundY, (int) cameraX + width + 200, groundY);
+
+        // Foreground world elements (on top of background)
+        drawPlatforms(g, platforms);
+        drawCoins(g, coins);
 
         player.draw(g);
         enemyManager.draw(g);
@@ -55,18 +70,22 @@ public class GameRenderer {
         for (Particle p : particles) p.draw(g);
         for (FloatingText t : floatingTexts) t.draw(g);
 
-        // Damage flash overlay
+        drawScanlines(g, width, groundY);
+
+        // Reset camera offset BEFORE drawing fixed HUD/UI
+        g.translate(cameraX, 0);
+        if (shakeTimer > 0) g.translate(0, 0);
+
+        // Damage flash overlay (screen space)
         if (flashTimer > 0) {
             float alpha = (flashTimer / 15f) * 0.4f;
             g.setColor(new Color(1f, 0f, 0f, Math.min(alpha, 0.4f)));
             g.fillRect(0, 0, width, groundY);
         }
 
-        drawScanlines(g, width, groundY);
-        drawHUD(g, width, player, boss, score, combo, state, level, difficulty);
-        drawUI(g, width, height, groundY, state, score, isNewHighScore);
-
-        if (shakeTimer > 0) g.translate(0, 0);
+        drawHUD(g, width, player, boss, score, combo, state, level, difficulty,
+                inBattle, currentWave, totalWaves);
+        drawUI(g, width, height, groundY, state, score, isNewHighScore, level);
 
         boolean isGameplay = state == GameState.RUNNING || state == GameState.BOSS_WARNING
                 || state == GameState.BOSS_FIGHT || state == GameState.LEVEL_CLEAR;
@@ -76,9 +95,10 @@ public class GameRenderer {
     }
 
     private void drawUI(Graphics2D g, int width, int height, int groundY,
-                         GameState state, int score, boolean isNewHighScore) {
+                         GameState state, int score, boolean isNewHighScore, int level) {
         boolean fullscreen = state == GameState.MENU || state == GameState.PAUSED
-                || state == GameState.GAME_OVER || state == GameState.VICTORY;
+                || state == GameState.GAME_OVER || state == GameState.VICTORY
+                || state == GameState.MISSION_COMPLETE;
         int areaH = fullscreen ? height : groundY;
         int centerY = areaH / 2;
 
@@ -92,6 +112,9 @@ public class GameRenderer {
             String sub = "SCORE: " + score + (isNewHighScore ? "  ⭐ NEW HIGH SCORE!" : "");
             drawOverlay(g, width, areaH, "BUILD FAILED", sub, GameColors.DANGER_RED);
             drawTopScores(g, width, centerY);
+        } else if (state == GameState.MISSION_COMPLETE) {
+            String sub = "SCORE: " + score + "  |  Level " + (level + 1) + " cleared";
+            drawOverlay(g, width, areaH, "MISSION COMPLETE", sub, Color.GREEN);
         } else if (state == GameState.BOSS_WARNING) {
             drawCenteredString(g, width, "⚠ WARNING: HIGH CPU LOAD ⚠", groundY / 2, 36, Color.RED);
         } else if (state == GameState.VICTORY) {
@@ -121,21 +144,51 @@ public class GameRenderer {
         }
     }
 
-    private void drawBackgroundGrid(Graphics2D g, int width, int height) {
-        g.setColor(new Color(50, 55, 60));
+    private void drawPlatforms(Graphics2D g, List<Platform> platforms) {
+        for (Platform p : platforms) {
+            // Body: matches background but slightly lighter
+            g.setColor(new Color(42, 46, 52));
+            g.fillRect((int) p.x, (int) p.y, p.width, p.height);
+            // Top edge: subtle green code-line highlight
+            g.setColor(new Color(80, 180, 120, 180));
+            g.fillRect((int) p.x, (int) p.y, p.width, 2);
+            // Faint glow below top edge
+            g.setColor(new Color(60, 140, 90, 60));
+            g.fillRect((int) p.x, (int) p.y + 2, p.width, 6);
+            // Subtle corner brackets
+            g.setColor(new Color(100, 200, 140, 100));
+            g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
+            g.drawString("[", (int) p.x + 2, (int) p.y + 14);
+            g.drawString("]", (int) (p.x + p.width - 10), (int) p.y + 14);
+        }
+    }
+
+    private void drawCoins(Graphics2D g, List<LevelManager.Coin> coins) {
+        for (LevelManager.Coin c : coins) {
+            if (c.collected) continue;
+            g.setColor(new Color(255, 220, 50));
+            g.setFont(new Font("SansSerif", Font.BOLD, 18));
+            int pulse = (int) (Math.sin(System.currentTimeMillis() / 200.0) * 3);
+            g.drawString("$", (int) c.x - 5, (int) c.y + 6 + pulse);
+        }
+    }
+
+    private void drawBackgroundGrid(Graphics2D g, int width, int height, double cameraX) {
+        g.setColor(new Color(35, 38, 42));
         int step = 40;
-        for (int x = step; x < width; x += step) {
+        int startX = ((int) cameraX / step) * step;
+        for (int x = startX; x < cameraX + width + step; x += step) {
             g.drawLine(x, 0, x, height);
         }
         for (int y = step; y < height; y += step) {
-            g.drawLine(0, y, width, y);
+            g.drawLine((int) cameraX, y, (int) cameraX + width + 200, y);
         }
     }
 
     private void drawScanlines(Graphics2D g, int width, int height) {
-        g.setColor(GameColors.SCANLINE);
+        g.setColor(new Color(0, 0, 0, 15));
         for (int i = 0; i < height; i += 4) {
-            g.fillRect(0, i, width, 2);
+            g.fillRect(0, i, width + 100, 1);
         }
     }
 
@@ -165,7 +218,8 @@ public class GameRenderer {
     }
 
     private void drawHUD(Graphics2D g, int width, Player player, Boss boss,
-                         int score, int combo, GameState state, int level, double difficulty) {
+                         int score, int combo, GameState state, int level, double difficulty,
+                         boolean inBattle, int currentWave, int totalWaves) {
         // Score
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
         g.setColor(GameColors.PLAYER);
@@ -176,13 +230,16 @@ public class GameRenderer {
         g.setColor(Color.GRAY);
         g.drawString("Level " + (level + 1), 20, 50);
 
-        // Combo
+        // Combo with multiplier
         if (combo > 1) {
-            float comboScale = 1f + Math.min(combo * 0.05f, 0.5f);
+            float comboScale = 1f + Math.min(combo * 0.03f, 0.4f);
             Font comboFont = new Font("JetBrains Mono", Font.BOLD, (int) (24 * comboScale));
             g.setFont(comboFont);
-            g.setColor(Color.YELLOW);
-            g.drawString(combo + "x COMBO!", 20, 80);
+            double mult = combo >= 20 ? 3.0 : combo >= 10 ? 2.0 : combo >= 5 ? 1.5 : 1.0;
+            Color multColor = mult >= 3 ? Color.ORANGE : mult >= 2 ? Color.YELLOW : Color.WHITE;
+            g.setColor(multColor);
+            String multStr = mult > 1.0 ? String.format(" (%.1fx)", mult) : "";
+            g.drawString(combo + "x COMBO!" + multStr, 20, 80);
         }
 
         // HP bar
@@ -199,9 +256,18 @@ public class GameRenderer {
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
         g.drawString(player.getHp() + "/" + player.getMaxHp(), barX + 5, 30);
 
-        // Buffs
+        // Weapon
         int buffY = 50;
         g.setFont(new Font("SansSerif", Font.BOLD, 12));
+
+        WeaponType wp = player.getWeapon();
+        if (wp != WeaponType.COMMIT) {
+            g.setColor(wp == WeaponType.HEAVY ? GameColors.DANGER_RED
+                    : wp == WeaponType.SPREAD ? GameColors.SUDO_YELLOW : GameColors.PLAYER);
+            int ammo = player.getWeaponAmmo();
+            g.drawString(wp.name() + " [" + ammo + "]", barX, buffY);
+            buffY += 15;
+        }
 
         if (player.getSudoTimer() > 0) {
             g.setColor(GameColors.SUDO_YELLOW);
@@ -213,6 +279,12 @@ public class GameRenderer {
             g.drawString("SHIELD " + (player.getShieldTimer() / 60) + "s", barX, buffY);
             buffY += 15;
         }
+
+        // Bombs
+        g.setFont(new Font("JetBrains Mono", Font.BOLD, 11));
+        g.setColor(player.getBombs() > 0 ? Color.ORANGE : Color.DARK_GRAY);
+        g.drawString("BOMB x" + player.getBombs(), barX, buffY);
+        buffY += 15;
 
         // Dash cooldown
         int dashCd = player.getDashCooldown();
@@ -233,8 +305,17 @@ public class GameRenderer {
         String diffText = String.format("Threat: %.1fx", difficulty);
         g.drawString(diffText, barX, buffY + 5);
 
+        // Battle zone wave indicator
+        if (inBattle && totalWaves > 0) {
+            g.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
+            g.setColor(Color.ORANGE);
+            String waveText = "⚠  WAVE " + currentWave + " / " + totalWaves;
+            int lx = (width - g.getFontMetrics().stringWidth(waveText)) / 2;
+            g.drawString(waveText, lx, 35);
+        }
+
         // Boss HP bar
-        if (state == GameState.BOSS_FIGHT && boss.isActive()) {
+        if (state == GameState.BOSS_FIGHT && boss != null && boss.isActive()) {
             int bw = 500;
             int bx = (width - bw) / 2;
             g.setColor(Color.DARK_GRAY);
@@ -274,7 +355,9 @@ public class GameRenderer {
                 "[ ← / → ]   MOVE",
                 "[ SHIFT ]   DASH",
                 "[ SPACE ]   JUMP / DOUBLE JUMP",
-                "[ C ]       COMMIT (SHOOT)",
+                "[ C ]       SHOOT",
+                "[ X ]       MELEE",
+                "[ B ]       BOMB",
                 "[ P / ESC]  PAUSE"
         };
 

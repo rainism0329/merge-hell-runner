@@ -24,13 +24,13 @@ public class Boss {
     private boolean isFlashing = false;
     private double playerX, playerY;
 
-    public Boss(String name, int hpPool, String symbol, int panelWidth) {
+    public Boss(String name, int hpPool, String symbol, double spawnWorldX) {
         this.name = name;
         this.maxHp = hpPool / 2;
         this.hp = this.maxHp;
         this.symbol = symbol;
-        this.x = panelWidth + 200;
-        this.targetX = panelWidth - 250;
+        this.x = spawnWorldX + 200;
+        this.targetX = spawnWorldX - 150;
         this.y = 100;
         this.burstTimer = 250 + random.nextInt(150);
     }
@@ -47,25 +47,31 @@ public class Boss {
     public void activate() { this.active = true; }
     public boolean isDashing() { return phase == Phase.DASH; }
 
+    private boolean isEnraged() {
+        return hp < maxHp / 2;
+    }
+
     public void update(ObstacleManager obstacleManager, int groundY, double px, double py,
                         List<Projectile> enemyBullets) {
         if (!active) return;
         this.playerX = px;
         this.playerY = py;
+        boolean enraged = isEnraged();
 
         if (x > targetX && (phase == Phase.IDLE)) {
-            x -= 4;
+            x -= enraged ? 6 : 4;
             return;
         }
 
         actionTimer++;
 
+        int burstInterval = enraged ? 140 : 220;
         burstTimer--;
         if (burstTimer <= 0 && phase == Phase.IDLE) {
             phase = Phase.BURST;
             actionTimer = 0;
-            burstTimer = 220 + random.nextInt(160);
-            burstAttack(enemyBullets);
+            burstTimer = burstInterval + random.nextInt(burstInterval / 2);
+            burstAttack(enemyBullets, enraged);
         }
 
         switch (phase) {
@@ -76,14 +82,16 @@ public class Boss {
                 if (y < 20) y = 20;
                 if (y > groundY - height) y = groundY - height;
 
-                // Spawn minions
-                if (actionTimer % 50 == 0) {
+                // Spawn minions — faster when enraged
+                int spawnInterval = enraged ? 35 : 50;
+                if (actionTimer % spawnInterval == 0) {
                     attack(obstacleManager, groundY);
                 }
 
-                // Decide next action
-                if (actionTimer > 120) {
-                    if (random.nextBoolean()) {
+                // Decide next action — more aggressive when enraged
+                int idleTime = enraged ? 80 : 120;
+                if (actionTimer > idleTime) {
+                    if (random.nextInt(enraged ? 4 : 2) > 0) {
                         phase = Phase.DASH_WARN;
                     } else {
                         phase = Phase.IDLE;
@@ -103,7 +111,8 @@ public class Boss {
             }
 
             case DASH -> {
-                x += dashDir * 22;
+                double dashSpeed = enraged ? 28 : 22;
+                x += dashDir * dashSpeed;
                 if (x < 50 || x > targetX + 300) {
                     phase = Phase.RECOVER;
                     actionTimer = 0;
@@ -118,8 +127,9 @@ public class Boss {
             }
 
             case RECOVER -> {
+                double backSpeed = enraged ? 12 : 8;
                 double backDir = (targetX > x) ? 1 : -1;
-                x += backDir * 8;
+                x += backDir * backSpeed;
                 if (Math.abs(x - targetX) < 10) {
                     x = targetX;
                     phase = Phase.IDLE;
@@ -130,19 +140,21 @@ public class Boss {
         }
     }
 
-    private void burstAttack(List<Projectile> bullets) {
+    private void burstAttack(List<Projectile> bullets, boolean enraged) {
         double cx = x + width / 2.0;
         double cy = y + height / 2.0;
-        for (int i = 0; i < 12; i++) {
-            double angle = (Math.PI * 2 / 12) * i;
+        int count = enraged ? 18 : 12;
+        double speed = enraged ? 6 : 5;
+        for (int i = 0; i < count; i++) {
+            double angle = (Math.PI * 2 / count) * i;
             bullets.add(new Projectile(cx, cy,
-                    Math.cos(angle) * 5, Math.sin(angle) * 5,
+                    Math.cos(angle) * speed, Math.sin(angle) * speed,
                     ProjectileType.CRITICAL));
         }
     }
 
     private void attack(ObstacleManager om, int groundY) {
-        int r = random.nextInt(8);
+        int r = random.nextInt(isEnraged() ? 12 : 8);
         switch (r) {
             case 0 -> om.spawnEnemy((int) x + width, groundY - 60, EntityType.BUG);
             case 1 -> om.spawnEnemy((int) x + width, groundY - 120, EntityType.CRASH);
@@ -156,8 +168,13 @@ public class Boss {
                 om.spawnEnemy((int) x + width, 0, EntityType.FIREWALL);
                 om.spawnEnemy((int) x + width + 30, groundY - 60, EntityType.BUG);
             }
-            // Also spawn from left side (behind boss) to pressure players who dash behind
-            case 6, 7 -> om.spawnFromLeft(groundY);
+            case 6, 7 -> om.spawnFromLeft(groundY, (int) x);
+            // Enraged-only: swarm attack
+            case 8, 9 -> om.spawnFormation((int) x + width, groundY);
+            case 10, 11 -> {
+                om.spawnFromLeft(groundY, (int) x);
+                om.spawnFromLeft(groundY, (int) x);
+            }
         }
     }
 
@@ -169,12 +186,19 @@ public class Boss {
     public void draw(Graphics2D g) {
         if (!active) return;
 
+        boolean enraged = isEnraged();
         if (phase == Phase.DASH_WARN && isFlashing) {
             g.setColor(Color.WHITE);
         } else if (phase == Phase.DASH) {
-            g.setColor(Color.YELLOW);
+            g.setColor(enraged ? Color.ORANGE : Color.YELLOW);
         } else if (phase == Phase.BURST) {
-            g.setColor(new Color(255, 100, 100));
+            g.setColor(new Color(255, 50, 50));
+        } else if (enraged) {
+            g.setColor(new Color(200, 30, 30));
+            // Pulsing when enraged
+            if ((actionTimer / 15) % 2 == 0) {
+                g.setColor(GameColors.DANGER_RED);
+            }
         } else {
             g.setColor(GameColors.DANGER_RED);
         }
@@ -186,9 +210,10 @@ public class Boss {
         int symW = fm.stringWidth(symbol);
         g.drawString(symbol, (int) x + (width - symW) / 2, (int) y + 90);
 
-        g.setColor(GameColors.DANGER_RED);
+        g.setColor(isEnraged() ? Color.ORANGE : GameColors.DANGER_RED);
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        g.drawString(name, (int) x, (int) y - 10);
+        String label = name + (isEnraged() ? " [ENRAGED]" : "");
+        g.drawString(label, (int) x, (int) y - 10);
 
         if (phase == Phase.DASH_WARN) {
             // Directional warning line toward player

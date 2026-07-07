@@ -3,15 +3,17 @@ package com.bigphil.mergehell.model;
 import java.awt.*;
 
 public enum EntityType {
-    CONFLICT(GameColors.CONFLICT_BROWN, "<<HEAD", 40, 40, 4, 20, 1),
-    BUG(GameColors.DANGER_RED, "🐛", 40, 40, 4, 20, 1),
-    TECHDEBT(GameColors.TECHDEBT_GRAY, "TODO", 60, 80, 3, 30, 50),
-    CRASH(GameColors.CRASH_ORANGE, "💥", 50, 50, 6, 40, 1),
-    LOCK(GameColors.LOCK_GREEN, "🔒", 40, 40, 4, 20, 1),
-    FIREWALL(GameColors.FIREWALL_BLUE, "🔥", 60, 120, 2, 50, 2),
-    POWERUP_SUDO(GameColors.SUDO_YELLOW, "⚡", 30, 30, 4, 0, 1),
-    POWERUP_SHIELD(GameColors.SHIELD_CYAN, "🛡️", 30, 30, 4, 0, 1),
-    HEALTH(GameColors.HP_BAR, "❤️", 28, 28, 3, 0, 1);
+    CONFLICT(GameColors.CONFLICT_BROWN, "<<HEAD", 40, 40, 4, 20, 1, 150),
+    BUG(GameColors.DANGER_RED, "🐛", 40, 40, 4, 20, 1, 100),
+    TECHDEBT(GameColors.TECHDEBT_GRAY, "TODO", 60, 80, 3, 30, 50, 500),
+    CRASH(GameColors.CRASH_ORANGE, "💥", 50, 50, 6, 40, 1, 200),
+    LOCK(GameColors.LOCK_GREEN, "🔒", 40, 40, 4, 20, 1, 250),
+    FIREWALL(GameColors.FIREWALL_BLUE, "🔥", 60, 120, 2, 50, 2, 300),
+    PICKUP_SPREAD(GameColors.SUDO_YELLOW, "⚡", 28, 28, 3, 0, 1, 0),
+    PICKUP_RAPID(GameColors.PLAYER, "🚀", 28, 28, 3, 0, 1, 0),
+    PICKUP_HEAVY(GameColors.DANGER_RED, "💣", 28, 28, 3, 0, 1, 0),
+    POWERUP_SHIELD(GameColors.SHIELD_CYAN, "🛡️", 30, 30, 4, 0, 1, 0),
+    HEALTH(GameColors.HP_BAR, "❤️", 28, 28, 3, 0, 1, 0);
 
     public final Color color;
     public final String symbol;
@@ -20,8 +22,10 @@ public enum EntityType {
     public final double vx;
     public final int damage;
     public final int maxHp;
+    public final int pointValue;
 
-    EntityType(Color color, String symbol, int width, int height, double vx, int damage, int maxHp) {
+    EntityType(Color color, String symbol, int width, int height, double vx,
+               int damage, int maxHp, int pointValue) {
         this.color = color;
         this.symbol = symbol;
         this.width = width;
@@ -29,13 +33,24 @@ public enum EntityType {
         this.vx = vx;
         this.damage = damage;
         this.maxHp = maxHp;
+        this.pointValue = pointValue;
     }
 
     public boolean isPowerup() {
-        return this == POWERUP_SUDO || this == POWERUP_SHIELD || this == HEALTH;
+        return this == PICKUP_SPREAD || this == PICKUP_RAPID || this == PICKUP_HEAVY
+                || this == POWERUP_SHIELD || this == HEALTH;
     }
 
     public boolean isHostile() {
         return !isPowerup();
+    }
+
+    public WeaponType toWeapon() {
+        return switch (this) {
+            case PICKUP_SPREAD -> WeaponType.SPREAD;
+            case PICKUP_RAPID -> WeaponType.RAPID;
+            case PICKUP_HEAVY -> WeaponType.HEAVY;
+            default -> null;
+        };
     }
 }

@@ -8,7 +8,7 @@ class EntityTypeTest {
 
     @Test
     void powerupTypes_shouldReportAsPowerup() {
-        assertTrue(EntityType.POWERUP_SUDO.isPowerup());
+        assertTrue(EntityType.PICKUP_SPREAD.isPowerup());
         assertTrue(EntityType.POWERUP_SHIELD.isPowerup());
     }
 
@@ -35,7 +35,7 @@ class EntityTypeTest {
 
     @Test
     void powerups_shouldHaveZeroDamage() {
-        assertEquals(0, EntityType.POWERUP_SUDO.damage);
+        assertEquals(0, EntityType.PICKUP_SPREAD.damage);
         assertEquals(0, EntityType.POWERUP_SHIELD.damage);
     }
 }

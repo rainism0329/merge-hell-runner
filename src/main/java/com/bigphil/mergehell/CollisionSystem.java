@@ -15,6 +15,7 @@ public class CollisionSystem {
         public int comboTimer;
         public int shakeTimer;
         public int flashTimer;
+        public int newKills;
     }
 
     public void process(Context ctx,
@@ -23,14 +24,15 @@ public class CollisionSystem {
                         Boss boss,
                         Player player,
                         GameState state,
-                        int panelWidth,
-                        int panelHeight,
+                        int panelWidth, int panelHeight,
+                        double cameraX,
                         List<Particle> particles,
                         List<FloatingText> texts,
                         Consumer<String> logger) {
 
-        processProjectileCollisions(ctx, projectiles, enemyManager, boss, state, panelWidth, panelHeight, particles, texts);
-        processEnemyBullets(ctx, enemyManager.getEnemyBullets(), player, projectiles, particles, texts, panelWidth, panelHeight);
+        processProjectileCollisions(ctx, projectiles, enemyManager, boss, state, panelWidth, panelHeight, cameraX, particles, texts);
+        processEnemyBullets(ctx, enemyManager.getEnemyBullets(), player, projectiles, particles, texts, panelWidth, panelHeight, cameraX);
+        processMeleeAttack(ctx, player, enemyManager, boss, particles, texts);
         processPlayerEnemyCollisions(ctx, player, enemyManager, particles, texts, logger);
         processPlayerBossCollision(ctx, player, boss, state, texts, logger);
     }
@@ -40,16 +42,19 @@ public class CollisionSystem {
                                              ObstacleManager enemyManager,
                                              Boss boss,
                                              GameState state,
-                                             int panelWidth,
-                                             int panelHeight,
+                                             int panelWidth, int panelHeight,
+                                             double cameraX,
                                              List<Particle> particles,
                                              List<FloatingText> texts) {
 
+        double leftBound = cameraX - 100;
+        double rightBound = cameraX + panelWidth + 100;
         Iterator<Projectile> pIt = projectiles.iterator();
         while (pIt.hasNext()) {
             Projectile p = pIt.next();
             p.update();
-            if (p.getX() > panelWidth || p.getX() < 0 || p.getY() > panelHeight || p.getY() < 0 || p.isDead()) {
+            if (p.getX() < leftBound || p.getX() > rightBound
+                    || p.getY() > panelHeight + 50 || p.getY() < -50 || p.isDead()) {
                 pIt.remove();
                 continue;
             }
@@ -60,20 +65,28 @@ public class CollisionSystem {
                     if (p.getType() != ProjectileType.SUDO) p.setDead(true);
 
                     if (en.isDead()) {
+                        ctx.newKills++;
                         spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 15, en.getColor());
                         ctx.combo++;
                         ctx.comboTimer = 100;
-                        int bonus = 50 + (ctx.combo * 10);
-                        ctx.score += bonus;
-                        String text = ctx.combo > 1 ? "Combo " + ctx.combo + "!" : "+" + bonus;
-                        texts.add(new FloatingText(en.getX(), en.getY(), text, Color.WHITE));
+                        double mult = comboMultiplier(ctx.combo);
+                        int points = (int) (en.getType().pointValue * mult);
+                        ctx.score += points;
+
+                        Color popColor = mult >= 3 ? Color.ORANGE
+                                : mult >= 2 ? Color.YELLOW : Color.WHITE;
+                        String text = ctx.combo > 1
+                                ? "Combo " + ctx.combo + "! +" + points
+                                : "+" + points;
+                        texts.add(new FloatingText(en.getX(), en.getY(), text, popColor));
                     } else {
                         spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 5, Color.WHITE);
                     }
                 }
             }
 
-            if (state == GameState.BOSS_FIGHT && boss.isActive() && p.getBounds().intersects(boss.getBounds())) {
+            if (state == GameState.BOSS_FIGHT && boss != null && boss.isActive()
+                    && boss.getHp() > 0 && p.getBounds().intersects(boss.getBounds())) {
                 boss.takeDamage(p.getDamage());
                 p.setDead(true);
                 spawnExplosion(particles, (int) p.getX(), (int) p.getY(), 3, Color.WHITE);
@@ -88,13 +101,16 @@ public class CollisionSystem {
                                       List<Projectile> playerProjectiles,
                                       List<Particle> particles,
                                       List<FloatingText> texts,
-                                      int panelWidth, int panelHeight) {
+                                      int panelWidth, int panelHeight,
+                                      double cameraX) {
 
+        double leftBound = cameraX - 100;
+        double rightBound = cameraX + panelWidth + 100;
         Iterator<Projectile> it = enemyBullets.iterator();
         while (it.hasNext()) {
             Projectile b = it.next();
             b.update();
-            if (b.getX() < -50 || b.getX() > panelWidth + 50
+            if (b.getX() < leftBound || b.getX() > rightBound
                     || b.getY() < -50 || b.getY() > panelHeight + 50 || b.isDead()) {
                 it.remove();
                 continue;
@@ -130,6 +146,34 @@ public class CollisionSystem {
         }
     }
 
+    private void processMeleeAttack(Context ctx, Player player,
+                                     ObstacleManager enemyManager, Boss boss,
+                                     List<Particle> particles, List<FloatingText> texts) {
+        Rectangle melee = player.getMeleeBounds();
+        if (melee == null) return;
+
+        for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
+            if (!en.isDead() && en.getType().isHostile() && melee.intersects(en.getBounds())) {
+                en.takeDamage(50);
+                spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 8, Color.WHITE);
+                if (en.isDead()) {
+                    ctx.newKills++;
+                    ctx.combo++;
+                    ctx.comboTimer = 100;
+                    int points = (int) (en.getType().pointValue * comboMultiplier(ctx.combo));
+                    ctx.score += points;
+                    spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 20, en.getColor());
+                    texts.add(new FloatingText(en.getX(), en.getY(), "+" + points, Color.ORANGE));
+                }
+            }
+        }
+        if (boss != null && boss.isActive() && melee.intersects(boss.getBounds())) {
+            boss.takeDamage(50);
+            spawnExplosion(particles, (int) (melee.x + melee.width / 2), (int) (melee.y + melee.height / 2), 12, Color.WHITE);
+            texts.add(new FloatingText(melee.x, melee.y, "-50", Color.ORANGE));
+        }
+    }
+
     private void processPlayerEnemyCollisions(Context ctx,
                                               Player player,
                                               ObstacleManager enemyManager,
@@ -139,12 +183,14 @@ public class CollisionSystem {
 
         for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
             if (!en.isDead() && player.getBounds().intersects(en.getBounds())) {
-                if (en.getType() == EntityType.POWERUP_SUDO) {
+                if (en.getType().toWeapon() != null) {
                     en.setDead(true);
-                    player.setSudoTimer(600);
-                    spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 20, GameColors.SUDO_YELLOW);
-                    logger.accept("ROOT ACCESS GRANTED: Spread shot enabled!");
-                    texts.add(new FloatingText(player.getX(), player.getY() - 30, "SUDO MODE!", Color.YELLOW));
+                    WeaponType w = en.getType().toWeapon();
+                    int ammo = w == WeaponType.SPREAD ? 30 : w == WeaponType.RAPID ? 50 : 20;
+                    player.giveWeapon(w, ammo);
+                    spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 20, en.getColor());
+                    logger.accept("Picked up " + w.name() + " (" + ammo + " rounds)");
+                    texts.add(new FloatingText(player.getX(), player.getY() - 30, w.name() + "!", Color.YELLOW));
                 } else if (en.getType() == EntityType.POWERUP_SHIELD) {
                     en.setDead(true);
                     player.setShieldTimer(400);
@@ -177,7 +223,7 @@ public class CollisionSystem {
                                             List<FloatingText> texts,
                                             Consumer<String> logger) {
 
-        if (state != GameState.BOSS_FIGHT || !boss.isActive()) return;
+        if (state != GameState.BOSS_FIGHT || boss == null || !boss.isActive() || boss.getHp() <= 0) return;
         if (!player.getBounds().intersects(boss.getBounds())) return;
 
         int damage = boss.isDashing() ? 35 : 5;
@@ -194,6 +240,13 @@ public class CollisionSystem {
             ctx.shakeTimer = 5;
             texts.add(new FloatingText(player.getX(), player.getY(), "CONTACT -" + damage, Color.ORANGE));
         }
+    }
+
+    private static double comboMultiplier(int combo) {
+        if (combo >= 20) return 3.0;
+        if (combo >= 10) return 2.0;
+        if (combo >= 5) return 1.5;
+        return 1.0;
     }
 
     private void spawnExplosion(List<Particle> particles, int x, int y, int count, Color c) {

@@ -18,12 +18,15 @@ public class GamePanel extends JPanel implements ActionListener {
     private final Player player;
     private final ObstacleManager enemyManager;
     private Boss boss;
+    private LevelManager levelManager;
 
     private final List<Projectile> projectiles = new ArrayList<>();
     private final List<Particle> particles = new ArrayList<>();
     private final List<FloatingText> floatingTexts = new ArrayList<>();
     private final List<CodeRain> bgLayer1 = new ArrayList<>();
     private final List<CodeRain> bgLayer2 = new ArrayList<>();
+    private List<Platform> platforms = new ArrayList<>();
+    private List<LevelManager.Coin> coins = new ArrayList<>();
 
     private final LinkedList<String> logs = new LinkedList<>();
     private final SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm:ss");
@@ -40,10 +43,14 @@ public class GamePanel extends JPanel implements ActionListener {
     private int flashTimer = 0;
     private double difficulty = 1.0;
     private boolean isNewHighScore = false;
+    private double cameraX = 0;
+    private int bossDeathTimer = 0;
+    private int missionCompleteTimer = 0;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
     static final int TERMINAL_HEIGHT = 120;
+    private static final double CAMERA_LEAD = 0.3;
 
     public GamePanel() {
         setPreferredSize(new Dimension(960, 600));
@@ -55,14 +62,12 @@ public class GamePanel extends JPanel implements ActionListener {
         enemyManager = new ObstacleManager();
 
         for (int i = 0; i < 30; i++) {
-            bgLayer1.add(new CodeRain(960, groundY));
-            bgLayer2.add(new CodeRain(960, groundY));
+            bgLayer1.add(new CodeRain(getWidth(), groundY));
+            bgLayer2.add(new CodeRain(getWidth(), groundY));
         }
 
-        setupLevel(0);
         setupKeyBindings();
         addLog("System initialized. Kernel loaded.");
-
         timer = new Timer(16, this);
         timer.start();
     }
@@ -85,6 +90,22 @@ public class GamePanel extends JPanel implements ActionListener {
         registerKey(im, am, "SHOOT", KeyEvent.VK_C, true, () -> keyShoot = true);
         registerKey(im, am, "SHOOT_R", KeyEvent.VK_C, false, () -> keyShoot = false);
 
+        registerKey(im, am, "MELEE", KeyEvent.VK_X, true, () -> player.melee());
+
+        registerKey(im, am, "BOMB", KeyEvent.VK_B, true, () -> {
+            if (player.useBomb()) {
+                flashTimer = 20; shakeTimer = 25;
+                for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
+                    if (!en.isDead() && en.getType().isHostile()) {
+                        en.setDead(true);
+                        ctx.score += en.getType().pointValue;
+                    }
+                }
+                enemyManager.getEnemyBullets().clear();
+                addLog("EMERGENCY PROTOCOL: Screen cleared!");
+            }
+        });
+
         registerKey(im, am, "DASH", KeyEvent.VK_SHIFT, true, () -> {
             if (keyRight) player.dash(1);
             else if (keyLeft) player.dash(-1);
@@ -98,19 +119,14 @@ public class GamePanel extends JPanel implements ActionListener {
     private void registerKey(InputMap im, ActionMap am, String name, int keyCode, boolean pressed, Runnable action) {
         im.put(KeyStroke.getKeyStroke(keyCode, 0, !pressed), name);
         am.put(name, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) { action.run(); }
+            @Override public void actionPerformed(ActionEvent e) { action.run(); }
         });
     }
 
     private void togglePause() {
-        if (state == GameState.PAUSED) {
-            state = prePauseState;
-            addLog("System resumed.");
-        } else if (state == GameState.RUNNING || state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT) {
-            prePauseState = state;
-            state = GameState.PAUSED;
-            addLog("System paused by user.");
+        if (state == GameState.PAUSED) { state = prePauseState; addLog("System resumed."); }
+        else if (state == GameState.RUNNING || state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT) {
+            prePauseState = state; state = GameState.PAUSED; addLog("System paused by user.");
         }
     }
 
@@ -119,144 +135,196 @@ public class GamePanel extends JPanel implements ActionListener {
         if (logs.size() > 7) logs.removeLast();
     }
 
-    private void setupLevel(int lvl) {
-        this.level = lvl;
-        String bossName = lvl == 0 ? "LEGACY CODE MONSTROSITY"
-                : (lvl == 1 ? "MEMORY LEAK DAEMON" : "THE ARCHITECT");
-        String bossSymbol = lvl == 0 ? "⚠️" : (lvl == 1 ? "💀" : "👑");
-        int hpPool = 2000 + lvl * 1500;
-        boss = new Boss(bossName, hpPool, bossSymbol, getPreferredSize().width);
-    }
-
     private void startGame() {
-        ctx.score = 0;
-        ctx.combo = 0;
-        ctx.comboTimer = 0;
-        ctx.shakeTimer = 0;
-        level = 0;
-        shakeTimer = 0;
-        flashTimer = 0;
-        difficulty = 1.0;
-        isNewHighScore = false;
-        setupLevel(0);
+        ctx.score = 0; ctx.combo = 0; ctx.comboTimer = 0;
+        ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.newKills = 0;
+        level = 0; shakeTimer = 0; flashTimer = 0;
+        difficulty = 1.0; cameraX = 0; isNewHighScore = false;
+        bossDeathTimer = 0; missionCompleteTimer = 0;
+        levelManager = new LevelManager(0);
+        platforms = levelManager.getPlatforms();
+        coins = levelManager.getCoins();
+        boss = null;
         resetGame();
         state = GameState.RUNNING;
         addLog("Starting new session...");
     }
 
+    private void advanceLevel() {
+        difficulty = 1.0 + level * 2.0;
+        cameraX = 0;
+        levelManager = new LevelManager(level);
+        platforms = levelManager.getPlatforms();
+        coins = levelManager.getCoins();
+        boss = null;
+        bossDeathTimer = 0; missionCompleteTimer = 0;
+        resetGame();
+        state = GameState.RUNNING;
+        addLog("Level " + (level + 1) + " starting...");
+    }
+
     private void resetGame() {
-        int groundY = getHeight() - TERMINAL_HEIGHT;
-        player.reset(100, groundY);
+        player.reset(100, 600 - TERMINAL_HEIGHT);
         enemyManager.reset();
-        projectiles.clear();
-        particles.clear();
-        floatingTexts.clear();
+        projectiles.clear(); particles.clear(); floatingTexts.clear();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (state == GameState.PAUSED) { repaint(); return; }
 
+        if (state == GameState.MISSION_COMPLETE) {
+            missionCompleteTimer--;
+            if (missionCompleteTimer <= 0) {
+                if (level < 2) advanceLevel();
+                else { state = GameState.VICTORY; saveScore(); }
+            }
+            repaint(); return;
+        }
+
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
             int h = getHeight() - TERMINAL_HEIGHT;
-            for (CodeRain cr : bgLayer1) cr.update(getWidth(), h, 2.0);
-            for (CodeRain cr : bgLayer2) cr.update(getWidth(), h, 1.0);
-            repaint();
-            return;
+            for (CodeRain cr : bgLayer1) cr.update(960, h, 2.0, 0);
+            for (CodeRain cr : bgLayer2) cr.update(960, h, 1.0, 0);
+            repaint(); return;
         }
 
-        int groundY = getHeight() - TERMINAL_HEIGHT;
+        int panelW = getWidth(), panelH = getHeight();
+        int groundY = panelH - TERMINAL_HEIGHT;
+        double levelWidth = levelManager.getCameraMaxX();
 
-        double paraSpeed = 1.0 + difficulty * 0.3;
-        for (CodeRain cr : bgLayer1) cr.update(getWidth(), groundY, paraSpeed + 1);
-        for (CodeRain cr : bgLayer2) cr.update(getWidth(), groundY, paraSpeed * 0.5 + 0.5);
-
-        if (ctx.comboTimer > 0) {
-            ctx.comboTimer--;
-            if (ctx.comboTimer == 0) ctx.combo = 0;
-        }
-
-        player.update(keyLeft, keyRight, keyJump, keyShoot, groundY, getWidth(), projectiles);
+        // ── Player update ───────────────────────────────
+        player.update(keyLeft, keyRight, keyJump, keyShoot, groundY, levelWidth, projectiles, platforms);
         if (player.getHp() <= 0) {
-            state = GameState.GAME_OVER;
-            shakeTimer = 30;
+            state = GameState.GAME_OVER; shakeTimer = 30;
             addLog("FATAL ERROR: Process terminated unexpectedly.");
-            isNewHighScore = ScoreStore.isHighScore(ctx.score);
-            ScoreStore.save(ctx.score);
+            saveScore();
         }
 
-        if (state == GameState.RUNNING) {
-            difficulty += 0.0008;
-            ctx.score++;
-            enemyManager.spawnRandom(getWidth(), groundY, difficulty);
+        // ── Camera ──────────────────────────────────────
+        // Check for battle zone entry
+        LevelManager.BattleZone bz = levelManager.getBattleAt(player.getX());
+        if (bz != null && !levelManager.isInBattle()) {
+            levelManager.enterBattle(bz);
+            addLog("Enemy ambush! Clear the area.");
+        }
 
-            if (ctx.score > 1000 + (level * 1000)) {
-                state = GameState.BOSS_WARNING;
-                addLog("WARNING: CPU usage at 100%!");
-                Timer t = new Timer(2000, evt -> {
-                    if (state != GameState.PAUSED && state != GameState.GAME_OVER) {
-                        state = GameState.BOSS_FIGHT;
-                        boss.activate();
-                        addLog("ALERT: " + boss.getName() + " process started!");
-                    } else if (state == GameState.PAUSED) {
-                        prePauseState = GameState.BOSS_FIGHT;
-                        boss.activate();
-                    }
-                    ((Timer) evt.getSource()).stop();
-                });
-                t.setRepeats(false);
-                t.start();
+        // Camera: follow player, but lock during battle
+        double targetCam = player.getX() - panelW * CAMERA_LEAD;
+        cameraX = Math.max(0, Math.min(targetCam, levelWidth - panelW));
+        if (levelManager.isInBattle()) {
+            double lockX = levelManager.getCameraLockX();
+            if (cameraX > lockX) cameraX = lockX;
+        }
+
+        // ── Battle zone waves ───────────────────────────
+        int aliveEnemies = (int) enemyManager.getEnemies().stream()
+                .filter(en -> !en.isDead() && en.getType().isHostile()).count();
+
+        if (levelManager.needsWaveSpawn(aliveEnemies)) {
+            LevelManager.WaveDef wave = levelManager.popWave();
+            for (int i = 0; i < wave.count; i++) {
+                if (wave.fromDir == 0 || wave.fromDir == 2)
+                    enemyManager.spawnEnemy(panelW + random.nextInt(200) + (int) cameraX,
+                            groundY - 30 - random.nextInt(120), wave.type);
+                if (wave.fromDir == 1 || wave.fromDir == 2)
+                    enemyManager.spawnFromLeft(groundY, (int) cameraX);
             }
-        } else if (state == GameState.BOSS_FIGHT) {
-            difficulty += 0.0005;
-            ctx.score++;
-            enemyManager.spawnRandom(getWidth(), groundY, difficulty);
-            boss.update(enemyManager, groundY, player.getX(), player.getY(),
+            levelManager.startNextWaveTimer();
+        }
+
+        // ── Triggers + random spawns ────────────────────
+        List<LevelManager.SpawnTrigger> triggers = levelManager.getPendingTriggers(player.getX());
+        for (LevelManager.SpawnTrigger t : triggers) {
+            for (int i = 0; i < t.count; i++) {
+                if (t.fromLeft == 0 || t.fromLeft == 2)
+                    enemyManager.spawnEnemy(panelW + random.nextInt(200) + (int) cameraX,
+                            groundY - 30 - random.nextInt(120), t.type);
+                if (t.fromLeft == 1 || t.fromLeft == 2)
+                    enemyManager.spawnFromLeft(groundY, (int) cameraX);
+            }
+        }
+
+        difficulty += 0.0005;
+        if (random.nextInt(100) < 1.5 + difficulty * 0.4)
+            enemyManager.spawnRandom(panelW, groundY, difficulty, (int) cameraX);
+
+        // ── Boss ────────────────────────────────────────
+        if (state == GameState.RUNNING && levelManager.shouldSpawnBoss(player.getX())) {
+            state = GameState.BOSS_WARNING;
+            addLog("WARNING: Boss arena detected!");
+            boss = new Boss(levelManager.bossName, levelManager.bossHp,
+                    levelManager.bossSymbol, cameraX + panelW);
+            Timer t = new Timer(2000, evt -> {
+                state = GameState.BOSS_FIGHT; boss.activate();
+                addLog("ALERT: " + boss.getName() + " engaged!");
+                ((Timer) evt.getSource()).stop();
+            });
+            t.setRepeats(false); t.start();
+        }
+
+        if (state == GameState.BOSS_FIGHT && boss != null) {
+            if (bossDeathTimer == 0)
+                boss.update(enemyManager, groundY, player.getX(), player.getY(),
                         enemyManager.getEnemyBullets());
 
-            if (boss.getHp() <= 0) {
-                spawnExplosion((int) boss.getX() + boss.getWidth() / 2,
-                               (int) boss.getY() + boss.getHeight() / 2, 100, GameColors.DANGER_RED);
-                level++;
-                addLog("Boss process killed. Memory freed.");
-                floatingTexts.add(new FloatingText(boss.getX(), boss.getY(), "PROCESS KILLED!", Color.GREEN));
+            if (boss.getHp() <= 0 && bossDeathTimer == 0) {
+                bossDeathTimer = 90; shakeTimer = 40;
+                addLog("Boss process terminated.");
+            }
 
-                if (level >= 3) {
-                    state = GameState.VICTORY;
-                    isNewHighScore = ScoreStore.isHighScore(ctx.score);
-                    ScoreStore.save(ctx.score);
-                } else {
-                    state = GameState.LEVEL_CLEAR;
-                    setupLevel(level);
-                    Timer t = new Timer(3000, evt -> {
-                        state = GameState.RUNNING;
-                        resetGame();
-                        addLog("Deploying next version...");
-                        ((Timer) evt.getSource()).stop();
-                    });
-                    t.setRepeats(false);
-                    t.start();
+            if (bossDeathTimer > 0) {
+                bossDeathTimer--;
+                if (bossDeathTimer % 15 == 0)
+                    spawnExplosion((int) boss.getX() + random.nextInt(boss.getWidth()),
+                            (int) boss.getY() + random.nextInt(boss.getHeight()),
+                            30, GameColors.DANGER_RED);
+                if (bossDeathTimer == 50)
+                    floatingTexts.add(new FloatingText(boss.getX(), boss.getY(),
+                            "PROCESS KILLED!", Color.GREEN));
+                if (bossDeathTimer <= 0) {
+                    spawnExplosion((int) boss.getX() + boss.getWidth() / 2,
+                            (int) boss.getY() + boss.getHeight() / 2, 150, Color.RED);
+                    levelManager.onBossDefeated(); level++;
+                    missionCompleteTimer = 180; state = GameState.MISSION_COMPLETE;
                 }
             }
         }
 
+        // ── Background ──────────────────────────────────
+        double paraSpeed = 1.0 + difficulty * 0.3;
+        for (CodeRain cr : bgLayer1) cr.update(panelW, groundY, paraSpeed + 1, cameraX);
+        for (CodeRain cr : bgLayer2) cr.update(panelW, groundY, paraSpeed * 0.5 + 0.5, cameraX);
+
+        // ── Enemy updates + collision ───────────────────
         double difficultySpeed = 0.8 + difficulty * 0.15;
         List<Projectile> enemyBullets = enemyManager.getEnemyBullets();
         for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
             if (!en.isDead()) {
-                en.update(difficultySpeed);
+                en.update(difficultySpeed, player.getX());
                 Projectile bullet = en.maybeShoot(player.getY());
                 if (bullet != null) enemyBullets.add(bullet);
             }
         }
-        enemyManager.update(getWidth());
+        // Collect coins
+        for (LevelManager.Coin c : coins) {
+            if (!c.collected && player.getBounds().intersects(
+                    new Rectangle((int) c.x - 10, (int) c.y - 10, 20, 20))) {
+                c.collected = true;
+                ctx.score += 500;
+                floatingTexts.add(new FloatingText(c.x, c.y, "+500", Color.YELLOW));
+            }
+        }
+
+        enemyManager.update((int) cameraX + panelW + 200);
 
         collision.process(ctx, projectiles, enemyManager, boss, player, state,
-                          getWidth(), getHeight(), particles, floatingTexts, this::addLog);
+                panelW, panelH, cameraX, particles, floatingTexts, this::addLog);
+        ctx.newKills = 0;
+
         if (ctx.shakeTimer > shakeTimer) shakeTimer = ctx.shakeTimer;
         if (ctx.flashTimer > flashTimer) flashTimer = ctx.flashTimer;
-        ctx.shakeTimer = 0;
-        ctx.flashTimer = 0;
+        ctx.shakeTimer = 0; ctx.flashTimer = 0;
 
         particles.removeIf(p -> p.getLife() <= 0);
         floatingTexts.removeIf(t -> !t.update());
@@ -265,13 +333,19 @@ public class GamePanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    private final Random random = new Random();
+
+    private void saveScore() {
+        isNewHighScore = ScoreStore.isHighScore(ctx.score);
+        ScoreStore.save(ctx.score);
+    }
+
     private void spawnExplosion(int x, int y, int count, Color c) {
         for (int i = 0; i < count; i++) {
             double angle = Math.random() * Math.PI * 2;
             double speed = 2 + Math.random() * 8;
             particles.add(new Particle(x, y, c,
-                    Math.cos(angle) * speed,
-                    Math.sin(angle) * speed - 3,
+                    Math.cos(angle) * speed, Math.sin(angle) * speed - 3,
                     0.03f + (float) Math.random() * 0.03f));
         }
     }
@@ -280,14 +354,21 @@ public class GamePanel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int groundY = getHeight() - TERMINAL_HEIGHT;
+        int wave = levelManager != null ? levelManager.getCurrentWave() : 0;
+        int total = levelManager != null ? levelManager.getTotalWaves() : 0;
+        boolean inBattle = levelManager != null && levelManager.isInBattle();
+
         renderer.render((Graphics2D) g, getWidth(), getHeight(), groundY,
-                        state, player, boss, enemyManager,
-                        projectiles, enemyManager.getEnemyBullets(),
-                        particles, floatingTexts,
-                        bgLayer1, bgLayer2,
-                        logs, ctx.score, ctx.combo, shakeTimer,
-                        flashTimer, level, difficulty, isNewHighScore);
+                state, player, boss, enemyManager,
+                projectiles, enemyManager.getEnemyBullets(),
+                particles, floatingTexts, bgLayer1, bgLayer2, platforms, coins,
+                logs, ctx.score, ctx.combo, shakeTimer,
+                flashTimer, level, difficulty, isNewHighScore,
+                cameraX, inBattle, wave, total);
         if (shakeTimer > 0) shakeTimer--;
         if (flashTimer > 0) flashTimer--;
     }
+
+    LevelManager getLevelManager() { return levelManager; }
+    void setLevelManager(LevelManager lm) { this.levelManager = lm; }
 }

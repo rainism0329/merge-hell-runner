@@ -22,6 +22,8 @@ public class ObstacleManager {
         private double spawnTime;
         private int shootTimer;
         private int moveDir = 1; // 1 = right-to-left, -1 = left-to-right
+        private int chargeTimer = 0;
+        private double chargeVx = 0;
 
         public Enemy(double x, double y, EntityType type) {
             this(x, y, type, 1);
@@ -41,6 +43,7 @@ public class ObstacleManager {
             this.spawnTime = System.currentTimeMillis() / 1000.0;
             this.shootTimer = 40 + random.nextInt(80);
             this.moveDir = moveDir;
+            this.chargeTimer = 120 + random.nextInt(180);
         }
 
         public double getX() { return x; }
@@ -79,10 +82,27 @@ public class ObstacleManager {
                     || type == EntityType.BUG || type == EntityType.FIREWALL;
         }
 
-        public void update(double difficultySpeed) {
+        public void update(double difficultySpeed, double playerX) {
             double t = System.currentTimeMillis() / 1000.0;
-            double speed = vx * difficultySpeed;
-            x -= speed * moveDir; // moveDir=1: right-to-left; moveDir=-1: left-to-right
+
+            // Charge attack: rush toward player
+            if (chargeTimer > 0 && type.isHostile() && type != EntityType.FIREWALL && type != EntityType.TECHDEBT) {
+                chargeTimer--;
+                if (chargeTimer == 0 && Math.abs(x - playerX) < 350) {
+                    chargeVx = (playerX > x ? 1 : -1) * vx * difficultySpeed * 3.5;
+                    chargeTimer = 15;
+                }
+            } else if (chargeTimer > 0) {
+                chargeTimer--;
+                x += chargeVx;
+                if (chargeTimer == 0) {
+                    chargeVx = 0;
+                    chargeTimer = 150 + random.nextInt(200);
+                }
+            } else {
+                double speed = vx * difficultySpeed;
+                x -= speed * moveDir;
+            }
 
             switch (type) {
                 case LOCK -> y += Math.sin(t * 2.5 + spawnTime) * 2.5;
@@ -91,7 +111,8 @@ public class ObstacleManager {
                 case CONFLICT -> { /* steady advance */ }
                 case TECHDEBT -> { /* slow and heavy, no wobble */ }
                 case FIREWALL -> { /* straight line, blocks path */ }
-                case POWERUP_SUDO, POWERUP_SHIELD, HEALTH -> y += Math.sin(t * 1.5 + spawnTime) * 1.5;
+                case PICKUP_SPREAD, PICKUP_RAPID, PICKUP_HEAVY, POWERUP_SHIELD, HEALTH ->
+                        y += Math.sin(t * 1.5 + spawnTime) * 1.5;
             }
         }
 
@@ -149,11 +170,19 @@ public class ObstacleManager {
         enemies.add(new Enemy(x, y, type));
     }
 
-    public void spawnFromLeft(int groundY) {
+    public void spawnFromLeft(int groundY, int cameraX) {
         EntityType[] types = { EntityType.BUG, EntityType.CRASH, EntityType.LOCK };
         EntityType type = types[random.nextInt(types.length)];
         int y = groundY - 40 - random.nextInt(120);
-        enemies.add(new Enemy(-40 - random.nextInt(100), y, type, -1));
+        enemies.add(new Enemy(cameraX - 40 - random.nextInt(100), y, type, -1));
+    }
+
+    public void spawnFormation(int startX, int groundY) {
+        int count = 3 + random.nextInt(3);
+        for (int i = 0; i < count; i++) {
+            int y = groundY - 30 - random.nextInt(100);
+            enemies.add(new Enemy(startX + i * 50, y, EntityType.BUG));
+        }
     }
 
     private static final Object[][] ENEMY_POOL = {
@@ -165,7 +194,7 @@ public class ObstacleManager {
         { EntityType.FIREWALL, 10, 4.0 },
     };
 
-    public void spawnRandom(int panelWidth, int groundY, double difficulty) {
+    public void spawnRandom(int panelWidth, int groundY, double difficulty, int cameraX) {
         double spawnChance = 2.0 + difficulty * 1.5;
         if (random.nextInt(100) < spawnChance) {
             int r = random.nextInt(100);
@@ -173,13 +202,19 @@ public class ObstacleManager {
             int y = groundY - 40;
 
             // Powerups & health (fixed chance, always available)
-            if (r < 4) {
-                type = EntityType.POWERUP_SUDO;
+            if (r < 3) {
+                type = EntityType.PICKUP_SPREAD;
                 y = groundY - 150 - random.nextInt(80);
-            } else if (r < 8) {
+            } else if (r < 6) {
+                type = EntityType.PICKUP_RAPID;
+                y = groundY - 150 - random.nextInt(80);
+            } else if (r < 9) {
+                type = EntityType.PICKUP_HEAVY;
+                y = groundY - 150 - random.nextInt(80);
+            } else if (r < 12) {
                 type = EntityType.POWERUP_SHIELD;
                 y = groundY - 150 - random.nextInt(80);
-            } else if (r < 13) {
+            } else if (r < 17) {
                 type = EntityType.HEALTH;
                 y = groundY - 150 - random.nextInt(80);
             } else {
@@ -214,7 +249,9 @@ public class ObstacleManager {
 
             // 30% chance to spawn from left during boss fights
             boolean fromLeft = random.nextInt(100) < 30;
-            int spawnX = fromLeft ? -50 - random.nextInt(100) : panelWidth + random.nextInt(200);
+            int spawnX = fromLeft
+                    ? cameraX - 50 - random.nextInt(100)
+                    : cameraX + panelWidth + random.nextInt(200);
             int spawnDir = fromLeft ? -1 : 1;
             enemies.add(new Enemy(spawnX, y, type, spawnDir));
         }

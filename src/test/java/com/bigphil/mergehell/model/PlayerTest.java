@@ -52,7 +52,7 @@ class PlayerTest {
 
     @Test
     void shoot_shouldCreateProjectile() {
-        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         assertFalse(projectiles.isEmpty());
         assertEquals(ProjectileType.COMMIT, projectiles.get(0).getType());
     }
@@ -60,7 +60,7 @@ class PlayerTest {
     @Test
     void sudoMode_shouldCreateThreeProjectiles() {
         player.setSudoTimer(100);
-        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         assertEquals(3, projectiles.size());
         for (Projectile p : projectiles) {
             assertEquals(ProjectileType.SUDO, p.getType());
@@ -71,19 +71,19 @@ class PlayerTest {
     void timers_shouldDecrementOnUpdate() {
         player.setSudoTimer(50);
         player.setShieldTimer(50);
-        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         assertEquals(49, player.getSudoTimer());
         assertEquals(49, player.getShieldTimer());
     }
 
     @Test
     void player_shouldBeBoundedWithinPanel() {
-        player.update(true, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(true, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         assertTrue(player.getX() >= 0);
 
         // Move far right
         for (int i = 0; i < 500; i++) {
-            player.update(false, true, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+            player.update(false, true, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         }
         assertTrue(player.getX() <= PANEL_WIDTH);
     }
@@ -92,7 +92,7 @@ class PlayerTest {
     void jump_shouldWorkWhenGrounded() {
         // Player starts on ground (y + height = GROUND_Y)
         double initialY = player.getY();
-        player.update(false, false, true, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(false, false, true, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         // After jumping, y should decrease (player moves up)
         // dy becomes negative, so next update y will decrease
         assertTrue(true); // Jump sets dy negative - verified by next update
@@ -129,7 +129,7 @@ class PlayerTest {
     void dash_shouldMovePlayerAndSetCooldown() {
         player.dash();
         assertTrue(player.isDashing());
-        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         // Player moved right during dash (facingDir defaults to 1)
         assertTrue(player.getX() > 100);
     }
@@ -139,7 +139,7 @@ class PlayerTest {
         player.dash();
         // Simulate dash frames
         for (int i = 0; i < 15; i++) {
-            player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+            player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         }
         assertFalse(player.isDashing());
         assertTrue(player.getDashCooldown() > 0);
