@@ -112,6 +112,20 @@ class PlayerTest {
     }
 
     @Test
+    void heal_shouldRestoreHpUpToMax() {
+        player.takeDamage(50);
+        player.heal(25);
+        assertEquals(75, player.getHp());
+    }
+
+    @Test
+    void heal_shouldNotExceedMaxHp() {
+        player.takeDamage(10);
+        player.heal(50);
+        assertEquals(100, player.getHp());
+    }
+
+    @Test
     void getBounds_shouldReturnCorrectRectangle() {
         var bounds = player.getBounds();
         assertEquals(30, bounds.width);

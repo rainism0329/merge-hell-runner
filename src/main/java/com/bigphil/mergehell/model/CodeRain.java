@@ -26,8 +26,8 @@ public class CodeRain {
         this.alpha = 0.1f + (float) Math.random() * 0.2f;
     }
 
-    public void update(int width, int maxY) {
-        x -= speed;
+    public void update(int width, int maxY, double speedMult) {
+        x -= speed * speedMult;
         if (x < -200) reset(width, maxY);
     }
 

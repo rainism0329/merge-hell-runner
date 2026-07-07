@@ -288,6 +288,32 @@ class CollisionSystemTest {
     // --- Combo system ---
 
     @Test
+    void playerCollectingHealth_shouldHealPlayer() {
+        player.takeDamage(50);
+        int hpBefore = player.getHp();
+        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.HEALTH);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          particles, texts, logMessages::add);
+
+        assertTrue(player.getHp() > hpBefore);
+        assertTrue(enemyManager.getEnemies().get(0).isDead());
+    }
+
+    @Test
+    void multiHitEnemy_shouldNotDieInOneShot() {
+        projectiles.add(new Projectile(100, 200, 0, 0, ProjectileType.COMMIT));
+        enemyManager.spawnEnemy(110, 195, EntityType.TECHDEBT);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                          GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT,
+                          particles, texts, logMessages::add);
+
+        assertFalse(enemyManager.getEnemies().get(0).isDead());
+    }
+
+    @Test
     void multipleKills_shouldBuildCombo() {
         projectiles.add(new Projectile(100, 200, 0, 0, ProjectileType.SUDO));
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);

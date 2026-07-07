@@ -22,7 +22,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private final List<Projectile> projectiles = new ArrayList<>();
     private final List<Particle> particles = new ArrayList<>();
     private final List<FloatingText> floatingTexts = new ArrayList<>();
-    private final List<CodeRain> backgroundCodes = new ArrayList<>();
+    private final List<CodeRain> bgLayer1 = new ArrayList<>();
+    private final List<CodeRain> bgLayer2 = new ArrayList<>();
 
     private final LinkedList<String> logs = new LinkedList<>();
     private final SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm:ss");
@@ -36,6 +37,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private int level = 0;
     private int shakeTimer = 0;
+    private int flashTimer = 0;
+    private double difficulty = 1.0;
+    private boolean isNewHighScore = false;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
@@ -51,7 +55,8 @@ public class GamePanel extends JPanel implements ActionListener {
         enemyManager = new ObstacleManager();
 
         for (int i = 0; i < 30; i++) {
-            backgroundCodes.add(new CodeRain(960, groundY));
+            bgLayer1.add(new CodeRain(960, groundY));
+            bgLayer2.add(new CodeRain(960, groundY));
         }
 
         setupLevel(0);
@@ -110,10 +115,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private void setupLevel(int lvl) {
         this.level = lvl;
-        String bossName = lvl == 0 ? "LEGACY CODE MONSTROSITY" : (lvl == 1 ? "MEMORY LEAK DAEMON" : "THE ARCHITECT");
+        String bossName = lvl == 0 ? "LEGACY CODE MONSTROSITY"
+                : (lvl == 1 ? "MEMORY LEAK DAEMON" : "THE ARCHITECT");
         String bossSymbol = lvl == 0 ? "⚠️" : (lvl == 1 ? "💀" : "👑");
-        int hp = 2000 + lvl * 1500;
-        boss = new Boss(bossName, hp, bossSymbol, getPreferredSize().width);
+        int hpPool = 2000 + lvl * 1500;
+        boss = new Boss(bossName, hpPool, bossSymbol, getPreferredSize().width);
     }
 
     private void startGame() {
@@ -123,6 +129,9 @@ public class GamePanel extends JPanel implements ActionListener {
         ctx.shakeTimer = 0;
         level = 0;
         shakeTimer = 0;
+        flashTimer = 0;
+        difficulty = 1.0;
+        isNewHighScore = false;
         setupLevel(0);
         resetGame();
         state = GameState.RUNNING;
@@ -143,14 +152,18 @@ public class GamePanel extends JPanel implements ActionListener {
         if (state == GameState.PAUSED) { repaint(); return; }
 
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
-            for (CodeRain cr : backgroundCodes) cr.update(getWidth(), getHeight() - TERMINAL_HEIGHT);
+            int h = getHeight() - TERMINAL_HEIGHT;
+            for (CodeRain cr : bgLayer1) cr.update(getWidth(), h, 2.0);
+            for (CodeRain cr : bgLayer2) cr.update(getWidth(), h, 1.0);
             repaint();
             return;
         }
 
         int groundY = getHeight() - TERMINAL_HEIGHT;
 
-        for (CodeRain cr : backgroundCodes) cr.update(getWidth(), groundY);
+        double paraSpeed = 1.0 + difficulty * 0.3;
+        for (CodeRain cr : bgLayer1) cr.update(getWidth(), groundY, paraSpeed + 1);
+        for (CodeRain cr : bgLayer2) cr.update(getWidth(), groundY, paraSpeed * 0.5 + 0.5);
 
         if (ctx.comboTimer > 0) {
             ctx.comboTimer--;
@@ -162,11 +175,14 @@ public class GamePanel extends JPanel implements ActionListener {
             state = GameState.GAME_OVER;
             shakeTimer = 30;
             addLog("FATAL ERROR: Process terminated unexpectedly.");
+            isNewHighScore = ScoreStore.isHighScore(ctx.score);
+            ScoreStore.save(ctx.score);
         }
 
         if (state == GameState.RUNNING) {
+            difficulty += 0.0008;
             ctx.score++;
-            enemyManager.spawnRandom(getWidth(), groundY);
+            enemyManager.spawnRandom(getWidth(), groundY, difficulty);
 
             if (ctx.score > 1000 + (level * 1000)) {
                 state = GameState.BOSS_WARNING;
@@ -197,6 +213,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
                 if (level >= 3) {
                     state = GameState.VICTORY;
+                    isNewHighScore = ScoreStore.isHighScore(ctx.score);
+                    ScoreStore.save(ctx.score);
                 } else {
                     state = GameState.LEVEL_CLEAR;
                     setupLevel(level);
@@ -212,12 +230,18 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
 
+        double difficultySpeed = 0.8 + difficulty * 0.15;
+        for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
+            if (!en.isDead()) en.update(difficultySpeed);
+        }
         enemyManager.update();
 
         collision.process(ctx, projectiles, enemyManager, boss, player, state,
                           getWidth(), getHeight(), particles, floatingTexts, this::addLog);
         if (ctx.shakeTimer > shakeTimer) shakeTimer = ctx.shakeTimer;
+        if (ctx.flashTimer > flashTimer) flashTimer = ctx.flashTimer;
         ctx.shakeTimer = 0;
+        ctx.flashTimer = 0;
 
         particles.removeIf(p -> p.getLife() <= 0);
         floatingTexts.removeIf(t -> !t.update());
@@ -228,7 +252,12 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private void spawnExplosion(int x, int y, int count, Color c) {
         for (int i = 0; i < count; i++) {
-            particles.add(new Particle(x, y, c, (Math.random() - 0.5) * 12, (Math.random() - 0.5) * 12, 0.04f));
+            double angle = Math.random() * Math.PI * 2;
+            double speed = 2 + Math.random() * 8;
+            particles.add(new Particle(x, y, c,
+                    Math.cos(angle) * speed,
+                    Math.sin(angle) * speed - 3,
+                    0.03f + (float) Math.random() * 0.03f));
         }
     }
 
@@ -238,8 +267,11 @@ public class GamePanel extends JPanel implements ActionListener {
         int groundY = getHeight() - TERMINAL_HEIGHT;
         renderer.render((Graphics2D) g, getWidth(), getHeight(), groundY,
                         state, player, boss, enemyManager,
-                        projectiles, particles, floatingTexts, backgroundCodes,
-                        logs, ctx.score, ctx.combo, shakeTimer);
+                        projectiles, particles, floatingTexts,
+                        bgLayer1, bgLayer2,
+                        logs, ctx.score, ctx.combo, shakeTimer,
+                        flashTimer, level, difficulty, isNewHighScore);
         if (shakeTimer > 0) shakeTimer--;
+        if (flashTimer > 0) flashTimer--;
     }
 }

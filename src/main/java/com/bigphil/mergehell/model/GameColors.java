@@ -26,4 +26,6 @@ public final class GameColors {
     public static final Color SUDO_YELLOW = Color.decode("#f2c55c");
     public static final Color SHIELD_CYAN = Color.decode("#40c4ff");
     public static final Color CONTROLS_TEXT = new Color(200, 200, 200);
+    public static final Color DAMAGE_FLASH = new Color(255, 0, 0, 60);
+    public static final Color HEALTH_GREEN = Color.decode("#6aab73");
 }

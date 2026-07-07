@@ -14,6 +14,7 @@ public class CollisionSystem {
         public int combo;
         public int comboTimer;
         public int shakeTimer;
+        public int flashTimer;
     }
 
     public void process(Context ctx,
@@ -53,18 +54,21 @@ public class CollisionSystem {
             }
 
             for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
-                if (!en.isDead() && !en.getType().isPowerup() && p.getBounds().intersects(en.getBounds())) {
-                    en.setDead(true);
+                if (!en.isDead() && en.getType().isHostile() && !p.isDead() && p.getBounds().intersects(en.getBounds())) {
+                    en.takeDamage(p.getDamage());
                     if (p.getType() != ProjectileType.SUDO) p.setDead(true);
-                    spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 10, en.getColor());
 
-                    ctx.combo++;
-                    ctx.comboTimer = 100;
-                    int bonus = 50 + (ctx.combo * 10);
-                    ctx.score += bonus;
-
-                    String text = ctx.combo > 1 ? "Combo " + ctx.combo + "!" : "+" + bonus;
-                    texts.add(new FloatingText(en.getX(), en.getY(), text, Color.WHITE));
+                    if (en.isDead()) {
+                        spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 15, en.getColor());
+                        ctx.combo++;
+                        ctx.comboTimer = 100;
+                        int bonus = 50 + (ctx.combo * 10);
+                        ctx.score += bonus;
+                        String text = ctx.combo > 1 ? "Combo " + ctx.combo + "!" : "+" + bonus;
+                        texts.add(new FloatingText(en.getX(), en.getY(), text, Color.WHITE));
+                    } else {
+                        spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 5, Color.WHITE);
+                    }
                 }
             }
 
@@ -86,20 +90,29 @@ public class CollisionSystem {
 
         for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
             if (!en.isDead() && player.getBounds().intersects(en.getBounds())) {
-                en.setDead(true);
                 if (en.getType() == EntityType.POWERUP_SUDO) {
+                    en.setDead(true);
                     player.setSudoTimer(600);
                     spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 20, GameColors.SUDO_YELLOW);
                     logger.accept("ROOT ACCESS GRANTED: Spread shot enabled!");
                     texts.add(new FloatingText(player.getX(), player.getY() - 30, "SUDO MODE!", Color.YELLOW));
                 } else if (en.getType() == EntityType.POWERUP_SHIELD) {
+                    en.setDead(true);
                     player.setShieldTimer(400);
                     spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 20, GameColors.SHIELD_CYAN);
                     logger.accept("Firewall rules updated (Shield Up).");
                     texts.add(new FloatingText(player.getX(), player.getY() - 30, "SHIELD UP!", Color.CYAN));
+                } else if (en.getType() == EntityType.HEALTH) {
+                    en.setDead(true);
+                    player.heal(25);
+                    spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 15, GameColors.HEALTH_GREEN);
+                    logger.accept("Health pack collected. +25 HP");
+                    texts.add(new FloatingText(player.getX(), player.getY() - 30, "+25 HP", Color.GREEN));
                 } else {
+                    en.setDead(true);
                     player.takeDamage(en.getDamage());
                     ctx.shakeTimer = 15;
+                    ctx.flashTimer = 12;
                     ctx.combo = 0;
                     spawnExplosion(particles, (int) player.getX(), (int) player.getY(), 15, Color.RED);
                     texts.add(new FloatingText(player.getX(), player.getY(), "ERROR!", Color.RED));
@@ -125,6 +138,7 @@ public class CollisionSystem {
 
         if (boss.isDashing()) {
             ctx.shakeTimer = 30;
+            ctx.flashTimer = 15;
             texts.add(new FloatingText(player.getX(), player.getY(), "CRITICAL ERROR!", Color.RED));
             logger.accept("CRITICAL: Hit by core dump!");
         } else {
@@ -135,7 +149,12 @@ public class CollisionSystem {
 
     private void spawnExplosion(List<Particle> particles, int x, int y, int count, Color c) {
         for (int i = 0; i < count; i++) {
-            particles.add(new Particle(x, y, c, (Math.random() - 0.5) * 12, (Math.random() - 0.5) * 12, 0.04f));
+            double angle = Math.random() * Math.PI * 2;
+            double speed = 2 + Math.random() * 8;
+            particles.add(new Particle(x, y, c,
+                    Math.cos(angle) * speed,
+                    Math.sin(angle) * speed - 3,
+                    0.03f + (float) Math.random() * 0.03f));
         }
     }
 }

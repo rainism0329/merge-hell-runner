@@ -97,10 +97,21 @@ public class Boss {
     }
 
     private void attack(ObstacleManager om, int groundY) {
-        int r = random.nextInt(3);
-        if (r == 0) om.spawnEnemy((int) x + width, groundY - 60, EntityType.BUG);
-        else if (r == 1) om.spawnEnemy((int) x + width, groundY - 120, EntityType.CRASH);
-        else om.spawnEnemy((int) x + width, 0, EntityType.FIREWALL);
+        int r = random.nextInt(6);
+        switch (r) {
+            case 0 -> om.spawnEnemy((int) x + width, groundY - 60, EntityType.BUG);
+            case 1 -> om.spawnEnemy((int) x + width, groundY - 120, EntityType.CRASH);
+            case 2 -> om.spawnEnemy((int) x + width, 0, EntityType.FIREWALL);
+            case 3 -> {
+                om.spawnEnemy((int) x + width, groundY - 60, EntityType.BUG);
+                om.spawnEnemy((int) x + width + 40, groundY - 100, EntityType.CRASH);
+            }
+            case 4 -> om.spawnEnemy((int) x + width, groundY - 80, EntityType.LOCK);
+            case 5 -> {
+                om.spawnEnemy((int) x + width, 0, EntityType.FIREWALL);
+                om.spawnEnemy((int) x + width + 30, groundY - 60, EntityType.BUG);
+            }
+        }
     }
 
     public void takeDamage(int amount) {

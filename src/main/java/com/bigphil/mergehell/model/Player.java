@@ -46,6 +46,10 @@ public class Player {
         this.cooldown = 0;
     }
 
+    public void heal(int amount) {
+        hp = Math.min(hp + amount, maxHp);
+    }
+
     public void update(boolean left, boolean right, boolean jump, boolean shoot, int groundY, int panelWidth, List<Projectile> projectiles) {
         if (left) x -= SPEED;
         if (right) x += SPEED;
