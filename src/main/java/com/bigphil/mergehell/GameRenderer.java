@@ -83,6 +83,23 @@ public class GameRenderer {
             g.fillRect(0, 0, width, groundY);
         }
 
+        // Low HP warning vignette
+        if (player.getHp() > 0 && player.getHp() < 30) {
+            float alpha = (30 - player.getHp()) / 50f * 0.35f;
+            g.setColor(new Color(1f, 0f, 0f, alpha));
+            g.fillRect(0, 0, width, groundY);
+        }
+
+        // Kill streak banner
+        if (combo == 10 || combo == 20 || combo == 30 || combo == 50) {
+            g.setFont(new Font("JetBrains Mono", Font.BOLD, 40));
+            g.setColor(new Color(255, 200, 50, 200));
+            String text = combo >= 50 ? "GODLIKE!" : combo >= 30 ? "UNSTOPPABLE!"
+                    : combo >= 20 ? "RAMPAGE!" : "KILLING SPREE!";
+            int tx = (width - g.getFontMetrics().stringWidth(text)) / 2;
+            g.drawString(text, tx, groundY / 2);
+        }
+
         drawHUD(g, width, player, boss, score, combo, state, level, difficulty,
                 inBattle, currentWave, totalWaves);
         drawUI(g, width, height, groundY, state, score, isNewHighScore, level);
@@ -220,15 +237,20 @@ public class GameRenderer {
     private void drawHUD(Graphics2D g, int width, Player player, Boss boss,
                          int score, int combo, GameState state, int level, double difficulty,
                          boolean inBattle, int currentWave, int totalWaves) {
-        // Score
+        // Score + lives
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
         g.setColor(GameColors.PLAYER);
         g.drawString("Lines: " + score, 20, 30);
+        // Lives
+        g.setColor(Color.RED);
+        g.setFont(new Font("SansSerif", Font.BOLD, 14));
+        g.drawString("❤".repeat(Math.max(0, player.getLives())), 20, 48);
 
-        // Level
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 13));
-        g.setColor(Color.GRAY);
-        g.drawString("Level " + (level + 1), 20, 50);
+        // Level + progress
+        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
+        g.setColor(Color.DARK_GRAY);
+        double progress = level > 0 ? 0 : 0; // placeholder — actual progress needs cameraX
+        g.drawString("Level " + (level + 1), 20, 60);
 
         // Combo with multiplier
         if (combo > 1) {

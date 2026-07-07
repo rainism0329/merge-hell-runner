@@ -3,6 +3,7 @@ package com.bigphil.mergehell;
 import com.bigphil.mergehell.model.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -49,6 +50,7 @@ public class CollisionSystem {
 
         double leftBound = cameraX - 100;
         double rightBound = cameraX + panelWidth + 100;
+        List<Runnable> deferredSpawns = new ArrayList<>();
         Iterator<Projectile> pIt = projectiles.iterator();
         while (pIt.hasNext()) {
             Projectile p = pIt.next();
@@ -66,12 +68,18 @@ public class CollisionSystem {
 
                     if (en.isDead()) {
                         ctx.newKills++;
-                        spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 15, en.getColor());
+                        int particleCount = en.getType().maxHp > 2 ? 30 : 15;
+                        spawnExplosion(particles, (int) en.getX(), (int) en.getY(), particleCount, en.getColor());
+                        // Heavy enemies shake screen
+                        if (en.getType().maxHp > 2) ctx.shakeTimer = Math.max(ctx.shakeTimer, 10);
                         ctx.combo++;
                         ctx.comboTimer = 100;
                         double mult = comboMultiplier(ctx.combo);
                         int points = (int) (en.getType().pointValue * mult);
                         ctx.score += points;
+                        // Defer drop spawn to avoid ConcurrentModificationException
+                        final double ex = en.getX(), ey = en.getY();
+                        deferredSpawns.add(() -> maybeSpawnDrop(ex, ey, enemyManager));
 
                         Color popColor = mult >= 3 ? Color.ORANGE
                                 : mult >= 2 ? Color.YELLOW : Color.WHITE;
@@ -93,6 +101,8 @@ public class CollisionSystem {
                 texts.add(new FloatingText(p.getX(), p.getY(), "-" + p.getDamage(), Color.LIGHT_GRAY));
             }
         }
+        // Execute deferred spawns after iteration
+        for (Runnable r : deferredSpawns) r.run();
     }
 
     private void processEnemyBullets(Context ctx,
@@ -240,6 +250,17 @@ public class CollisionSystem {
             ctx.shakeTimer = 5;
             texts.add(new FloatingText(player.getX(), player.getY(), "CONTACT -" + damage, Color.ORANGE));
         }
+    }
+
+    private void maybeSpawnDrop(double x, double y, ObstacleManager om) {
+        if (Math.random() > 0.07) return;
+        EntityType drop = switch ((int) (Math.random() * 4)) {
+            case 0 -> EntityType.HEALTH;
+            case 1 -> EntityType.PICKUP_RAPID;
+            case 2 -> EntityType.PICKUP_SPREAD;
+            default -> EntityType.PICKUP_HEAVY;
+        };
+        om.spawnEnemy((int) x, (int) y - 20, drop);
     }
 
     private static double comboMultiplier(int combo) {

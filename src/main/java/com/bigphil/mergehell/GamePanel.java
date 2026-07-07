@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private double cameraX = 0;
     private int bossDeathTimer = 0;
     private int missionCompleteTimer = 0;
+    private int extraLifeScore = 5000;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
@@ -141,6 +142,7 @@ public class GamePanel extends JPanel implements ActionListener {
         level = 0; shakeTimer = 0; flashTimer = 0;
         difficulty = 1.0; cameraX = 0; isNewHighScore = false;
         bossDeathTimer = 0; missionCompleteTimer = 0;
+        extraLifeScore = 5000;
         levelManager = new LevelManager(0);
         platforms = levelManager.getPlatforms();
         coins = levelManager.getCoins();
@@ -151,8 +153,16 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void advanceLevel() {
+        // Level clear bonus
+        int timeBonus = (int) (difficulty * 500);
+        int clearBonus = 2000 + level * 1000;
+        ctx.score += timeBonus + clearBonus;
+        floatingTexts.add(new FloatingText(getWidth() / 2, getHeight() / 2,
+                "BONUS +" + (timeBonus + clearBonus), Color.YELLOW));
+
         difficulty = 1.0 + level * 2.0;
         cameraX = 0;
+        extraLifeScore += 10000;
         levelManager = new LevelManager(level);
         platforms = levelManager.getPlatforms();
         coins = levelManager.getCoins();
@@ -196,9 +206,16 @@ public class GamePanel extends JPanel implements ActionListener {
         // ── Player update ───────────────────────────────
         player.update(keyLeft, keyRight, keyJump, keyShoot, groundY, levelWidth, projectiles, platforms);
         if (player.getHp() <= 0) {
-            state = GameState.GAME_OVER; shakeTimer = 30;
-            addLog("FATAL ERROR: Process terminated unexpectedly.");
-            saveScore();
+            if (player.loseLife()) {
+                player.heal(100);
+                player.setShieldTimer(120);
+                shakeTimer = 20; flashTimer = 15;
+                addLog("Process restarted. Lives: " + player.getLives());
+            } else {
+                state = GameState.GAME_OVER; shakeTimer = 30;
+                addLog("FATAL ERROR: All processes terminated.");
+                saveScore();
+            }
         }
 
         // ── Camera ──────────────────────────────────────
@@ -244,6 +261,19 @@ public class GamePanel extends JPanel implements ActionListener {
                     enemyManager.spawnFromLeft(groundY, (int) cameraX);
             }
         }
+
+        // Extra life check
+        if (ctx.score >= extraLifeScore) {
+            player.addBomb();
+            floatingTexts.add(new FloatingText(player.getX(), player.getY() - 50,
+                    "⭐ MILESTONE +2 BOMBS!", Color.ORANGE));
+            addLog("Score milestone reached!");
+            extraLifeScore += 10000;
+        }
+
+        // Mid-boss spawn
+        if (!levelManager.isInBattle() && random.nextInt(1500) < 2 + difficulty)
+            enemyManager.spawnEnemy(panelW + (int) cameraX + 100, groundY - 60, EntityType.TECHDEBT);
 
         difficulty += 0.0005;
         if (random.nextInt(100) < 1.5 + difficulty * 0.4)
@@ -353,18 +383,31 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        int groundY = getHeight() - TERMINAL_HEIGHT;
+        int panelW = getWidth(), panelH = getHeight();
+        int groundY = panelH - TERMINAL_HEIGHT;
         int wave = levelManager != null ? levelManager.getCurrentWave() : 0;
         int total = levelManager != null ? levelManager.getTotalWaves() : 0;
         boolean inBattle = levelManager != null && levelManager.isInBattle();
 
-        renderer.render((Graphics2D) g, getWidth(), getHeight(), groundY,
+        renderer.render((Graphics2D) g, panelW, panelH, groundY,
                 state, player, boss, enemyManager,
                 projectiles, enemyManager.getEnemyBullets(),
                 particles, floatingTexts, bgLayer1, bgLayer2, platforms, coins,
                 logs, ctx.score, ctx.combo, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
                 cameraX, inBattle, wave, total);
+
+        // Progress bar
+        if ((state == GameState.RUNNING || state == GameState.BOSS_FIGHT) && levelManager != null) {
+            Graphics2D g2 = (Graphics2D) g;
+            double maxX = levelManager.getCameraMaxX();
+            double ratio = Math.min(1.0, cameraX / Math.max(1, maxX - panelW));
+            g2.setColor(new Color(255, 255, 255, 25));
+            g2.fillRect(0, groundY - 3, panelW, 3);
+            g2.setColor(new Color(100, 200, 255, 100));
+            g2.fillRect(0, groundY - 3, (int) (panelW * ratio), 3);
+        }
+
         if (shakeTimer > 0) shakeTimer--;
         if (flashTimer > 0) flashTimer--;
     }

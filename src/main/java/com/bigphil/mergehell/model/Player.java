@@ -23,6 +23,7 @@ public class Player {
     private int meleeTimer = 0;
     private int meleeCooldown = 0;
     private int bombs = 3;
+    private int lives = 3;
 
     private WeaponType currentWeapon = WeaponType.COMMIT;
     private int weaponAmmo = 0;
@@ -55,6 +56,13 @@ public class Player {
     public WeaponType getWeapon() { return currentWeapon; }
     public int getWeaponAmmo() { return weaponAmmo; }
     public int getBombs() { return bombs; }
+    public int getLives() { return lives; }
+
+    public boolean loseLife() {
+        if (lives <= 0) return false;
+        lives--;
+        return lives > 0;
+    }
 
     public boolean useBomb() {
         if (bombs <= 0) return false;
@@ -79,6 +87,7 @@ public class Player {
         this.cooldown = 0; this.dashTimer = 0; this.dashCooldown = 0;
         this.meleeTimer = 0; this.meleeCooldown = 0;
         this.bombs = 3; this.facingDir = 1;
+        this.lives = 3;
         this.currentWeapon = WeaponType.COMMIT;
         this.weaponAmmo = 0;
     }
