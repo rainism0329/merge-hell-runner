@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private final List<FloatingText> floatingTexts = new ArrayList<>();
     private final List<CodeRain> bgLayer1 = new ArrayList<>();
     private final List<CodeRain> bgLayer2 = new ArrayList<>();
+    private final List<CodeRain> bgLayer3 = new ArrayList<>();
     private List<Platform> platforms = new ArrayList<>();
     private List<LevelManager.Coin> coins = new ArrayList<>();
 
@@ -47,6 +48,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private int bossDeathTimer = 0;
     private int missionCompleteTimer = 0;
     private int extraLifeScore = 5000;
+    private int hitstop = 0;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
@@ -65,6 +67,7 @@ public class GamePanel extends JPanel implements ActionListener {
         for (int i = 0; i < 30; i++) {
             bgLayer1.add(new CodeRain(getWidth(), groundY));
             bgLayer2.add(new CodeRain(getWidth(), groundY));
+            bgLayer3.add(new CodeRain(getWidth(), groundY));
         }
 
         setupKeyBindings();
@@ -107,6 +110,13 @@ public class GamePanel extends JPanel implements ActionListener {
                     boss.takeDamage(300);
                 addLog("EMERGENCY PROTOCOL: Screen cleared!");
             }
+        });
+
+        registerKey(im, am, "WEAPON", KeyEvent.VK_Z, true, () -> player.cycleWeapon());
+
+        registerKey(im, am, "DEBUG", KeyEvent.VK_F12, true, () -> {
+            player.toggleDebugMode();
+            addLog(player.isDebugMode() ? "DEBUG MODE ON!" : "DEBUG MODE OFF");
         });
 
         registerKey(im, am, "DASH", KeyEvent.VK_SHIFT, true, () -> {
@@ -198,8 +208,12 @@ public class GamePanel extends JPanel implements ActionListener {
             int h = getHeight() - TERMINAL_HEIGHT;
             for (CodeRain cr : bgLayer1) cr.update(960, h, 2.0, 0);
             for (CodeRain cr : bgLayer2) cr.update(960, h, 1.0, 0);
+            for (CodeRain cr : bgLayer3) cr.update(960, h, 0.6, 0);
             repaint(); return;
         }
+
+        // Hitstop freeze
+        if (hitstop > 0) { hitstop--; repaint(); return; }
 
         int panelW = getWidth(), panelH = getHeight();
         int groundY = panelH - TERMINAL_HEIGHT;
@@ -289,6 +303,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     levelManager.bossSymbol, cameraX + panelW, level);
             Timer t = new Timer(2000, evt -> {
                 state = GameState.BOSS_FIGHT; boss.activate();
+                shakeTimer = 30; flashTimer = 20; hitstop = 10;
                 addLog("ALERT: " + boss.getName() + " engaged!");
                 ((Timer) evt.getSource()).stop();
             });
@@ -327,6 +342,7 @@ public class GamePanel extends JPanel implements ActionListener {
         double paraSpeed = 1.0 + difficulty * 0.3;
         for (CodeRain cr : bgLayer1) cr.update(panelW, groundY, paraSpeed + 1, cameraX);
         for (CodeRain cr : bgLayer2) cr.update(panelW, groundY, paraSpeed * 0.5 + 0.5, cameraX);
+        for (CodeRain cr : bgLayer3) cr.update(panelW, groundY, paraSpeed * 0.25 + 0.25, cameraX);
 
         // ── Enemy updates + collision ───────────────────
         double difficultySpeed = 0.8 + difficulty * 0.15;
@@ -356,7 +372,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (ctx.shakeTimer > shakeTimer) shakeTimer = ctx.shakeTimer;
         if (ctx.flashTimer > flashTimer) flashTimer = ctx.flashTimer;
-        ctx.shakeTimer = 0; ctx.flashTimer = 0;
+        if (ctx.hitstop > hitstop) hitstop = ctx.hitstop;
+        ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.hitstop = 0;
 
         particles.removeIf(p -> p.getLife() <= 0);
         floatingTexts.removeIf(t -> !t.update());
@@ -394,7 +411,7 @@ public class GamePanel extends JPanel implements ActionListener {
         renderer.render((Graphics2D) g, panelW, panelH, groundY,
                 state, player, boss, enemyManager,
                 projectiles, enemyManager.getEnemyBullets(),
-                particles, floatingTexts, bgLayer1, bgLayer2, platforms, coins,
+                particles, floatingTexts, bgLayer1, bgLayer2, bgLayer3, platforms, coins,
                 logs, ctx.score, ctx.combo, ctx.comboTimer, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
                 cameraX, inBattle, wave, total);

@@ -17,6 +17,7 @@ public class CollisionSystem {
         public int shakeTimer;
         public int flashTimer;
         public int newKills;
+        public int hitstop;
     }
 
     public void process(Context ctx,
@@ -70,8 +71,13 @@ public class CollisionSystem {
                         ctx.newKills++;
                         int particleCount = en.getType().maxHp > 2 ? 30 : 15;
                         spawnExplosion(particles, (int) en.getX(), (int) en.getY(), particleCount, en.getColor());
-                        // Heavy enemies shake screen
-                        if (en.getType().maxHp > 2) ctx.shakeTimer = Math.max(ctx.shakeTimer, 10);
+                        // Heavy enemies: shake + hitstop
+                        if (en.getType().maxHp > 2) {
+                            ctx.shakeTimer = Math.max(ctx.shakeTimer, 10);
+                            ctx.hitstop = Math.max(ctx.hitstop, 4);
+                        }
+                        // Smoke particles
+                        spawnSmoke(particles, (int) en.getX(), (int) en.getY(), 8);
                         ctx.combo++;
                         ctx.comboTimer = 100;
                         double mult = comboMultiplier(ctx.combo);
@@ -253,13 +259,21 @@ public class CollisionSystem {
         }
     }
 
+    private void spawnSmoke(List<Particle> particles, int x, int y, int count) {
+        for (int i = 0; i < count; i++) {
+            particles.add(new Particle(x, y, new Color(80, 80, 80),
+                    (Math.random() - 0.5) * 3, -2 - Math.random() * 3, 0.02f));
+        }
+    }
+
     private void maybeSpawnDrop(double x, double y, ObstacleManager om) {
         if (Math.random() > 0.10) return;
-        EntityType drop = switch ((int) (Math.random() * 4)) {
+        EntityType drop = switch ((int) (Math.random() * 5)) {
             case 0 -> EntityType.HEALTH;
             case 1 -> EntityType.PICKUP_RAPID;
             case 2 -> EntityType.PICKUP_SPREAD;
-            default -> EntityType.PICKUP_HEAVY;
+            case 3 -> EntityType.PICKUP_HEAVY;
+            default -> EntityType.PICKUP_FLAME;
         };
         om.spawnEnemy((int) x, (int) y - 20, drop);
     }

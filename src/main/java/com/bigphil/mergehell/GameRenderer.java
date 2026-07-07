@@ -15,7 +15,7 @@ public class GameRenderer {
                        ObstacleManager enemyManager,
                        List<Projectile> projectiles, List<Projectile> enemyBullets,
                        List<Particle> particles, List<FloatingText> floatingTexts,
-                       List<CodeRain> bgLayer1, List<CodeRain> bgLayer2,
+                       List<CodeRain> bgLayer1, List<CodeRain> bgLayer2, List<CodeRain> bgLayer3,
                        List<Platform> platforms, List<LevelManager.Coin> coins,
                        LinkedList<String> logs, int score, int combo, int comboTimer,
                        int shakeTimer, int flashTimer, int level, double difficulty,
@@ -33,23 +33,32 @@ public class GameRenderer {
         // Camera scroll offset (saved for UI later)
         g.translate(-cameraX, 0);
 
-        // Level-specific background tint
-        Color levelBg = switch (level % 3) {
-            case 0 -> GameColors.BG;
-            case 1 -> new Color(20, 25, 35);
-            default -> new Color(25, 20, 30);
-        };
+        // Background tint: boss fights get a darker red tint
+        Color levelBg;
+        if (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING) {
+            levelBg = new Color(30, 18, 18);
+        } else {
+            levelBg = switch (level % 3) {
+                case 0 -> GameColors.BG;
+                case 1 -> new Color(20, 25, 35);
+                default -> new Color(25, 20, 30);
+            };
+        }
         g.setColor(levelBg);
         g.fillRect((int) cameraX, 0, width + 200, groundY);
 
         // Background grid
         drawBackgroundGrid(g, width, groundY, cameraX);
 
-        // Parallax code rain - far layer (very subtle)
+        // Parallax code rain - deepest layer
+        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 7));
+        for (CodeRain cr : bgLayer3) cr.draw(g);
+
+        // Parallax code rain - far layer
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
         for (CodeRain cr : bgLayer2) cr.draw(g);
 
-        // Parallax code rain - near layer (subtle)
+        // Parallax code rain - near layer
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
         for (CodeRain cr : bgLayer1) cr.draw(g);
 
@@ -298,12 +307,16 @@ public class GameRenderer {
         }
 
         if (player.getSudoTimer() > 0) {
-            g.setColor(GameColors.SUDO_YELLOW);
+            boolean expiring = player.isBuffExpiring(player.getSudoTimer());
+            g.setColor(expiring && (System.currentTimeMillis() / 200 % 2 == 0)
+                    ? Color.WHITE : GameColors.SUDO_YELLOW);
             g.drawString("SUDO " + (player.getSudoTimer() / 60) + "s", barX, buffY);
             buffY += 15;
         }
         if (player.getShieldTimer() > 0) {
-            g.setColor(GameColors.SHIELD_CYAN);
+            boolean expiring = player.isBuffExpiring(player.getShieldTimer());
+            g.setColor(expiring && (System.currentTimeMillis() / 200 % 2 == 0)
+                    ? Color.WHITE : GameColors.SHIELD_CYAN);
             g.drawString("SHIELD " + (player.getShieldTimer() / 60) + "s", barX, buffY);
             buffY += 15;
         }
@@ -384,8 +397,8 @@ public class GameRenderer {
                 "[ SHIFT ]   DASH",
                 "[ SPACE ]   JUMP / DOUBLE JUMP",
                 "[ C ]       SHOOT",
-                "[ X ]       MELEE",
-                "[ B ]       BOMB",
+                "[ X ]       MELEE  [ Z ] WEAPON",
+                "[ B ]       BOMB   [ SHIFT ] DASH",
                 "[ P / ESC]  PAUSE"
         };
 

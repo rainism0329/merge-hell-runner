@@ -12,6 +12,7 @@ public enum EntityType {
     PICKUP_SPREAD(GameColors.SUDO_YELLOW, "⚡", 28, 28, 3, 0, 1, 0),
     PICKUP_RAPID(GameColors.PLAYER, "🚀", 28, 28, 3, 0, 1, 0),
     PICKUP_HEAVY(GameColors.DANGER_RED, "💣", 28, 28, 3, 0, 1, 0),
+    PICKUP_FLAME(GameColors.CRASH_ORANGE, "🔥", 28, 28, 3, 0, 1, 0),
     POWERUP_SHIELD(GameColors.SHIELD_CYAN, "🛡️", 30, 30, 4, 0, 1, 0),
     HEALTH(GameColors.HP_BAR, "❤️", 28, 28, 3, 0, 1, 0);
 
@@ -50,6 +51,7 @@ public enum EntityType {
             case PICKUP_SPREAD -> WeaponType.SPREAD;
             case PICKUP_RAPID -> WeaponType.RAPID;
             case PICKUP_HEAVY -> WeaponType.HEAVY;
+            case PICKUP_FLAME -> WeaponType.FLAME;
             default -> null;
         };
     }

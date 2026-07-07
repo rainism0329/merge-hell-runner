@@ -1,6 +1,7 @@
 package com.bigphil.mergehell.model;
 
 import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public class Player {
@@ -27,6 +28,7 @@ public class Player {
 
     private WeaponType currentWeapon = WeaponType.COMMIT;
     private int weaponAmmo = 0;
+    private boolean debugMode = false;
 
     private static final double GRAVITY = 0.6;
     private static final double JUMP_FORCE = -13;
@@ -55,6 +57,12 @@ public class Player {
     public int getFacingDir() { return facingDir; }
     public WeaponType getWeapon() { return currentWeapon; }
     public int getWeaponAmmo() { return weaponAmmo; }
+    public boolean isDebugMode() { return debugMode; }
+
+    public void toggleDebugMode() {
+        debugMode = !debugMode;
+        if (debugMode) weaponAmmo = 999;
+    }
     public int getBombs() { return bombs; }
     public int getLives() { return lives; }
 
@@ -80,6 +88,28 @@ public class Player {
         this.weaponAmmo = ammo;
     }
 
+    private final Map<WeaponType, Integer> ammoReserve = new HashMap<>();
+
+    public void cycleWeapon() {
+        // Save current ammo
+        if (weaponAmmo > 0) ammoReserve.put(currentWeapon, weaponAmmo);
+        WeaponType[] all = WeaponType.values();
+        int idx = 0;
+        for (int i = 0; i < all.length; i++)
+            if (all[i] == currentWeapon) { idx = i; break; }
+        for (int i = 0; i < all.length; i++) {
+            int next = (idx + 1 + i) % all.length;
+            if (all[next] == WeaponType.COMMIT) continue;
+            currentWeapon = all[next];
+            weaponAmmo = ammoReserve.getOrDefault(currentWeapon, 0);
+            break;
+        }
+    }
+
+    public boolean isBuffExpiring(int timer) {
+        return timer > 0 && timer < 180; // last 3 seconds
+    }
+
     public void reset(int startX, int startY) {
         this.x = startX; this.y = startY;
         this.hp = 100; this.dy = 0;
@@ -90,6 +120,7 @@ public class Player {
         this.lives = 3;
         this.currentWeapon = WeaponType.COMMIT;
         this.weaponAmmo = 0;
+        this.ammoReserve.clear();
     }
 
     public void dash() { dash(facingDir); }
@@ -173,6 +204,14 @@ public class Player {
 
         if (shoot && cooldown <= 0 && meleeTimer <= 0) {
             WeaponType w = (sudoTimer > 0) ? WeaponType.SPREAD : currentWeapon;
+
+            // Check ammo BEFORE firing
+            if (sudoTimer <= 0 && !debugMode && currentWeapon != WeaponType.COMMIT && weaponAmmo <= 0) {
+                ammoReserve.remove(currentWeapon);
+                currentWeapon = WeaponType.COMMIT;
+                w = WeaponType.COMMIT;
+            }
+
             boolean piercing = (sudoTimer > 0) || w == WeaponType.HEAVY;
             ProjectileType ptype = piercing ? ProjectileType.SUDO : ProjectileType.COMMIT;
             double bulletX = (facingDir > 0) ? x + width : x;
@@ -185,9 +224,12 @@ public class Player {
             }
             cooldown = w.cooldown;
 
-            if (sudoTimer <= 0 && weaponAmmo > 0 && currentWeapon != WeaponType.COMMIT) {
+            if (sudoTimer <= 0 && !debugMode && weaponAmmo > 0 && currentWeapon != WeaponType.COMMIT) {
                 weaponAmmo--;
-                if (weaponAmmo <= 0) currentWeapon = WeaponType.COMMIT;
+                if (weaponAmmo <= 0) {
+                    ammoReserve.remove(currentWeapon);
+                    currentWeapon = WeaponType.COMMIT;
+                }
             }
         }
     }
