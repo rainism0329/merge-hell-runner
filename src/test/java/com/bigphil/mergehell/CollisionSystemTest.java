@@ -34,7 +34,7 @@ class CollisionSystemTest {
         projectiles = new ArrayList<>();
         enemyManager = new ObstacleManager();
         player = new Player(100, GROUND_Y);
-        boss = new Boss("Test Boss", 1000, "X", -100); // starts at x=100
+        boss = new Boss("Test Boss", 1000, "X", -100, 0); // starts at x=100
         particles = new ArrayList<>();
         texts = new ArrayList<>();
         logMessages = new ArrayList<>();

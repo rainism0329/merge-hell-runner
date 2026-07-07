@@ -97,8 +97,9 @@ public class CollisionSystem {
                     && boss.getHp() > 0 && p.getBounds().intersects(boss.getBounds())) {
                 boss.takeDamage(p.getDamage());
                 p.setDead(true);
-                spawnExplosion(particles, (int) p.getX(), (int) p.getY(), 3, Color.WHITE);
-                texts.add(new FloatingText(p.getX(), p.getY(), "-" + p.getDamage(), Color.LIGHT_GRAY));
+                ctx.shakeTimer = Math.max(ctx.shakeTimer, 4);
+                spawnExplosion(particles, (int) p.getX(), (int) p.getY(), 5, Color.WHITE);
+                texts.add(new FloatingText(p.getX(), p.getY() - 10, "-" + p.getDamage(), Color.YELLOW));
             }
         }
         // Execute deferred spawns after iteration
@@ -253,7 +254,7 @@ public class CollisionSystem {
     }
 
     private void maybeSpawnDrop(double x, double y, ObstacleManager om) {
-        if (Math.random() > 0.07) return;
+        if (Math.random() > 0.10) return;
         EntityType drop = switch ((int) (Math.random() * 4)) {
             case 0 -> EntityType.HEALTH;
             case 1 -> EntityType.PICKUP_RAPID;

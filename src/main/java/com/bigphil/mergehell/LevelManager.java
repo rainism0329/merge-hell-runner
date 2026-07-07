@@ -39,9 +39,14 @@ public class LevelManager {
         bossName = switch (levelNum) {
             case 0 -> "LEGACY CODE MONSTROSITY";
             case 1 -> "MEMORY LEAK DAEMON";
-            default -> "THE ARCHITECT";
+            case 2 -> "THE ARCHITECT";
+            case 3 -> "KERNEL PANIC OVERLORD";
+            default -> "SINGULARITY ENGINE";
         };
-        bossSymbol = switch (levelNum) { case 0 -> "⚠️"; case 1 -> "💀"; default -> "👑"; };
+        bossSymbol = switch (levelNum) {
+            case 0 -> "⚠️"; case 1 -> "💀"; case 2 -> "👑";
+            case 3 -> "💀"; default -> "☠️";
+        };
         bossHp = 2000 + levelNum * 1500;
 
         triggers = buildTriggers(levelNum);
@@ -181,7 +186,7 @@ public class LevelManager {
 
     public boolean shouldSpawnBoss(double px) {
         if (bossTriggered || bossDefeated) return false;
-        if (px >= 3200) { bossTriggered = true; return true; }
+        if (px >= 3100) { bossTriggered = true; return true; }
         return false;
     }
     public void onBossDefeated() { bossDefeated = true; }

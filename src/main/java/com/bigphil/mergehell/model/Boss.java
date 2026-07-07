@@ -24,11 +24,14 @@ public class Boss {
     private boolean isFlashing = false;
     private double playerX, playerY;
 
-    public Boss(String name, int hpPool, String symbol, double spawnWorldX) {
+    private final int bossLevel;
+
+    public Boss(String name, int hpPool, String symbol, double spawnWorldX, int bossLevel) {
         this.name = name;
         this.maxHp = hpPool / 2;
         this.hp = this.maxHp;
         this.symbol = symbol;
+        this.bossLevel = bossLevel;
         this.x = spawnWorldX + 200;
         this.targetX = spawnWorldX - 150;
         this.y = 100;
@@ -154,7 +157,8 @@ public class Boss {
     }
 
     private void attack(ObstacleManager om, int groundY) {
-        int r = random.nextInt(isEnraged() ? 12 : 8);
+        int maxR = isEnraged() ? (10 + bossLevel * 2) : (6 + bossLevel);
+        int r = random.nextInt(Math.max(8, maxR));
         switch (r) {
             case 0 -> om.spawnEnemy((int) x + width, groundY - 60, EntityType.BUG);
             case 1 -> om.spawnEnemy((int) x + width, groundY - 120, EntityType.CRASH);
@@ -169,11 +173,15 @@ public class Boss {
                 om.spawnEnemy((int) x + width + 30, groundY - 60, EntityType.BUG);
             }
             case 6, 7 -> om.spawnFromLeft(groundY, (int) x);
-            // Enraged-only: swarm attack
             case 8, 9 -> om.spawnFormation((int) x + width, groundY);
             case 10, 11 -> {
                 om.spawnFromLeft(groundY, (int) x);
                 om.spawnFromLeft(groundY, (int) x);
+            }
+            default -> {
+                // Higher level bosses: extra attack variety
+                om.spawnEnemy((int) x + width, groundY - 80, EntityType.TECHDEBT);
+                om.spawnEnemy((int) x + width + 60, groundY - 60, EntityType.CRASH);
             }
         }
     }
@@ -187,32 +195,50 @@ public class Boss {
         if (!active) return;
 
         boolean enraged = isEnraged();
+        Color bodyColor;
         if (phase == Phase.DASH_WARN && isFlashing) {
-            g.setColor(Color.WHITE);
+            bodyColor = Color.WHITE;
         } else if (phase == Phase.DASH) {
-            g.setColor(enraged ? Color.ORANGE : Color.YELLOW);
+            bodyColor = enraged ? Color.ORANGE : Color.YELLOW;
         } else if (phase == Phase.BURST) {
-            g.setColor(new Color(255, 50, 50));
+            bodyColor = new Color(255, 50, 50);
         } else if (enraged) {
-            g.setColor(new Color(200, 30, 30));
-            // Pulsing when enraged
-            if ((actionTimer / 15) % 2 == 0) {
-                g.setColor(GameColors.DANGER_RED);
-            }
+            bodyColor = (actionTimer / 15) % 2 == 0
+                    ? new Color(200, 30, 30) : GameColors.DANGER_RED;
         } else {
-            g.setColor(GameColors.DANGER_RED);
+            bodyColor = GameColors.DANGER_RED;
         }
-        g.fillRect((int) x, (int) y, width, height);
 
+        // Shadow
+        g.setColor(new Color(0, 0, 0, 80));
+        g.fillRect((int) x + 6, (int) y + 6, width, height);
+        // Body with gradient effect
+        GradientPaint gp = new GradientPaint(
+                (int) x, (int) y, bodyColor.brighter(),
+                (int) x, (int) y + height, bodyColor.darker());
+        g.setPaint(gp);
+        g.fillRect((int) x, (int) y, width, height);
+        // Thick border
+        g.setColor(bodyColor.brighter().brighter());
+        g.setStroke(new BasicStroke(3));
+        g.drawRect((int) x, (int) y, width, height);
+        // Inner highlight
+        g.setColor(new Color(255, 255, 255, 40));
+        g.drawRect((int) x + 4, (int) y + 4, width - 8, height - 8);
+
+        // Emoji
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 60));
         FontMetrics fm = g.getFontMetrics();
         int symW = fm.stringWidth(symbol);
         g.drawString(symbol, (int) x + (width - symW) / 2, (int) y + 90);
 
-        g.setColor(isEnraged() ? Color.ORANGE : GameColors.DANGER_RED);
+        // Name label with glow
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        String label = name + (isEnraged() ? " [ENRAGED]" : "");
+        String label = name + (enraged ? " [ENRAGED]" : "");
+        g.setColor(Color.BLACK);
+        g.drawString(label, (int) x + 1, (int) y - 9);
+        g.setColor(enraged ? Color.ORANGE : Color.WHITE);
         g.drawString(label, (int) x, (int) y - 10);
 
         if (phase == Phase.DASH_WARN) {

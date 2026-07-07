@@ -103,6 +103,8 @@ public class GamePanel extends JPanel implements ActionListener {
                     }
                 }
                 enemyManager.getEnemyBullets().clear();
+                if (boss != null && boss.isActive())
+                    boss.takeDamage(300);
                 addLog("EMERGENCY PROTOCOL: Screen cleared!");
             }
         });
@@ -186,7 +188,7 @@ public class GamePanel extends JPanel implements ActionListener {
         if (state == GameState.MISSION_COMPLETE) {
             missionCompleteTimer--;
             if (missionCompleteTimer <= 0) {
-                if (level < 2) advanceLevel();
+                if (level < 4) advanceLevel();
                 else { state = GameState.VICTORY; saveScore(); }
             }
             repaint(); return;
@@ -284,7 +286,7 @@ public class GamePanel extends JPanel implements ActionListener {
             state = GameState.BOSS_WARNING;
             addLog("WARNING: Boss arena detected!");
             boss = new Boss(levelManager.bossName, levelManager.bossHp,
-                    levelManager.bossSymbol, cameraX + panelW);
+                    levelManager.bossSymbol, cameraX + panelW, level);
             Timer t = new Timer(2000, evt -> {
                 state = GameState.BOSS_FIGHT; boss.activate();
                 addLog("ALERT: " + boss.getName() + " engaged!");
@@ -393,7 +395,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 state, player, boss, enemyManager,
                 projectiles, enemyManager.getEnemyBullets(),
                 particles, floatingTexts, bgLayer1, bgLayer2, platforms, coins,
-                logs, ctx.score, ctx.combo, shakeTimer,
+                logs, ctx.score, ctx.combo, ctx.comboTimer, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
                 cameraX, inBattle, wave, total);
 

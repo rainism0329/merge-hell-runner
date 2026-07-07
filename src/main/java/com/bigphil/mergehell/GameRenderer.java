@@ -17,7 +17,7 @@ public class GameRenderer {
                        List<Particle> particles, List<FloatingText> floatingTexts,
                        List<CodeRain> bgLayer1, List<CodeRain> bgLayer2,
                        List<Platform> platforms, List<LevelManager.Coin> coins,
-                       LinkedList<String> logs, int score, int combo,
+                       LinkedList<String> logs, int score, int combo, int comboTimer,
                        int shakeTimer, int flashTimer, int level, double difficulty,
                        boolean isNewHighScore, double cameraX,
                        boolean inBattle, int currentWave, int totalWaves) {
@@ -100,7 +100,7 @@ public class GameRenderer {
             g.drawString(text, tx, groundY / 2);
         }
 
-        drawHUD(g, width, player, boss, score, combo, state, level, difficulty,
+        drawHUD(g, width, player, boss, score, combo, comboTimer, state, level, difficulty,
                 inBattle, currentWave, totalWaves);
         drawUI(g, width, height, groundY, state, score, isNewHighScore, level);
 
@@ -235,8 +235,8 @@ public class GameRenderer {
     }
 
     private void drawHUD(Graphics2D g, int width, Player player, Boss boss,
-                         int score, int combo, GameState state, int level, double difficulty,
-                         boolean inBattle, int currentWave, int totalWaves) {
+                         int score, int combo, int comboTimer, GameState state, int level,
+                         double difficulty, boolean inBattle, int currentWave, int totalWaves) {
         // Score + lives
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
         g.setColor(GameColors.PLAYER);
@@ -252,7 +252,7 @@ public class GameRenderer {
         double progress = level > 0 ? 0 : 0; // placeholder — actual progress needs cameraX
         g.drawString("Level " + (level + 1), 20, 60);
 
-        // Combo with multiplier
+        // Combo with multiplier + timer bar
         if (combo > 1) {
             float comboScale = 1f + Math.min(combo * 0.03f, 0.4f);
             Font comboFont = new Font("JetBrains Mono", Font.BOLD, (int) (24 * comboScale));
@@ -261,7 +261,13 @@ public class GameRenderer {
             Color multColor = mult >= 3 ? Color.ORANGE : mult >= 2 ? Color.YELLOW : Color.WHITE;
             g.setColor(multColor);
             String multStr = mult > 1.0 ? String.format(" (%.1fx)", mult) : "";
-            g.drawString(combo + "x COMBO!" + multStr, 20, 80);
+            g.drawString(combo + "x COMBO!" + multStr, 20, 78);
+            // Combo timer bar
+            int barW = 130;
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(20, 82, barW, 4);
+            g.setColor(multColor);
+            g.fillRect(20, 82, (int) (barW * (comboTimer / 100.0)), 4);
         }
 
         // HP bar

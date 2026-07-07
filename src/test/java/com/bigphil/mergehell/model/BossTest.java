@@ -10,27 +10,27 @@ class BossTest {
 
     @Test
     void boss_shouldStartInactive() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         assertFalse(boss.isActive());
     }
 
     @Test
     void boss_shouldStartWithCorrectHp() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         assertEquals(500, boss.getHp());
         assertEquals(500, boss.getMaxHp());
     }
 
     @Test
     void activate_shouldSetActive() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         boss.activate();
         assertTrue(boss.isActive());
     }
 
     @Test
     void takeDamage_shouldReduceHp() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         boss.activate();
         int initialHp = boss.getHp();
         boss.takeDamage(100);
@@ -39,26 +39,26 @@ class BossTest {
 
     @Test
     void takeDamage_shouldNotWorkWhenInactive() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         boss.takeDamage(100);
         assertEquals(boss.getMaxHp(), boss.getHp());
     }
 
     @Test
     void isDashing_shouldStartFalse() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         assertFalse(boss.isDashing());
     }
 
     @Test
     void boss_shouldHaveCorrectName() {
-        Boss boss = new Boss("LEGACY CODE", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("LEGACY CODE", 1000, "⚠️", PANEL_WIDTH, 0);
         assertEquals("LEGACY CODE", boss.getName());
     }
 
     @Test
     void getBounds_shouldReturnCorrectSize() {
-        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH);
+        Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
         var bounds = boss.getBounds();
         assertEquals(120, bounds.width);
         assertEquals(150, bounds.height);
