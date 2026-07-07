@@ -15,9 +15,17 @@ public class Player {
     private int invincibleTimer = 0;
     private int cooldown = 0;
 
+    private int dashTimer = 0;
+    private int dashCooldown = 0;
+    private double dashVx = 0;
+    private int facingDir = 1;
+
     private static final double GRAVITY = 0.6;
     private static final double JUMP_FORCE = -13;
     private static final double SPEED = 5;
+    private static final int DASH_FRAMES = 8;
+    private static final int DASH_COOLDOWN_MAX = 45;
+    private static final double DASH_SPEED = 10;
 
     public Player(int startX, int startY) {
         this.x = startX;
@@ -31,6 +39,8 @@ public class Player {
     public int getSudoTimer() { return sudoTimer; }
     public int getShieldTimer() { return shieldTimer; }
     public int getInvincibleTimer() { return invincibleTimer; }
+    public int getDashCooldown() { return dashCooldown; }
+    public boolean isDashing() { return dashTimer > 0; }
 
     public void setSudoTimer(int t) { this.sudoTimer = t; }
     public void setShieldTimer(int t) { this.shieldTimer = t; }
@@ -44,15 +54,44 @@ public class Player {
         this.shieldTimer = 0;
         this.invincibleTimer = 0;
         this.cooldown = 0;
+        this.dashTimer = 0;
+        this.dashCooldown = 0;
+        this.facingDir = 1;
+    }
+
+    public void dash() {
+        dash(facingDir);
+    }
+
+    public void dash(int direction) {
+        if (dashCooldown > 0 || dashTimer > 0) return;
+        int dir = direction >= 0 ? 1 : -1;
+        dashTimer = DASH_FRAMES;
+        dashVx = dir * DASH_SPEED;
+        facingDir = dir;
+        invincibleTimer = Math.max(invincibleTimer, DASH_FRAMES + 8);
     }
 
     public void heal(int amount) {
         hp = Math.min(hp + amount, maxHp);
     }
 
-    public void update(boolean left, boolean right, boolean jump, boolean shoot, int groundY, int panelWidth, List<Projectile> projectiles) {
-        if (left) x -= SPEED;
-        if (right) x += SPEED;
+    public void update(boolean left, boolean right, boolean jump, boolean shoot,
+                        int groundY, int panelWidth, List<Projectile> projectiles) {
+        if (dashTimer > 0) {
+            x += dashVx;
+            dashTimer--;
+            if (dashTimer == 0) {
+                dashCooldown = DASH_COOLDOWN_MAX;
+            }
+            if (x < 0) x = 0;
+            if (x > panelWidth - width) x = panelWidth - width;
+            dy = 0;
+            return;
+        }
+
+        if (left) { x -= SPEED; facingDir = -1; }
+        if (right) { x += SPEED; facingDir = 1; }
 
         if (x < 0) x = 0;
         if (x > panelWidth - width) x = panelWidth - width;
@@ -77,15 +116,19 @@ public class Player {
         if (sudoTimer > 0) sudoTimer--;
         if (shieldTimer > 0) shieldTimer--;
         if (invincibleTimer > 0) invincibleTimer--;
+        if (dashCooldown > 0) dashCooldown--;
 
         if (shoot && cooldown <= 0) {
+            double bulletX = (facingDir > 0) ? x + width : x;
+            double bulletVx = facingDir * (sudoTimer > 0 ? 12 : 10);
+
             if (sudoTimer > 0) {
-                projectiles.add(new Projectile(x + width, y + height / 2.0, 12, 0, ProjectileType.SUDO));
-                projectiles.add(new Projectile(x + width, y + height / 2.0, 11, -1.5, ProjectileType.SUDO));
-                projectiles.add(new Projectile(x + width, y + height / 2.0, 11, 1.5, ProjectileType.SUDO));
+                projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, 0, ProjectileType.SUDO));
+                projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, -1.5, ProjectileType.SUDO));
+                projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, 1.5, ProjectileType.SUDO));
                 cooldown = 10;
             } else {
-                projectiles.add(new Projectile(x + width, y + height / 2.0, 10, 0, ProjectileType.COMMIT));
+                projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, 0, ProjectileType.COMMIT));
                 cooldown = 20;
             }
         }
@@ -98,14 +141,29 @@ public class Player {
     }
 
     public void draw(Graphics2D g) {
-        if (invincibleTimer > 0 && (invincibleTimer / 4) % 2 == 0) return;
+        if (invincibleTimer > 0 && !isDashing() && (invincibleTimer / 4) % 2 == 0) return;
+
+        Composite originalComposite = g.getComposite();
+
+        if (isDashing() && dashTimer < DASH_FRAMES - 1) {
+            for (int i = 1; i <= 3; i++) {
+                float alpha = 0.15f * (4 - i);
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                g.setColor(sudoTimer > 0 ? GameColors.SUDO_YELLOW : GameColors.PLAYER);
+                int trailX = (int) (x - dashVx * i * 0.6);
+                g.fillRoundRect(trailX, (int) y, width, height, 8, 8);
+            }
+            g.setComposite(originalComposite);
+        }
 
         g.setColor(sudoTimer > 0 ? GameColors.SUDO_YELLOW : GameColors.PLAYER);
         g.fillRoundRect((int) x, (int) y, width, height, 8, 8);
 
+        // Direction indicator
         g.setColor(sudoTimer <= 0 ? Color.WHITE : Color.BLACK);
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
-        g.drawString("J", (int) x + 10, (int) y + 22);
+        String dirSymbol = facingDir > 0 ? "J>" : "<J";
+        g.drawString(dirSymbol, (int) x + 3, (int) y + 22);
 
         if (shieldTimer > 0) {
             g.setColor(GameColors.SHIELD_CYAN);

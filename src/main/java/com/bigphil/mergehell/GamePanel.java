@@ -85,6 +85,12 @@ public class GamePanel extends JPanel implements ActionListener {
         registerKey(im, am, "SHOOT", KeyEvent.VK_C, true, () -> keyShoot = true);
         registerKey(im, am, "SHOOT_R", KeyEvent.VK_C, false, () -> keyShoot = false);
 
+        registerKey(im, am, "DASH", KeyEvent.VK_SHIFT, true, () -> {
+            if (keyRight) player.dash(1);
+            else if (keyLeft) player.dash(-1);
+            else player.dash();
+        });
+
         registerKey(im, am, "PAUSE_P", KeyEvent.VK_P, true, this::togglePause);
         registerKey(im, am, "PAUSE_ESC", KeyEvent.VK_ESCAPE, true, this::togglePause);
     }
@@ -202,7 +208,11 @@ public class GamePanel extends JPanel implements ActionListener {
                 t.start();
             }
         } else if (state == GameState.BOSS_FIGHT) {
-            boss.update(enemyManager, groundY, player.getY());
+            difficulty += 0.0005;
+            ctx.score++;
+            enemyManager.spawnRandom(getWidth(), groundY, difficulty);
+            boss.update(enemyManager, groundY, player.getX(), player.getY(),
+                        enemyManager.getEnemyBullets());
 
             if (boss.getHp() <= 0) {
                 spawnExplosion((int) boss.getX() + boss.getWidth() / 2,
@@ -231,10 +241,15 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         double difficultySpeed = 0.8 + difficulty * 0.15;
+        List<Projectile> enemyBullets = enemyManager.getEnemyBullets();
         for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
-            if (!en.isDead()) en.update(difficultySpeed);
+            if (!en.isDead()) {
+                en.update(difficultySpeed);
+                Projectile bullet = en.maybeShoot(player.getY());
+                if (bullet != null) enemyBullets.add(bullet);
+            }
         }
-        enemyManager.update();
+        enemyManager.update(getWidth());
 
         collision.process(ctx, projectiles, enemyManager, boss, player, state,
                           getWidth(), getHeight(), particles, floatingTexts, this::addLog);
@@ -267,7 +282,8 @@ public class GamePanel extends JPanel implements ActionListener {
         int groundY = getHeight() - TERMINAL_HEIGHT;
         renderer.render((Graphics2D) g, getWidth(), getHeight(), groundY,
                         state, player, boss, enemyManager,
-                        projectiles, particles, floatingTexts,
+                        projectiles, enemyManager.getEnemyBullets(),
+                        particles, floatingTexts,
                         bgLayer1, bgLayer2,
                         logs, ctx.score, ctx.combo, shakeTimer,
                         flashTimer, level, difficulty, isNewHighScore);

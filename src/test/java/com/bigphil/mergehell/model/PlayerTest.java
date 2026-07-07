@@ -126,6 +126,31 @@ class PlayerTest {
     }
 
     @Test
+    void dash_shouldMovePlayerAndSetCooldown() {
+        player.dash();
+        assertTrue(player.isDashing());
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        // Player moved right during dash (facingDir defaults to 1)
+        assertTrue(player.getX() > 100);
+    }
+
+    @Test
+    void dash_shouldNotWorkOnCooldown() {
+        player.dash();
+        // Simulate dash frames
+        for (int i = 0; i < 15; i++) {
+            player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles);
+        }
+        assertFalse(player.isDashing());
+        assertTrue(player.getDashCooldown() > 0);
+
+        // Try to dash again
+        double xBefore = player.getX();
+        player.dash();
+        assertEquals(xBefore, player.getX(), 0.01); // shouldn't move
+    }
+
+    @Test
     void getBounds_shouldReturnCorrectRectangle() {
         var bounds = player.getBounds();
         assertEquals(30, bounds.width);

@@ -30,6 +30,7 @@ public class CollisionSystem {
                         Consumer<String> logger) {
 
         processProjectileCollisions(ctx, projectiles, enemyManager, boss, state, panelWidth, panelHeight, particles, texts);
+        processEnemyBullets(ctx, enemyManager.getEnemyBullets(), player, projectiles, particles, texts, panelWidth, panelHeight);
         processPlayerEnemyCollisions(ctx, player, enemyManager, particles, texts, logger);
         processPlayerBossCollision(ctx, player, boss, state, texts, logger);
     }
@@ -77,6 +78,54 @@ public class CollisionSystem {
                 p.setDead(true);
                 spawnExplosion(particles, (int) p.getX(), (int) p.getY(), 3, Color.WHITE);
                 texts.add(new FloatingText(p.getX(), p.getY(), "-" + p.getDamage(), Color.LIGHT_GRAY));
+            }
+        }
+    }
+
+    private void processEnemyBullets(Context ctx,
+                                      List<Projectile> enemyBullets,
+                                      Player player,
+                                      List<Projectile> playerProjectiles,
+                                      List<Particle> particles,
+                                      List<FloatingText> texts,
+                                      int panelWidth, int panelHeight) {
+
+        Iterator<Projectile> it = enemyBullets.iterator();
+        while (it.hasNext()) {
+            Projectile b = it.next();
+            b.update();
+            if (b.getX() < -50 || b.getX() > panelWidth + 50
+                    || b.getY() < -50 || b.getY() > panelHeight + 50 || b.isDead()) {
+                it.remove();
+                continue;
+            }
+
+            // Player projectiles destroy normal enemy bullets (not critical)
+            if (!b.getType().undestroyable) {
+                for (Projectile pp : playerProjectiles) {
+                    if (!pp.isDead() && b.getBounds().intersects(pp.getBounds())) {
+                        b.setDead(true);
+                        pp.setDead(true);
+                        spawnExplosion(particles, (int) b.getX(), (int) b.getY(), 5, Color.ORANGE);
+                        break;
+                    }
+                }
+            }
+            if (b.isDead()) { it.remove(); continue; }
+
+            // Enemy bullet hits player
+            if (player.getBounds().intersects(b.getBounds())) {
+                b.setDead(true);
+                if (player.getShieldTimer() > 0 || player.getInvincibleTimer() > 0) {
+                    spawnExplosion(particles, (int) b.getX(), (int) b.getY(), 8, GameColors.SHIELD_CYAN);
+                } else {
+                    player.takeDamage(b.getDamage());
+                    ctx.shakeTimer = 8;
+                    ctx.flashTimer = 8;
+                    spawnExplosion(particles, (int) b.getX(), (int) b.getY(), 10, GameColors.DANGER_RED);
+                    texts.add(new FloatingText(b.getX(), b.getY(), "-" + b.getDamage(), Color.RED));
+                }
+                it.remove();
             }
         }
     }

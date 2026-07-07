@@ -13,8 +13,8 @@ public class GameRenderer {
     public void render(Graphics2D g, int width, int height, int groundY,
                        GameState state, Player player, Boss boss,
                        ObstacleManager enemyManager,
-                       List<Projectile> projectiles, List<Particle> particles,
-                       List<FloatingText> floatingTexts,
+                       List<Projectile> projectiles, List<Projectile> enemyBullets,
+                       List<Particle> particles, List<FloatingText> floatingTexts,
                        List<CodeRain> bgLayer1, List<CodeRain> bgLayer2,
                        LinkedList<String> logs, int score, int combo,
                        int shakeTimer, int flashTimer, int level, double difficulty,
@@ -30,6 +30,9 @@ public class GameRenderer {
 
         g.setColor(GameColors.BG);
         g.fillRect(0, 0, width, groundY);
+
+        // Background grid
+        drawBackgroundGrid(g, width, groundY);
 
         // Parallax code rain - far layer (slower, darker)
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
@@ -48,6 +51,7 @@ public class GameRenderer {
         enemyManager.draw(g);
         if (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING) boss.draw(g);
         for (Projectile p : projectiles) p.draw(g);
+        for (Projectile b : enemyBullets) b.draw(g);
         for (Particle p : particles) p.draw(g);
         for (FloatingText t : floatingTexts) t.draw(g);
 
@@ -63,44 +67,68 @@ public class GameRenderer {
         drawUI(g, width, height, groundY, state, score, isNewHighScore);
 
         if (shakeTimer > 0) g.translate(0, 0);
-        drawTerminal(g, width, groundY, logs);
+
+        boolean isGameplay = state == GameState.RUNNING || state == GameState.BOSS_WARNING
+                || state == GameState.BOSS_FIGHT || state == GameState.LEVEL_CLEAR;
+        if (isGameplay) {
+            drawTerminal(g, width, groundY, logs);
+        }
     }
 
     private void drawUI(Graphics2D g, int width, int height, int groundY,
                          GameState state, int score, boolean isNewHighScore) {
+        boolean fullscreen = state == GameState.MENU || state == GameState.PAUSED
+                || state == GameState.GAME_OVER || state == GameState.VICTORY;
+        int areaH = fullscreen ? height : groundY;
+        int centerY = areaH / 2;
+
         if (state == GameState.MENU) {
-            drawOverlay(g, width, height, "MERGE HELL", "PRESS SPACE TO DEPLOY", GameColors.PLAYER);
-            drawControls(g, width, height / 2);
-            drawTopScores(g, width, height);
+            drawOverlay(g, width, areaH, "MERGE HELL", "PRESS SPACE TO DEPLOY", GameColors.PLAYER);
+            drawControls(g, width, centerY);
         } else if (state == GameState.PAUSED) {
-            drawOverlay(g, width, height, "SYSTEM PAUSED", "PRESS 'P' TO RESUME", Color.YELLOW);
-            drawControls(g, width, height / 2);
+            drawOverlay(g, width, areaH, "SYSTEM PAUSED", "PRESS 'P' TO RESUME", Color.YELLOW);
+            drawControls(g, width, centerY);
         } else if (state == GameState.GAME_OVER) {
             String sub = "SCORE: " + score + (isNewHighScore ? "  ⭐ NEW HIGH SCORE!" : "");
-            drawOverlay(g, width, height, "BUILD FAILED", sub, GameColors.DANGER_RED);
-            drawTopScores(g, width, height);
+            drawOverlay(g, width, areaH, "BUILD FAILED", sub, GameColors.DANGER_RED);
+            drawTopScores(g, width, centerY);
         } else if (state == GameState.BOSS_WARNING) {
             drawCenteredString(g, width, "⚠ WARNING: HIGH CPU LOAD ⚠", groundY / 2, 36, Color.RED);
         } else if (state == GameState.VICTORY) {
             String sub = "SCORE: " + score + (isNewHighScore ? "  ⭐ NEW HIGH SCORE!" : "");
-            drawOverlay(g, width, height, "PRODUCTION READY", sub, Color.GREEN);
-            drawTopScores(g, width, height);
+            drawOverlay(g, width, areaH, "PRODUCTION READY", sub, Color.GREEN);
+            drawTopScores(g, width, centerY);
         }
     }
 
-    private void drawTopScores(Graphics2D g, int width, int height) {
+    private void drawTopScores(Graphics2D g, int width, int centerY) {
         java.util.List<Integer> scores = ScoreStore.load();
         if (scores.isEmpty()) return;
 
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
+        int y = centerY + 120;
         g.setColor(Color.LIGHT_GRAY);
-        int y = height / 2 + 130;
-        g.drawString("-- TOP SCORES --", (width - 160) / 2, y);
-        y += 22;
-        for (int i = 0; i < scores.size(); i++) {
+        String header = "-- TOP SCORES --";
+        int hx = (width - g.getFontMetrics().stringWidth(header)) / 2;
+        g.drawString(header, hx, y);
+        y += 24;
+        for (int i = 0; i < Math.min(scores.size(), 5); i++) {
+            g.setColor(i == 0 ? Color.YELLOW : Color.LIGHT_GRAY);
             String entry = (i + 1) + ". " + scores.get(i);
-            g.drawString(entry, (width - 100) / 2, y);
+            int x = (width - g.getFontMetrics().stringWidth(entry)) / 2;
+            g.drawString(entry, x, y);
             y += 20;
+        }
+    }
+
+    private void drawBackgroundGrid(Graphics2D g, int width, int height) {
+        g.setColor(new Color(50, 55, 60));
+        int step = 40;
+        for (int x = step; x < width; x += step) {
+            g.drawLine(x, 0, x, height);
+        }
+        for (int y = step; y < height; y += step) {
+            g.drawLine(0, y, width, y);
         }
     }
 
@@ -186,11 +214,24 @@ public class GameRenderer {
             buffY += 15;
         }
 
+        // Dash cooldown
+        int dashCd = player.getDashCooldown();
+        if (dashCd > 0) {
+            g.setColor(new Color(100, 100, 100));
+            g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
+            g.drawString("Dash: " + String.format("%.1f", dashCd / 60.0) + "s", barX, buffY);
+        } else {
+            g.setColor(GameColors.PLAYER);
+            g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
+            g.drawString("Dash: READY", barX, buffY);
+        }
+        buffY += 15;
+
         // Difficulty
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
         g.setColor(Color.DARK_GRAY);
         String diffText = String.format("Threat: %.1fx", difficulty);
-        g.drawString(diffText, barX, buffY + 10);
+        g.drawString(diffText, barX, buffY + 5);
 
         // Boss HP bar
         if (state == GameState.BOSS_FIGHT && boss.isActive()) {
@@ -207,11 +248,11 @@ public class GameRenderer {
         }
     }
 
-    private void drawOverlay(Graphics2D g, int width, int height, String title, String sub, Color c) {
+    private void drawOverlay(Graphics2D g, int width, int areaH, String title, String sub, Color c) {
         g.setColor(GameColors.OVERLAY);
-        g.fillRect(0, 0, width, height - TERMINAL_HEIGHT);
-        drawCenteredString(g, width, title, height / 2 - 20, 40, c);
-        drawCenteredString(g, width, sub, height / 2 + 30, 20, Color.WHITE);
+        g.fillRect(0, 0, width, areaH);
+        drawCenteredString(g, width, title, areaH / 2 - 20, 40, c);
+        drawCenteredString(g, width, sub, areaH / 2 + 30, 20, Color.WHITE);
     }
 
     private void drawCenteredString(Graphics2D g, int width, String text, int y, int size, Color c) {
@@ -226,11 +267,12 @@ public class GameRenderer {
         g.setColor(GameColors.CONTROLS_TEXT);
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 16));
 
-        int startY = centerY + 80;
+        int startY = centerY + 50;
         int lineHeight = 25;
 
         String[] lines = {
                 "[ ← / → ]   MOVE",
+                "[ SHIFT ]   DASH",
                 "[ SPACE ]   JUMP / DOUBLE JUMP",
                 "[ C ]       COMMIT (SHOOT)",
                 "[ P / ESC]  PAUSE"
