@@ -20,7 +20,8 @@ public class GameRenderer {
                        LinkedList<String> logs, int score, int combo, int comboTimer,
                        int shakeTimer, int flashTimer, int level, double difficulty,
                        boolean isNewHighScore, double cameraX,
-                       boolean inBattle, int currentWave, int totalWaves) {
+                       boolean inBattle, int currentWave, int totalWaves,
+                       int transitionTimer) {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -117,6 +118,12 @@ public class GameRenderer {
                 || state == GameState.BOSS_FIGHT || state == GameState.LEVEL_CLEAR;
         if (isGameplay) {
             drawTerminal(g, width, groundY, logs);
+        }
+
+        // Screen transition overlay
+        if (transitionTimer > 0) {
+            g.setColor(new Color(0, 0, 0, Math.min(transitionTimer, 255)));
+            g.fillRect(0, 0, width, height);
         }
     }
 

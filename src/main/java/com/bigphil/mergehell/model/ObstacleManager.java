@@ -111,7 +111,7 @@ public class ObstacleManager {
                 case CONFLICT -> { /* steady advance */ }
                 case TECHDEBT -> { /* slow and heavy, no wobble */ }
                 case FIREWALL -> { /* straight line, blocks path */ }
-                case PICKUP_SPREAD, PICKUP_RAPID, PICKUP_HEAVY, PICKUP_FLAME, POWERUP_SHIELD, HEALTH ->
+                case PICKUP_SPREAD, PICKUP_RAPID, PICKUP_HEAVY, PICKUP_FLAME, PICKUP_LASER, POWERUP_SHIELD, HEALTH ->
                         y += Math.sin(t * 1.5 + spawnTime) * 1.5;
             }
         }
@@ -203,17 +203,15 @@ public class ObstacleManager {
 
             // Powerups & health (fixed chance, always available)
             if (r < 2) {
-                type = EntityType.PICKUP_SPREAD;
-                y = groundY - 150 - random.nextInt(80);
+                type = EntityType.PICKUP_SPREAD; y = groundY - 150 - random.nextInt(80);
             } else if (r < 4) {
-                type = EntityType.PICKUP_RAPID;
-                y = groundY - 150 - random.nextInt(80);
-            } else if (r < 7) {
-                type = EntityType.PICKUP_HEAVY;
-                y = groundY - 150 - random.nextInt(80);
+                type = EntityType.PICKUP_RAPID; y = groundY - 150 - random.nextInt(80);
+            } else if (r < 6) {
+                type = EntityType.PICKUP_HEAVY; y = groundY - 150 - random.nextInt(80);
+            } else if (r < 8) {
+                type = EntityType.PICKUP_FLAME; y = groundY - 150 - random.nextInt(80);
             } else if (r < 10) {
-                type = EntityType.PICKUP_FLAME;
-                y = groundY - 150 - random.nextInt(80);
+                type = EntityType.PICKUP_LASER; y = groundY - 150 - random.nextInt(80);
             } else if (r < 14) {
                 type = EntityType.POWERUP_SHIELD;
                 y = groundY - 150 - random.nextInt(80);

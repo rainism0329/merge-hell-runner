@@ -268,12 +268,13 @@ public class CollisionSystem {
 
     private void maybeSpawnDrop(double x, double y, ObstacleManager om) {
         if (Math.random() > 0.10) return;
-        EntityType drop = switch ((int) (Math.random() * 5)) {
+        EntityType drop = switch ((int) (Math.random() * 6)) {
             case 0 -> EntityType.HEALTH;
             case 1 -> EntityType.PICKUP_RAPID;
             case 2 -> EntityType.PICKUP_SPREAD;
             case 3 -> EntityType.PICKUP_HEAVY;
-            default -> EntityType.PICKUP_FLAME;
+            case 4 -> EntityType.PICKUP_FLAME;
+            default -> EntityType.PICKUP_LASER;
         };
         om.spawnEnemy((int) x, (int) y - 20, drop);
     }

@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private int missionCompleteTimer = 0;
     private int extraLifeScore = 5000;
     private int hitstop = 0;
+    private int transitionTimer = 0;
 
     private boolean keyLeft, keyRight, keyJump, keyShoot;
 
@@ -153,7 +154,7 @@ public class GamePanel extends JPanel implements ActionListener {
         ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.newKills = 0;
         level = 0; shakeTimer = 0; flashTimer = 0;
         difficulty = 1.0; cameraX = 0; isNewHighScore = false;
-        bossDeathTimer = 0; missionCompleteTimer = 0;
+        bossDeathTimer = 0; missionCompleteTimer = 0; transitionTimer = 0;
         extraLifeScore = 5000;
         levelManager = new LevelManager(0);
         platforms = levelManager.getPlatforms();
@@ -197,11 +198,17 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (state == GameState.MISSION_COMPLETE) {
             missionCompleteTimer--;
+            transitionTimer = Math.min(transitionTimer + 16, 255);
             if (missionCompleteTimer <= 0) {
-                if (level < 4) advanceLevel();
+                if (level < 4) { advanceLevel(); transitionTimer = 255; }
                 else { state = GameState.VICTORY; saveScore(); }
             }
             repaint(); return;
+        }
+
+        // Screen wipe-in on new level
+        if (transitionTimer > 0) {
+            transitionTimer = Math.max(0, transitionTimer - 12);
         }
 
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
@@ -414,7 +421,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 particles, floatingTexts, bgLayer1, bgLayer2, bgLayer3, platforms, coins,
                 logs, ctx.score, ctx.combo, ctx.comboTimer, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
-                cameraX, inBattle, wave, total);
+                cameraX, inBattle, wave, total, transitionTimer);
 
         // Progress bar
         if ((state == GameState.RUNNING || state == GameState.BOSS_FIGHT) && levelManager != null) {

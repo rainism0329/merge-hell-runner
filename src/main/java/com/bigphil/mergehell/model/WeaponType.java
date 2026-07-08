@@ -5,7 +5,8 @@ public enum WeaponType {
     SPREAD("git push -f", 15, 20, 3, true),
     RAPID("git commit -a", 8, 15, 1, false),
     HEAVY("rm -rf /", 25, 80, 1, true),
-    FLAME("git blaze", 12, 12, 5, false);
+    FLAME("git blaze", 12, 12, 5, false),
+    LASER("sudo rm -rf /", 30, 80, 1, true);
 
     public final String label;
     public final int cooldown;
