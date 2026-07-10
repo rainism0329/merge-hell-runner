@@ -85,23 +85,26 @@ public class ObstacleManager {
         public void update(double difficultySpeed, double playerX) {
             double t = System.currentTimeMillis() / 1000.0;
 
-            // Charge attack: rush toward player
-            if (chargeTimer > 0 && type.isHostile() && type != EntityType.FIREWALL && type != EntityType.TECHDEBT) {
-                chargeTimer--;
-                if (chargeTimer == 0 && Math.abs(x - playerX) < 350) {
-                    chargeVx = (playerX > x ? 1 : -1) * vx * difficultySpeed * 3.5;
-                    chargeTimer = 15;
-                }
-            } else if (chargeTimer > 0) {
-                chargeTimer--;
+            // Charge attack: telegraph while advancing normally, then commit to a short dash.
+            // The previous branching never entered the actual dash path once chargeVx was set.
+            if (chargeVx != 0) {
                 x += chargeVx;
-                if (chargeTimer == 0) {
+                if (--chargeTimer <= 0) {
                     chargeVx = 0;
                     chargeTimer = 150 + random.nextInt(200);
                 }
             } else {
                 double speed = vx * difficultySpeed;
                 x -= speed * moveDir;
+                if (type.isHostile() && type != EntityType.FIREWALL && type != EntityType.TECHDEBT
+                        && --chargeTimer <= 0) {
+                    if (Math.abs(x - playerX) < 350) {
+                        chargeVx = (playerX > x ? 1 : -1) * vx * difficultySpeed * 3.5;
+                        chargeTimer = 15;
+                    } else {
+                        chargeTimer = 150 + random.nextInt(200);
+                    }
+                }
             }
 
             switch (type) {
@@ -195,10 +198,20 @@ public class ObstacleManager {
         enemies.add(new Enemy(x, y, type));
     }
 
+    public void spawnEnemy(int x, int y, EntityType type, int moveDir) {
+        enemies.add(new Enemy(x, y, type, moveDir));
+    }
+
     public void spawnFromLeft(int groundY, int cameraX) {
         EntityType[] types = { EntityType.BUG, EntityType.CRASH, EntityType.LOCK };
-        EntityType type = types[random.nextInt(types.length)];
+        spawnFromLeft(groundY, cameraX, types[random.nextInt(types.length)]);
+    }
+
+    /** Spawns the encounter's requested enemy type from the left side of the viewport. */
+    public void spawnFromLeft(int groundY, int cameraX, EntityType type) {
         int y = groundY - 40 - random.nextInt(120);
+        if (type == EntityType.TECHDEBT) y = groundY - 80;
+        else if (type == EntityType.FIREWALL) y = 0;
         enemies.add(new Enemy(cameraX - 40 - random.nextInt(100), y, type, -1));
     }
 
@@ -283,18 +296,19 @@ public class ObstacleManager {
         }
     }
 
-    public void update(int panelWidth) {
+    /** Removes entities once they have genuinely left the current camera viewport. */
+    public void update(int cameraLeft, int cameraRight) {
         Iterator<Enemy> it = enemies.iterator();
         while (it.hasNext()) {
             Enemy e = it.next();
-            if (isOffScreen(e, panelWidth) || e.isDead()) {
+            if (isOffScreen(e, cameraLeft, cameraRight) || e.isDead()) {
                 it.remove();
             }
         }
     }
 
-    private boolean isOffScreen(Enemy e, int panelWidth) {
-        return e.getX() + e.getWidth() < -100 || e.getX() > panelWidth + 100;
+    private boolean isOffScreen(Enemy e, int cameraLeft, int cameraRight) {
+        return e.getX() + e.getWidth() < cameraLeft - 100 || e.getX() > cameraRight + 100;
     }
 
     public void draw(Graphics2D g) {

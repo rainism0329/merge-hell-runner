@@ -36,9 +36,12 @@ We've completely overhauled the engine in version 2.0. The geometry shapes are g
 | Key | Action | Description |
 | :--- | :--- | :--- |
 | **Space** | `Jump` | Press once to jump. **Press again in mid-air for Double Jump.** |
-| **C** / **Enter** | `Commit / Shoot` | Fire code projectiles to debug enemies. |
+| **Enter** | `Start / Jump` | Start a run from the briefing, or jump during a run. |
+| **C** | `Commit / Shoot` | Fire code projectiles to debug enemies. |
 | **← / →** | `Move` | Dodge left and right. |
-| **Esc** | `Pause` | Pause the game (and pretend you're working). |
+| **Shift** | `Dash` | Dash through danger; briefly grants invulnerability. |
+| **X** / **Z** / **B** | `Melee / Weapon / Bomb` | Slash, switch weapons, or trigger the emergency clear. |
+| **P** / **Esc** | `Pause` | Pause the game (and pretend you're working). |
 
 ---
 

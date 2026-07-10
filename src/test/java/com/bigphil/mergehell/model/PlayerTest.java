@@ -99,6 +99,20 @@ class PlayerTest {
     }
 
     @Test
+    void jump_shouldSupportOneAirJumpButNotUnlimitedAirJumps() {
+        player.update(false, false, true, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
+        assertEquals(1, player.getJumpsRemaining());
+
+        player.requestJump();
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
+        assertEquals(0, player.getJumpsRemaining());
+
+        player.requestJump();
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
+        assertEquals(0, player.getJumpsRemaining());
+    }
+
+    @Test
     void reset_shouldRestoreDefaults() {
         player.takeDamage(50);
         player.setSudoTimer(100);

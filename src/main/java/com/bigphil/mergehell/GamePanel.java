@@ -6,7 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -51,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private int hitstop = 0;
     private int transitionTimer = 0;
 
-    private boolean keyLeft, keyRight, keyJump, keyShoot;
+    private boolean keyLeft, keyRight, keyShoot, pauseKeyHeld;
 
     static final int TERMINAL_HEIGHT = 120;
     private static final double CAMERA_LEAD = 0.3;
@@ -60,6 +64,15 @@ public class GamePanel extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(960, 600));
         setBackground(GameColors.BG);
         setFocusable(true);
+
+        // Tool windows can hand focus back to the editor at any time. Clicking the game
+        // always restores controls, and clearing keys prevents a stuck movement key.
+        addMouseListener(new MouseAdapter() {
+            @Override public void mousePressed(MouseEvent e) { requestFocusInWindow(); }
+        });
+        addFocusListener(new FocusAdapter() {
+            @Override public void focusLost(FocusEvent e) { clearHeldKeys(); }
+        });
 
         int groundY = 600 - TERMINAL_HEIGHT;
         player = new Player(100, groundY);
@@ -86,11 +99,8 @@ public class GamePanel extends JPanel implements ActionListener {
         registerKey(im, am, "RIGHT", KeyEvent.VK_RIGHT, true, () -> keyRight = true);
         registerKey(im, am, "RIGHT_R", KeyEvent.VK_RIGHT, false, () -> keyRight = false);
 
-        registerKey(im, am, "JUMP", KeyEvent.VK_SPACE, true, () -> {
-            keyJump = true;
-            if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) startGame();
-        });
-        registerKey(im, am, "JUMP_R", KeyEvent.VK_SPACE, false, () -> keyJump = false);
+        registerKey(im, am, "JUMP", KeyEvent.VK_SPACE, true, this::handleJumpOrStart);
+        registerKey(im, am, "START", KeyEvent.VK_ENTER, true, this::handleJumpOrStart);
 
         registerKey(im, am, "SHOOT", KeyEvent.VK_C, true, () -> keyShoot = true);
         registerKey(im, am, "SHOOT_R", KeyEvent.VK_C, false, () -> keyShoot = false);
@@ -126,8 +136,10 @@ public class GamePanel extends JPanel implements ActionListener {
             else player.dash();
         });
 
-        registerKey(im, am, "PAUSE_P", KeyEvent.VK_P, true, this::togglePause);
-        registerKey(im, am, "PAUSE_ESC", KeyEvent.VK_ESCAPE, true, this::togglePause);
+        registerKey(im, am, "PAUSE_P", KeyEvent.VK_P, true, this::togglePauseOnce);
+        registerKey(im, am, "PAUSE_P_R", KeyEvent.VK_P, false, () -> pauseKeyHeld = false);
+        registerKey(im, am, "PAUSE_ESC", KeyEvent.VK_ESCAPE, true, this::togglePauseOnce);
+        registerKey(im, am, "PAUSE_ESC_R", KeyEvent.VK_ESCAPE, false, () -> pauseKeyHeld = false);
     }
 
     private void registerKey(InputMap im, ActionMap am, String name, int keyCode, boolean pressed, Runnable action) {
@@ -144,9 +156,32 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
+    private void togglePauseOnce() {
+        if (pauseKeyHeld) return;
+        pauseKeyHeld = true;
+        togglePause();
+    }
+
+    private void handleJumpOrStart() {
+        if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
+            startGame();
+        } else if (state == GameState.RUNNING || state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT) {
+            player.requestJump();
+        }
+    }
+
+    private void clearHeldKeys() {
+        keyLeft = false;
+        keyRight = false;
+        keyShoot = false;
+        pauseKeyHeld = false;
+    }
+
     public void addLog(String msg) {
         logs.addFirst("[" + timeFmt.format(new Date()) + "] " + msg);
-        if (logs.size() > 7) logs.removeLast();
+        // The terminal has room for five complete, readable event lines. Keeping more
+        // only rendered the oldest messages below the panel boundary.
+        if (logs.size() > 5) logs.removeLast();
     }
 
     private void startGame() {
@@ -187,7 +222,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void resetGame() {
-        player.reset(100, 600 - TERMINAL_HEIGHT);
+        player.reset(100, getHeight() - TERMINAL_HEIGHT);
         enemyManager.reset();
         projectiles.clear(); particles.clear(); floatingTexts.clear();
     }
@@ -227,7 +262,7 @@ public class GamePanel extends JPanel implements ActionListener {
         double levelWidth = levelManager.getCameraMaxX();
 
         // ── Player update ───────────────────────────────
-        player.update(keyLeft, keyRight, keyJump, keyShoot, groundY, levelWidth, projectiles, platforms);
+        player.update(keyLeft, keyRight, false, keyShoot, groundY, levelWidth, projectiles, platforms);
         if (player.getHp() <= 0) {
             if (player.loseLife()) {
                 player.heal(100);
@@ -275,23 +310,23 @@ public class GamePanel extends JPanel implements ActionListener {
             LevelManager.WaveDef wave = levelManager.popWave();
             for (int i = 0; i < wave.count; i++) {
                 if (wave.fromDir == 0 || wave.fromDir == 2)
-                    enemyManager.spawnEnemy(panelW + random.nextInt(200) + (int) cameraX,
-                            groundY - 30 - random.nextInt(120), wave.type);
+                    spawnFromRight(panelW, groundY, wave.type);
                 if (wave.fromDir == 1 || wave.fromDir == 2)
-                    enemyManager.spawnFromLeft(groundY, (int) cameraX);
+                    enemyManager.spawnFromLeft(groundY, (int) cameraX, wave.type);
             }
             levelManager.startNextWaveTimer();
         }
 
         // ── Triggers + random spawns ────────────────────
-        List<LevelManager.SpawnTrigger> triggers = levelManager.getPendingTriggers(player.getX());
-        for (LevelManager.SpawnTrigger t : triggers) {
-            for (int i = 0; i < t.count; i++) {
-                if (t.fromLeft == 0 || t.fromLeft == 2)
-                    enemyManager.spawnEnemy(panelW + random.nextInt(200) + (int) cameraX,
-                            groundY - 30 - random.nextInt(120), t.type);
-                if (t.fromLeft == 1 || t.fromLeft == 2)
-                    enemyManager.spawnFromLeft(groundY, (int) cameraX);
+        if (!levelManager.isInBattle()) {
+            List<LevelManager.SpawnTrigger> triggers = levelManager.getPendingTriggers(player.getX());
+            for (LevelManager.SpawnTrigger t : triggers) {
+                for (int i = 0; i < t.count; i++) {
+                    if (t.fromLeft == 0 || t.fromLeft == 2)
+                        spawnFromRight(panelW, groundY, t.type);
+                    if (t.fromLeft == 1 || t.fromLeft == 2)
+                        enemyManager.spawnFromLeft(groundY, (int) cameraX, t.type);
+                }
             }
         }
 
@@ -305,11 +340,14 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         // Mid-boss spawn
-        if (!levelManager.isInBattle() && random.nextInt(1500) < 2 + difficulty)
+        // Battle zones are authored encounters: letting ambient spawns leak into them
+        // made their clear condition feel arbitrary and could starve the next wave.
+        boolean freeRoam = state == GameState.RUNNING && !levelManager.isInBattle();
+        if (freeRoam && random.nextInt(1500) < 2 + difficulty)
             enemyManager.spawnEnemy(panelW + (int) cameraX + 100, groundY - 60, EntityType.TECHDEBT);
 
         difficulty += 0.0005;
-        if (random.nextInt(100) < 1.5 + difficulty * 0.4)
+        if (freeRoam && random.nextInt(100) < 1.5 + difficulty * 0.4)
             enemyManager.spawnRandom(panelW, groundY, difficulty, (int) cameraX);
 
         // ── Boss ────────────────────────────────────────
@@ -381,7 +419,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
 
-        enemyManager.update((int) cameraX + panelW + 200);
+        enemyManager.update((int) cameraX, (int) cameraX + panelW);
 
         collision.process(ctx, projectiles, enemyManager, boss, player, state,
                 panelW, panelH, cameraX, particles, floatingTexts, this::addLog);
@@ -392,6 +430,13 @@ public class GamePanel extends JPanel implements ActionListener {
         if (ctx.hitstop > hitstop) hitstop = ctx.hitstop;
         if (ctx.killLog != null) { addLog(ctx.killLog); ctx.killLog = null; }
         ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.hitstop = 0;
+
+        if (ctx.comboTimer > 0) {
+            ctx.comboTimer--;
+        } else if (ctx.combo > 0) {
+            ctx.combo = 0;
+            addLog("Combo window expired.");
+        }
 
         particles.removeIf(p -> p.getLife() <= 0);
         floatingTexts.removeIf(t -> !t.update());
@@ -405,6 +450,13 @@ public class GamePanel extends JPanel implements ActionListener {
     private void saveScore() {
         isNewHighScore = ScoreStore.isHighScore(ctx.score);
         ScoreStore.save(ctx.score);
+    }
+
+    private void spawnFromRight(int panelWidth, int groundY, EntityType type) {
+        int y = groundY - 30 - random.nextInt(120);
+        if (type == EntityType.TECHDEBT) y = groundY - 80;
+        else if (type == EntityType.FIREWALL) y = 0;
+        enemyManager.spawnEnemy(panelWidth + random.nextInt(200) + (int) cameraX, y, type);
     }
 
     private void spawnExplosion(int x, int y, int count, Color c) {
@@ -425,6 +477,7 @@ public class GamePanel extends JPanel implements ActionListener {
         int wave = levelManager != null ? levelManager.getCurrentWave() : 0;
         int total = levelManager != null ? levelManager.getTotalWaves() : 0;
         boolean inBattle = levelManager != null && levelManager.isInBattle();
+        double runProgress = levelManager != null ? levelManager.getProgress(player.getX()) : 0;
 
         renderer.render((Graphics2D) g, panelW, panelH, groundY,
                 state, player, boss, enemyManager,
@@ -432,13 +485,12 @@ public class GamePanel extends JPanel implements ActionListener {
                 particles, floatingTexts, bgLayer1, bgLayer2, bgLayer3, platforms, coins,
                 logs, ctx.score, ctx.combo, ctx.comboTimer, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
-                cameraX, inBattle, wave, total, transitionTimer);
+                cameraX, inBattle, wave, total, transitionTimer, runProgress);
 
         // Progress bar
         if ((state == GameState.RUNNING || state == GameState.BOSS_FIGHT) && levelManager != null) {
             Graphics2D g2 = (Graphics2D) g;
-            double maxX = levelManager.getCameraMaxX();
-            double ratio = Math.min(1.0, cameraX / Math.max(1, maxX - panelW));
+            double ratio = runProgress;
             g2.setColor(new Color(255, 255, 255, 25));
             g2.fillRect(0, groundY - 3, panelW, 3);
             g2.setColor(new Color(100, 200, 255, 100));

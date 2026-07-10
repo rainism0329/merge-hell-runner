@@ -18,7 +18,8 @@ public class LevelManager {
         }
     }
 
-    private static final double LEVEL_WIDTH = 10000;
+    private static final double BOSS_GATE_X = 7600;
+    private static final double LEVEL_WIDTH = 8600;
     private final List<SpawnTrigger> triggers;
     private final List<BattleZone> battleZones;
     private final List<Platform> platforms;
@@ -50,7 +51,7 @@ public class LevelManager {
         bossHp = 2000 + levelNum * 1500;
 
         triggers = buildTriggers(levelNum);
-        battleZones = buildBattleZones();
+        battleZones = buildBattleZones(levelNum);
         platforms = buildPlatforms(levelNum);
     }
 
@@ -79,34 +80,59 @@ public class LevelManager {
         list.add(new SpawnTrigger(2900, EntityType.HEALTH, 1, 0));
         if (level >= 1) list.add(new SpawnTrigger(2950, EntityType.FIREWALL, 1, 0));
         if (level >= 2) list.add(new SpawnTrigger(3000, EntityType.FIREWALL, 2, 0));
+
+        // The campaign's later battle zones used to exist off-screen after the boss.
+        // Populate the entire route so each run has a readable escalation: skirmish,
+        // arena, recovery, then the boss gate.
+        addEncounter(list, 3400, 4050, 120, EntityType.BUG, count + 1, 2);
+        addEncounter(list, 3600, 4200, 180, EntityType.CONFLICT, 1, 0);
+        list.add(new SpawnTrigger(3900, EntityType.HEALTH, 1, 0));
+        list.add(new SpawnTrigger(4050, EntityType.PICKUP_HEAVY, 1, 0));
+
+        addEncounter(list, 5100, 5750, 110,
+                level >= 2 ? EntityType.LOCK : EntityType.CRASH, count + 1, 2);
+        list.add(new SpawnTrigger(5400, EntityType.POWERUP_SHIELD, 1, 0));
+        list.add(new SpawnTrigger(5650, EntityType.PICKUP_RAPID, 1, 0));
+
+        addEncounter(list, 7100, 7480, 95, EntityType.CONFLICT, count + 1, 2);
+        list.add(new SpawnTrigger(7250, EntityType.HEALTH, 1, 0));
+        list.add(new SpawnTrigger(7420, EntityType.PICKUP_SPREAD, 1, 0));
         return list;
     }
 
-    private List<BattleZone> buildBattleZones() {
+    private void addEncounter(List<SpawnTrigger> list, double from, double to, double step,
+                              EntityType type, int count, int direction) {
+        for (double x = from; x < to; x += step) {
+            list.add(new SpawnTrigger(x, type, count, direction));
+        }
+    }
+
+    private List<BattleZone> buildBattleZones(int level) {
+        int extra = Math.min(level, 3);
         return List.of(
             new BattleZone(900, 1500, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 5, 0, WaveType.RUSH),
-                new WaveDef(EntityType.CRASH, 3, 2, WaveType.MIXED),
-                new WaveDef(EntityType.CONFLICT, 4, 2, WaveType.SNIPER),
+                new WaveDef(EntityType.BUG, 5 + extra, 0, WaveType.RUSH),
+                new WaveDef(EntityType.CRASH, 3 + extra, 2, WaveType.MIXED),
+                new WaveDef(EntityType.CONFLICT, 4 + extra, 2, WaveType.SNIPER),
             }),
             new BattleZone(2300, 3000, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 6, 0, WaveType.RUSH),
-                new WaveDef(EntityType.CRASH, 4, 2, WaveType.MIXED),
-                new WaveDef(EntityType.LOCK, 3, 0, WaveType.SNIPER),
-                new WaveDef(EntityType.TECHDEBT, 1, 0, WaveType.MINIBOSS),
+                new WaveDef(EntityType.BUG, 6 + extra, 0, WaveType.RUSH),
+                new WaveDef(EntityType.CRASH, 4 + extra, 2, WaveType.MIXED),
+                new WaveDef(EntityType.LOCK, 3 + extra, 0, WaveType.SNIPER),
+                new WaveDef(EntityType.TECHDEBT, 1 + extra / 2, 0, WaveType.MINIBOSS),
             }),
             new BattleZone(4200, 5000, new WaveDef[]{
-                new WaveDef(EntityType.CRASH, 5, 2, WaveType.RUSH),
-                new WaveDef(EntityType.LOCK, 4, 2, WaveType.MIXED),
-                new WaveDef(EntityType.TECHDEBT, 2, 0, WaveType.MINIBOSS),
-                new WaveDef(EntityType.CONFLICT, 5, 2, WaveType.SNIPER),
+                new WaveDef(EntityType.CRASH, 5 + extra, 2, WaveType.RUSH),
+                new WaveDef(EntityType.LOCK, 4 + extra, 2, WaveType.MIXED),
+                new WaveDef(EntityType.TECHDEBT, 2 + extra / 2, 0, WaveType.MINIBOSS),
+                new WaveDef(EntityType.CONFLICT, 5 + extra, 2, WaveType.SNIPER),
             }),
             new BattleZone(6200, 7000, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 6, 0, WaveType.RUSH),
-                new WaveDef(EntityType.FIREWALL, 2, 0, WaveType.MINIBOSS),
-                new WaveDef(EntityType.CRASH, 5, 2, WaveType.MIXED),
-                new WaveDef(EntityType.LOCK, 4, 0, WaveType.SNIPER),
-                new WaveDef(EntityType.TECHDEBT, 2, 2, WaveType.MINIBOSS),
+                new WaveDef(EntityType.BUG, 6 + extra, 0, WaveType.RUSH),
+                new WaveDef(EntityType.FIREWALL, 2 + extra / 2, 0, WaveType.MINIBOSS),
+                new WaveDef(EntityType.CRASH, 5 + extra, 2, WaveType.MIXED),
+                new WaveDef(EntityType.LOCK, 4 + extra, 0, WaveType.SNIPER),
+                new WaveDef(EntityType.TECHDEBT, 2 + extra / 2, 2, WaveType.MINIBOSS),
             })
         );
     }
@@ -125,6 +151,13 @@ public class LevelManager {
             new Platform(1100, 325, 130, 22), new Platform(1500, 265, 110, 22),
             new Platform(2000, 335, 140, 22), new Platform(2600, 305, 150, 22),
             new Platform(3000, 275, 120, 22)
+        ));
+        list.addAll(List.of(
+            new Platform(3500, 340, 130, 22), new Platform(3900, 290, 150, 22),
+            new Platform(4450, 325, 120, 22), new Platform(4850, 270, 140, 22),
+            new Platform(5300, 335, 150, 22), new Platform(5750, 300, 110, 22),
+            new Platform(6400, 340, 140, 22), new Platform(6850, 280, 150, 22),
+            new Platform(7250, 325, 130, 22)
         ));
         for (Platform p : list) {
             if (random.nextBoolean())
@@ -199,13 +232,17 @@ public class LevelManager {
 
     public boolean shouldSpawnBoss(double px) {
         if (bossTriggered || bossDefeated) return false;
-        if (px >= 3100) { bossTriggered = true; return true; }
+        if (px >= BOSS_GATE_X) { bossTriggered = true; return true; }
         return false;
     }
     public void onBossDefeated() { bossDefeated = true; }
     public boolean isLevelComplete() { return bossDefeated; }
 
     public double getCameraMaxX() { return LEVEL_WIDTH; }
+    public double getProgress(double playerX) {
+        return Math.max(0, Math.min(1, playerX / BOSS_GATE_X));
+    }
+    public double getBossGateX() { return BOSS_GATE_X; }
     public List<Platform> getPlatforms() { return platforms; }
 
     // ── Types ────────────────────────────────────────

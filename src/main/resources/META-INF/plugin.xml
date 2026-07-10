@@ -49,7 +49,7 @@
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="223.0"/>
+    <idea-version since-build="232.0"/>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">

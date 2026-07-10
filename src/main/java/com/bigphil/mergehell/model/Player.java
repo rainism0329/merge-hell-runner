@@ -8,6 +8,9 @@ public class Player {
     private double x, y, dy;
     private final int width = 30, height = 30;
     private boolean grounded = false;
+    private int jumpsRemaining = 2;
+    private int jumpBufferTimer = 0;
+    private int coyoteTimer = 0;
 
     private int hp = 100;
     private final int maxHp = 100;
@@ -38,6 +41,9 @@ public class Player {
     private static final double DASH_SPEED = 10;
     private static final int MELEE_FRAMES = 8;
     private static final int MELEE_COOLDOWN = 30;
+    private static final int MAX_JUMPS = 2;
+    private static final int JUMP_BUFFER_FRAMES = 8;
+    private static final int COYOTE_FRAMES = 6;
 
     public Player(int startX, int startY) {
         this.x = startX;
@@ -58,6 +64,7 @@ public class Player {
     public WeaponType getWeapon() { return currentWeapon; }
     public int getWeaponAmmo() { return weaponAmmo; }
     public boolean isDebugMode() { return debugMode; }
+    public int getJumpsRemaining() { return jumpsRemaining; }
 
     public void toggleDebugMode() {
         debugMode = !debugMode;
@@ -86,6 +93,14 @@ public class Player {
     public void giveWeapon(WeaponType weapon, int ammo) {
         this.currentWeapon = weapon;
         this.weaponAmmo = ammo;
+    }
+
+    /**
+     * Queues a jump briefly. Keeping input intent separate from the simulation makes the
+     * controls forgiving without turning a held key into an automatic bunny-hop.
+     */
+    public void requestJump() {
+        jumpBufferTimer = JUMP_BUFFER_FRAMES;
     }
 
     private final Map<WeaponType, Integer> ammoReserve = new HashMap<>();
@@ -118,6 +133,10 @@ public class Player {
         this.meleeTimer = 0; this.meleeCooldown = 0;
         this.bombs = 3; this.facingDir = 1;
         this.lives = 3;
+        this.grounded = false;
+        this.jumpsRemaining = MAX_JUMPS;
+        this.jumpBufferTimer = 0;
+        this.coyoteTimer = 0;
         this.currentWeapon = WeaponType.COMMIT;
         this.weaponAmmo = 0;
         this.ammoReserve.clear();
@@ -153,6 +172,10 @@ public class Player {
     public void update(boolean left, boolean right, boolean jump, boolean shoot,
                         int groundY, double levelWidth, List<Projectile> projectiles,
                         List<Platform> platforms) {
+        // Kept for callers that use the original update contract. The game panel uses
+        // requestJump() on the key press so a held Space key does not keep jumping.
+        if (jump) requestJump();
+
         if (dashTimer > 0) {
             x += dashVx;
             dashTimer--;
@@ -187,11 +210,27 @@ public class Player {
                 break;
             }
         }
-        grounded = landed;
-
-        if (jump && grounded) {
-            dy = JUMP_FORCE;
+        if (landed) {
+            grounded = true;
+            jumpsRemaining = MAX_JUMPS;
+            coyoteTimer = COYOTE_FRAMES;
+        } else {
+            if (grounded) coyoteTimer = COYOTE_FRAMES;
             grounded = false;
+            if (coyoteTimer > 0) coyoteTimer--;
+        }
+
+        if (jumpBufferTimer > 0) {
+            boolean canGroundJump = grounded || coyoteTimer > 0;
+            if (canGroundJump || jumpsRemaining > 0) {
+                dy = JUMP_FORCE;
+                grounded = false;
+                jumpsRemaining = Math.max(0, jumpsRemaining - 1);
+                coyoteTimer = 0;
+                jumpBufferTimer = 0;
+            } else {
+                jumpBufferTimer--;
+            }
         }
 
         if (cooldown > 0) cooldown--;

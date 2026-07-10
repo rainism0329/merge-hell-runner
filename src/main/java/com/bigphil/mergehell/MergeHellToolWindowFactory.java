@@ -18,6 +18,7 @@ public class MergeHellToolWindowFactory implements ToolWindowFactory, DumbAware 
         GamePanel gamePanel = new GamePanel();
         ContentFactory contentFactory = ContentFactory.getInstance();
         Content content = contentFactory.createContent(gamePanel, "", false);
+        content.setPreferredFocusableComponent(gamePanel);
         toolWindow.getContentManager().addContent(content);
 
         // Automatically request focus so keyboard input works
