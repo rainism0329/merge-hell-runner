@@ -18,6 +18,7 @@ public class CollisionSystem {
         public int flashTimer;
         public int newKills;
         public int hitstop;
+        public String killLog;
     }
 
     public void process(Context ctx,
@@ -71,13 +72,15 @@ public class CollisionSystem {
                         ctx.newKills++;
                         int particleCount = en.getType().maxHp > 2 ? 30 : 15;
                         spawnExplosion(particles, (int) en.getX(), (int) en.getY(), particleCount, en.getColor());
-                        // Heavy enemies: shake + hitstop
                         if (en.getType().maxHp > 2) {
                             ctx.shakeTimer = Math.max(ctx.shakeTimer, 10);
                             ctx.hitstop = Math.max(ctx.hitstop, 4);
                         }
-                        // Smoke particles
                         spawnSmoke(particles, (int) en.getX(), (int) en.getY(), 8);
+                        // Kill message
+                        String[] killMsgs = {"terminated", "killed", "segfaulted", "GC'd", "rm -rf'd"};
+                        String name = en.getType().name().toLowerCase().replace("pickup_", "");
+                        ctx.killLog = name + " " + killMsgs[(int) (Math.random() * killMsgs.length)];
                         ctx.combo++;
                         ctx.comboTimer = 100;
                         double mult = comboMultiplier(ctx.combo);
@@ -263,6 +266,17 @@ public class CollisionSystem {
         for (int i = 0; i < count; i++) {
             particles.add(new Particle(x, y, new Color(80, 80, 80),
                     (Math.random() - 0.5) * 3, -2 - Math.random() * 3, 0.02f));
+        }
+    }
+
+    private void spawnImpactStars(List<Particle> particles, int x, int y, int count, Color c) {
+        for (int i = 0; i < count; i++) {
+            double angle = Math.PI * 2 / count * i;
+            double len = 18 + Math.random() * 30;
+            particles.add(new Particle(
+                    x + (int) (Math.cos(angle) * len),
+                    y + (int) (Math.sin(angle) * len),
+                    c, 0, 0, 0.03f));
         }
     }
 

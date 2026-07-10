@@ -18,7 +18,7 @@ public class LevelManager {
         }
     }
 
-    private static final double LEVEL_WIDTH = 4000;
+    private static final double LEVEL_WIDTH = 10000;
     private final List<SpawnTrigger> triggers;
     private final List<BattleZone> battleZones;
     private final List<Platform> platforms;
@@ -84,16 +84,29 @@ public class LevelManager {
 
     private List<BattleZone> buildBattleZones() {
         return List.of(
-            new BattleZone(700, 1200, new WaveDef[]{
+            new BattleZone(900, 1500, new WaveDef[]{
                 new WaveDef(EntityType.BUG, 5, 0, WaveType.RUSH),
                 new WaveDef(EntityType.CRASH, 3, 2, WaveType.MIXED),
                 new WaveDef(EntityType.CONFLICT, 4, 2, WaveType.SNIPER),
             }),
-            new BattleZone(1900, 2500, new WaveDef[]{
+            new BattleZone(2300, 3000, new WaveDef[]{
                 new WaveDef(EntityType.BUG, 6, 0, WaveType.RUSH),
                 new WaveDef(EntityType.CRASH, 4, 2, WaveType.MIXED),
                 new WaveDef(EntityType.LOCK, 3, 0, WaveType.SNIPER),
                 new WaveDef(EntityType.TECHDEBT, 1, 0, WaveType.MINIBOSS),
+            }),
+            new BattleZone(4200, 5000, new WaveDef[]{
+                new WaveDef(EntityType.CRASH, 5, 2, WaveType.RUSH),
+                new WaveDef(EntityType.LOCK, 4, 2, WaveType.MIXED),
+                new WaveDef(EntityType.TECHDEBT, 2, 0, WaveType.MINIBOSS),
+                new WaveDef(EntityType.CONFLICT, 5, 2, WaveType.SNIPER),
+            }),
+            new BattleZone(6200, 7000, new WaveDef[]{
+                new WaveDef(EntityType.BUG, 6, 0, WaveType.RUSH),
+                new WaveDef(EntityType.FIREWALL, 2, 0, WaveType.MINIBOSS),
+                new WaveDef(EntityType.CRASH, 5, 2, WaveType.MIXED),
+                new WaveDef(EntityType.LOCK, 4, 0, WaveType.SNIPER),
+                new WaveDef(EntityType.TECHDEBT, 2, 2, WaveType.MINIBOSS),
             })
         );
     }

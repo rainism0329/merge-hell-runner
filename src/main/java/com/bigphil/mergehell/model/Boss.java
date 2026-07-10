@@ -226,12 +226,25 @@ public class Boss {
         g.setColor(new Color(255, 255, 255, 40));
         g.drawRect((int) x + 4, (int) y + 4, width - 8, height - 8);
 
-        // Emoji
+        // Emoji with glow
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 60));
         FontMetrics fm = g.getFontMetrics();
         int symW = fm.stringWidth(symbol);
+        g.drawString(symbol, (int) x + 1 + (width - symW) / 2, (int) y + 91);
+        g.setColor(enraged ? Color.ORANGE : Color.YELLOW);
         g.drawString(symbol, (int) x + (width - symW) / 2, (int) y + 90);
+
+        // Personality particles
+        long t = System.currentTimeMillis() / 100;
+        if (t % 3 == 0 && bossLevel > 0) {
+            g.setColor(bossLevel >= 3 ? Color.MAGENTA : bossLevel >= 2 ? Color.CYAN : Color.YELLOW);
+            g.setFont(new Font("JetBrains Mono", Font.PLAIN, 8));
+            String[] codes = {"0xDEAD", "PANIC", "CORE", "HALT", "FATAL", "ABORT"};
+            String tag = codes[(int) ((t + bossLevel) % codes.length)];
+            g.drawString(tag, (int) (x + 10 + Math.random() * width - 30),
+                    (int) (y + 20 + Math.random() * 20));
+        }
 
         // Name label with glow
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 14));

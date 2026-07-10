@@ -249,12 +249,22 @@ public class GamePanel extends JPanel implements ActionListener {
             addLog("Enemy ambush! Clear the area.");
         }
 
-        // Camera: follow player, but lock during battle
+        // Camera: follow player, lock during battle, smooth unlock
         double targetCam = player.getX() - panelW * CAMERA_LEAD;
-        cameraX = Math.max(0, Math.min(targetCam, levelWidth - panelW));
+        targetCam = Math.max(0, Math.min(targetCam, levelWidth - panelW));
         if (levelManager.isInBattle()) {
             double lockX = levelManager.getCameraLockX();
-            if (cameraX > lockX) cameraX = lockX;
+            targetCam = Math.min(targetCam, lockX);
+        }
+        // Smooth camera lerp
+        cameraX += (targetCam - cameraX) * 0.15;
+
+        // Player bounds: stay within visible area
+        if (player.getX() > cameraX + panelW - player.getBounds().width) {
+            player.setX(cameraX + panelW - player.getBounds().width);
+        }
+        if (player.getX() < cameraX) {
+            player.setX(cameraX);
         }
 
         // ── Battle zone waves ───────────────────────────
@@ -380,6 +390,7 @@ public class GamePanel extends JPanel implements ActionListener {
         if (ctx.shakeTimer > shakeTimer) shakeTimer = ctx.shakeTimer;
         if (ctx.flashTimer > flashTimer) flashTimer = ctx.flashTimer;
         if (ctx.hitstop > hitstop) hitstop = ctx.hitstop;
+        if (ctx.killLog != null) { addLog(ctx.killLog); ctx.killLog = null; }
         ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.hitstop = 0;
 
         particles.removeIf(p -> p.getLife() <= 0);

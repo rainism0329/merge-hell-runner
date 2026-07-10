@@ -146,6 +146,31 @@ public class ObstacleManager {
                 g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 32));
                 g.drawString(symbol, (int) x, (int) y + 35);
             }
+
+            // Enemy personality effects
+            if (!dead) {
+                double t = System.currentTimeMillis() / 1000.0;
+                if (type == EntityType.BUG) {
+                    g.setColor(new Color(255, 100, 100, 100));
+                    g.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
+                    String[] bugs = {"NullPtr", "undef", "NaN", "404"};
+                    int idx = (int) ((t * 3 + spawnTime) % bugs.length);
+                    g.drawString(bugs[idx], (int) x + 5, (int) y - 5);
+                } else if (type == EntityType.CONFLICT) {
+                    g.setColor(new Color(255, 200, 120, 150));
+                    g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
+                    g.drawString("<<< HEAD", (int) x - 5, (int) y - 5);
+                } else if (type == EntityType.TECHDEBT) {
+                    int pulse = (int) (Math.sin(t * 3 + spawnTime) * 40 + 80);
+                    g.setColor(new Color(180, 180, 180, pulse));
+                    g.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
+                    g.drawString("// TODO: FIX ME", (int) x - 15, (int) y - 5);
+                } else if (type == EntityType.CRASH) {
+                    g.setColor(new Color(255, 150, 50, 150));
+                    g.setFont(new Font("JetBrains Mono", Font.BOLD, 9));
+                    g.drawString("SIGSEGV", (int) x + 5, (int) y - 5);
+                }
+            }
         }
 
         public Rectangle getBounds() {

@@ -35,41 +35,34 @@ public class GameRenderer {
         g.translate(-cameraX, 0);
 
         // Background tint: boss fights get a darker red tint
-        Color levelBg;
-        if (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING) {
-            levelBg = new Color(30, 18, 18);
-        } else {
-            levelBg = switch (level % 3) {
-                case 0 -> GameColors.BG;
-                case 1 -> new Color(20, 25, 35);
-                default -> new Color(25, 20, 30);
-            };
-        }
+        // Level-specific theme
+        LevelTheme theme = LevelTheme.forLevel(level);
+        Color levelBg = (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING)
+                ? new Color(30, 18, 18) : theme.bg;
         g.setColor(levelBg);
         g.fillRect((int) cameraX, 0, width + 200, groundY);
 
-        // Background grid
-        drawBackgroundGrid(g, width, groundY, cameraX);
+        // Background grid (themed)
+        drawBackgroundGrid(g, width, groundY, cameraX, theme.grid);
 
-        // Parallax code rain - deepest layer
+        // Parallax code rain - themed code rain color
+        Color crColor = new Color(theme.codeRain.getRed(), theme.codeRain.getGreen(),
+                theme.codeRain.getBlue(), 100);
+        g.setColor(crColor);
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 7));
         for (CodeRain cr : bgLayer3) cr.draw(g);
-
-        // Parallax code rain - far layer
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
         for (CodeRain cr : bgLayer2) cr.draw(g);
-
-        // Parallax code rain - near layer
         g.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
         for (CodeRain cr : bgLayer1) cr.draw(g);
 
-        g.setColor(GameColors.GROUND);
+        g.setColor(theme.ground);
         g.fillRect((int) cameraX, groundY, width + 200, 10);
         g.setColor(Color.GRAY);
         g.drawLine((int) cameraX, groundY, (int) cameraX + width + 200, groundY);
 
         // Foreground world elements (on top of background)
-        drawPlatforms(g, platforms);
+        drawPlatforms(g, platforms, theme.accent);
         drawCoins(g, coins);
 
         player.draw(g);
@@ -177,19 +170,15 @@ public class GameRenderer {
         }
     }
 
-    private void drawPlatforms(Graphics2D g, List<Platform> platforms) {
+    private void drawPlatforms(Graphics2D g, List<Platform> platforms, Color accent) {
         for (Platform p : platforms) {
-            // Body: matches background but slightly lighter
-            g.setColor(new Color(42, 46, 52));
+            g.setColor(new Color(36, 40, 46));
             g.fillRect((int) p.x, (int) p.y, p.width, p.height);
-            // Top edge: subtle green code-line highlight
-            g.setColor(new Color(80, 180, 120, 180));
+            g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 180));
             g.fillRect((int) p.x, (int) p.y, p.width, 2);
-            // Faint glow below top edge
-            g.setColor(new Color(60, 140, 90, 60));
+            g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 60));
             g.fillRect((int) p.x, (int) p.y + 2, p.width, 6);
-            // Subtle corner brackets
-            g.setColor(new Color(100, 200, 140, 100));
+            g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 100));
             g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
             g.drawString("[", (int) p.x + 2, (int) p.y + 14);
             g.drawString("]", (int) (p.x + p.width - 10), (int) p.y + 14);
@@ -206,8 +195,8 @@ public class GameRenderer {
         }
     }
 
-    private void drawBackgroundGrid(Graphics2D g, int width, int height, double cameraX) {
-        g.setColor(new Color(35, 38, 42));
+    private void drawBackgroundGrid(Graphics2D g, int width, int height, double cameraX, Color gridColor) {
+        g.setColor(new Color(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue(), 80));
         int step = 40;
         int startX = ((int) cameraX / step) * step;
         for (int x = startX; x < cameraX + width + step; x += step) {
@@ -254,8 +243,9 @@ public class GameRenderer {
                          int score, int combo, int comboTimer, GameState state, int level,
                          double difficulty, boolean inBattle, int currentWave, int totalWaves) {
         // Score + lives
+        LevelTheme theme = LevelTheme.forLevel(level);
         g.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
-        g.setColor(GameColors.PLAYER);
+        g.setColor(theme.hud);
         g.drawString("Lines: " + score, 20, 30);
         // Lives
         g.setColor(Color.RED);
@@ -355,9 +345,10 @@ public class GameRenderer {
 
         // Battle zone wave indicator
         if (inBattle && totalWaves > 0) {
+            int displayWave = Math.min(currentWave + 1, totalWaves);
             g.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
             g.setColor(Color.ORANGE);
-            String waveText = "⚠  WAVE " + currentWave + " / " + totalWaves;
+            String waveText = "⚠  WAVE " + displayWave + " / " + totalWaves;
             int lx = (width - g.getFontMetrics().stringWidth(waveText)) / 2;
             g.drawString(waveText, lx, 35);
         }
