@@ -1,51 +1,59 @@
 <idea-plugin>
     <id>com.bigphil.mergehell</id>
     <name>Merge Hell Runner</name>
-    <version>0.3.7</version>
+    <version>1.0.0</version>
     <vendor url="https://phil-the-guy.zeabur.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
     <description><![CDATA[
-        Merge Hell Runner is a hardcore side-scrolling survival game running directly inside your IntelliJ IDEA.
-        <br>
+        <b>The build is red. The deadline is tonight. Your only escape is to run.</b>
+        <br><br>
         <p>
-            <b>Code. Commit. PANIC.</b><br>
-            Tired of resolving conflicts manually? Why not <i>jump</i> over them?
+            <b>Merge Hell Runner</b> is a full-blown, side-scrolling action game that lives inside your
+            IntelliJ IDEA tool window. Stop fixing merge conflicts — <i>outrun them</i>. Turn every
+            <code>NullPointerException</code>, every 3am on-call page, and every 800-line legacy class
+            into a boss you can finally shoot back at.
         </p>
         <br>
-        <h1>🔥 Escape the Merge Hell! 🔥</h1>
+        <h1>🔥 Escape the Merge Hell 🔥</h1>
         <p>
-            Welcome to <b>Merge Hell Runner</b>, the ultimate procrastination tool.
-            Turn your coding nightmare into a cyberpunk parkour survival game!
+            A complete <b>5-level campaign</b> of cyberpunk parkour, arena survival, and boss brawls —
+            playable in the time it takes your CI pipeline to fail again.
         </p>
         <br>
-        <h3>🚀 Features 0.3.7:</h3>
+        <h3>🚀 What's inside v1.0.0:</h3>
         <ul>
-            <li>🏃 <b>Hardcore Parkour:</b> Dodge <code>&lt;&lt;&lt;HEAD</code> blocks, <code>NullPointerExceptions</code>, and flying <code>TechDebts</code>.</li>
-            <li>⚔️ <b>Epic Boss Fights:</b> Can you defeat the <i>Legacy Code Monstrosity</i> and the dreaded <i>Memory Leak Daemon</i>?</li>
-            <li>⚡ <b>Sudo Mode:</b> Grab the Golden Thunderbolt to gain <b>ROOT ACCESS</b> and blast bugs with shotgun-style commits!</li>
-            <li>🛡️ <b>Defense Matrix:</b> Equip Shields to survive fatal crashes.</li>
-            <li>🎨 <b>Immersive Visuals:</b> CRT scanlines, parallax code rain, and satisfying damage numbers.</li>
+            <li>🗺️ <b>5-Level Campaign:</b> Fight through five hand-themed worlds — <i>Dark, Monokai, Solarized, Nord</i> and <i>Dracula</i> — each nastier than the last.</li>
+            <li>👹 <b>5 Unique Bosses:</b> Take down the <i>Legacy Code Monstrosity</i>, the <i>Memory Leak Daemon</i>, <i>The Architect</i>, the <i>Kernel Panic Overlord</i>, and the final <i>Singularity Engine</i>.</li>
+            <li>🌊 <b>Arena Battle Zones:</b> Get locked in and survive relentless enemy waves — Rush, Sniper and Mini-Boss formations that don't respect clean code.</li>
+            <li>🔫 <b>6-Weapon Arsenal:</b> Blast bugs with <code>git push</code>, spread-fire <code>git push -f</code>, rapid <code>git commit -a</code>, the devastating <code>rm -rf /</code>, flaming <code>git blaze</code>, and the screen-clearing <code>sudo rm -rf /</code> laser.</li>
+            <li>⚡ <b>Sudo Mode &amp; Power-Ups:</b> Grab the Golden Thunderbolt for <b>ROOT ACCESS</b>, equip Shields to tank a fatal crash, and snag health to stay in the fight.</li>
+            <li>🪙 <b>Coins &amp; Local Leaderboard:</b> Collect coins mid-run and chase your Top 5 high scores, saved right in your IDE.</li>
+            <li>🏃 <b>Tight Platforming:</b> Double-jump, dash through danger with i-frames, and rack up a <b>combo multiplier</b> for style points.</li>
+            <li>🎨 <b>Retro Visuals:</b> CRT scanlines, parallax code rain, floating combat text, and juicy damage numbers.</li>
         </ul>
         <br>
         <p>
-            <i>"The only plugin where <code>rm -rf /</code> is a valid strategy."</i>
+            <i>"The only plugin where <code>rm -rf /</code> is a valid survival strategy."</i>
         </p>
         <br>
         <hr>
         <p>
-            Crafted with ❤️ (and caffeine) by <b>Phil Zhang</b>.<br>
-            Check out my portfolio: <a href="https://phil-the-guy.zeabur.app/">phil-zhang.netlify.app</a>
+            Crafted with ❤️, ☕ and a lot of <code>git merge --abort</code> by <b>Phil Zhang</b>.<br>
+            Check out my portfolio: <a href="https://phil-the-guy.zeabur.app/">phil-the-guy.zeabur.app</a>
         </p>
     ]]></description>
 
     <change-notes><![CDATA[
-        <h3>v0.3.7 - The "Sudo" Update</h3>
+        <h3>v1.0.0 — First Stable Release 🎉</h3>
+        <p>The game grows up. Merge Hell Runner is now a full campaign, not just an endless runner.</p>
         <ul>
-            <li><b>NEW:</b> Added Boss Battles (Legacy Code & Memory Leak).</li>
-            <li><b>NEW:</b> Added "Sudo Mode" power-up (Spread shot).</li>
-            <li><b>NEW:</b> Added floating combat text and combo system.</li>
-            <li><b>UX:</b> Improved jump physics and key bindings.</li>
-            <li><b>VISUAL:</b> Added CRT filter and parallax background.</li>
+            <li><b>NEW:</b> Complete 5-level campaign with unique color themes and escalating difficulty.</li>
+            <li><b>NEW:</b> 5 distinct bosses — Legacy Code Monstrosity, Memory Leak Daemon, The Architect, Kernel Panic Overlord, and the Singularity Engine.</li>
+            <li><b>NEW:</b> Arena Battle Zones with wave-based combat (Rush / Sniper / Mini-Boss).</li>
+            <li><b>NEW:</b> Six-weapon arsenal, including the Flame and Laser weapons.</li>
+            <li><b>NEW:</b> Coin collection and a persistent local Top-5 leaderboard.</li>
+            <li><b>NEW:</b> Platforming layer with dash i-frames, double jump, and combo multipliers.</li>
+            <li><b>POLISH:</b> Refined boss AI, tuned enemy waves, and improved level pacing.</li>
         </ul>
     ]]></change-notes>
 
