@@ -13,6 +13,14 @@ class EntityTypeTest {
     }
 
     @Test
+    void everyWeaponPickupIsNonHostile() {
+        assertTrue(EntityType.PICKUP_FLAME.isPowerup());
+        assertTrue(EntityType.PICKUP_LASER.isPowerup());
+        assertFalse(EntityType.PICKUP_FLAME.isHostile());
+        assertFalse(EntityType.PICKUP_LASER.isHostile());
+    }
+
+    @Test
     void nonPowerupTypes_shouldNotReportAsPowerup() {
         assertFalse(EntityType.BUG.isPowerup());
         assertFalse(EntityType.CRASH.isPowerup());

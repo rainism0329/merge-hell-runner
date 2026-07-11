@@ -39,8 +39,11 @@ public enum EntityType {
     }
 
     public boolean isPowerup() {
-        return this == PICKUP_SPREAD || this == PICKUP_RAPID || this == PICKUP_HEAVY
-                || this == POWERUP_SHIELD || this == HEALTH;
+        return switch (this) {
+            case PICKUP_SPREAD, PICKUP_RAPID, PICKUP_HEAVY,
+                    PICKUP_FLAME, PICKUP_LASER, POWERUP_SHIELD, HEALTH -> true;
+            default -> false;
+        };
     }
 
     public boolean isHostile() {
