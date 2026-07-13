@@ -1,5 +1,8 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.engine.EntityLimits;
+import com.bigphil.mergehell.render.VectorEntityRenderer;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +27,8 @@ public class ObstacleManager {
         private int moveDir = 1; // 1 = right-to-left, -1 = left-to-right
         private int chargeTimer = 0;
         private double chargeVx = 0;
+        private int spawnProtectionTicks;
+        private int telegraphTicks;
 
         public Enemy(double x, double y, EntityType type) {
             this(x, y, type, 1);
@@ -55,6 +60,9 @@ public class ObstacleManager {
         public int getHp() { return hp; }
         public int getMaxHp() { return type.maxHp; }
         public boolean isDead() { return dead; }
+        public int getTelegraphTicks() { return telegraphTicks; }
+        public boolean isCollisionProtected() { return type.isHostile() && spawnProtectionTicks > 0; }
+        Enemy protectOnSpawn() { spawnProtectionTicks = 30; return this; }
         public void setDead(boolean dead) { this.dead = dead; }
 
         public void takeDamage(int dmg) {
@@ -62,11 +70,27 @@ public class ObstacleManager {
             if (hp <= 0) dead = true;
         }
 
+        public void takeHit(int damage, double knockback, int hitDirection) {
+            takeDamage(damage);
+            if (!dead && knockback > 0) {
+                x += Math.copySign(Math.min(knockback, 24), hitDirection);
+            }
+        }
+
         private static final Random random = new Random();
 
         public Projectile maybeShoot(double playerY) {
             if (!canShoot()) return null;
+            if (telegraphTicks > 0) {
+                if (--telegraphTicks > 0) return null;
+                return createShot(playerY);
+            }
             if (--shootTimer > 0) return null;
+            telegraphTicks = 30;
+            return null;
+        }
+
+        private Projectile createShot(double playerY) {
             shootTimer = 60 + random.nextInt(100);
             double bulletX = x;
             double bulletY = y + height / 2.0;
@@ -78,11 +102,11 @@ public class ObstacleManager {
 
         private boolean canShoot() {
             return type == EntityType.CONFLICT || type == EntityType.LOCK
-                    || type == EntityType.CRASH || type == EntityType.TECHDEBT
-                    || type == EntityType.BUG || type == EntityType.FIREWALL;
+                    || type == EntityType.TECHDEBT;
         }
 
         public void update(double difficultySpeed, double playerX) {
+            if (spawnProtectionTicks > 0) spawnProtectionTicks--;
             double t = System.currentTimeMillis() / 1000.0;
 
             // Charge attack: telegraph while advancing normally, then commit to a short dash.
@@ -96,8 +120,8 @@ public class ObstacleManager {
             } else {
                 double speed = vx * difficultySpeed;
                 x -= speed * moveDir;
-                if (type.isHostile() && type != EntityType.FIREWALL && type != EntityType.TECHDEBT
-                        && --chargeTimer <= 0) {
+                boolean canCharge = type == EntityType.BUG || type == EntityType.CRASH;
+                if (canCharge && --chargeTimer <= 0) {
                     if (Math.abs(x - playerX) < 350) {
                         chargeVx = (playerX > x ? 1 : -1) * vx * difficultySpeed * 3.5;
                         chargeTimer = 15;
@@ -120,6 +144,11 @@ public class ObstacleManager {
         }
 
         public void draw(Graphics2D g) {
+            if (type.isHostile()) {
+                VectorEntityRenderer.render(g, type, (int) x, (int) y, width, height,
+                        hp, type.maxHp, telegraphTicks);
+                return;
+            }
             if (type == EntityType.FIREWALL || type == EntityType.TECHDEBT) {
                 g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 200));
                 g.fillRect((int) x, (int) y, width, height);
@@ -184,9 +213,15 @@ public class ObstacleManager {
     private final List<Enemy> enemies = new ArrayList<>();
     private final List<Projectile> enemyBullets = new ArrayList<>();
     private final Random random = new Random();
+    private int rejectedHostiles;
 
     public void reset() {
         enemies.clear();
+        enemyBullets.clear();
+    }
+
+    public void clearHostiles() {
+        enemies.removeIf(enemy -> enemy.getType().isHostile());
         enemyBullets.clear();
     }
 
@@ -195,11 +230,13 @@ public class ObstacleManager {
     }
 
     public void spawnEnemy(int x, int y, EntityType type) {
-        enemies.add(new Enemy(x, y, type));
+        if (!canSpawn(type)) return;
+        enemies.add(new Enemy(x, y, type).protectOnSpawn());
     }
 
     public void spawnEnemy(int x, int y, EntityType type, int moveDir) {
-        enemies.add(new Enemy(x, y, type, moveDir));
+        if (!canSpawn(type)) return;
+        enemies.add(new Enemy(x, y, type, moveDir).protectOnSpawn());
     }
 
     public void spawnFromLeft(int groundY, int cameraX) {
@@ -209,17 +246,19 @@ public class ObstacleManager {
 
     /** Spawns the encounter's requested enemy type from the left side of the viewport. */
     public void spawnFromLeft(int groundY, int cameraX, EntityType type) {
+        if (!canSpawn(type)) return;
         int y = groundY - 40 - random.nextInt(120);
         if (type == EntityType.TECHDEBT) y = groundY - 80;
         else if (type == EntityType.FIREWALL) y = 0;
-        enemies.add(new Enemy(cameraX - 40 - random.nextInt(100), y, type, -1));
+        enemies.add(new Enemy(cameraX - 40 - random.nextInt(100), y, type, -1).protectOnSpawn());
     }
 
     public void spawnFormation(int startX, int groundY) {
         int count = 3 + random.nextInt(3);
         for (int i = 0; i < count; i++) {
             int y = groundY - 30 - random.nextInt(100);
-            enemies.add(new Enemy(startX + i * 50, y, EntityType.BUG));
+            if (canSpawn(EntityType.BUG))
+                enemies.add(new Enemy(startX + i * 50, y, EntityType.BUG).protectOnSpawn());
         }
     }
 
@@ -292,7 +331,7 @@ public class ObstacleManager {
                     ? cameraX - 50 - random.nextInt(100)
                     : cameraX + panelWidth + random.nextInt(200);
             int spawnDir = fromLeft ? -1 : 1;
-            enemies.add(new Enemy(spawnX, y, type, spawnDir));
+            if (canSpawn(type)) enemies.add(new Enemy(spawnX, y, type, spawnDir).protectOnSpawn());
         }
     }
 
@@ -318,4 +357,14 @@ public class ObstacleManager {
     public List<Enemy> getEnemies() {
         return enemies;
     }
+
+    private boolean canSpawn(EntityType type) {
+        if (!type.isHostile()) return true;
+        long hostiles = enemies.stream().filter(e -> !e.isDead() && e.getType().isHostile()).count();
+        if (hostiles < EntityLimits.MAX_HOSTILES) return true;
+        rejectedHostiles++;
+        return false;
+    }
+
+    public int getRejectedHostiles() { return rejectedHostiles; }
 }

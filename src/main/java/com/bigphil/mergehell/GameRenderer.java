@@ -1,6 +1,9 @@
 package com.bigphil.mergehell;
 
 import com.bigphil.mergehell.model.*;
+import com.bigphil.mergehell.render.DarkWorldRenderer;
+import com.bigphil.mergehell.world.DarkBiome;
+import com.bigphil.mergehell.world.WorldScenery;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -9,6 +12,8 @@ import java.util.List;
 public class GameRenderer {
 
     private static final int TERMINAL_HEIGHT = 120;
+    private static final Font PLATFORM_FONT = new Font("JetBrains Mono", Font.PLAIN, 10);
+    private final DarkWorldRenderer darkWorldRenderer = new DarkWorldRenderer();
 
     public void render(Graphics2D g, int width, int height, int groundY,
                        GameState state, Player player, Boss boss,
@@ -21,63 +26,65 @@ public class GameRenderer {
                        int shakeTimer, int flashTimer, int level, double difficulty,
                        boolean isNewHighScore, double cameraX,
                        boolean inBattle, int currentWave, int totalWaves,
-                       int transitionTimer, double runProgress) {
+                       int transitionTimer, double runProgress,
+                       DarkBiome darkBiome, List<WorldScenery> scenery,
+                       int biomeBannerTicks) {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (shakeTimer > 0) {
-            int dx = (int) (Math.random() * 10 - 5);
-            int dy = (int) (Math.random() * 10 - 5);
-            g.translate(dx, dy);
+        boolean darkMission = level == 0;
+        boolean danger = state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING;
+        LevelTheme theme = LevelTheme.forLevel(level);
+        DarkBiome safeBiome = darkBiome == null ? DarkBiome.REPOSITORY_CITY : darkBiome;
+        if (darkMission) {
+            darkWorldRenderer.drawBackground(g, width, groundY, cameraX, safeBiome, danger);
+        } else {
+            Color levelBg = danger ? new Color(30, 18, 18) : theme.bg;
+            g.setColor(levelBg);
+            g.fillRect(0, 0, width, groundY);
         }
 
-        // Camera scroll offset (saved for UI later)
-        g.translate(-cameraX, 0);
+        int shakeX = shakeTimer > 0 ? (int) (Math.random() * 10 - 5) : 0;
+        int shakeY = shakeTimer > 0 ? (int) (Math.random() * 10 - 5) : 0;
+        Graphics2D world = (Graphics2D) g.create();
+        world.translate(shakeX - cameraX, shakeY);
+        if (darkMission) {
+            darkWorldRenderer.drawScenery(world, scenery, WorldScenery.Layer.BACK,
+                    cameraX, width, safeBiome);
+            darkWorldRenderer.drawScenery(world, scenery, WorldScenery.Layer.MID,
+                    cameraX, width, safeBiome);
+            darkWorldRenderer.drawGround(world, width, groundY, cameraX, safeBiome);
+        } else {
+            drawBackgroundGrid(world, width, groundY, cameraX, theme.grid);
+            Color crColor = new Color(theme.codeRain.getRed(), theme.codeRain.getGreen(),
+                    theme.codeRain.getBlue(), 100);
+            world.setColor(crColor);
+            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 7));
+            for (CodeRain cr : bgLayer3) cr.draw(world);
+            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
+            for (CodeRain cr : bgLayer2) cr.draw(world);
+            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
+            for (CodeRain cr : bgLayer1) cr.draw(world);
+            world.setColor(theme.ground);
+            world.fillRect((int) cameraX, groundY, width + 200, 10);
+            world.setColor(Color.GRAY);
+            world.drawLine((int) cameraX, groundY, (int) cameraX + width + 200, groundY);
+        }
 
-        // Background tint: boss fights get a darker red tint
-        // Level-specific theme
-        LevelTheme theme = LevelTheme.forLevel(level);
-        Color levelBg = (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING)
-                ? new Color(30, 18, 18) : theme.bg;
-        g.setColor(levelBg);
-        g.fillRect((int) cameraX, 0, width + 200, groundY);
-
-        // Background grid (themed)
-        drawBackgroundGrid(g, width, groundY, cameraX, theme.grid);
-
-        // Parallax code rain - themed code rain color
-        Color crColor = new Color(theme.codeRain.getRed(), theme.codeRain.getGreen(),
-                theme.codeRain.getBlue(), 100);
-        g.setColor(crColor);
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 7));
-        for (CodeRain cr : bgLayer3) cr.draw(g);
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
-        for (CodeRain cr : bgLayer2) cr.draw(g);
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
-        for (CodeRain cr : bgLayer1) cr.draw(g);
-
-        g.setColor(theme.ground);
-        g.fillRect((int) cameraX, groundY, width + 200, 10);
-        g.setColor(Color.GRAY);
-        g.drawLine((int) cameraX, groundY, (int) cameraX + width + 200, groundY);
-
-        // Foreground world elements (on top of background)
-        drawPlatforms(g, platforms, theme.accent);
-        drawCoins(g, coins);
-
-        player.draw(g);
-        enemyManager.draw(g);
-        if (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING) boss.draw(g);
-        for (Projectile p : projectiles) p.draw(g);
-        for (Projectile b : enemyBullets) b.draw(g);
-        for (Particle p : particles) p.draw(g);
-        for (FloatingText t : floatingTexts) t.draw(g);
+        drawPlatforms(world, platforms, darkMission ? safeBiome.accent : theme.accent,
+                cameraX, width, darkMission);
+        drawCoins(world, coins, cameraX, width);
+        player.draw(world);
+        enemyManager.draw(world);
+        if (boss != null && (state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING)) boss.draw(world);
+        for (Projectile p : projectiles) p.draw(world);
+        for (Projectile b : enemyBullets) b.draw(world);
+        for (Particle p : particles) p.draw(world);
+        for (FloatingText t : floatingTexts) t.draw(world);
+        if (darkMission) darkWorldRenderer.drawScenery(world, scenery, WorldScenery.Layer.FRONT,
+                cameraX, width, safeBiome);
+        world.dispose();
 
         drawScanlines(g, width, groundY);
-
-        // Reset camera offset BEFORE drawing fixed HUD/UI
-        g.translate(cameraX, 0);
-        if (shakeTimer > 0) g.translate(0, 0);
 
         // Damage flash overlay (screen space)
         if (flashTimer > 0) {
@@ -93,6 +100,8 @@ public class GameRenderer {
             g.fillRect(0, 0, width, groundY);
         }
 
+        if (darkMission) darkWorldRenderer.drawZoneBanner(g, width, safeBiome, biomeBannerTicks);
+
         // Kill streak banner
         if (combo == 10 || combo == 20 || combo == 30 || combo == 50) {
             g.setFont(new Font("JetBrains Mono", Font.BOLD, 40));
@@ -103,8 +112,7 @@ public class GameRenderer {
             g.drawString(text, tx, groundY / 2);
         }
 
-        drawHUD(g, width, player, boss, score, combo, comboTimer, state, level, difficulty,
-                inBattle, currentWave, totalWaves, runProgress);
+        drawEncounterStatus(g, width, boss, state, inBattle, currentWave, totalWaves);
         drawUI(g, width, height, groundY, state, score, isNewHighScore, level);
 
         boolean isGameplay = state == GameState.RUNNING || state == GameState.BOSS_WARNING
@@ -220,24 +228,74 @@ public class GameRenderer {
         }
     }
 
-    private void drawPlatforms(Graphics2D g, List<Platform> platforms, Color accent) {
+    private void drawPlatforms(Graphics2D g, List<Platform> platforms, Color accent,
+                               double cameraX, int width, boolean darkMission) {
         for (Platform p : platforms) {
-            g.setColor(new Color(36, 40, 46));
+            if (p.x + p.width < cameraX - 120) continue;
+            if (p.x > cameraX + width + 120) {
+                if (darkMission) break; // generated Dark platforms are x-sorted
+                continue; // authored legacy platform lists are not guaranteed to be sorted
+            }
+            Color body = switch (p.style) {
+                case ROOFTOP -> new Color(34, 43, 53);
+                case CATWALK -> new Color(42, 43, 43);
+                case PIPE -> new Color(59, 44, 38);
+                case SERVER_BANK, CABLE -> new Color(25, 48, 52);
+                case RUBBLE -> new Color(54, 46, 57);
+                case FORTIFICATION -> new Color(58, 35, 37);
+                default -> new Color(36, 40, 46);
+            };
+            g.setColor(body);
             g.fillRect((int) p.x, (int) p.y, p.width, p.height);
             g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 180));
             g.fillRect((int) p.x, (int) p.y, p.width, 2);
             g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 60));
             g.fillRect((int) p.x, (int) p.y + 2, p.width, 6);
-            g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 100));
-            g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
-            g.drawString("[", (int) p.x + 2, (int) p.y + 14);
-            g.drawString("]", (int) (p.x + p.width - 10), (int) p.y + 14);
+            drawPlatformDetail(g, p, accent, darkMission);
         }
     }
 
-    private void drawCoins(Graphics2D g, List<LevelManager.Coin> coins) {
+    private void drawPlatformDetail(Graphics2D g, Platform p, Color accent, boolean darkMission) {
+        int x = (int) p.x, y = (int) p.y;
+        g.setColor(new Color(accent.getRed(), accent.getGreen(), accent.getBlue(), 110));
+        g.setFont(PLATFORM_FONT);
+        switch (p.style) {
+            case ROOFTOP -> {
+                for (int px = x + 10; px < x + p.width - 8; px += 28) g.fillRect(px, y + 10, 14, 2);
+            }
+            case CATWALK -> {
+                for (int px = x; px < x + p.width; px += 24) {
+                    g.drawLine(px, y + p.height, px + 12, y + 3);
+                    g.drawLine(px + 12, y + 3, px + 24, y + p.height);
+                }
+            }
+            case PIPE -> {
+                g.drawLine(x + 5, y + p.height / 2, x + p.width - 5, y + p.height / 2);
+                for (int px = x + 18; px < x + p.width; px += 44) g.drawOval(px, y + 5, 8, 8);
+            }
+            case SERVER_BANK -> {
+                for (int px = x + 8; px < x + p.width - 7; px += 24) g.fillRect(px, y + 8, 13, 4);
+            }
+            case CABLE -> {
+                g.drawArc(x + 8, y + 5, p.width - 16, p.height, 0, 180);
+            }
+            case RUBBLE -> {
+                for (int px = x + 7; px < x + p.width - 8; px += 29) g.drawLine(px, y + 4, px + 13, y + p.height - 3);
+            }
+            case FORTIFICATION -> {
+                for (int px = x + 6; px < x + p.width; px += 36) g.fillRect(px, y + 7, 23, 5);
+            }
+            default -> {
+                g.drawString("[", x + 2, y + 14);
+                g.drawString("]", x + p.width - 10, y + 14);
+            }
+        }
+    }
+
+    private void drawCoins(Graphics2D g, List<LevelManager.Coin> coins, double cameraX, int width) {
         for (LevelManager.Coin c : coins) {
             if (c.collected) continue;
+            if (c.x < cameraX - 40 || c.x > cameraX + width + 40) continue;
             g.setColor(new Color(255, 220, 50));
             g.setFont(new Font("SansSerif", Font.BOLD, 18));
             int pulse = (int) (Math.sin(System.currentTimeMillis() / 200.0) * 3);
@@ -297,106 +355,26 @@ public class GameRenderer {
         }
     }
 
-    private void drawHUD(Graphics2D g, int width, Player player, Boss boss,
-                         int score, int combo, int comboTimer, GameState state, int level,
-                         double difficulty, boolean inBattle, int currentWave, int totalWaves,
-                         double runProgress) {
-        LevelTheme theme = LevelTheme.forLevel(level);
-        int margin = Math.max(12, width / 60);
-        int leftW = Math.min(245, Math.max(165, width / 3));
-        int rightW = Math.min(220, Math.max(145, width / 4));
-        int rightX = width - rightW - margin;
-
-        // The left card answers the question a player asks most often: "what am I doing
-        // and how far am I from it?" Score remains prominent, without becoming the HUD's only signal.
-        drawPanel(g, margin, 14, leftW, combo > 1 ? 112 : 90, theme.hud);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
-        g.setColor(new Color(178, 194, 210));
-        g.drawString("RUN " + String.format("%02d", level + 1) + "  /  BOSS GATE", margin + 12, 31);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
-        g.setColor(Color.WHITE);
-        g.drawString(String.format("%,d", score), margin + 12, 55);
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
-        g.setColor(new Color(185, 194, 203));
-        g.drawString("LINES SHIPPED    " + (int) (runProgress * 100) + "%", margin + 12, 72);
-        drawMeter(g, margin + 12, 78, leftW - 24, 4, runProgress, theme.hud);
-
-        if (combo > 1) {
-            double mult = combo >= 20 ? 3.0 : combo >= 10 ? 2.0 : combo >= 5 ? 1.5 : 1.0;
-            Color multColor = mult >= 3 ? Color.ORANGE : mult >= 2 ? Color.YELLOW : Color.WHITE;
-            g.setFont(new Font("JetBrains Mono", Font.BOLD, 13));
-            g.setColor(multColor);
-            g.drawString(combo + "x COMBO  " + String.format("%.1fx", mult), margin + 12, 99);
-            drawMeter(g, margin + 12, 104, leftW - 24, 4, comboTimer / 100.0, multColor);
-        }
-
-        drawPanel(g, rightX, 14, rightW, 128, theme.hud);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
-        g.setColor(new Color(178, 194, 210));
-        g.drawString("VITALS", rightX + 12, 31);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 11));
-        g.setColor(Color.WHITE);
-        g.drawString("HP  " + player.getHp() + " / " + player.getMaxHp(), rightX + 12, 49);
-        double hpRatio = player.getHp() / (double) player.getMaxHp();
-        Color hpColor = hpRatio > 0.5 ? GameColors.HP_BAR
-                : hpRatio > 0.25 ? Color.YELLOW : GameColors.HP_LOW;
-        drawMeter(g, rightX + 12, 55, rightW - 24, 7, hpRatio, hpColor);
-
-        int buffY = 80;
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
-        WeaponType wp = player.getWeapon();
-        if (wp != WeaponType.COMMIT) {
-            g.setColor(wp == WeaponType.HEAVY ? GameColors.DANGER_RED
-                    : wp == WeaponType.SPREAD ? GameColors.SUDO_YELLOW : GameColors.PLAYER);
-            int ammo = player.getWeaponAmmo();
-            g.drawString(wp.name() + "  " + ammo + " RDS", rightX + 12, buffY);
-        } else {
-            g.setColor(new Color(184, 194, 203));
-            g.drawString("COMMIT CANNON", rightX + 12, buffY);
-        }
-        buffY += 16;
-        if (player.getSudoTimer() > 0) {
-            boolean expiring = player.isBuffExpiring(player.getSudoTimer());
-            g.setColor(expiring && (System.currentTimeMillis() / 200 % 2 == 0)
-                    ? Color.WHITE : GameColors.SUDO_YELLOW);
-            g.drawString("SUDO " + (player.getSudoTimer() / 60) + "s", rightX + 12, buffY);
-        }
-        else if (player.getShieldTimer() > 0) {
-            boolean expiring = player.isBuffExpiring(player.getShieldTimer());
-            g.setColor(expiring && (System.currentTimeMillis() / 200 % 2 == 0)
-                    ? Color.WHITE : GameColors.SHIELD_CYAN);
-            g.drawString("SHIELD " + (player.getShieldTimer() / 60) + "s", rightX + 12, buffY);
-        } else {
-            g.setColor(new Color(184, 194, 203));
-            g.drawString("JUMP  " + player.getJumpsRemaining() + " / 2", rightX + 12, buffY);
-        }
-        buffY += 16;
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
-        g.setColor(player.getBombs() > 0 ? Color.ORANGE : Color.DARK_GRAY);
-        g.drawString("BOMB x" + player.getBombs(), rightX + 12, buffY);
-        int dashCd = player.getDashCooldown();
-        g.setColor(dashCd > 0 ? new Color(143, 153, 163) : GameColors.PLAYER);
-        String dashText = dashCd > 0 ? "DASH " + String.format("%.1fs", dashCd / 60.0) : "DASH READY";
-        g.drawString(dashText, rightX + rightW / 2, buffY);
-
+    private void drawEncounterStatus(Graphics2D g, int width, Boss boss, GameState state,
+                                     boolean inBattle, int currentWave, int totalWaves) {
         if (inBattle && totalWaves > 0) {
             int displayWave = Math.max(1, Math.min(currentWave, totalWaves));
             g.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
             g.setColor(Color.ORANGE);
             String waveText = "ARENA LOCKED  //  WAVE " + displayWave + " / " + totalWaves;
             int lx = (width - g.getFontMetrics().stringWidth(waveText)) / 2;
-            drawPanel(g, lx - 12, 16, g.getFontMetrics().stringWidth(waveText) + 24, 26, Color.ORANGE);
-            g.drawString(waveText, lx, 34);
+            drawPanel(g, lx - 12, 130, g.getFontMetrics().stringWidth(waveText) + 24, 28, Color.ORANGE);
+            g.drawString(waveText, lx, 149);
         }
 
         if (state == GameState.BOSS_FIGHT && boss != null && boss.isActive()) {
             int bw = Math.min(500, width - 80);
             int bx = (width - bw) / 2;
-            drawPanel(g, bx - 10, 48, bw + 20, 38, GameColors.DANGER_RED);
+            drawPanel(g, bx - 10, 128, bw + 20, 40, GameColors.DANGER_RED);
             g.setColor(Color.WHITE);
             g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
-            g.drawString(boss.getName(), bx, 63);
-            drawMeter(g, bx, 69, bw, 7, boss.getHp() / (double) boss.getMaxHp(), GameColors.DANGER_RED);
+            g.drawString(boss.getName(), bx, 145);
+            drawMeter(g, bx, 152, bw, 7, boss.getHp() / (double) boss.getMaxHp(), GameColors.DANGER_RED);
         }
     }
 

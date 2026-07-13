@@ -1,5 +1,11 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.combat.CombatStats;
+import com.bigphil.mergehell.combat.FireRequest;
+import com.bigphil.mergehell.combat.WeaponFireController;
+import com.bigphil.mergehell.combat.WeaponId;
+import com.bigphil.mergehell.progression.RunBuild;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -32,6 +38,10 @@ public class Player {
     private WeaponType currentWeapon = WeaponType.COMMIT;
     private int weaponAmmo = 0;
     private boolean debugMode = false;
+    private boolean temporaryWeapon;
+    private RunBuild runBuild;
+    private int shieldRebootsUsed;
+    private final WeaponFireController fireController;
 
     private static final double GRAVITY = 0.6;
     private static final double JUMP_FORCE = -13;
@@ -48,6 +58,8 @@ public class Player {
     public Player(int startX, int startY) {
         this.x = startX;
         this.y = startY;
+        this.runBuild = new RunBuild(WeaponId.COMMIT_CANNON);
+        this.fireController = new WeaponFireController();
     }
 
     public double getX() { return x; }
@@ -64,11 +76,16 @@ public class Player {
     public WeaponType getWeapon() { return currentWeapon; }
     public int getWeaponAmmo() { return weaponAmmo; }
     public boolean isDebugMode() { return debugMode; }
+    public boolean isUsingTemporaryWeapon() { return temporaryWeapon; }
     public int getJumpsRemaining() { return jumpsRemaining; }
+    public RunBuild getRunBuild() { return runBuild; }
 
     public void toggleDebugMode() {
-        debugMode = !debugMode;
-        if (debugMode) weaponAmmo = 999;
+        setDebugMode(!debugMode);
+    }
+    public void setDebugMode(boolean enabled) {
+        debugMode = enabled;
+        if (debugMode && temporaryWeapon) weaponAmmo = Math.max(weaponAmmo, 999);
     }
     public int getBombs() { return bombs; }
     public int getLives() { return lives; }
@@ -80,6 +97,7 @@ public class Player {
     }
 
     public boolean useBomb() {
+        if (debugMode) return true;
         if (bombs <= 0) return false;
         bombs--;
         return true;
@@ -87,12 +105,26 @@ public class Player {
     public void addBomb() { if (bombs < 5) bombs++; }
 
     public void setX(double x) { this.x = x; }
+    public void setY(double y) { this.y = y; this.dy = 0; }
     public void setSudoTimer(int t) { this.sudoTimer = t; }
     public void setShieldTimer(int t) { this.shieldTimer = t; }
+    public void setInvincibleTimer(int t) { this.invincibleTimer = Math.max(0, t); }
+    public void setRunBuild(RunBuild value) {
+        RunBuild previous = this.runBuild;
+        this.runBuild = Objects.requireNonNull(value, "value");
+        if (previous != value) shieldRebootsUsed = 0;
+        if (!temporaryWeapon) currentWeapon = coreWeaponType();
+    }
+
+    public void bindRunBuild(RunBuild value) {
+        setRunBuild(value);
+    }
 
     public void giveWeapon(WeaponType weapon, int ammo) {
         this.currentWeapon = weapon;
         this.weaponAmmo = ammo;
+        this.temporaryWeapon = true;
+        ammoReserve.put(weapon, ammo);
     }
 
     /**
@@ -106,19 +138,28 @@ public class Player {
     private final Map<WeaponType, Integer> ammoReserve = new HashMap<>();
 
     public void cycleWeapon() {
-        // Save current ammo
-        if (weaponAmmo > 0) ammoReserve.put(currentWeapon, weaponAmmo);
+        if (temporaryWeapon && weaponAmmo > 0) ammoReserve.put(currentWeapon, weaponAmmo);
         WeaponType[] all = WeaponType.values();
         int idx = 0;
         for (int i = 0; i < all.length; i++)
             if (all[i] == currentWeapon) { idx = i; break; }
+        WeaponType core = coreWeaponType();
         for (int i = 0; i < all.length; i++) {
             int next = (idx + 1 + i) % all.length;
-            if (all[next] == WeaponType.COMMIT) continue;
-            currentWeapon = all[next];
-            weaponAmmo = ammoReserve.getOrDefault(currentWeapon, 0);
-            break;
+            WeaponType candidate = all[next];
+            if (candidate == core) {
+                restoreCoreWeapon();
+                return;
+            }
+            int reserve = ammoReserve.getOrDefault(candidate, 0);
+            if (reserve > 0) {
+                currentWeapon = candidate;
+                weaponAmmo = reserve;
+                temporaryWeapon = true;
+                return;
+            }
         }
+        restoreCoreWeapon();
     }
 
     public boolean isBuffExpiring(int timer) {
@@ -137,8 +178,12 @@ public class Player {
         this.jumpsRemaining = MAX_JUMPS;
         this.jumpBufferTimer = 0;
         this.coyoteTimer = 0;
-        this.currentWeapon = WeaponType.COMMIT;
+        this.temporaryWeapon = false;
+        if (runBuild == null) this.runBuild = new RunBuild(WeaponId.COMMIT_CANNON);
+        this.currentWeapon = coreWeaponType();
         this.weaponAmmo = 0;
+        this.debugMode = false;
+        this.shieldRebootsUsed = 0;
         this.ammoReserve.clear();
     }
 
@@ -179,7 +224,10 @@ public class Player {
         if (dashTimer > 0) {
             x += dashVx;
             dashTimer--;
-            if (dashTimer == 0) dashCooldown = DASH_COOLDOWN_MAX;
+            if (dashTimer == 0) {
+                dashCooldown = Math.max(12, (int) Math.round(DASH_COOLDOWN_MAX
+                        * runBuild.buildStats().dashCooldownMultiplier()));
+            }
             if (x < 0) x = 0;
             if (x > levelWidth - width) x = levelWidth - width;
             dy = 0;
@@ -245,38 +293,78 @@ public class Player {
             WeaponType w = (sudoTimer > 0) ? WeaponType.SPREAD : currentWeapon;
 
             // Check ammo BEFORE firing
-            if (sudoTimer <= 0 && !debugMode && currentWeapon != WeaponType.COMMIT && weaponAmmo <= 0) {
-                ammoReserve.remove(currentWeapon);
-                currentWeapon = WeaponType.COMMIT;
-                w = WeaponType.COMMIT;
+            if (sudoTimer <= 0 && !debugMode && temporaryWeapon && weaponAmmo <= 0) {
+                restoreCoreWeapon();
+                w = currentWeapon;
             }
 
-            boolean piercing = (sudoTimer > 0) || w == WeaponType.HEAVY;
-            ProjectileType ptype = piercing ? ProjectileType.SUDO : ProjectileType.COMMIT;
             double bulletX = (facingDir > 0) ? x + width : x;
-            double bulletVx = facingDir * 10;
-
-            for (int i = 0; i < w.bulletCount; i++) {
-                double spreadY = (w.bulletCount == 1) ? 0
-                        : (i - (w.bulletCount - 1) / 2.0) * 2.0;
-                projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, spreadY, ptype));
+            WeaponId weaponId = modernWeaponId(w);
+            if (weaponId != null) {
+                CombatStats stats = runBuild.weapon() == weaponId
+                        ? runBuild.effectiveStats() : new RunBuild(weaponId).effectiveStats();
+                FireRequest request = new FireRequest(weaponId, bulletX, y + height / 2.0,
+                        facingDir, stats, sudoTimer > 0, new Random());
+                projectiles.addAll(fireController.fire(request));
+                cooldown = stats.cooldownFrames();
+            } else {
+                boolean piercing = (sudoTimer > 0) || w == WeaponType.HEAVY;
+                ProjectileType ptype = piercing ? ProjectileType.SUDO : ProjectileType.COMMIT;
+                double bulletVx = facingDir * 10;
+                for (int i = 0; i < w.bulletCount; i++) {
+                    double spreadY = (w.bulletCount == 1) ? 0
+                            : (i - (w.bulletCount - 1) / 2.0) * 2.0;
+                    projectiles.add(new Projectile(bulletX, y + height / 2.0, bulletVx, spreadY, ptype));
+                }
+                cooldown = w.cooldown;
             }
-            cooldown = w.cooldown;
 
-            if (sudoTimer <= 0 && !debugMode && weaponAmmo > 0 && currentWeapon != WeaponType.COMMIT) {
+            if (sudoTimer <= 0 && !debugMode && temporaryWeapon && weaponAmmo > 0) {
                 weaponAmmo--;
                 if (weaponAmmo <= 0) {
                     ammoReserve.remove(currentWeapon);
-                    currentWeapon = WeaponType.COMMIT;
-                }
+                    restoreCoreWeapon();
+                } else ammoReserve.put(currentWeapon, weaponAmmo);
             }
         }
     }
 
+    private static WeaponId modernWeaponId(WeaponType weapon) {
+        return switch (weapon) {
+            case COMMIT -> WeaponId.COMMIT_CANNON;
+            case SPREAD -> WeaponId.FORCE_PUSH;
+            default -> null;
+        };
+    }
+
     public void takeDamage(int amount) {
-        if (shieldTimer > 0 || invincibleTimer > 0) return;
-        hp -= amount;
+        if (debugMode || shieldTimer > 0 || invincibleTimer > 0) return;
+        int damage = Math.max(0, amount);
+        int availableReboots = runBuild.buildStats().shieldReboots();
+        if (damage >= hp && shieldRebootsUsed < availableReboots) {
+            shieldRebootsUsed++;
+            hp = 25;
+            shieldTimer = 120;
+            invincibleTimer = 90;
+            return;
+        }
+        hp -= damage;
         invincibleTimer = 60;
+    }
+
+    public int getShieldRebootsRemaining() {
+        return Math.max(0, runBuild.buildStats().shieldReboots() - shieldRebootsUsed);
+    }
+
+    private WeaponType coreWeaponType() {
+        return runBuild != null && runBuild.weapon() == WeaponId.FORCE_PUSH
+                ? WeaponType.SPREAD : WeaponType.COMMIT;
+    }
+
+    private void restoreCoreWeapon() {
+        temporaryWeapon = false;
+        currentWeapon = coreWeaponType();
+        weaponAmmo = 0;
     }
 
     public void draw(Graphics2D g) {

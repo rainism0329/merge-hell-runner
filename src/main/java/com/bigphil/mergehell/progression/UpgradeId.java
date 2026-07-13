@@ -1,0 +1,14 @@
+package com.bigphil.mergehell.progression;
+
+public enum UpgradeId {
+    COMMIT_RICOCHET,
+    COMMIT_CRITICAL,
+    FORCE_EXTRA_PELLETS,
+    FORCE_KNOCKBACK,
+    DASH_CACHE,
+    SHIELD_REBOOT,
+    DRONE_COPILOT,
+    COMBO_WINDOW,
+    DEPENDENCY_CORE_COMMIT,
+    DEPENDENCY_CORE_FORCE
+}

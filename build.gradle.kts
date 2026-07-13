@@ -45,3 +45,9 @@ tasks {
 tasks.test {
     useJUnitPlatform()
 }
+
+// The plugin exposes no Settings/SearchableOptions pages. Starting a full headless IDE
+// for this task only slows packaging and can leave Maven indexer files locked on Windows.
+tasks.named("buildSearchableOptions") {
+    enabled = false
+}

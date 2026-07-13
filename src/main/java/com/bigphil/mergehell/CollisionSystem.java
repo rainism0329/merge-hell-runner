@@ -1,14 +1,42 @@
 package com.bigphil.mergehell;
 
+import com.bigphil.mergehell.combat.CombatEvent;
+import com.bigphil.mergehell.combat.CombatEventSink;
 import com.bigphil.mergehell.model.*;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.BooleanSupplier;
+import java.util.function.IntSupplier;
 
 public class CollisionSystem {
+
+    private final CombatEventSink eventSink;
+    private final BooleanSupplier phaseOneDrops;
+    private final IntSupplier comboGraceTicks;
+
+    public CollisionSystem() {
+        this(event -> { }, () -> false, () -> 0);
+    }
+
+    public CollisionSystem(CombatEventSink eventSink) {
+        this(eventSink, () -> false, () -> 0);
+    }
+
+    public CollisionSystem(CombatEventSink eventSink, BooleanSupplier phaseOneDrops) {
+        this(eventSink, phaseOneDrops, () -> 0);
+    }
+
+    public CollisionSystem(CombatEventSink eventSink, BooleanSupplier phaseOneDrops,
+                           IntSupplier comboGraceTicks) {
+        this.eventSink = Objects.requireNonNull(eventSink, "eventSink");
+        this.phaseOneDrops = Objects.requireNonNull(phaseOneDrops, "phaseOneDrops");
+        this.comboGraceTicks = Objects.requireNonNull(comboGraceTicks, "comboGraceTicks");
+    }
 
     public static class Context {
         public int score;
@@ -64,9 +92,11 @@ public class CollisionSystem {
             }
 
             for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
-                if (!en.isDead() && en.getType().isHostile() && !p.isDead() && p.getBounds().intersects(en.getBounds())) {
-                    en.takeDamage(p.getDamage());
-                    if (p.getType() != ProjectileType.SUDO) p.setDead(true);
+                if (!en.isDead() && en.getType().isHostile() && !p.isDead()
+                        && p.canHit(en) && p.getBounds().intersects(en.getBounds())) {
+                    int hitDirection = p.getVx() >= 0 ? 1 : -1;
+                    en.takeHit(p.getDamage(), p.getKnockback(), hitDirection);
+                    p.recordHit(en);
 
                     if (en.isDead()) {
                         ctx.newKills++;
@@ -82,10 +112,12 @@ public class CollisionSystem {
                         String name = en.getType().name().toLowerCase().replace("pickup_", "");
                         ctx.killLog = name + " " + killMsgs[(int) (Math.random() * killMsgs.length)];
                         ctx.combo++;
-                        ctx.comboTimer = 100;
+                        ctx.comboTimer = comboWindowTicks();
                         double mult = comboMultiplier(ctx.combo);
                         int points = (int) (en.getType().pointValue * mult);
                         ctx.score += points;
+                        eventSink.accept(new CombatEvent.EnemyKilled(
+                                en.getType(), points, en.getX(), en.getY()));
                         // Defer drop spawn to avoid ConcurrentModificationException
                         final double ex = en.getX(), ey = en.getY();
                         deferredSpawns.add(() -> maybeSpawnDrop(ex, ey, enemyManager));
@@ -99,10 +131,13 @@ public class CollisionSystem {
                     } else {
                         spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 5, Color.WHITE);
                     }
+                    if (p.isDead()) {
+                        p.ricochetToward(enemyManager.getEnemies());
+                    }
                 }
             }
 
-            if (state == GameState.BOSS_FIGHT && boss != null && boss.isActive()
+            if (!p.isDead() && state == GameState.BOSS_FIGHT && boss != null && boss.isActive()
                     && boss.getHp() > 0 && p.getBounds().intersects(boss.getBounds())) {
                 boss.takeDamage(p.getDamage());
                 p.setDead(true);
@@ -179,9 +214,11 @@ public class CollisionSystem {
                 if (en.isDead()) {
                     ctx.newKills++;
                     ctx.combo++;
-                    ctx.comboTimer = 100;
+                    ctx.comboTimer = comboWindowTicks();
                     int points = (int) (en.getType().pointValue * comboMultiplier(ctx.combo));
                     ctx.score += points;
+                    eventSink.accept(new CombatEvent.EnemyKilled(
+                            en.getType(), points, en.getX(), en.getY()));
                     spawnExplosion(particles, (int) en.getX(), (int) en.getY(), 20, en.getColor());
                     texts.add(new FloatingText(en.getX(), en.getY(), "+" + points, Color.ORANGE));
                 }
@@ -202,7 +239,8 @@ public class CollisionSystem {
                                               Consumer<String> logger) {
 
         for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
-            if (!en.isDead() && player.getBounds().intersects(en.getBounds())) {
+            if (!en.isDead() && !en.isCollisionProtected()
+                    && player.getBounds().intersects(en.getBounds())) {
                 if (en.getType().toWeapon() != null) {
                     en.setDead(true);
                     WeaponType w = en.getType().toWeapon();
@@ -282,6 +320,11 @@ public class CollisionSystem {
 
     private void maybeSpawnDrop(double x, double y, ObstacleManager om) {
         if (Math.random() > 0.10) return;
+        if (phaseOneDrops.getAsBoolean()) {
+            om.spawnEnemy((int) x, (int) y - 20,
+                    Math.random() < 0.65 ? EntityType.HEALTH : EntityType.POWERUP_SHIELD);
+            return;
+        }
         EntityType drop = switch ((int) (Math.random() * 6)) {
             case 0 -> EntityType.HEALTH;
             case 1 -> EntityType.PICKUP_RAPID;
@@ -299,6 +342,8 @@ public class CollisionSystem {
         if (combo >= 5) return 1.5;
         return 1.0;
     }
+
+    private int comboWindowTicks() { return 100 + Math.max(0, comboGraceTicks.getAsInt()); }
 
     private void spawnExplosion(List<Particle> particles, int x, int y, int count, Color c) {
         for (int i = 0; i < count; i++) {

@@ -1,5 +1,9 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.combat.WeaponId;
+import com.bigphil.mergehell.progression.RunBuild;
+import com.bigphil.mergehell.progression.UpgradeCatalog;
+import com.bigphil.mergehell.progression.UpgradeId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,12 +62,28 @@ class PlayerTest {
     }
 
     @Test
-    void sudoMode_shouldCreateThreeProjectiles() {
+    void boundRunBuildControlsTheWeaponStatsUsedForFiring() {
+        RunBuild build = new RunBuild(WeaponId.COMMIT_CANNON);
+        build.apply(UpgradeCatalog.definition(UpgradeId.COMMIT_RICOCHET));
+        player.bindRunBuild(build);
+
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH,
+                projectiles, new ArrayList<>());
+
+        assertEquals(2, projectiles.get(0).getRemainingRicochets());
+    }
+
+    @Test
+    void sudoMode_shouldUseOverclockedForcePush() {
         player.setSudoTimer(100);
         player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
-        assertEquals(3, projectiles.size());
+
+        assertEquals(5, projectiles.size());
         for (Projectile p : projectiles) {
             assertEquals(ProjectileType.SUDO, p.getType());
+            assertEquals(WeaponId.FORCE_PUSH, p.getWeapon());
+            assertEquals(2, p.getRemainingPierces());
+            assertEquals(14, p.getKnockback(), 0.0001);
         }
     }
 
@@ -126,6 +146,47 @@ class PlayerTest {
     }
 
     @Test
+    void forcePushBuildSurvivesResetAndStillFiresForcePush() {
+        RunBuild force = new RunBuild(WeaponId.FORCE_PUSH);
+        player.bindRunBuild(force);
+
+        player.reset(100, GROUND_Y - 30);
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH,
+                projectiles, new ArrayList<>());
+
+        assertSame(force, player.getRunBuild());
+        assertEquals(WeaponId.FORCE_PUSH, projectiles.get(0).getWeapon());
+    }
+
+    @Test
+    void temporaryPickupDoesNotDestroyTheUpgradedCoreBuild() {
+        RunBuild build = new RunBuild(WeaponId.COMMIT_CANNON);
+        build.apply(UpgradeCatalog.definition(UpgradeId.COMMIT_RICOCHET));
+        player.bindRunBuild(build);
+        player.giveWeapon(WeaponType.SPREAD, 1);
+
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH,
+                projectiles, new ArrayList<>());
+
+        assertSame(build, player.getRunBuild());
+        assertEquals(1, build.rank(UpgradeId.COMMIT_RICOCHET));
+        assertEquals(WeaponType.COMMIT, player.getWeapon());
+        assertFalse(player.isUsingTemporaryWeapon());
+    }
+
+    @Test
+    void labModePreventsDamageAndBombConsumption() {
+        player.setDebugMode(true);
+        int bombs = player.getBombs();
+
+        player.takeDamage(999);
+
+        assertEquals(100, player.getHp());
+        assertTrue(player.useBomb());
+        assertEquals(bombs, player.getBombs());
+    }
+
+    @Test
     void heal_shouldRestoreHpUpToMax() {
         player.takeDamage(50);
         player.heal(25);
@@ -146,6 +207,30 @@ class PlayerTest {
         player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, new ArrayList<>());
         // Player moved right during dash (facingDir defaults to 1)
         assertTrue(player.getX() > 100);
+    }
+
+    @Test
+    void dashCacheActuallyShortensTheGameplayCooldown() {
+        RunBuild build = new RunBuild(WeaponId.COMMIT_CANNON);
+        build.apply(UpgradeCatalog.definition(UpgradeId.DASH_CACHE));
+        player.bindRunBuild(build);
+        player.dash();
+        for (int i = 0; i < 8; i++) {
+            player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH,
+                    projectiles, new ArrayList<>());
+        }
+        assertEquals(38, player.getDashCooldown());
+    }
+
+    @Test
+    void shieldRebootPreventsOneLethalHitAndRestoresTwentyFiveHp() {
+        RunBuild build = new RunBuild(WeaponId.COMMIT_CANNON);
+        build.apply(UpgradeCatalog.definition(UpgradeId.SHIELD_REBOOT));
+        player.bindRunBuild(build);
+        player.takeDamage(200);
+        assertEquals(25, player.getHp());
+        assertEquals(0, player.getShieldRebootsRemaining());
+        assertTrue(player.getShieldTimer() > 0);
     }
 
     @Test

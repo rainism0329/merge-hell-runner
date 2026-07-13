@@ -6,6 +6,8 @@ import java.util.*;
 
 public class LevelManager {
 
+    public static boolean isLegacyMission(int level) { return level > 0; }
+
     public enum ZoneType { FREE, BATTLE, BOSS }
 
     public static class SpawnTrigger {
@@ -20,6 +22,8 @@ public class LevelManager {
 
     private static final double BOSS_GATE_X = 7600;
     private static final double LEVEL_WIDTH = 8600;
+    private static final double DARK_LEVEL_WIDTH = 1_000_000;
+    private final int levelNum;
     private final List<SpawnTrigger> triggers;
     private final List<BattleZone> battleZones;
     private final List<Platform> platforms;
@@ -37,6 +41,7 @@ public class LevelManager {
     private final List<Coin> coins = new ArrayList<>();
 
     public LevelManager(int levelNum) {
+        this.levelNum = levelNum;
         bossName = switch (levelNum) {
             case 0 -> "LEGACY CODE MONSTROSITY";
             case 1 -> "MEMORY LEAK DAEMON";
@@ -238,7 +243,7 @@ public class LevelManager {
     public void onBossDefeated() { bossDefeated = true; }
     public boolean isLevelComplete() { return bossDefeated; }
 
-    public double getCameraMaxX() { return LEVEL_WIDTH; }
+    public double getCameraMaxX() { return levelNum == 0 ? DARK_LEVEL_WIDTH : LEVEL_WIDTH; }
     public double getProgress(double playerX) {
         return Math.max(0, Math.min(1, playerX / BOSS_GATE_X));
     }

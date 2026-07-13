@@ -1,5 +1,8 @@
 package com.bigphil.mergehell;
 
+import com.bigphil.mergehell.combat.CombatEvent;
+import com.bigphil.mergehell.combat.ProjectileSpec;
+import com.bigphil.mergehell.combat.WeaponId;
 import com.bigphil.mergehell.model.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -151,7 +154,8 @@ class CollisionSystemTest {
 
     @Test
     void playerHittingEnemy_shouldTakeDamage() {
-        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.BUG);
+        enemyManager.getEnemies().add(new ObstacleManager.Enemy(
+                (int) player.getX() + 5, (int) player.getY(), EntityType.BUG));
         int hpBefore = player.getHp();
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
@@ -165,7 +169,8 @@ class CollisionSystemTest {
     @Test
     void playerHittingEnemy_shouldSetShakeAndResetCombo() {
         ctx.combo = 5;
-        enemyManager.spawnEnemy((int) player.getX() + 5, (int) player.getY(), EntityType.BUG);
+        enemyManager.getEnemies().add(new ObstacleManager.Enemy(
+                (int) player.getX() + 5, (int) player.getY(), EntityType.BUG));
 
         collision.process(ctx, projectiles, enemyManager, boss, player,
                           GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
@@ -315,6 +320,150 @@ class CollisionSystemTest {
     }
 
     @Test
+    void forcePushAppliesKnockbackWithoutDeletingHealthyEnemy() {
+        ObstacleManager.Enemy enemy = new ObstacleManager.Enemy(120, 200, EntityType.TECHDEBT);
+        double before = enemy.getX();
+
+        enemy.takeHit(16, 14, 1);
+
+        assertTrue(enemy.getX() > before);
+        assertFalse(enemy.isDead());
+    }
+
+    @Test
+    void commitRicochetConsumesOneRicochetAndSelectsNearestEnemy() {
+        Projectile projectile = new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 25, 10, 0,
+                        false, 0, 0, 1));
+        ObstacleManager.Enemy near = new ObstacleManager.Enemy(160, 200, EntityType.BUG);
+        ObstacleManager.Enemy far = new ObstacleManager.Enemy(260, 200, EntityType.BUG);
+
+        projectile.ricochetToward(List.of(far, near));
+
+        assertEquals(0, projectile.getRemainingRicochets());
+        assertTrue(projectile.getVx() > 0);
+        assertEquals(0.25, projectile.getVy() / projectile.getVx(), 0.0001);
+        assertEquals(10, Math.hypot(projectile.getVx(), projectile.getVy()), 0.0001);
+    }
+
+    @Test
+    void collisionUsesProjectileKnockback() {
+        projectiles.add(new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.FORCE_PUSH, 16, 1, 0,
+                        false, 0, 14, 0)));
+        enemyManager.spawnEnemy(110, 195, EntityType.TECHDEBT);
+        double before = enemyManager.getEnemies().get(0).getX();
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertTrue(enemyManager.getEnemies().get(0).getX() > before);
+        assertFalse(enemyManager.getEnemies().get(0).isDead());
+    }
+
+    @Test
+    void piercingProjectileDoesNotHitSameEnemyTwice() {
+        Projectile projectile = new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 10, 0, 0,
+                        false, 1, 0, 0));
+        projectiles.add(projectile);
+        enemyManager.spawnEnemy(110, 195, EntityType.TECHDEBT);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+        int hpAfterFirstHit = enemyManager.getEnemies().get(0).getHp();
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertEquals(40, hpAfterFirstHit);
+        assertEquals(hpAfterFirstHit, enemyManager.getEnemies().get(0).getHp());
+        assertFalse(projectile.isDead());
+        assertEquals(0, projectile.getRemainingPierces());
+    }
+
+    @Test
+    void collisionRicochetsAfterKillingEnemy() {
+        Projectile projectile = new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 25, 1, 0,
+                        false, 0, 0, 1));
+        projectiles.add(projectile);
+        enemyManager.spawnEnemy(110, 195, EntityType.BUG);
+        enemyManager.spawnEnemy(220, 195, EntityType.BUG);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertTrue(enemyManager.getEnemies().get(0).isDead());
+        assertFalse(enemyManager.getEnemies().get(1).isDead());
+        assertFalse(projectile.isDead());
+        assertEquals(0, projectile.getRemainingRicochets());
+        assertTrue(projectile.getVx() > 0);
+    }
+
+    @Test
+    void projectileKillEmitsCombatEventWithoutReplacingContextScoring() {
+        List<CombatEvent> events = new ArrayList<>();
+        collision = new CollisionSystem(events::add);
+        projectiles.add(new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 25, 0, 0,
+                        false, 0, 0, 0)));
+        enemyManager.spawnEnemy(110, 195, EntityType.BUG);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        CombatEvent.EnemyKilled event = assertInstanceOf(
+                CombatEvent.EnemyKilled.class, events.get(0));
+        assertEquals(EntityType.BUG, event.type());
+        assertEquals(100, event.points());
+        assertEquals(110, event.x(), 0.0001);
+        assertEquals(195, event.y(), 0.0001);
+        assertEquals(100, ctx.score);
+    }
+
+    @Test
+    void meleeKillEmitsExactlyOneCombatEvent() {
+        List<CombatEvent> events = new ArrayList<>();
+        collision = new CollisionSystem(events::add);
+        enemyManager.spawnEnemy(135, (int) player.getY(), EntityType.BUG);
+        player.melee();
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertEquals(1, events.size());
+        assertInstanceOf(CombatEvent.EnemyKilled.class, events.get(0));
+    }
+
+    @Test
+    void deadProjectileDoesNotDamageOverlappingBossAfterEnemyHit() {
+        boss.activate();
+        Projectile projectile = new Projectile(100, 150,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 25, 0, 0,
+                        false, 0, 0, 0));
+        projectiles.add(projectile);
+        enemyManager.spawnEnemy(110, 145, EntityType.BUG);
+        int hpBefore = boss.getHp();
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertTrue(enemyManager.getEnemies().get(0).isDead());
+        assertTrue(projectile.isDead());
+        assertEquals(hpBefore, boss.getHp());
+    }
+
+    @Test
     void multipleKills_shouldBuildCombo() {
         projectiles.add(new Projectile(100, 200, 0, 0, ProjectileType.SUDO));
         enemyManager.spawnEnemy(110, 195, EntityType.BUG);
@@ -325,5 +474,20 @@ class CollisionSystemTest {
                           particles, texts, logMessages::add);
 
         assertEquals(2, ctx.combo);
+    }
+
+    @Test
+    void comboWindowUpgradeExtendsTheRealCollisionTimer() {
+        collision = new CollisionSystem(event -> { }, () -> false, () -> 30);
+        projectiles.add(new Projectile(100, 200,
+                new ProjectileSpec(WeaponId.COMMIT_CANNON, 100, 0, 0,
+                        false, 0, 0, 0)));
+        enemyManager.spawnEnemy(110, 195, EntityType.BUG);
+
+        collision.process(ctx, projectiles, enemyManager, boss, player,
+                GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
+                particles, texts, logMessages::add);
+
+        assertEquals(130, ctx.comboTimer);
     }
 }

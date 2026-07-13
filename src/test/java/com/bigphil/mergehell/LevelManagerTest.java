@@ -9,6 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LevelManagerTest {
 
     @Test
+    void darkMissionRouteDoesNotEndBeforeItsTimedBossGate() {
+        assertTrue(new LevelManager(0).getCameraMaxX() > 500_000);
+        assertEquals(8_600, new LevelManager(1).getCameraMaxX(), 0.001);
+    }
+
+    @Test
     void bossGate_isAfterAllAuthoredBattleZones() {
         LevelManager level = new LevelManager(0);
 
