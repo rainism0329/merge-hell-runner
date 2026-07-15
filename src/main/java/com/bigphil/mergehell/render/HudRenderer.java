@@ -21,9 +21,10 @@ public final class HudRenderer {
     private static final int SIDE_WIDTH = 288;
 
     public void render(Graphics2D g, GameSession session, Player player,
-                       int score, int combo, int comboTimer, boolean unranked) {
+                       int score, int combo, int comboTimer, boolean unranked,
+                       boolean showMissionCard) {
         drawPlayerCard(g, session, player);
-        drawMissionCard(g, session);
+        if (showMissionCard) drawMissionCard(g, session);
         drawRunCard(g, session, player, score, combo, comboTimer);
         if (unranked) drawLabStrip(g, player.isDebugMode());
 

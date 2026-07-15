@@ -2,6 +2,7 @@ package com.bigphil.mergehell;
 
 import com.bigphil.mergehell.model.*;
 import com.bigphil.mergehell.render.DarkWorldRenderer;
+import com.bigphil.mergehell.render.LegacyWorldRenderer;
 import com.bigphil.mergehell.world.DarkBiome;
 import com.bigphil.mergehell.world.WorldScenery;
 
@@ -14,13 +15,13 @@ public class GameRenderer {
     private static final int TERMINAL_HEIGHT = 120;
     private static final Font PLATFORM_FONT = new Font("JetBrains Mono", Font.PLAIN, 10);
     private final DarkWorldRenderer darkWorldRenderer = new DarkWorldRenderer();
+    private final LegacyWorldRenderer legacyWorldRenderer = new LegacyWorldRenderer();
 
     public void render(Graphics2D g, int width, int height, int groundY,
                        GameState state, Player player, Boss boss,
                        ObstacleManager enemyManager,
                        List<Projectile> projectiles, List<Projectile> enemyBullets,
                        List<Particle> particles, List<FloatingText> floatingTexts,
-                       List<CodeRain> bgLayer1, List<CodeRain> bgLayer2, List<CodeRain> bgLayer3,
                        List<Platform> platforms, List<LevelManager.Coin> coins,
                        LinkedList<String> logs, int score, int combo, int comboTimer,
                        int shakeTimer, int flashTimer, int level, double difficulty,
@@ -38,9 +39,7 @@ public class GameRenderer {
         if (darkMission) {
             darkWorldRenderer.drawBackground(g, width, groundY, cameraX, safeBiome, danger);
         } else {
-            Color levelBg = danger ? new Color(30, 18, 18) : theme.bg;
-            g.setColor(levelBg);
-            g.fillRect(0, 0, width, groundY);
+            legacyWorldRenderer.drawBackground(g, level, width, groundY, cameraX, danger);
         }
 
         int shakeX = shakeTimer > 0 ? (int) (Math.random() * 10 - 5) : 0;
@@ -54,20 +53,7 @@ public class GameRenderer {
                     cameraX, width, safeBiome);
             darkWorldRenderer.drawGround(world, width, groundY, cameraX, safeBiome);
         } else {
-            drawBackgroundGrid(world, width, groundY, cameraX, theme.grid);
-            Color crColor = new Color(theme.codeRain.getRed(), theme.codeRain.getGreen(),
-                    theme.codeRain.getBlue(), 100);
-            world.setColor(crColor);
-            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 7));
-            for (CodeRain cr : bgLayer3) cr.draw(world);
-            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 9));
-            for (CodeRain cr : bgLayer2) cr.draw(world);
-            world.setFont(new Font("JetBrains Mono", Font.PLAIN, 11));
-            for (CodeRain cr : bgLayer1) cr.draw(world);
-            world.setColor(theme.ground);
-            world.fillRect((int) cameraX, groundY, width + 200, 10);
-            world.setColor(Color.GRAY);
-            world.drawLine((int) cameraX, groundY, (int) cameraX + width + 200, groundY);
+            legacyWorldRenderer.drawGround(world, level, width, groundY, cameraX, theme);
         }
 
         drawPlatforms(world, platforms, darkMission ? safeBiome.accent : theme.accent,
@@ -303,18 +289,6 @@ public class GameRenderer {
         }
     }
 
-    private void drawBackgroundGrid(Graphics2D g, int width, int height, double cameraX, Color gridColor) {
-        g.setColor(new Color(gridColor.getRed(), gridColor.getGreen(), gridColor.getBlue(), 80));
-        int step = 40;
-        int startX = ((int) cameraX / step) * step;
-        for (int x = startX; x < cameraX + width + step; x += step) {
-            g.drawLine(x, 0, x, height);
-        }
-        for (int y = step; y < height; y += step) {
-            g.drawLine((int) cameraX, y, (int) cameraX + width + 200, y);
-        }
-    }
-
     private void drawScanlines(Graphics2D g, int width, int height) {
         g.setColor(new Color(0, 0, 0, 15));
         for (int i = 0; i < height; i += 4) {
@@ -370,12 +344,26 @@ public class GameRenderer {
         if (state == GameState.BOSS_FIGHT && boss != null && boss.isActive()) {
             int bw = Math.min(500, width - 80);
             int bx = (width - bw) / 2;
-            drawPanel(g, bx - 10, 128, bw + 20, 40, GameColors.DANGER_RED);
+            drawPanel(g, bx - 10, 124, bw + 20, 58, GameColors.DANGER_RED);
             g.setColor(Color.WHITE);
             g.setFont(new Font("JetBrains Mono", Font.BOLD, 10));
-            g.drawString(boss.getName(), bx, 145);
-            drawMeter(g, bx, 152, bw, 7, boss.getHp() / (double) boss.getMaxHp(), GameColors.DANGER_RED);
+            g.drawString(fitText(g, boss.getName() + "  //  " + boss.getPersonalityName(), bw), bx, 141);
+            g.setColor(GameColors.SUDO_YELLOW);
+            g.setFont(new Font("JetBrains Mono", Font.BOLD, 9));
+            g.drawString(fitText(g, boss.getEncounterStatus(), bw), bx, 157);
+            drawMeter(g, bx, 165, bw, 7, boss.getHp() / (double) boss.getMaxHp(), GameColors.DANGER_RED);
         }
+    }
+
+    private String fitText(Graphics2D g, String text, int maxWidth) {
+        if (g.getFontMetrics().stringWidth(text) <= maxWidth) return text;
+        String suffix = "...";
+        int length = text.length();
+        while (length > 0
+                && g.getFontMetrics().stringWidth(text.substring(0, length) + suffix) > maxWidth) {
+            length--;
+        }
+        return text.substring(0, length) + suffix;
     }
 
     private void drawPanel(Graphics2D g, int x, int y, int width, int height, Color accent) {

@@ -32,6 +32,7 @@ public class LevelManager {
 
     // Battle zone state
     private BattleZone activeBattle;
+    private final Set<BattleZone> completedBattles = new HashSet<>();
     private int currentWave;
     private int waveTimer;
 
@@ -62,47 +63,87 @@ public class LevelManager {
 
     private List<SpawnTrigger> buildTriggers(int level) {
         List<SpawnTrigger> list = new ArrayList<>();
-        int count = level + 1;
-
-        for (double x = 200; x < 600; x += 100)
-            list.add(new SpawnTrigger(x, EntityType.BUG, count, 0));
-        if (level >= 1)
-            for (double x = 300; x < 600; x += 120)
-                list.add(new SpawnTrigger(x, EntityType.CRASH, 1, 2));
-        for (double x = 1300; x < 1800; x += 80) {
-            EntityType t = x < 1600 ? EntityType.CONFLICT : (level >= 2 ? EntityType.LOCK : EntityType.BUG);
-            list.add(new SpawnTrigger(x, t, 1, random.nextBoolean() ? 2 : 0));
+        switch (Math.max(1, level)) {
+            case 1 -> buildMemoryRoute(list);
+            case 2 -> buildArchitectRoute(list);
+            case 3 -> buildKernelRoute(list);
+            default -> buildSingularityRoute(list);
         }
-        list.add(new SpawnTrigger(1550, EntityType.HEALTH, 1, 0));
-        list.add(new SpawnTrigger(1700, EntityType.PICKUP_SPREAD, 1, 0));
-        if (level >= 1) list.add(new SpawnTrigger(1750, EntityType.PICKUP_RAPID, 1, 0));
-
-        for (double x = 2600; x < 3100; x += 60) {
-            EntityType t = level >= 2 ? EntityType.CRASH : (level >= 1 ? EntityType.LOCK : EntityType.BUG);
-            list.add(new SpawnTrigger(x, t, 1, 2));
-        }
-        list.add(new SpawnTrigger(2800, EntityType.POWERUP_SHIELD, 1, 0));
-        list.add(new SpawnTrigger(2900, EntityType.HEALTH, 1, 0));
-        if (level >= 1) list.add(new SpawnTrigger(2950, EntityType.FIREWALL, 1, 0));
-        if (level >= 2) list.add(new SpawnTrigger(3000, EntityType.FIREWALL, 2, 0));
-
-        // The campaign's later battle zones used to exist off-screen after the boss.
-        // Populate the entire route so each run has a readable escalation: skirmish,
-        // arena, recovery, then the boss gate.
-        addEncounter(list, 3400, 4050, 120, EntityType.BUG, count + 1, 2);
-        addEncounter(list, 3600, 4200, 180, EntityType.CONFLICT, 1, 0);
-        list.add(new SpawnTrigger(3900, EntityType.HEALTH, 1, 0));
-        list.add(new SpawnTrigger(4050, EntityType.PICKUP_HEAVY, 1, 0));
-
-        addEncounter(list, 5100, 5750, 110,
-                level >= 2 ? EntityType.LOCK : EntityType.CRASH, count + 1, 2);
-        list.add(new SpawnTrigger(5400, EntityType.POWERUP_SHIELD, 1, 0));
-        list.add(new SpawnTrigger(5650, EntityType.PICKUP_RAPID, 1, 0));
-
-        addEncounter(list, 7100, 7480, 95, EntityType.CONFLICT, count + 1, 2);
-        list.add(new SpawnTrigger(7250, EntityType.HEALTH, 1, 0));
-        list.add(new SpawnTrigger(7420, EntityType.PICKUP_SPREAD, 1, 0));
         return list;
+    }
+
+    private void buildMemoryRoute(List<SpawnTrigger> list) {
+        addEncounter(list, 200, 700, 95, EntityType.LEAK, 2, 2);
+        list.add(new SpawnTrigger(620, EntityType.BUG, 3, 0));
+        list.add(new SpawnTrigger(760, EntityType.PICKUP_SPREAD, 1, 0));
+        addEncounter(list, 1550, 2200, 125, EntityType.LEAK, 2, 2);
+        list.add(new SpawnTrigger(1900, EntityType.TECHDEBT, 1, 0));
+        list.add(new SpawnTrigger(2150, EntityType.HEALTH, 1, 0));
+        addEncounter(list, 3050, 4100, 145, EntityType.BUG, 2, 2);
+        addEncounter(list, 3300, 4100, 220, EntityType.LEAK, 2, 0);
+        list.add(new SpawnTrigger(4000, EntityType.POWERUP_SHIELD, 1, 0));
+        addEncounter(list, 5050, 6100, 170, EntityType.LEAK, 3, 2);
+        list.add(new SpawnTrigger(5550, EntityType.TECHDEBT, 2, 0));
+        list.add(new SpawnTrigger(5950, EntityType.PICKUP_FLAME, 1, 0));
+        addEncounter(list, 7050, 7480, 105, EntityType.LEAK, 3, 2);
+        list.add(new SpawnTrigger(7240, EntityType.TECHDEBT, 1, 0));
+        list.add(new SpawnTrigger(7440, EntityType.HEALTH, 1, 0));
+    }
+
+    private void buildArchitectRoute(List<SpawnTrigger> list) {
+        addEncounter(list, 220, 720, 125, EntityType.SENTINEL, 1, 0);
+        list.add(new SpawnTrigger(520, EntityType.CONFLICT, 2, 2));
+        list.add(new SpawnTrigger(760, EntityType.PICKUP_LASER, 1, 0));
+        addEncounter(list, 1550, 2200, 160, EntityType.LOCK, 2, 2);
+        list.add(new SpawnTrigger(1760, EntityType.SENTINEL, 2, 0));
+        list.add(new SpawnTrigger(2100, EntityType.FIREWALL, 1, 0));
+        list.add(new SpawnTrigger(2190, EntityType.HEALTH, 1, 0));
+        addEncounter(list, 3050, 4100, 190, EntityType.SENTINEL, 2, 0);
+        addEncounter(list, 3250, 4100, 270, EntityType.CONFLICT, 2, 2);
+        list.add(new SpawnTrigger(4020, EntityType.POWERUP_SHIELD, 1, 0));
+        addEncounter(list, 5050, 6100, 180, EntityType.LOCK, 3, 2);
+        list.add(new SpawnTrigger(5350, EntityType.FIREWALL, 2, 0));
+        list.add(new SpawnTrigger(5950, EntityType.PICKUP_HEAVY, 1, 0));
+        addEncounter(list, 7050, 7480, 135, EntityType.SENTINEL, 2, 2);
+        list.add(new SpawnTrigger(7240, EntityType.FIREWALL, 1, 0));
+        list.add(new SpawnTrigger(7440, EntityType.HEALTH, 1, 0));
+    }
+
+    private void buildKernelRoute(List<SpawnTrigger> list) {
+        addEncounter(list, 180, 720, 90, EntityType.INTERRUPT, 1, 2);
+        list.add(new SpawnTrigger(580, EntityType.CRASH, 3, 0));
+        list.add(new SpawnTrigger(760, EntityType.PICKUP_RAPID, 1, 0));
+        addEncounter(list, 1550, 2200, 115, EntityType.INTERRUPT, 2, 2);
+        list.add(new SpawnTrigger(1800, EntityType.LOCK, 2, 0));
+        list.add(new SpawnTrigger(2160, EntityType.HEALTH, 1, 0));
+        addEncounter(list, 3050, 4100, 125, EntityType.CRASH, 2, 2);
+        addEncounter(list, 3400, 4100, 170, EntityType.INTERRUPT, 2, 0);
+        list.add(new SpawnTrigger(4000, EntityType.POWERUP_SHIELD, 1, 0));
+        addEncounter(list, 5050, 6100, 120, EntityType.INTERRUPT, 2, 2);
+        list.add(new SpawnTrigger(5400, EntityType.FIREWALL, 2, 0));
+        list.add(new SpawnTrigger(5900, EntityType.PICKUP_FLAME, 1, 0));
+        addEncounter(list, 7050, 7480, 85, EntityType.INTERRUPT, 2, 2);
+        list.add(new SpawnTrigger(7250, EntityType.CRASH, 4, 2));
+        list.add(new SpawnTrigger(7440, EntityType.HEALTH, 1, 0));
+    }
+
+    private void buildSingularityRoute(List<SpawnTrigger> list) {
+        addEncounter(list, 190, 720, 110, EntityType.MIRROR, 1, 2);
+        list.add(new SpawnTrigger(460, EntityType.LEAK, 3, 0));
+        list.add(new SpawnTrigger(760, EntityType.PICKUP_LASER, 1, 0));
+        addEncounter(list, 1550, 2200, 135, EntityType.SENTINEL, 2, 2);
+        list.add(new SpawnTrigger(1780, EntityType.MIRROR, 2, 0));
+        list.add(new SpawnTrigger(2150, EntityType.HEALTH, 1, 0));
+        addEncounter(list, 3050, 4100, 120, EntityType.INTERRUPT, 2, 2);
+        addEncounter(list, 3350, 4100, 180, EntityType.LEAK, 3, 0);
+        list.add(new SpawnTrigger(4000, EntityType.POWERUP_SHIELD, 1, 0));
+        addEncounter(list, 5050, 6100, 150, EntityType.MIRROR, 2, 2);
+        list.add(new SpawnTrigger(5400, EntityType.TECHDEBT, 2, 0));
+        list.add(new SpawnTrigger(5900, EntityType.PICKUP_HEAVY, 1, 0));
+        addEncounter(list, 7050, 7480, 95, EntityType.MIRROR, 2, 2);
+        list.add(new SpawnTrigger(7200, EntityType.SENTINEL, 2, 2));
+        list.add(new SpawnTrigger(7360, EntityType.INTERRUPT, 3, 2));
+        list.add(new SpawnTrigger(7460, EntityType.HEALTH, 1, 0));
     }
 
     private void addEncounter(List<SpawnTrigger> list, double from, double to, double step,
@@ -113,62 +154,122 @@ public class LevelManager {
     }
 
     private List<BattleZone> buildBattleZones(int level) {
-        int extra = Math.min(level, 3);
+        return switch (Math.max(1, level)) {
+            case 1 -> memoryBattles();
+            case 2 -> architectBattles();
+            case 3 -> kernelBattles();
+            default -> singularityBattles();
+        };
+    }
+
+    private List<BattleZone> memoryBattles() {
         return List.of(
-            new BattleZone(900, 1500, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 5 + extra, 0, WaveType.RUSH),
-                new WaveDef(EntityType.CRASH, 3 + extra, 2, WaveType.MIXED),
-                new WaveDef(EntityType.CONFLICT, 4 + extra, 2, WaveType.SNIPER),
-            }),
-            new BattleZone(2300, 3000, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 6 + extra, 0, WaveType.RUSH),
-                new WaveDef(EntityType.CRASH, 4 + extra, 2, WaveType.MIXED),
-                new WaveDef(EntityType.LOCK, 3 + extra, 0, WaveType.SNIPER),
-                new WaveDef(EntityType.TECHDEBT, 1 + extra / 2, 0, WaveType.MINIBOSS),
-            }),
-            new BattleZone(4200, 5000, new WaveDef[]{
-                new WaveDef(EntityType.CRASH, 5 + extra, 2, WaveType.RUSH),
-                new WaveDef(EntityType.LOCK, 4 + extra, 2, WaveType.MIXED),
-                new WaveDef(EntityType.TECHDEBT, 2 + extra / 2, 0, WaveType.MINIBOSS),
-                new WaveDef(EntityType.CONFLICT, 5 + extra, 2, WaveType.SNIPER),
-            }),
-            new BattleZone(6200, 7000, new WaveDef[]{
-                new WaveDef(EntityType.BUG, 6 + extra, 0, WaveType.RUSH),
-                new WaveDef(EntityType.FIREWALL, 2 + extra / 2, 0, WaveType.MINIBOSS),
-                new WaveDef(EntityType.CRASH, 5 + extra, 2, WaveType.MIXED),
-                new WaveDef(EntityType.LOCK, 4 + extra, 0, WaveType.SNIPER),
-                new WaveDef(EntityType.TECHDEBT, 2 + extra / 2, 2, WaveType.MINIBOSS),
-            })
-        );
+                battle(900, 1500, wave(EntityType.LEAK, 7, 2, WaveType.RUSH),
+                        wave(EntityType.BUG, 6, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 1, 0, WaveType.MINIBOSS)),
+                battle(2300, 3000, wave(EntityType.LEAK, 9, 2, WaveType.RUSH),
+                        wave(EntityType.CRASH, 5, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 2, 0, WaveType.MINIBOSS)),
+                battle(4200, 5000, wave(EntityType.LEAK, 11, 2, WaveType.RUSH),
+                        wave(EntityType.BUG, 8, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 3, 2, WaveType.MINIBOSS)),
+                battle(6200, 7000, wave(EntityType.LEAK, 12, 2, WaveType.RUSH),
+                        wave(EntityType.CRASH, 7, 2, WaveType.MIXED), wave(EntityType.LEAK, 8, 2, WaveType.SNIPER),
+                        wave(EntityType.TECHDEBT, 3, 2, WaveType.MINIBOSS)));
+    }
+
+    private List<BattleZone> architectBattles() {
+        return List.of(
+                battle(900, 1500, wave(EntityType.SENTINEL, 4, 0, WaveType.SNIPER),
+                        wave(EntityType.LOCK, 5, 2, WaveType.MIXED), wave(EntityType.FIREWALL, 1, 0, WaveType.MINIBOSS)),
+                battle(2300, 3000, wave(EntityType.CONFLICT, 6, 2, WaveType.SNIPER),
+                        wave(EntityType.SENTINEL, 5, 2, WaveType.SNIPER), wave(EntityType.FIREWALL, 2, 0, WaveType.MINIBOSS)),
+                battle(4200, 5000, wave(EntityType.LOCK, 7, 2, WaveType.MIXED),
+                        wave(EntityType.SENTINEL, 6, 2, WaveType.SNIPER), wave(EntityType.FIREWALL, 3, 2, WaveType.MINIBOSS)),
+                battle(6200, 7000, wave(EntityType.SENTINEL, 7, 2, WaveType.SNIPER),
+                        wave(EntityType.LOCK, 8, 2, WaveType.MIXED), wave(EntityType.CONFLICT, 7, 2, WaveType.SNIPER),
+                        wave(EntityType.FIREWALL, 3, 2, WaveType.MINIBOSS)));
+    }
+
+    private List<BattleZone> kernelBattles() {
+        return List.of(
+                battle(900, 1500, wave(EntityType.INTERRUPT, 7, 2, WaveType.RUSH),
+                        wave(EntityType.CRASH, 5, 2, WaveType.MIXED), wave(EntityType.LOCK, 4, 0, WaveType.SNIPER)),
+                battle(2300, 3000, wave(EntityType.INTERRUPT, 9, 2, WaveType.RUSH),
+                        wave(EntityType.CRASH, 7, 2, WaveType.RUSH), wave(EntityType.FIREWALL, 2, 0, WaveType.MINIBOSS)),
+                battle(4200, 5000, wave(EntityType.INTERRUPT, 10, 2, WaveType.RUSH),
+                        wave(EntityType.LOCK, 6, 2, WaveType.SNIPER), wave(EntityType.CRASH, 8, 2, WaveType.MIXED)),
+                battle(6200, 7000, wave(EntityType.INTERRUPT, 12, 2, WaveType.RUSH),
+                        wave(EntityType.CRASH, 9, 2, WaveType.MIXED), wave(EntityType.FIREWALL, 3, 2, WaveType.MINIBOSS),
+                        wave(EntityType.INTERRUPT, 10, 2, WaveType.RUSH)));
+    }
+
+    private List<BattleZone> singularityBattles() {
+        return List.of(
+                battle(900, 1500, wave(EntityType.MIRROR, 4, 2, WaveType.MIXED),
+                        wave(EntityType.LEAK, 7, 2, WaveType.RUSH), wave(EntityType.SENTINEL, 4, 2, WaveType.SNIPER)),
+                battle(2300, 3000, wave(EntityType.INTERRUPT, 8, 2, WaveType.RUSH),
+                        wave(EntityType.MIRROR, 5, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 2, 2, WaveType.MINIBOSS)),
+                battle(4200, 5000, wave(EntityType.SENTINEL, 6, 2, WaveType.SNIPER),
+                        wave(EntityType.LEAK, 10, 2, WaveType.RUSH), wave(EntityType.MIRROR, 6, 2, WaveType.MIXED)),
+                battle(6200, 7000, wave(EntityType.MIRROR, 7, 2, WaveType.MIXED),
+                        wave(EntityType.INTERRUPT, 10, 2, WaveType.RUSH), wave(EntityType.SENTINEL, 7, 2, WaveType.SNIPER),
+                        wave(EntityType.LEAK, 12, 2, WaveType.RUSH), wave(EntityType.TECHDEBT, 3, 2, WaveType.MINIBOSS)));
+    }
+
+    private BattleZone battle(double start, double end, WaveDef... waves) {
+        return new BattleZone(start, end, waves);
+    }
+
+    private WaveDef wave(EntityType type, int count, int direction, WaveType waveType) {
+        return new WaveDef(type, count, direction, waveType);
     }
 
     private List<Platform> buildPlatforms(int level) {
-        List<Platform> list = new ArrayList<>(List.of(
-            new Platform(500, 365, 130, 22), new Platform(900, 305, 150, 22),
-            new Platform(1600, 285, 140, 22), new Platform(2700, 335, 110, 22),
-            new Platform(2900, 295, 150, 22)
-        ));
-        if (level >= 1) list.addAll(List.of(
-            new Platform(700, 335, 110, 22), new Platform(1400, 345, 110, 22),
-            new Platform(1800, 325, 120, 22), new Platform(2400, 315, 130, 22)
-        ));
-        if (level >= 2) list.addAll(List.of(
-            new Platform(1100, 325, 130, 22), new Platform(1500, 265, 110, 22),
-            new Platform(2000, 335, 140, 22), new Platform(2600, 305, 150, 22),
-            new Platform(3000, 275, 120, 22)
-        ));
-        list.addAll(List.of(
-            new Platform(3500, 340, 130, 22), new Platform(3900, 290, 150, 22),
-            new Platform(4450, 325, 120, 22), new Platform(4850, 270, 140, 22),
-            new Platform(5300, 335, 150, 22), new Platform(5750, 300, 110, 22),
-            new Platform(6400, 340, 140, 22), new Platform(6850, 280, 150, 22),
-            new Platform(7250, 325, 130, 22)
-        ));
+        List<Platform> list = new ArrayList<>(switch (Math.max(1, level)) {
+            case 1 -> List.of(
+                    platform(500, 360, 140, Platform.Style.SERVER_BANK), platform(900, 305, 155, Platform.Style.PIPE),
+                    platform(1400, 345, 120, Platform.Style.CABLE), platform(1750, 285, 145, Platform.Style.SERVER_BANK),
+                    platform(2400, 325, 135, Platform.Style.PIPE), platform(2850, 280, 150, Platform.Style.CABLE),
+                    platform(3500, 340, 145, Platform.Style.SERVER_BANK), platform(3950, 290, 150, Platform.Style.PIPE),
+                    platform(4450, 320, 130, Platform.Style.CABLE), platform(4900, 265, 145, Platform.Style.SERVER_BANK),
+                    platform(5400, 340, 155, Platform.Style.PIPE), platform(5850, 295, 125, Platform.Style.CABLE),
+                    platform(6400, 335, 145, Platform.Style.SERVER_BANK), platform(6900, 275, 155, Platform.Style.PIPE),
+                    platform(7300, 320, 135, Platform.Style.CABLE));
+            case 2 -> List.of(
+                    platform(450, 350, 120, Platform.Style.CATWALK), platform(800, 300, 130, Platform.Style.FORTIFICATION),
+                    platform(1150, 250, 140, Platform.Style.CATWALK), platform(1500, 300, 140, Platform.Style.FORTIFICATION),
+                    platform(1900, 350, 130, Platform.Style.CATWALK), platform(2450, 330, 150, Platform.Style.FORTIFICATION),
+                    platform(2850, 270, 150, Platform.Style.CATWALK), platform(3500, 315, 140, Platform.Style.FORTIFICATION),
+                    platform(3900, 255, 160, Platform.Style.CATWALK), platform(4450, 335, 130, Platform.Style.FORTIFICATION),
+                    platform(4850, 275, 150, Platform.Style.CATWALK), platform(5350, 320, 150, Platform.Style.FORTIFICATION),
+                    platform(5800, 260, 140, Platform.Style.CATWALK), platform(6450, 335, 150, Platform.Style.FORTIFICATION),
+                    platform(6900, 270, 160, Platform.Style.CATWALK), platform(7300, 315, 135, Platform.Style.FORTIFICATION));
+            case 3 -> List.of(
+                    platform(420, 365, 115, Platform.Style.PIPE), platform(720, 285, 125, Platform.Style.SERVER_BANK),
+                    platform(1080, 350, 120, Platform.Style.FORTIFICATION), platform(1450, 245, 145, Platform.Style.PIPE),
+                    platform(1850, 330, 130, Platform.Style.SERVER_BANK), platform(2400, 260, 145, Platform.Style.FORTIFICATION),
+                    platform(2800, 345, 120, Platform.Style.PIPE), platform(3450, 235, 150, Platform.Style.SERVER_BANK),
+                    platform(3900, 340, 135, Platform.Style.FORTIFICATION), platform(4450, 270, 125, Platform.Style.PIPE),
+                    platform(4850, 350, 155, Platform.Style.SERVER_BANK), platform(5350, 245, 135, Platform.Style.FORTIFICATION),
+                    platform(5800, 330, 150, Platform.Style.PIPE), platform(6400, 260, 145, Platform.Style.SERVER_BANK),
+                    platform(6850, 350, 130, Platform.Style.FORTIFICATION), platform(7300, 275, 140, Platform.Style.PIPE));
+            default -> List.of(
+                    platform(460, 340, 120, Platform.Style.RUBBLE), platform(780, 270, 145, Platform.Style.CABLE),
+                    platform(1180, 355, 110, Platform.Style.SERVER_BANK), platform(1500, 235, 155, Platform.Style.CATWALK),
+                    platform(1950, 325, 130, Platform.Style.RUBBLE), platform(2380, 255, 145, Platform.Style.CABLE),
+                    platform(2850, 345, 125, Platform.Style.FORTIFICATION), platform(3450, 260, 150, Platform.Style.SERVER_BANK),
+                    platform(3900, 350, 120, Platform.Style.RUBBLE), platform(4380, 225, 155, Platform.Style.CABLE),
+                    platform(4900, 330, 135, Platform.Style.CATWALK), platform(5350, 250, 145, Platform.Style.SERVER_BANK),
+                    platform(5850, 355, 125, Platform.Style.RUBBLE), platform(6350, 240, 155, Platform.Style.CABLE),
+                    platform(6850, 335, 140, Platform.Style.FORTIFICATION), platform(7300, 265, 145, Platform.Style.RUBBLE));
+        });
         for (Platform p : list) {
             if (random.nextBoolean())
                 coins.add(new Coin(p.x + p.width / 2, p.y - 30));
         }
         return list;
+    }
+
+    private Platform platform(double x, double y, int width, Platform.Style style) {
+        return new Platform(x, y, width, 22, style);
     }
 
     public List<Coin> getCoins() { return coins; }
@@ -178,13 +279,13 @@ public class LevelManager {
     public BattleZone getBattleAt(double playerX) {
         if (activeBattle != null) return activeBattle;
         for (BattleZone bz : battleZones) {
-            if (playerX >= bz.start && playerX < bz.end) return bz;
+            if (!completedBattles.contains(bz) && playerX >= bz.start && playerX < bz.end) return bz;
         }
         return null;
     }
 
     public void enterBattle(BattleZone bz) {
-        if (activeBattle != null) return;
+        if (activeBattle != null || completedBattles.contains(bz)) return;
         activeBattle = bz;
         currentWave = 0;
         waveTimer = 30; // brief pause before first wave
@@ -204,10 +305,55 @@ public class LevelManager {
             return false;
         }
         if (currentWave >= activeBattle.waves.length) {
-            activeBattle = null; // all waves done
+            completeActiveBattle();
             return false;
         }
         return true;
+    }
+
+    /** LAB shortcut: advances to the next authored arena, or clears the current one. */
+    public double advanceToNextEncounterForTesting(double playerX) {
+        double targetX;
+        if (activeBattle != null) {
+            targetX = activeBattle.end + 1;
+            completeActiveBattle();
+        } else {
+            targetX = BOSS_GATE_X;
+            for (BattleZone battle : battleZones) {
+                if (completedBattles.contains(battle)) continue;
+                if (playerX < battle.start) {
+                    targetX = battle.start;
+                    break;
+                }
+                if (playerX < battle.end) {
+                    completedBattles.add(battle);
+                    targetX = battle.end + 1;
+                    break;
+                }
+            }
+        }
+        discardTriggersThrough(targetX);
+        return targetX;
+    }
+
+    /** LAB shortcut: clears route encounters so the legacy boss can spawn immediately. */
+    public void advanceToBossGateForTesting() {
+        completedBattles.addAll(battleZones);
+        activeBattle = null;
+        currentWave = 0;
+        waveTimer = 0;
+        discardTriggersThrough(BOSS_GATE_X);
+    }
+
+    private void completeActiveBattle() {
+        completedBattles.add(activeBattle);
+        activeBattle = null;
+        currentWave = 0;
+        waveTimer = 0;
+    }
+
+    private void discardTriggersThrough(double worldX) {
+        triggers.removeIf(trigger -> trigger.worldX <= worldX);
     }
 
     public WaveDef popWave() {
@@ -249,6 +395,14 @@ public class LevelManager {
     }
     public double getBossGateX() { return BOSS_GATE_X; }
     public List<Platform> getPlatforms() { return platforms; }
+    public Set<EntityType> getEnemyRoster() {
+        EnumSet<EntityType> roster = EnumSet.noneOf(EntityType.class);
+        triggers.stream().map(trigger -> trigger.type).filter(EntityType::isHostile).forEach(roster::add);
+        for (BattleZone battle : battleZones) {
+            for (WaveDef wave : battle.waves) if (wave.type.isHostile()) roster.add(wave.type);
+        }
+        return Collections.unmodifiableSet(roster);
+    }
 
     // ── Types ────────────────────────────────────────
 

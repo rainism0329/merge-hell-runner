@@ -23,6 +23,10 @@ public final class VectorEntityRenderer {
             case LOCK -> drawLock(g, x, y, w, h);
             case TECHDEBT -> drawDebt(g, x, y, w, h);
             case FIREWALL -> drawFirewall(g, x, y, w, h);
+            case LEAK -> drawLeak(g, x, y, w, h);
+            case SENTINEL -> drawSentinel(g, x, y, w, h);
+            case INTERRUPT -> drawInterrupt(g, x, y, w, h);
+            case MIRROR -> drawMirror(g, x, y, w, h);
             default -> { return; }
         }
         g.setFont(LABEL);
@@ -72,6 +76,36 @@ public final class VectorEntityRenderer {
             if (yy > y+h/2-12 && yy < y+h/2+18 && xx > x+w/3) continue;
             g.drawRect(xx,yy,14,14);
         }
+    }
+    private static void drawLeak(Graphics2D g, int x, int y, int w, int h) {
+        Polygon drop = new Polygon(new int[]{x+w/2,x+w-3,x+w-7,x+w/2,x+7,x+3},
+                new int[]{y+1,y+h/2,y+h-5,y+h-1,y+h-5,y+h/2},6);
+        g.fillPolygon(drop);
+        g.setColor(new Color(20, 24, 22));
+        g.fillOval(x+w/3,y+h/2,w/3,h/4);
+    }
+    private static void drawSentinel(Graphics2D g, int x, int y, int w, int h) {
+        Polygon diamond = new Polygon(new int[]{x+w/2,x+w-2,x+w/2,x+2},
+                new int[]{y+1,y+h/2,y+h-1,y+h/2},4);
+        g.drawPolygon(diamond);
+        g.drawOval(x+8,y+12,w-16,h-24);
+        g.fillOval(x+w/2-5,y+h/2-5,10,10);
+        g.drawLine(x-22,y+h/2,x+2,y+h/2);
+    }
+    private static void drawInterrupt(Graphics2D g, int x, int y, int w, int h) {
+        Polygon bolt = new Polygon(new int[]{x+w*2/3,x+w/3,x+w/2,x+w/4,x+w*3/4,x+w/2},
+                new int[]{y+1,y+h/2-4,y+h/2-4,y+h-1,y+h/2+4,y+h/2+4},6);
+        g.fillPolygon(bolt);
+        g.drawOval(x-4,y-4,w+8,h+8);
+    }
+    private static void drawMirror(Graphics2D g, int x, int y, int w, int h) {
+        Polygon prism = new Polygon(new int[]{x+w/2,x+w-2,x+w*3/4,x+w/4,x+2},
+                new int[]{y+1,y+h/3,y+h-2,y+h-2,y+h/3},5);
+        g.fillPolygon(prism);
+        g.setColor(new Color(15, 12, 28));
+        g.drawLine(x+w/2,y+4,x+w/4,y+h-3);
+        g.drawLine(x+w/2,y+4,x+w*3/4,y+h-3);
+        g.drawLine(x+w/4,y+h-3,x+w*3/4,y+h-3);
     }
 
     private VectorEntityRenderer() { }

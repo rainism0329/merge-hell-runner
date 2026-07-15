@@ -94,15 +94,23 @@ public class ObstacleManager {
             shootTimer = 60 + random.nextInt(100);
             double bulletX = x;
             double bulletY = y + height / 2.0;
-            double dy = (playerY - bulletY) * 0.03;
-            double bulletVx = -6 * moveDir;
-            ProjectileType bulletType = random.nextInt(5) == 0 ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
+            double tracking = type == EntityType.SENTINEL ? 0.045
+                    : type == EntityType.MIRROR ? 0.035 : 0.03;
+            double dy = (playerY - bulletY) * tracking;
+            double speed = type == EntityType.SENTINEL ? 8
+                    : type == EntityType.MIRROR ? 5.5 : 6;
+            double bulletVx = -speed * moveDir;
+            int criticalChance = type == EntityType.SENTINEL ? 3
+                    : type == EntityType.MIRROR ? 4 : 5;
+            ProjectileType bulletType = random.nextInt(criticalChance) == 0
+                    ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
             return new Projectile(bulletX, bulletY, bulletVx, dy, bulletType);
         }
 
         private boolean canShoot() {
             return type == EntityType.CONFLICT || type == EntityType.LOCK
-                    || type == EntityType.TECHDEBT;
+                    || type == EntityType.TECHDEBT || type == EntityType.SENTINEL
+                    || type == EntityType.MIRROR;
         }
 
         public void update(double difficultySpeed, double playerX) {
@@ -120,7 +128,8 @@ public class ObstacleManager {
             } else {
                 double speed = vx * difficultySpeed;
                 x -= speed * moveDir;
-                boolean canCharge = type == EntityType.BUG || type == EntityType.CRASH;
+                boolean canCharge = type == EntityType.BUG || type == EntityType.CRASH
+                        || type == EntityType.INTERRUPT;
                 if (canCharge && --chargeTimer <= 0) {
                     if (Math.abs(x - playerX) < 350) {
                         chargeVx = (playerX > x ? 1 : -1) * vx * difficultySpeed * 3.5;
@@ -138,6 +147,10 @@ public class ObstacleManager {
                 case CONFLICT -> { /* steady advance */ }
                 case TECHDEBT -> { /* slow and heavy, no wobble */ }
                 case FIREWALL -> { /* straight line, blocks path */ }
+                case LEAK -> y += Math.sin(t * 3.2 + spawnTime) * 3.2;
+                case SENTINEL -> y += Math.sin(t * 1.6 + spawnTime) * 1.1;
+                case INTERRUPT -> y += Math.signum(Math.sin(t * 9.5 + spawnTime)) * 3.8;
+                case MIRROR -> y += Math.cos(t * 2.1 + spawnTime) * 2.4;
                 case PICKUP_SPREAD, PICKUP_RAPID, PICKUP_HEAVY, PICKUP_FLAME, PICKUP_LASER, POWERUP_SHIELD, HEALTH ->
                         y += Math.sin(t * 1.5 + spawnTime) * 1.5;
             }
@@ -250,6 +263,8 @@ public class ObstacleManager {
         int y = groundY - 40 - random.nextInt(120);
         if (type == EntityType.TECHDEBT) y = groundY - 80;
         else if (type == EntityType.FIREWALL) y = 0;
+        else if (type == EntityType.SENTINEL) y = groundY - 170 - random.nextInt(130);
+        else if (type == EntityType.MIRROR) y = groundY - 90 - random.nextInt(180);
         enemies.add(new Enemy(cameraX - 40 - random.nextInt(100), y, type, -1).protectOnSpawn());
     }
 
@@ -262,16 +277,11 @@ public class ObstacleManager {
         }
     }
 
-    private static final Object[][] ENEMY_POOL = {
-        { EntityType.BUG, 20 },
-        { EntityType.CONFLICT, 20 },
-        { EntityType.CRASH, 15, 1.5 },
-        { EntityType.LOCK, 15, 2.0 },
-        { EntityType.TECHDEBT, 15, 3.0 },
-        { EntityType.FIREWALL, 10, 4.0 },
-    };
-
     public void spawnRandom(int panelWidth, int groundY, double difficulty, int cameraX) {
+        spawnRandom(panelWidth, groundY, difficulty, cameraX, 1);
+    }
+
+    public void spawnRandom(int panelWidth, int groundY, double difficulty, int cameraX, int level) {
         double spawnChance = 2.0 + difficulty * 1.5;
         if (random.nextInt(100) < spawnChance) {
             int r = random.nextInt(100);
@@ -296,34 +306,16 @@ public class ObstacleManager {
                 type = EntityType.HEALTH;
                 y = groundY - 150 - random.nextInt(80);
             } else {
-                // Weighted enemy selection based on unlocked types
-                int totalWeight = 0;
-                for (Object[] entry : ENEMY_POOL) {
-                    double unlockAt = entry.length > 2 ? (double) entry[2] : 0;
-                    if (difficulty >= unlockAt) {
-                        totalWeight += (int) entry[1];
-                    }
-                }
-
-                int w = random.nextInt(totalWeight);
-                int acc = 0;
-                type = EntityType.BUG; // fallback
-                for (Object[] entry : ENEMY_POOL) {
-                    double unlockAt = entry.length > 2 ? (double) entry[2] : 0;
-                    if (difficulty >= unlockAt) {
-                        acc += (int) entry[1];
-                        if (w < acc) {
-                            type = (EntityType) entry[0];
-                            break;
-                        }
-                    }
-                }
+                EntityType[] roster = ambientRoster(level);
+                type = roster[random.nextInt(roster.length)];
             }
 
             // Set y position based on type
             if (type == EntityType.TECHDEBT) y = groundY - 80;
             else if (type == EntityType.LOCK) y = groundY - 60 - random.nextInt(80);
             else if (type == EntityType.FIREWALL) y = 0;
+            else if (type == EntityType.SENTINEL) y = groundY - 170 - random.nextInt(130);
+            else if (type == EntityType.MIRROR) y = groundY - 90 - random.nextInt(180);
 
             // 30% chance to spawn from left during boss fights
             boolean fromLeft = random.nextInt(100) < 30;
@@ -333,6 +325,20 @@ public class ObstacleManager {
             int spawnDir = fromLeft ? -1 : 1;
             if (canSpawn(type)) enemies.add(new Enemy(spawnX, y, type, spawnDir).protectOnSpawn());
         }
+    }
+
+    static EntityType[] ambientRoster(int level) {
+        return switch (level) {
+            case 1 -> new EntityType[]{EntityType.LEAK, EntityType.LEAK, EntityType.BUG,
+                    EntityType.TECHDEBT, EntityType.CRASH};
+            case 2 -> new EntityType[]{EntityType.SENTINEL, EntityType.SENTINEL,
+                    EntityType.LOCK, EntityType.CONFLICT, EntityType.FIREWALL};
+            case 3 -> new EntityType[]{EntityType.INTERRUPT, EntityType.INTERRUPT,
+                    EntityType.CRASH, EntityType.LOCK, EntityType.FIREWALL};
+            default -> new EntityType[]{EntityType.MIRROR, EntityType.LEAK,
+                    EntityType.SENTINEL, EntityType.INTERRUPT, EntityType.TECHDEBT,
+                    EntityType.CONFLICT};
+        };
     }
 
     /** Removes entities once they have genuinely left the current camera viewport. */

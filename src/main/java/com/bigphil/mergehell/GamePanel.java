@@ -40,7 +40,6 @@ import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
-import javax.swing.Timer;
 import com.intellij.openapi.Disposable;
 
 public class GamePanel extends JPanel implements ActionListener, Disposable {
@@ -55,9 +54,6 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     private final List<Projectile> projectiles = new ArrayList<>();
     private final List<Particle> particles = new ArrayList<>();
     private final List<FloatingText> floatingTexts = new ArrayList<>();
-    private final List<CodeRain> bgLayer1 = new ArrayList<>();
-    private final List<CodeRain> bgLayer2 = new ArrayList<>();
-    private final List<CodeRain> bgLayer3 = new ArrayList<>();
     private List<Platform> platforms = new ArrayList<>();
     private List<LevelManager.Coin> coins = new ArrayList<>();
     private List<WorldScenery> darkScenery = new ArrayList<>();
@@ -83,6 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     private double difficulty = 1.0;
     private boolean isNewHighScore = false;
     private double cameraX = 0;
+    private int bossWarningTimer = 0;
     private int bossDeathTimer = 0;
     private int missionCompleteTimer = 0;
     private int extraLifeScore = 5000;
@@ -111,6 +108,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
     static final int TERMINAL_HEIGHT = 120;
     private static final double CAMERA_LEAD = 0.3;
+    private static final int MISSION_COMPLETE_TICKS = 240;
+    private static final int MISSION_COMPLETE_FADE_TICKS = 45;
 
     public GamePanel() {
         setPreferredSize(new Dimension(960, 600));
@@ -137,12 +136,6 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         collision = new CollisionSystem(this::handleCombatEvent,
                 () -> !LevelManager.isLegacyMission(level),
                 () -> session.runBuild().buildStats().comboGraceTicks());
-
-        for (int i = 0; i < 30; i++) {
-            bgLayer1.add(new CodeRain(getWidth(), groundY));
-            bgLayer2.add(new CodeRain(getWidth(), groundY));
-            bgLayer3.add(new CodeRain(getWidth(), groundY));
-        }
 
         setupKeyBindings();
         addLog("System initialized. Kernel loaded.");
@@ -307,7 +300,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private boolean labActionAvailable() {
-        return labPowerEnabled && level == 0 && state != GameState.UPGRADE_SELECTION
+        return labPowerEnabled && state != GameState.UPGRADE_SELECTION
                 && (state == GameState.RUNNING || state == GameState.BOSS_WARNING
                 || state == GameState.BOSS_FIGHT);
     }
@@ -335,13 +328,26 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void labAdvanceSegment() {
-        if (!labActionAvailable() || legacyBoss != null) return;
+        if (!labActionAvailable()) return;
+        if (legacyBoss != null || boss != null) {
+            addLog("LAB // Boss encounter already active.");
+            return;
+        }
         markRunUnranked();
         enemyManager.clearHostiles();
         enemyManager.getEnemyBullets().clear();
-        session.advanceMissionSegmentForTesting();
-        updateDarkBiome();
-        addLog("LAB // Advanced to next mission segment.");
+        projectiles.clear();
+        if (LevelManager.isLegacyMission(level)) {
+            double targetX = levelManager.advanceToNextEncounterForTesting(player.getX());
+            relocatePlayerForLab(targetX);
+            state = GameState.RUNNING;
+            session.setGameplayState(GameState.RUNNING);
+            addLog("LAB // Advanced to next route encounter.");
+        } else {
+            session.advanceMissionSegmentForTesting();
+            updateDarkBiome();
+            addLog("LAB // Advanced to next mission segment.");
+        }
     }
 
     private void labClearWave() {
@@ -366,7 +372,11 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void labAdvanceToBoss() {
-        if (!labActionAvailable() || legacyBoss != null) return;
+        if (!labActionAvailable()) return;
+        if (legacyBoss != null || boss != null) {
+            addLog("LAB // Boss encounter already active.");
+            return;
+        }
         markRunUnranked();
         enemyManager.clearHostiles();
         enemyManager.getEnemyBullets().clear();
@@ -374,9 +384,23 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         boss = null;
         state = GameState.RUNNING;
         session.setGameplayState(GameState.RUNNING);
-        session.advanceToBossGateForTesting();
-        updateDarkBiome();
+        if (LevelManager.isLegacyMission(level)) {
+            levelManager.advanceToBossGateForTesting();
+            relocatePlayerForLab(levelManager.getBossGateX());
+        } else {
+            session.advanceToBossGateForTesting();
+            updateDarkBiome();
+        }
         addLog("LAB // Boss Gate armed. Stand by...");
+    }
+
+    private void relocatePlayerForLab(double worldX) {
+        double levelWidth = levelManager.getCameraMaxX();
+        player.setX(worldX);
+        cameraX = Math.max(0, Math.min(worldX - GameViewport.LOGICAL_WIDTH * CAMERA_LEAD,
+                levelWidth - GameViewport.LOGICAL_WIDTH));
+        recoveryX = worldX;
+        recoveryY = player.getY();
     }
 
     private void chooseUpgrade(int index) {
@@ -427,7 +451,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         ctx.shakeTimer = 0; ctx.flashTimer = 0; ctx.newKills = 0;
         level = 0; shakeTimer = 0; flashTimer = 0;
         difficulty = 1.0; cameraX = 0; isNewHighScore = false;
-        bossDeathTimer = 0; missionCompleteTimer = 0; transitionTimer = 0;
+        bossWarningTimer = 0; bossDeathTimer = 0; missionCompleteTimer = 0; transitionTimer = 0;
         extraLifeScore = 5000;
         long runSeed = random.nextLong();
         session = new GameSession(runSeed, selectedStartingWeapon);
@@ -479,7 +503,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         legacyMeleeConnected = false;
         legacyLaserFlashTicks = 0;
         lastLegacyPhase = null;
-        bossDeathTimer = 0; missionCompleteTimer = 0;
+        bossWarningTimer = 0; bossDeathTimer = 0; missionCompleteTimer = 0;
         resetGame();
         state = GameState.RUNNING;
         addLog("Level " + (level + 1) + " starting...");
@@ -507,9 +531,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         if (state == GameState.MISSION_COMPLETE) {
             missionCompleteTimer--;
-            transitionTimer = Math.min(transitionTimer + 16, 255);
+            transitionTimer = missionCompleteTransitionAlpha(missionCompleteTimer);
             if (missionCompleteTimer <= 0) {
-                if (level < 4) { advanceLevel(); transitionTimer = 255; }
+                if (level < 4) { level++; advanceLevel(); transitionTimer = 255; }
                 else { state = GameState.VICTORY; saveScore(); }
             }
             repaint(); return;
@@ -521,11 +545,17 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         }
 
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
-            int h = GameViewport.LOGICAL_HEIGHT - TERMINAL_HEIGHT;
-            for (CodeRain cr : bgLayer1) cr.update(960, h, 2.0, 0);
-            for (CodeRain cr : bgLayer2) cr.update(960, h, 1.0, 0);
-            for (CodeRain cr : bgLayer3) cr.update(960, h, 0.6, 0);
             repaint(); return;
+        }
+
+        if (state == GameState.BOSS_WARNING && boss != null && bossWarningTimer > 0
+                && --bossWarningTimer == 0) {
+            state = GameState.BOSS_FIGHT;
+            boss.activate();
+            shakeTimer = 30;
+            flashTimer = 20;
+            hitstop = 10;
+            addLog("ALERT: " + boss.getName() + " engaged!");
         }
 
         // Hitstop freeze
@@ -635,6 +665,16 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             extraLifeScore += 10000;
         }
 
+        // Enter the boss warning before ambient spawn checks so a LAB jump (or a fast
+        // player) cannot bring a random enemy into the boss arena on the same tick.
+        if (legacyMission && state == GameState.RUNNING && levelManager.shouldSpawnBoss(player.getX())) {
+            state = GameState.BOSS_WARNING;
+            addLog("WARNING: Boss arena detected!");
+            boss = new Boss(levelManager.bossName, levelManager.bossHp,
+                    levelManager.bossSymbol, cameraX + panelW, level);
+            bossWarningTimer = 120;
+        }
+
         // Mid-boss spawn
         // Battle zones are authored encounters: letting ambient spawns leak into them
         // made their clear condition feel arbitrary and could starve the next wave.
@@ -644,25 +684,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         difficulty += 0.0005;
         if (freeRoam && random.nextInt(100) < 1.5 + difficulty * 0.4)
-            enemyManager.spawnRandom(panelW, groundY, difficulty, (int) cameraX);
+            enemyManager.spawnRandom(panelW, groundY, difficulty, (int) cameraX, level);
 
         // ── Boss ────────────────────────────────────────
-        if (legacyMission && state == GameState.RUNNING && levelManager.shouldSpawnBoss(player.getX())) {
-            state = GameState.BOSS_WARNING;
-            addLog("WARNING: Boss arena detected!");
-            boss = new Boss(levelManager.bossName, levelManager.bossHp,
-                    levelManager.bossSymbol, cameraX + panelW, level);
-            Timer t = new Timer(2000, evt -> {
-                synchronized (GamePanel.this) {
-                    state = GameState.BOSS_FIGHT; boss.activate();
-                    shakeTimer = 30; flashTimer = 20; hitstop = 10;
-                    addLog("ALERT: " + boss.getName() + " engaged!");
-                    ((Timer) evt.getSource()).stop();
-                }
-            });
-            t.setRepeats(false); t.start();
-        }
-
         if (state == GameState.BOSS_FIGHT && boss != null) {
             if (bossDeathTimer == 0)
                 boss.update(enemyManager, groundY, player.getX(), player.getY(),
@@ -685,8 +709,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 if (bossDeathTimer <= 0) {
                     spawnExplosion((int) boss.getX() + boss.getWidth() / 2,
                             (int) boss.getY() + boss.getHeight() / 2, 150, Color.RED);
-                    levelManager.onBossDefeated(); level++;
-                    missionCompleteTimer = 180; state = GameState.MISSION_COMPLETE;
+                    levelManager.onBossDefeated();
+                    missionCompleteTimer = MISSION_COMPLETE_TICKS;
+                    state = GameState.MISSION_COMPLETE;
                 }
             }
         }
@@ -694,12 +719,6 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if (state == GameState.BOSS_FIGHT && legacyBoss != null) {
             updateLegacyBoss(panelW, groundY);
         }
-
-        // ── Background ──────────────────────────────────
-        double paraSpeed = 1.0 + difficulty * 0.3;
-        for (CodeRain cr : bgLayer1) cr.update(panelW, groundY, paraSpeed + 1, cameraX);
-        for (CodeRain cr : bgLayer2) cr.update(panelW, groundY, paraSpeed * 0.5 + 0.5, cameraX);
-        for (CodeRain cr : bgLayer3) cr.update(panelW, groundY, paraSpeed * 0.25 + 0.25, cameraX);
 
         // ── Enemy updates + collision ───────────────────
         double difficultySpeed = 0.8 + difficulty * 0.15;
@@ -759,6 +778,12 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
     private final Random random = new Random();
 
+    static int missionCompleteTransitionAlpha(int ticksRemaining) {
+        if (ticksRemaining > MISSION_COMPLETE_FADE_TICKS) return 0;
+        int fadeElapsed = MISSION_COMPLETE_FADE_TICKS - Math.max(0, ticksRemaining);
+        return Math.min(255, fadeElapsed * 255 / MISSION_COMPLETE_FADE_TICKS);
+    }
+
     private void applyDirectorCommands(List<DirectorCommand> commands, int panelWidth, int groundY) {
         for (DirectorCommand command : commands) {
             if (command instanceof DirectorCommand.Spawn spawn) {
@@ -813,8 +838,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 session.markComplete();
                 if (!runUnranked) MergeHellStateService.getInstance().completeMission(0, 250);
                 MergeHellStateService.getInstance().clearActiveRun();
-                level++;
-                missionCompleteTimer = 180;
+                missionCompleteTimer = MISSION_COMPLETE_TICKS;
                 state = GameState.MISSION_COMPLETE;
             }
             return;
@@ -1079,6 +1103,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         int y = groundY - 30 - random.nextInt(120);
         if (type == EntityType.TECHDEBT) y = groundY - 80;
         else if (type == EntityType.FIREWALL) y = 0;
+        else if (type == EntityType.SENTINEL) y = groundY - 170 - random.nextInt(130);
+        else if (type == EntityType.MIRROR) y = groundY - 90 - random.nextInt(180);
         enemyManager.spawnEnemy(panelWidth + random.nextInt(200) + (int) cameraX, y, type);
     }
 
@@ -1111,7 +1137,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         renderer.render(logical, panelW, panelH, groundY,
                 state, player, boss, enemyManager,
                 projectiles, enemyManager.getEnemyBullets(),
-                particles, floatingTexts, bgLayer1, bgLayer2, bgLayer3, platforms, coins,
+                particles, floatingTexts, platforms, coins,
                 logs, ctx.score, ctx.combo, ctx.comboTimer, shakeTimer,
                 flashTimer, level, difficulty, isNewHighScore,
                 cameraX, inBattle, wave, total, transitionTimer, runProgress,
@@ -1131,7 +1157,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 || state == GameState.BOSS_FIGHT || state == GameState.LEVEL_CLEAR;
         if (gameplayHudVisible) {
             hudRenderer.render(logical, session, player, ctx.score, ctx.combo, ctx.comboTimer,
-                    runUnranked);
+                    runUnranked, !LevelManager.isLegacyMission(level));
         }
         if (state == GameState.UPGRADE_SELECTION) upgradeRenderer.render(logical, session);
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
