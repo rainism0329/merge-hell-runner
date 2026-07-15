@@ -1,8 +1,7 @@
 <idea-plugin>
     <id>com.bigphil.mergehell</id>
     <name>Merge Hell Runner</name>
-    <version>1.0.0</version>
-    <vendor url="https://phil-the-guy.zeabur.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
+    <vendor url="https://phil-the-guy.netlify.app/" email="bigphil.zhang@qq.com">Phil Zhang</vendor>
 
     <description><![CDATA[
         <b>The build is red. The deadline is tonight. Your only escape is to run.</b>
@@ -22,8 +21,9 @@
         <br>
         <h3>🚀 What's inside v1.0.0:</h3>
         <ul>
-            <li>🗺️ <b>5-Level Campaign:</b> Fight through five hand-themed worlds — <i>Dark, Monokai, Solarized, Nord</i> and <i>Dracula</i> — each nastier than the last.</li>
-            <li>👹 <b>5 Unique Bosses:</b> Take down the <i>Legacy Code Monstrosity</i>, the <i>Memory Leak Daemon</i>, <i>The Architect</i>, the <i>Kernel Panic Overlord</i>, and the final <i>Singularity Engine</i>.</li>
+            <li>🗺️ <b>5 Distinct Missions:</b> Run from <i>Repository City</i> to the <i>Heap District</i>, <i>Blueprint Citadel</i>, <i>Kernel Core</i>, and the reality-bending <i>Singularity Edge</i>.</li>
+            <li>👹 <b>5 Unique Bosses:</b> Break the dependency graph of the <i>Legacy Code Monstrosity</i>, then face the <i>Memory Leak Daemon</i>, <i>The Architect</i>, <i>Kernel Panic Overlord</i>, and the adaptive <i>Singularity Engine</i>.</li>
+            <li>🧬 <b>Level-Specific Enemies:</b> Fight heap leaks, scope sentinels, ring-0 interrupts, and mirrors that converge in the finale.</li>
             <li>🌊 <b>Arena Battle Zones:</b> Get locked in and survive relentless enemy waves — Rush, Sniper and Mini-Boss formations that don't respect clean code.</li>
             <li>🔫 <b>6-Weapon Arsenal:</b> Blast bugs with <code>git push</code>, spread-fire <code>git push -f</code>, rapid <code>git commit -a</code>, the devastating <code>rm -rf /</code>, flaming <code>git blaze</code>, and the screen-clearing <code>sudo rm -rf /</code> laser.</li>
             <li>⚡ <b>Sudo Mode &amp; Power-Ups:</b> Grab the Golden Thunderbolt for <b>ROOT ACCESS</b>, equip Shields to tank a fatal crash, and snag health to stay in the fight.</li>
@@ -39,21 +39,22 @@
         <hr>
         <p>
             Crafted with ❤️, ☕ and a lot of <code>git merge --abort</code> by <b>Phil Zhang</b>.<br>
-            Check out my portfolio: <a href="https://phil-the-guy.zeabur.app/">phil-the-guy.zeabur.app</a>
+            Check out my portfolio: <a href="https://phil-the-guy.netlify.app/">phil-the-guy.netlify.app</a>
         </p>
     ]]></description>
 
     <change-notes><![CDATA[
         <h3>v1.0.0 — First Stable Release 🎉</h3>
-        <p>The game grows up. Merge Hell Runner is now a full campaign, not just an endless runner.</p>
+        <p>Merge Hell Runner is now a complete five-mission campaign with a distinct world, enemy ecosystem, and boss encounter for every chapter.</p>
         <ul>
-            <li><b>NEW:</b> Complete 5-level campaign with unique color themes and escalating difficulty.</li>
-            <li><b>NEW:</b> 5 distinct bosses — Legacy Code Monstrosity, Memory Leak Daemon, The Architect, Kernel Panic Overlord, and the Singularity Engine.</li>
+            <li><b>NEW:</b> Five visually distinct missions: Repository City, Heap District, Blueprint Citadel, Kernel Core, and Singularity Edge.</li>
+            <li><b>NEW:</b> Five handcrafted bosses with unique phase rules, attacks, silhouettes, and encounter HUDs.</li>
+            <li><b>NEW:</b> Level-specific enemy families: Leak, Sentinel, Interrupt, and Mirror.</li>
             <li><b>NEW:</b> Arena Battle Zones with wave-based combat (Rush / Sniper / Mini-Boss).</li>
             <li><b>NEW:</b> Six-weapon arsenal, including the Flame and Laser weapons.</li>
             <li><b>NEW:</b> Coin collection and a persistent local Top-5 leaderboard.</li>
             <li><b>NEW:</b> Platforming layer with dash i-frames, double jump, and combo multipliers.</li>
-            <li><b>POLISH:</b> Refined boss AI, tuned enemy waves, and improved level pacing.</li>
+            <li><b>FIXED:</b> Cleared arenas no longer restart, Lab boss shortcuts work in every mission, and mission-complete screens remain readable before the next level begins.</li>
         </ul>
     ]]></change-notes>
 

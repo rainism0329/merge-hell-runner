@@ -3,6 +3,9 @@ plugins {
     id("org.jetbrains.intellij") version "1.17.4"
 }
 
+group = "com.bigphil.mergehell"
+version = providers.gradleProperty("pluginVersion").get()
+
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
@@ -33,12 +36,22 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("")
+        sinceBuild.set(providers.gradleProperty("pluginSinceBuild"))
+        untilBuild.set(providers.gradleProperty("pluginUntilBuild"))
     }
 
     runIde {
         jvmArgs = listOf("--add-opens=java.base/java.lang=ALL-UNNAMED")
+    }
+
+    signPlugin {
+        certificateChain.set(providers.environmentVariable("CERTIFICATE_CHAIN"))
+        privateKey.set(providers.environmentVariable("PRIVATE_KEY"))
+        password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
+    }
+
+    publishPlugin {
+        token.set(providers.environmentVariable("PUBLISH_TOKEN"))
     }
 }
 

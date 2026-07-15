@@ -11,20 +11,21 @@ Tired of fixing merge conflicts? Exhausted by memory leaks? **Don't fix them. Ju
 
 ---
 
-## 🎮 Gameplay Preview
+## 🎮 World Preview
 
-![Gameplay Preview](docs/gameplay_placeholder.gif)
+<img src="docs/images/worlds-preview.png" alt="Heap District, Blueprint Citadel, Kernel Core, and Singularity Edge" width="360">
 
-> *Featuring parallax code rain background, CRT scanline filters, and satisfying floating combat text.*
+> *Each post-opening mission has its own scenery language, color rhythm, and environmental hazards.*
 
 ---
 
 ## 🚀 Features v1.0.0: The Campaign Release
 
-Version 1.0.0 turns the endless runner into a **full 5-level campaign** — themed worlds, arena survival, and a boss waiting at the end of every route.
+Version 1.0.0 turns the endless runner into a **full 5-level campaign** — distinct worlds, arena survival, and a handcrafted boss waiting at the end of every route.
 
-* **🗺️ 5-Level Campaign**: Fight through five hand-themed worlds — **Dark → Monokai → Solarized → Nord → Dracula** — each with more enemies, tighter platforms, and higher stakes.
-* **👹 5 Unique Bosses**: Survive the **Legacy Code Monstrosity** (⚠️), **Memory Leak Daemon** (💀), **The Architect** (👑), **Kernel Panic Overlord** (💀), and the final **Singularity Engine** (☠️). They dash, summon firewalls, and don't follow clean code principles.
+* **🗺️ 5-Level Campaign**: Run through **Repository City → Heap District → Blueprint Citadel → Kernel Core → Singularity Edge**. The opening mission evolves across five biomes; every later mission has its own architecture, route layout, and atmosphere.
+* **👹 5 Unique Bosses**: Break the dependency graph of the **Legacy Code Monstrosity** (⚠️), survive **Memory Leak Daemon** (💀), outmaneuver **The Architect** (👑), interrupt **Kernel Panic Overlord** (💀), and face the adaptive **Singularity Engine** (☠️). Each encounter has three stages and its own attacks, summons, silhouette, and HUD identity.
+* **🧬 Level-Specific Enemies**: Heap **Leaks**, precision **Sentinels**, ring-0 **Interrupts**, and adaptive **Mirrors** join different formations in each mission before converging in the finale.
 * **🌊 Arena Battle Zones**: Get locked into an arena and clear relentless enemy waves — **Rush**, **Sniper**, and **Mini-Boss** formations — before the gates reopen.
 * **🔫 6-Weapon Arsenal**: Swap between `git push`, spread-fire `git push -f`, rapid `git commit -a`, the devastating `rm -rf /`, flaming `git blaze`, and the screen-clearing `sudo rm -rf /` laser.
 * **⚡ Sudo Mode**: Pick up the Golden Thunderbolt to gain **ROOT ACCESS** and blast everything on screen with a spread-shot barrage.
@@ -44,8 +45,19 @@ Version 1.0.0 turns the endless runner into a **full 5-level campaign** — them
 | **C** | `Commit / Shoot` | Fire code projectiles to debug enemies. |
 | **← / →** | `Move` | Dodge left and right. |
 | **Shift** | `Dash` | Dash through danger; briefly grants invulnerability. |
-| **X** / **Z** / **B** | `Melee / Weapon / Bomb` | Slash, switch weapons, or trigger the emergency clear. |
+| **X** | `Melee` | Strike nearby enemies. |
+| **Z** | `Weapon` | Cycle weapons; on the title screen, choose a starting weapon. |
+| **B** | `Bomb` | Trigger the emergency screen clear. |
+| **1** / **2** / **3** | `Upgrade` | Choose an upgrade when a draft appears. |
+| **R** | `Reroll` | Reroll the current upgrade draft when available. |
 | **P** / **Esc** | `Pause` | Pause the game (and pretend you're working). |
+
+### Lab Mode
+
+Lab Mode is a QA shortcut system. Press **F12** or **T** to enable it; the current run is
+then permanently marked **unranked**. Use **H** for supplies, **U** for an upgrade draft,
+**J** for the next encounter, **K** to clear the current wave, and **L** to arm the boss
+gate. Press **N** to start a fresh ranked run with Lab Mode disabled.
 
 ---
 
@@ -57,7 +69,11 @@ Know your enemy to survive the sprint:
 * 🔥 **Firewall**: Tall barrier. You can't jump over it; you must shoot it down.
 * 🔒 **Deadlock**: Floating locks that try to freeze your progress.
 * 💥 **Crash**: Fast-moving explosive runtime errors.
-* TODO **TechDebt**: Massive blocks of code that hurt you if you touch them.
+* 🧱 **TechDebt**: Massive blocks of code that hurt you if you touch them.
+* 🧠 **Leak**: Retained heap objects that drift and multiply pressure.
+* 🎯 **Sentinel**: Long-range design enforcers with accurate telegraphed shots.
+* ⚡ **Interrupt**: Fast, jagged ring-0 attackers that commit to sudden charges.
+* 🪞 **Mirror**: Finale enemies that combine durability, movement, and ranged pressure.
 
 ---
 
@@ -78,7 +94,10 @@ Know your enemy to survive the sprint:
 ### Install Plugin (Manual)
 1.  Build the plugin: `./gradlew buildPlugin`
 2.  Go to IDEA `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...`
-3.  Select the generated ZIP file in `build/distributions/`.
+3.  Select `build/distributions/merge-hell-runner-1.0.0.zip` without extracting it.
+
+For release engineering instructions, see [RELEASING.md](RELEASING.md). For the full
+1.0.0 change list, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -94,7 +113,7 @@ Know your enemy to survive the sprint:
 
 Crafted with ❤️, ☕, and a lot of `git merge --abort` by **Phil Zhang**.
 
-* 🌍 **Portfolio:** [HomePage](https://phil-the-guy.zeabur.app/)
+* 🌍 **Portfolio:** [HomePage](https://phil-the-guy.netlify.app/)
 * 📧 **Contact:** bigphil.zhang@qq.com
 
 ---
