@@ -1,157 +1,202 @@
 package com.bigphil.mergehell.render;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import com.bigphil.mergehell.engine.GameSession;
-import com.bigphil.mergehell.mission.MissionSegment;
-import com.bigphil.mergehell.mission.EncounterDirector;
-import com.bigphil.mergehell.model.GameColors;
+import com.bigphil.mergehell.combat.WeaponCatalog;
 import com.bigphil.mergehell.model.Player;
+import com.bigphil.mergehell.mission.MissionRouteProgress;
+import java.awt.*;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-
+/** Compact combat instruments keep the central arena visible. */
 public final class HudRenderer {
-    private static final Font LABEL = new Font("JetBrains Mono", Font.BOLD, 12);
-    private static final Font VALUE = new Font("JetBrains Mono", Font.BOLD, 16);
-    private static final Color PANEL = new Color(8, 12, 20, 218);
-    private static final Color TRACK = new Color(255, 255, 255, 28);
+    private boolean highContrast;
+    private boolean compact;
+    public void setHighContrast(boolean enabled) { highContrast = enabled; }
+    /** Called on the simulation thread before publishing the resized presentation frame. */
+    public void setCompact(boolean enabled) { compact = enabled; }
+    private static final Font SMALL = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+    private static final Font LABEL = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+    private static final Font COMPACT_LABEL = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+    private static final Font COMPACT_BODY = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
+    private static final Color PANEL = new Color(8, 12, 16, 200);
+    private static final Color GREEN = new Color(154, 235, 147), CYAN = new Color(76, 221, 232);
+    private static final Color AMBER = new Color(246, 187, 97), TEXT = new Color(222, 227, 217);
 
-    private static final int TOP = 14;
-    private static final int SIDE_WIDTH = 288;
+    public void render(Graphics2D original, GameSession session, Player player, int score, int combo,
+                       int comboTimer, boolean unranked, boolean showMissionCard) {
+        Graphics2D g = (Graphics2D) original.create();
+        try {
+            if (compact) {
+                renderCompact(g, session, player, unranked, showMissionCard);
+                return;
+            }
+            Color panel = highContrast ? new Color(3, 6, 10, 246) : PANEL;
+            g.setColor(panel); g.fillRoundRect(14, 12, 276, 80, 6, 6);
+            g.setFont(GameText.font(LABEL)); g.setColor(GREEN); GameText.draw(g, "HP", 26, 31);
+            bar(g, 64, 22, 158, 10, player.getHp() / (double) player.getMaxHp(), GREEN);
+            g.setFont(GameText.font(SMALL)); g.setColor(TEXT); right(g, player.getHp() + "/" + player.getMaxHp(), 278, 31);
+            g.setColor(CYAN); GameText.draw(g, "SUDO", 26, 52);
+            bar(g, 64, 43, 158, 8, session.overclockRatio(), session.isOverclocked() ? AMBER : CYAN);
+            right(g, session.isOverclocked() ? seconds(session.overclockActiveTicks()) : "CHARGE", 278, 52);
+            String weapon = player.isUsingTemporaryWeapon() ? player.getWeapon().name() + "  " + player.getWeaponAmmo()
+                    : WeaponCatalog.definition(session.runBuild().weapon()).displayName() + " L" + session.runBuild().weaponLevel();
+            g.setFont(GameText.font(LABEL)); g.setColor(AMBER); GameText.draw(g, fit(g, weapon.toUpperCase(), 218), 26, 75);
+            right(g, "LV " + session.buildProgress().level(), 278, 75);
+            bar(g, 26, 83, 252, 3, session.buildProgress().currentXp() / (double) session.buildProgress().nextThreshold(), CYAN);
+            if (session.runBuild().evolutionReady()) {
+                g.setFont(GameText.font(SMALL)); g.setColor(AMBER); GameText.draw(g, "EVOLUTION READY // NEXT SAFE NODE", 26, 108);
+            } else if (session.runBuild().evolved()) {
+                g.setFont(GameText.font(SMALL)); g.setColor(AMBER); GameText.draw(g, WeaponCatalog.definition(session.runBuild().weapon()).evolutionName(), 26, 108);
+            }
+            g.setColor(panel); g.fillRoundRect(717, 12, 229, 80, 6, 6);
+            g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.BOLD, 23))); g.setColor(TEXT);
+            String scoreText = String.format(java.util.Locale.ROOT, "%07d", score);
+            GameText.fitFont(g, scoreText, 119, 14);
+            right(g, scoreText, 932, 38);
+            g.setFont(GameText.font(SMALL)); g.setColor(combo >= 10 ? AMBER : CYAN);
+            GameText.draw(g, fit(g, combo > 0 ? "COMBO x" + combo : "COMBO --", 74), 730, 31);
+            drawBombInstrument(g, player, false, 730, 54, 864);
+            g.setFont(GameText.font(SMALL)); g.setColor(TEXT);
+            right(g, GameText.message("hud.lives.only", player.getLives()), 932, 54);
+            bar(g, 730, 61, 202, 3, combo > 0 ? comboTimer / (double) session.comboWindowTicks() : 0, AMBER);
+            g.setColor(player.getDashCooldown() == 0 ? CYAN : TEXT);
+            GameText.draw(g, player.getDashCacheTicks() > 0 ? "NEXT SHOT BOOST" : player.getDashCooldown() == 0
+                    ? "DASH READY" : "DASH " + seconds(player.getDashCooldown()), 730, 80);
+            right(g, player.getShieldTimer() > 0 ? "SHIELD " + seconds(player.getShieldTimer())
+                    : "JUMPS " + player.getJumpsRemaining() + "/2", 932, 80);
+            drawMissionCard(g, session.routeProgress(), showMissionCard, false, panel);
+            drawRunStatus(g, unranked, player.isDebugMode(), false, panel);
+            if (session.isOverclocked()) {
+                g.setColor(new Color(246, 187, 97, 100)); g.setStroke(new BasicStroke(2)); g.drawRect(1, 1, 957, 568);
+            }
+        } finally { g.dispose(); }
+    }
 
-    public void render(Graphics2D g, GameSession session, Player player,
-                       int score, int combo, int comboTimer, boolean unranked,
-                       boolean showMissionCard) {
-        drawPlayerCard(g, session, player);
-        if (showMissionCard) drawMissionCard(g, session);
-        drawRunCard(g, session, player, score, combo, comboTimer);
-        if (unranked) drawLabStrip(g, player.isDebugMode());
+    private void renderCompact(Graphics2D g, GameSession session, Player player,
+                               boolean unranked, boolean showMissionCard) {
+        // At 600 × 400 the 960-wide world scales to 0.625: 18 logical pixels remain 11.25 pixels.
+        // Keep immediate decisions here; score/combo/XP explanations belong in the full-size HUD.
+        Color panel = highContrast ? new Color(3, 6, 10, 246) : PANEL;
+        g.setColor(panel); g.fillRoundRect(14, 12, 326, 96, 6, 6);
+        g.setFont(GameText.font(COMPACT_LABEL)); g.setColor(GREEN); GameText.draw(g, "HP", 26, 36);
+        bar(g, 66, 23, 166, 13, player.getHp() / (double) player.getMaxHp(), GREEN);
+        g.setFont(GameText.font(COMPACT_BODY)); g.setColor(TEXT);
+        right(g, player.getHp() + "/" + player.getMaxHp(), 328, 36);
+        String weapon = player.isUsingTemporaryWeapon() ? player.getWeapon().name() + "  " + player.getWeaponAmmo()
+                : WeaponCatalog.definition(session.runBuild().weapon()).displayName() + " L" + session.runBuild().weaponLevel();
+        g.setFont(GameText.font(COMPACT_LABEL)); g.setColor(AMBER);
+        GameText.draw(g, fit(g, weapon.toUpperCase(), 302), 26, 65);
+        g.setFont(GameText.font(COMPACT_BODY)); g.setColor(TEXT);
+        GameText.draw(g, GameText.message("hud.lives.only", player.getLives()), 26, 94);
+        drawBombInstrument(g, player, true, 138, 94, 328);
 
+        drawMissionCard(g, session.routeProgress(), showMissionCard, true, panel);
+
+        g.setColor(panel); g.fillRoundRect(694, 12, 252, 96, 6, 6);
+        g.setFont(GameText.font(COMPACT_LABEL));
+        g.setColor(player.getDashCacheTicks() > 0 ? AMBER : player.getDashCooldown() == 0 ? CYAN : TEXT);
+        GameText.draw(g, player.getDashCacheTicks() > 0 ? "NEXT SHOT BOOST" : player.getDashCooldown() == 0
+                ? "DASH READY" : "DASH " + seconds(player.getDashCooldown()), 708, 36);
+        g.setFont(GameText.font(COMPACT_BODY)); g.setColor(TEXT);
+        GameText.draw(g, player.getShieldTimer() > 0 ? "SHIELD " + seconds(player.getShieldTimer())
+                : "JUMPS " + player.getJumpsRemaining() + "/2", 708, 65);
+        g.setColor(session.isOverclocked() ? AMBER : CYAN);
+        GameText.draw(g, session.isOverclocked() ? "SUDO " + seconds(session.overclockActiveTicks())
+                : "SUDO " + Math.round(session.overclockRatio() * 100) + "%", 708, 94);
+
+        drawRunStatus(g, unranked, player.isDebugMode(), true, panel);
         if (session.isOverclocked()) {
-            g.setColor(new Color(70, 230, 255, 45));
-            for (int i = 0; i < 5; i++) g.drawRoundRect(i, i, 959 - i * 2, 599 - i * 2, 24, 24);
+            g.setColor(new Color(246, 187, 97, 100)); g.setStroke(new BasicStroke(2)); g.drawRect(1, 1, 957, 568);
         }
     }
 
-    private void drawLabStrip(Graphics2D g, boolean powered) {
-        int x = 176, y = 438, width = 608;
-        g.setColor(new Color(8, 12, 20, 225));
-        g.fillRoundRect(x, y, width, 30, 10, 10);
-        g.setColor(powered ? GameColors.SUDO_YELLOW : new Color(160, 170, 180));
-        g.drawRoundRect(x, y, width, 30, 10, 10);
-        g.setFont(LABEL);
-        String text = powered
-                ? "LAB // H SUPPLY  U LEVEL  J NEXT  K CLEAR  L BOSS  T EXIT  N RESET"
-                : "LAB RUN // UNRANKED  •  T/F12 RESTORE POWERS  •  N NEW RANKED RUN";
-        g.drawString(text, x + 12, y + 20);
+    /** One resource row inside the existing HUD footprint, leaving scenery and other overlays clear. */
+    private static void drawBombInstrument(Graphics2D g, Player player, boolean compact,
+                                           int x, int baseline, int right) {
+        boolean unlimited = player.isDebugMode();
+        boolean empty = !unlimited && player.getBombs() == 0;
+        Color accent = unlimited ? CYAN : empty ? new Color(203, 166, 151) : AMBER;
+        int iconWidth = compact ? 11 : 8, iconHeight = compact ? 12 : 9;
+        g.setColor(accent);
+        g.fillRoundRect(x, baseline - iconHeight + 1, iconWidth, iconHeight, 3, 3);
+        g.fillRect(x + 2, baseline - iconHeight - 2, iconWidth - 4, 3);
+        g.drawLine(x + iconWidth - 3, baseline - iconHeight - 2, x + iconWidth, baseline - iconHeight - 5);
+        int keyX = x + iconWidth + (compact ? 6 : 4);
+        g.setFont(GameText.font(compact ? COMPACT_BODY : LABEL));
+        GameText.draw(g, "[B]", keyX, baseline);
+        int labelX = keyX + g.getFontMetrics().stringWidth("[B]") + (compact ? 8 : 6);
+        g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.BOLD, compact ? 20 : 14)));
+        String quantity = unlimited ? "∞" : Integer.toString(player.getBombs());
+        int quantityX = right - g.getFontMetrics().stringWidth(quantity);
+        GameText.draw(g, quantity, quantityX, baseline);
+        g.setFont(GameText.font(compact ? COMPACT_BODY : LABEL));
+        String label = GameText.message(unlimited ? "hud.bombs.unlimited" : empty ? "hud.bombs.empty" : "hud.bombs.label");
+        GameText.draw(g, fit(g, label, quantityX - labelX - 6), labelX, baseline);
     }
 
-    private void drawPlayerCard(Graphics2D g, GameSession session, Player player) {
-        g.setColor(PANEL);
-        g.fillRoundRect(14, TOP, SIDE_WIDTH, 106, 14, 14);
-        g.setFont(LABEL);
-        g.setColor(Color.WHITE);
-        g.drawString("HP " + player.getHp() + "/" + player.getMaxHp(), 28, 34);
-        drawRight(g, "LIVES x" + player.getLives(), 288, 34);
-        drawBar(g, 28, 41, 260, 10, player.getHp() / (double) player.getMaxHp(),
-                GameColors.HEALTH_GREEN);
+    record MissionCard(String route, String objective, String condition, String next, double progress) { }
 
-        g.setFont(LABEL);
-        g.setColor(Color.WHITE);
-        g.drawString("BUILD LV." + session.buildProgress().level(), 28, 67);
-        g.setColor(new Color(190, 205, 220));
-        drawRight(g, session.buildProgress().currentXp() + "/"
-                + session.buildProgress().nextThreshold() + " XP", 288, 67);
-        drawBar(g, 28, 74, 260, 8,
-                session.buildProgress().currentXp() / (double) session.buildProgress().nextThreshold(),
-                GameColors.SHIELD_CYAN);
-
-        g.setColor(GameColors.SUDO_YELLOW);
-        String weapon = player.isUsingTemporaryWeapon()
-                ? "PICKUP " + player.getWeapon().name() + "  " + player.getWeaponAmmo()
-                : session.runBuild().weapon().name().replace('_', ' ')
-                    + "  L" + session.runBuild().weaponLevel();
-        int weaponWidth = player.getShieldRebootsRemaining() > 0 ? 154 : 260;
-        g.drawString(fit(g, weapon, weaponWidth), 28, 104);
-        if (player.getShieldRebootsRemaining() > 0) {
-            g.setColor(GameColors.SHIELD_CYAN);
-            drawRight(g, "REBOOT x" + player.getShieldRebootsRemaining(), 288, 104);
-        }
+    static MissionCard missionCard(MissionRouteProgress progress) {
+        String route = "ROUTE " + progress.stageNumber() + "/" + progress.stageCount()
+                + " · " + progress.stagesRemaining() + " LEFT";
+        if (progress.atBossGate()) return new MissionCard(route, "BOSS GATE",
+                "CLEAR AREA: " + progress.activeHostiles() + " HOSTILES", "BOSS AFTER AREA IS CLEAR", progress.routeFraction());
+        if (progress.killTarget() > 0) return new MissionCard(route, progress.objective(),
+                "KILLS " + progress.kills() + "/" + progress.killTarget()
+                        + " · STAGE " + stageClock(progress.stageTicksRemaining()),
+                progress.waitingForKills() ? "TIME DONE · FINISH KILLS"
+                        : progress.kills() >= progress.killTarget() ? "TARGET DONE · FINISH TIMER"
+                        : "TIMER + KILLS, THEN CLEAR", progress.routeFraction());
+        return new MissionCard(route, progress.objective(), "THIS STAGE " + stageClock(progress.stageTicksRemaining()),
+                "BOSS: ROUTE + CLEAR AREA", progress.routeFraction());
     }
 
-    private void drawRunCard(Graphics2D g, GameSession session, Player player,
-                             int score, int combo, int comboTimer) {
-        g.setColor(PANEL);
-        g.fillRoundRect(658, TOP, SIDE_WIDTH, 106, 14, 14);
-        g.setFont(VALUE);
-        g.setColor(Color.WHITE);
-        g.drawString(String.format("%07d", score), 672, 38);
-        g.setFont(LABEL);
-        g.setColor(combo >= 10 ? GameColors.SUDO_YELLOW : Color.WHITE);
-        drawRight(g, combo > 0 ? "COMBO x" + combo : "COMBO --", 932, 38);
-        drawBar(g, 672, 46, 260, 5,
-                combo > 0 ? comboTimer / (double) session.comboWindowTicks() : 0,
-                combo >= 10 ? GameColors.SUDO_YELLOW : GameColors.SHIELD_CYAN);
-
-        g.setColor(Color.WHITE);
-        g.drawString(session.isOverclocked()
-                ? "SUDO // " + String.format("%.1fs", session.overclockActiveTicks() / 60.0)
-                : "SUDO CHARGE", 672, 72);
-        int dash = player.getDashCooldown();
-        g.setColor(dash > 0 ? new Color(160, 174, 188) : GameColors.SHIELD_CYAN);
-        drawRight(g, dash > 0 ? "DASH " + String.format("%.1fs", dash / 60.0) : "DASH READY",
-                932, 72);
-        drawBar(g, 672, 79, 260, 9, session.overclockRatio(),
-                session.isOverclocked() ? GameColors.SUDO_YELLOW : GameColors.SHIELD_CYAN);
-
-        g.setColor(new Color(190, 205, 220));
-        g.drawString("BOMB x" + player.getBombs(), 672, 105);
-        g.setColor(player.getShieldTimer() > 0 ? GameColors.SHIELD_CYAN : new Color(150, 164, 178));
-        String defense = player.getShieldTimer() > 0
-                ? "SHIELD " + Math.max(1, player.getShieldTimer() / 60) + "s"
-                : "JUMPS " + player.getJumpsRemaining() + "/2";
-        drawRight(g, defense, 932, 105);
+    private static String stageClock(int ticks) {
+        int seconds = (int) Math.ceil(ticks * 0.016);
+        return String.format(java.util.Locale.ROOT, "%02d:%02d", seconds / 60, seconds % 60);
     }
 
-    private void drawMissionCard(Graphics2D g, GameSession session) {
-        MissionSegment segment = session.currentMissionSegment();
-        if (segment == null) return;
-        int x = 314, width = 332;
-        g.setColor(PANEL);
-        g.fillRoundRect(x, TOP, width, 80, 14, 14);
-        g.setFont(LABEL);
-        g.setColor(GameColors.SHIELD_CYAN);
-        g.drawString("MISSION // " + segment.kind(), x + 14, 35);
-        String timer = String.format("%02d:%02d", session.missionSegmentTicksRemaining() / 3600,
-                (session.missionSegmentTicksRemaining() / 60) % 60);
-        drawRight(g, timer, x + width - 14, 35);
-        g.setColor(Color.WHITE);
-        g.drawString(fit(g, segment.objective(), width - 28), x + 14, 57);
-        if (segment.objective().startsWith("CLEAR")) {
-            g.setColor(GameColors.SUDO_YELLOW);
-            g.drawString("KILLS " + Math.min(EncounterDirector.BOSS_KILL_TARGET, session.missionObjectiveKills())
-                    + "/" + EncounterDirector.BOSS_KILL_TARGET, x + 14, 78);
-        }
+    private static void drawMissionCard(Graphics2D g, MissionRouteProgress progress,
+                                        boolean visible, boolean compact, Color panel) {
+        // The boss owns the upper-center warning region once it has spawned.
+        if (!visible || progress.kind() == null || progress.bossSpawned()) return;
+        MissionCard card = missionCard(progress);
+        int left = compact ? 354 : 308, width = compact ? 326 : 391;
+        int textX = left + 14, textWidth = width - 28;
+        g.setColor(panel); g.fillRoundRect(left, 12, width, 96, 6, 6);
+        g.setFont(GameText.font(compact ? COMPACT_BODY : LABEL));
+        g.setColor(AMBER); GameText.draw(g, fit(g, card.route(), textWidth), textX, 30);
+        g.setColor(TEXT); GameText.draw(g, fit(g, card.objective(), textWidth), textX, compact ? 52 : 50);
+        g.setFont(GameText.font(compact ? COMPACT_BODY : SMALL));
+        g.setColor(CYAN); GameText.draw(g, fit(g, card.condition(), textWidth), textX, compact ? 74 : 70);
+        g.setColor(TEXT); GameText.draw(g, fit(g, card.next(), textWidth), textX, compact ? 96 : 90);
+        bar(g, textX, 102, textWidth, 3, card.progress(), AMBER);
     }
 
-    private static void drawBar(Graphics2D g, int x, int y, int w, int h, double ratio, Color color) {
-        g.setColor(TRACK);
-        g.fillRoundRect(x, y, w, h, h, h);
-        g.setColor(color);
-        g.fillRoundRect(x, y, (int) Math.round(w * Math.max(0, Math.min(1, ratio))), h, h, h);
+    static String labStatus(boolean invincible) { return invincible ? "Invincible · [ T ] Disable" : "Invincibility disabled"; }
+
+    private static void drawRunStatus(Graphics2D g, boolean unranked, boolean invincible,
+                                      boolean compact, Color panel) {
+        // The combat badge reports the current power. Past use belongs to the result explanation.
+        if (!invincible) return;
+        g.setColor(panel); g.fillRoundRect(14, 519, compact ? 276 : 230, 36, 5, 5);
+        g.setFont(GameText.font(compact ? COMPACT_LABEL : LABEL));
+        g.setColor(AMBER);
+        GameText.draw(g, labStatus(true), 26, 543);
     }
 
-    private static void drawRight(Graphics2D g, String text, int right, int baseline) {
-        g.drawString(text, right - g.getFontMetrics().stringWidth(text), baseline);
+    private static String seconds(int ticks) { return String.format(java.util.Locale.ROOT, "%.1fs", ticks * 0.016); }
+    private static void bar(Graphics2D g, int x, int y, int width, int height, double ratio, Color color) {
+        g.setColor(new Color(205, 224, 220, 33)); g.fillRect(x, y, width, height);
+        g.setColor(color); g.fillRect(x, y, (int) Math.round(width * Math.max(0, Math.min(1, ratio))), height);
     }
-
-    private static String fit(Graphics2D g, String text, int maxWidth) {
-        FontMetrics metrics = g.getFontMetrics();
-        if (metrics.stringWidth(text) <= maxWidth) return text;
-        String suffix = "...";
-        int length = text.length();
-        while (length > 0 && metrics.stringWidth(text.substring(0, length) + suffix) > maxWidth) length--;
-        return text.substring(0, length) + suffix;
+    private static void right(Graphics2D g, String text, int x, int y) { GameText.draw(g, text, x - g.getFontMetrics().stringWidth(GameText.text(text)), y); }
+    private static String fit(Graphics2D g, String text, int width) {
+        text = GameText.text(text);
+        if (g.getFontMetrics().stringWidth(GameText.text(text)) <= width) return text;
+        int end = text.length();
+        while (end > 0 && g.getFontMetrics().stringWidth(GameText.text(text.substring(0, end) + "...")) > width) end--;
+        return text.substring(0, end) + "...";
     }
 }

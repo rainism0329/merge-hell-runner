@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.random.RandomGenerator;
 
 public final class EncounterDirector {
-    public static final int BOSS_KILL_TARGET = 50;
+    public static final int BOSS_KILL_TARGET = 30;
     private record Candidate(EntityType type, int cost) { }
 
     private static final List<Candidate> STANDARD = List.of(
@@ -30,6 +30,7 @@ public final class EncounterDirector {
     private int lastAvailableBudget;
     private int spawnCooldown;
     private int segmentStartHostileKills;
+    private int lastActiveHostiles;
 
     public EncounterDirector(DarkMissionDefinition mission, RandomGenerator random) {
         this.mission = Objects.requireNonNull(mission, "mission");
@@ -38,6 +39,7 @@ public final class EncounterDirector {
 
     public List<DirectorCommand> tick(DirectorInput input) {
         Objects.requireNonNull(input, "input");
+        lastActiveHostiles = input.activeHostiles();
         if (segmentIndex >= mission.segments().size()) return List.of();
         MissionSegment segment = mission.segments().get(segmentIndex);
         List<DirectorCommand> commands = new ArrayList<>();
@@ -51,8 +53,9 @@ public final class EncounterDirector {
             }
         }
 
-        if (segment.kind() == MissionSegment.Kind.BOSS_GATE && !bossSpawned
-                && input.hostileKills() >= BOSS_KILL_TARGET && input.activeHostiles() == 0) {
+        // The preceding combat stage enforces its own kill target. The gate only asks for clearance,
+        // including when an explicitly unranked practice entry skips the earlier route.
+        if (segment.kind() == MissionSegment.Kind.BOSS_GATE && !bossSpawned && input.activeHostiles() == 0) {
             bossSpawned = true;
             commands.add(DirectorCommand.SpawnBoss.INSTANCE);
         }
@@ -64,13 +67,11 @@ public final class EncounterDirector {
             lastAvailableBudget = 0;
         }
 
-        segmentTick++;
+        segmentTick = Math.min(segmentTick + 1, segment.durationTicks());
         boolean complete = segmentTick >= segment.durationTicks();
-        boolean finalCombat = segmentIndex == mission.segments().size() - 2
-                && segment.kind() == MissionSegment.Kind.COMBAT;
+        boolean finalCombat = isFinalCombat(segment);
         if (finalCombat && killsInCurrentSegment(input.hostileKills()) < BOSS_KILL_TARGET) {
             complete = false;
-            segmentTick = segment.durationTicks();
         }
         if (segment.kind() == MissionSegment.Kind.BOSS_GATE && !bossSpawned) {
             complete = false;
@@ -98,9 +99,9 @@ public final class EncounterDirector {
         }
         int slots = Math.max(0, 14 - input.activeHostiles());
         if (slots > 0) {
-            List<Candidate> pool = input.pressure() > 0.75
+            List<Candidate> pool = segmentIndex == 0 || input.pressure() > 0.75
                     ? STANDARD.subList(0, 2)
-                    : input.pressure() < 0.30 && input.activeHostiles() <= 10
+                    : segmentIndex >= 5 && input.pressure() < 0.30 && input.activeHostiles() <= 10
                       && segment.kind() == MissionSegment.Kind.ARENA
                         ? concatCandidates() : STANDARD;
             List<Candidate> affordable = pool.stream().filter(c -> c.cost <= budget).toList();
@@ -141,6 +142,31 @@ public final class EncounterDirector {
         return Math.max(0, totalHostileKills - segmentStartHostileKills);
     }
 
+    private boolean isFinalCombat(MissionSegment segment) {
+        return segmentIndex == mission.segments().size() - 2
+                && segment.kind() == MissionSegment.Kind.COMBAT;
+    }
+
+    public MissionRouteProgress routeProgress(int totalHostileKills) {
+        MissionSegment current = currentSegment();
+        int count = mission.segments().size();
+        if (current == null) return new MissionRouteProgress(count, count, 0, null, "ROUTE COMPLETE",
+                0, 0, 0, 0, lastActiveHostiles, bossSpawned, 1);
+        int target = isFinalCombat(current) ? BOSS_KILL_TARGET : 0;
+        int kills = target == 0 ? 0 : Math.min(target, killsInCurrentSegment(totalHostileKills));
+        double fraction = Math.min(1, segmentTick / (double) current.durationTicks());
+        if (target > 0) fraction = Math.min(fraction, kills / (double) target);
+        if (current.kind() == MissionSegment.Kind.BOSS_GATE) fraction = bossSpawned ? 1 : 0;
+        int routeTicks = current.kind() == MissionSegment.Kind.BOSS_GATE ? 0 : segmentTicksRemaining();
+        for (int i = segmentIndex + 1; i < count; i++) {
+            MissionSegment later = mission.segments().get(i);
+            if (later.kind() != MissionSegment.Kind.BOSS_GATE) routeTicks += later.durationTicks();
+        }
+        return new MissionRouteProgress(segmentIndex + 1, count, count - segmentIndex - 1,
+                current.kind(), current.objective(), segmentTicksRemaining(), routeTicks, kills, target,
+                lastActiveHostiles, bossSpawned, fraction);
+    }
+
     /** Advances one authored segment without bypassing the director's spawn pipeline. */
     public void advanceSegmentForTesting(int totalHostileKills) {
         if (segmentIndex >= mission.segments().size() - 1) return;
@@ -159,6 +185,7 @@ public final class EncounterDirector {
         segmentStartHostileKills = Math.max(0, totalHostileKills);
         segmentAnnounced = false;
         bossSpawned = false;
+        lastActiveHostiles = 0;
         budget = 0;
         spawnCooldown = 0;
     }

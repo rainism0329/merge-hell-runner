@@ -1,0 +1,7 @@
+"file","state","world_tick","player_x","player_y","facing","shot_sequence","dashing","panel_width","panel_height","settings_open"
+"menu-960.png","MENU","0","100.000","480.000","1","0","false","960","600","false"
+"menu-600.png","MENU","0","100.000","480.000","1","0","false","600","400","false"
+"combat-960.png","RUNNING","29","230.000","450.000","1","1","false","960","600","false"
+"combat-600.png","RUNNING","30","230.000","450.000","1","1","false","600","400","false"
+"boss-warning-600.png","BOSS_FIGHT","193","100.000","450.000","1","0","false","600","400","false"
+"mission-complete-600.png","MISSION_COMPLETE","301","100.000","450.000","1","0","false","600","400","false"

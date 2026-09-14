@@ -15,9 +15,26 @@ public record CombatStats(
         if (damage <= 0 || cooldownFrames <= 0 || pellets <= 0 || speed <= 0) {
             throw new IllegalArgumentException("combat stats must be positive");
         }
-        if (criticalChance < 0 || criticalChance > 1) {
+        if (!Double.isFinite(speed) || !Double.isFinite(spreadRadians) || spreadRadians < 0
+                || !Double.isFinite(knockback) || knockback < 0 || pierces < 0 || ricochets < 0
+                || !Double.isFinite(criticalChance) || criticalChance < 0 || criticalChance > 1) {
             throw new IllegalArgumentException("criticalChance must be in [0, 1]");
         }
+    }
+
+    public CombatStats withDamage(int value) {
+        return new CombatStats(value, cooldownFrames, pellets, speed, spreadRadians,
+                pierces, knockback, criticalChance, ricochets);
+    }
+
+    public CombatStats withCooldown(int value) {
+        return new CombatStats(damage, value, pellets, speed, spreadRadians,
+                pierces, knockback, criticalChance, ricochets);
+    }
+
+    public CombatStats withPierces(int value) {
+        return new CombatStats(damage, cooldownFrames, pellets, speed, spreadRadians,
+                value, knockback, criticalChance, ricochets);
     }
 
     public CombatStats withRicochets(int value) {

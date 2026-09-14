@@ -28,16 +28,16 @@ class EncounterDirectorTest {
     @Test
     void finalCombatWaitsForKillGoalBeforeOpeningBossGate() {
         DarkMissionDefinition mission = new DarkMissionDefinition(List.of(
-                new MissionSegment(MissionSegment.Kind.COMBAT, 2, 24, "CLEAR 50 HOSTILES"),
+                new MissionSegment(MissionSegment.Kind.COMBAT, 2, 24, "FINAL KILL TARGET"),
                 new MissionSegment(MissionSegment.Kind.BOSS_GATE, 5, 0, "BOSS")), 120);
         EncounterDirector director = new EncounterDirector(mission, new Random(8));
         for (int i = 0; i < 5; i++) {
-            List<DirectorCommand> commands = director.tick(new DirectorInput(i, 0, .5, 0, 49));
+            List<DirectorCommand> commands = director.tick(new DirectorInput(i, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET - 1));
             assertTrue(commands.stream().noneMatch(DirectorCommand.SpawnBoss.class::isInstance));
             assertEquals(MissionSegment.Kind.COMBAT, director.currentSegment().kind());
         }
-        director.tick(new DirectorInput(6, 0, .5, 0, 50));
-        List<DirectorCommand> gate = director.tick(new DirectorInput(7, 0, .5, 0, 50));
+        director.tick(new DirectorInput(6, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET));
+        List<DirectorCommand> gate = director.tick(new DirectorInput(7, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET));
         assertTrue(gate.stream().anyMatch(DirectorCommand.SpawnBoss.class::isInstance));
     }
 
@@ -45,18 +45,18 @@ class EncounterDirectorTest {
     void finalKillGoalCountsOnlyKillsEarnedInsideTheFinalCombatSegment() {
         DarkMissionDefinition mission = new DarkMissionDefinition(List.of(
                 new MissionSegment(MissionSegment.Kind.COMBAT, 1, 1, "OPENING"),
-                new MissionSegment(MissionSegment.Kind.COMBAT, 1, 1, "CLEAR 50 HOSTILES"),
+                new MissionSegment(MissionSegment.Kind.COMBAT, 1, 1, "FINAL KILL TARGET"),
                 new MissionSegment(MissionSegment.Kind.BOSS_GATE, 5, 0, "BOSS")), 120);
         EncounterDirector director = new EncounterDirector(mission, new Random(9));
 
-        director.tick(new DirectorInput(0, 0, .5, 0, 50));
-        director.tick(new DirectorInput(1, 0, .5, 0, 50));
+        director.tick(new DirectorInput(0, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET));
+        director.tick(new DirectorInput(1, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET));
 
         assertEquals(MissionSegment.Kind.COMBAT, director.currentSegment().kind());
-        assertEquals(0, director.killsInCurrentSegment(50));
+        assertEquals(0, director.killsInCurrentSegment(EncounterDirector.BOSS_KILL_TARGET));
 
-        director.tick(new DirectorInput(2, 0, .5, 0, 100));
-        List<DirectorCommand> gate = director.tick(new DirectorInput(3, 0, .5, 0, 100));
+        director.tick(new DirectorInput(2, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET * 2));
+        List<DirectorCommand> gate = director.tick(new DirectorInput(3, 0, .5, 0, EncounterDirector.BOSS_KILL_TARGET * 2));
         assertTrue(gate.stream().anyMatch(DirectorCommand.SpawnBoss.class::isInstance));
     }
 

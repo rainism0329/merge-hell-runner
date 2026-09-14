@@ -6,7 +6,8 @@ public enum ProjectileType {
     COMMIT(GameColors.HP_BAR, "git push", 30, 10, 25),
     SUDO(GameColors.SUDO_YELLOW, "rm -rf /", 60, 15, 100),
     ENEMY(GameColors.CRASH_ORANGE, "!", 14, 14, 15, false),
-    CRITICAL(GameColors.DANGER_RED, "!!", 16, 16, 25, true);
+    CRITICAL(GameColors.DANGER_RED, "!!", 16, 16, 25, true),
+    DRONE(GameColors.SHIELD_CYAN, "", 12, 6, 10);
 
     public final Color color;
     public final String label;

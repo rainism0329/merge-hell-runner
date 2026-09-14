@@ -1,0 +1,16 @@
+Mode: built-in image_gen; reference-based generation/edit.
+Use case: stylized-concept / game-production sprite parts.
+Asset type: ONE transparent PNG rig-part atlas for the actual Java2D side-scrolling game Merge Hell Runner.
+Reference image 1 is the approved visual identity: industrial-salvage maintenance robot, ivory squared monitor head with cyan dark-glass J> face, yellow-orange worn armor, black mechanical joints, amber scarf and practical cannon. This reference is STYLE AND CHARACTER REFERENCE ONLY; remove every background, HUD, enemy, floor and effect.
+Generate a clean EXACT 4-column x 2-row grid of EIGHT separate detached sprite components, no grid lines, no labels, no text except the cyan J> visor. Entire background genuinely transparent alpha, no checkerboard, no shadows on a floor. Target landscape 2048x1024. Each part isolated centrally in its own equal 512x512 cell, maximum part bounds 380x380, no crossing any cell border. Uniform side-on orthographic view facing RIGHT, consistent top-left warm light, same detailed worn industrial metal with strong dark contours, not flat vector, no pixel art.
+Ordered cells left-to-right then top-to-bottom:
+(1) robot monitor HEAD only, complete ivory casing, dark cyan glass J> visor pointing right, antenna, small side headphone bearing; NO torso.
+(2) compact yellow-orange armored TORSO with hip block only, neck socket and shoulder bearing visible, NO arms, head or legs.
+(3) one UPPER ARM segment, hanging vertically downward from a circular shoulder to elbow, dark piston with yellow shoulder cap, no hand.
+(4) one FOREARM segment hanging vertically downward, orange plate and compact closed mechanical fist at bottom, no weapon.
+(5) one THIGH segment hanging vertically downward from round hip bearing to round knee, short black piston with orange armor plate.
+(6) one SHIN plus large BOOT segment, hanging vertically from knee socket to a grounded boot whose toe points RIGHT. Complete boot sole, no floor.
+(7) detached short industrial CANNON pointing horizontally RIGHT, detailed barrel and muzzle at extreme right, gun grip and ammo magazine; no hands or blast.
+(8) detached short AMBER SCARF cloth: collar end on RIGHT and two tapered frayed tails streaming to LEFT, all cloth visible.
+Parts are intended for skeletal rotation animation: include overlap at every joint and rounded metal pivot caps. Broad readable shapes, simplify tiny wires; preserve character identity from reference. No assembled robot anywhere on the atlas, exactly the eight requested detached pieces. Leave generous transparent margins. Every cell keeps the exact component order.
+

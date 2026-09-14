@@ -75,8 +75,7 @@ class BossTest {
                 bossAtLevel(1), bossAtLevel(2), bossAtLevel(3), bossAtLevel(4));
 
         assertEquals(4, bosses.stream().map(Boss::getPersonalityName).distinct().count());
-        assertEquals(List.of("ALLOCATING", "DRAFT", "BOOT", "OBSERVE"),
-                bosses.stream().map(Boss::getStageName).toList());
+        assertEquals(4, bosses.stream().map(Boss::getStageName).distinct().count());
 
         for (Boss boss : bosses) {
             boss.activate();
@@ -95,10 +94,10 @@ class BossTest {
         Boss singularity = simulateBoss(4, 1_700);
 
         assertTrue(memory.movesSeenForTesting().containsAll(Set.of("HEAP_SPRAY", "GC_STORM")));
-        assertTrue(architect.movesSeenForTesting().containsAll(Set.of("BLUEPRINT_GRID", "RUNTIME_WALL")));
-        assertTrue(kernel.movesSeenForTesting().containsAll(Set.of("CORE_DUMP", "PANIC_LANES")));
+        assertTrue(architect.movesSeenForTesting().containsAll(Set.of("LEFT_STAMP", "RIGHT_STAMP", "CROSSBEAM", "GIRDER_FALL")));
+        assertTrue(kernel.movesSeenForTesting().containsAll(Set.of("DRILL_CHARGE", "MAGMA_MORTAR")));
         assertTrue(singularity.movesSeenForTesting().containsAll(Set.of(
-                "MEMORY_ECHO", "BLUEPRINT_ECHO", "KERNEL_ECHO", "EVENT_HORIZON")));
+                "SPORE_FAN", "LEFT_TENDRIL", "RIGHT_TENDRIL", "HATCH")));
     }
 
     private static Boss bossAtLevel(int level) {

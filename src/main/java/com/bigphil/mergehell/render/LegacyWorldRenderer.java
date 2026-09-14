@@ -1,5 +1,7 @@
 package com.bigphil.mergehell.render;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import com.bigphil.mergehell.LevelTheme;
 
 import java.awt.*;
@@ -30,7 +32,7 @@ public final class LegacyWorldRenderer {
 
         g.setPaint(paint);
         g.setStroke(stroke);
-        g.setFont(font);
+        g.setFont(GameText.font(font));
         g.setComposite(composite);
     }
 
@@ -63,7 +65,7 @@ public final class LegacyWorldRenderer {
 
         int spacing = 126;
         int offset = Math.floorMod((int) (-cameraX * 0.17), spacing);
-        g.setFont(MICRO);
+        g.setFont(GameText.font(MICRO));
         for (int x = offset - spacing, column = 0; x < width + spacing; x += spacing, column++) {
             int hash = hash(column + (int) cameraX / 700);
             int towerH = 130 + Math.floorMod(hash, 190);
@@ -77,7 +79,7 @@ public final class LegacyWorldRenderer {
                 g.fillRoundRect(x + 9, blockY, 74, 15, 5, 5);
             }
             g.setColor(new Color(220, 235, 190, 100));
-            g.drawString(String.format("0x%04X", hash & 0xFFFF), x + 9, y + 11);
+            GameText.draw(g, String.format(java.util.Locale.ROOT, "0x%04X", hash & 0xFFFF), x + 9, y + 11);
         }
 
         for (int i = 0; i < 13; i++) {
@@ -135,7 +137,7 @@ public final class LegacyWorldRenderer {
         g.fillRect(0, 0, width, height);
         int rackWidth = 118;
         int offset = Math.floorMod((int) (-cameraX * 0.25), rackWidth);
-        g.setFont(MICRO);
+        g.setFont(GameText.font(MICRO));
         for (int x = offset - rackWidth, index = 0; x < width + rackWidth; x += rackWidth, index++) {
             int rackTop = 80 + Math.floorMod(hash(index + (int) cameraX / 600), 70);
             g.setColor(new Color(20, 24, 34, 170));
@@ -242,11 +244,11 @@ public final class LegacyWorldRenderer {
     }
 
     private void drawDistrictLabel(Graphics2D g, String text, Color color) {
-        g.setFont(LABEL);
+        g.setFont(GameText.font(LABEL));
         g.setColor(new Color(0, 0, 0, 130));
-        g.fillRoundRect(18, 188, g.getFontMetrics().stringWidth(text) + 22, 25, 8, 8);
+        g.fillRoundRect(18, 188, g.getFontMetrics().stringWidth(GameText.text(text)) + 22, 25, 8, 8);
         g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 170));
-        g.drawString(text, 29, 205);
+        GameText.draw(g, text, 29, 205);
     }
 
     private static int hash(int value) {

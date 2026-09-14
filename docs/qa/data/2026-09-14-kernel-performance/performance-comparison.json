@@ -1,0 +1,1201 @@
+{
+  "before": {
+    "total_samples": 1546,
+    "warmup_ms": 750,
+    "sample_window_ms": 1750,
+    "cases": {
+      "world2_high_1280": {
+        "samples": 77,
+        "post_update_populations": {
+          "enemies": {
+            "40": 77
+          },
+          "player_bullets": {
+            "320": 77
+          },
+          "enemy_bullets": {
+            "180": 77
+          },
+          "particles": {
+            "1200": 77
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 12.5016,
+          "p95": 14.0099,
+          "max": 15.0269
+        },
+        "edt_paint_ms": {
+          "p50": 9.8237,
+          "p95": 10.5143,
+          "max": 11.1866
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0805,
+          "p95": 0.1111,
+          "max": 0.1504
+        }
+      },
+      "world2_high_600": {
+        "samples": 114,
+        "post_update_populations": {
+          "enemies": {
+            "40": 114
+          },
+          "player_bullets": {
+            "320": 114
+          },
+          "enemy_bullets": {
+            "180": 114
+          },
+          "particles": {
+            "1200": 114
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 12.5266,
+          "p95": 14.5246,
+          "max": 16.4832
+        },
+        "edt_paint_ms": {
+          "p50": 2.3739,
+          "p95": 2.7668,
+          "max": 2.9119
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0817,
+          "p95": 0.1043,
+          "max": 0.1159
+        }
+      },
+      "world2_high_960": {
+        "samples": 119,
+        "post_update_populations": {
+          "enemies": {
+            "40": 119
+          },
+          "player_bullets": {
+            "320": 119
+          },
+          "enemy_bullets": {
+            "180": 119
+          },
+          "particles": {
+            "1200": 119
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.0552,
+          "p95": 14.6146,
+          "max": 15.8729
+        },
+        "edt_paint_ms": {
+          "p50": 1.4077,
+          "p95": 1.7743,
+          "max": 2.1802
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0792,
+          "p95": 0.0987,
+          "max": 0.1488
+        }
+      },
+      "world2_normal_1280": {
+        "samples": 105,
+        "post_update_populations": {
+          "enemies": {
+            "6": 105
+          },
+          "player_bullets": {
+            "32": 105
+          },
+          "enemy_bullets": {
+            "12": 102,
+            "13": 3
+          },
+          "particles": {
+            "120": 105
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.6456,
+          "p95": 7.5121,
+          "max": 7.6925
+        },
+        "edt_paint_ms": {
+          "p50": 9.7451,
+          "p95": 10.2315,
+          "max": 10.9948
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0805,
+          "p95": 0.1043,
+          "max": 0.1236
+        }
+      },
+      "world2_normal_600": {
+        "samples": 187,
+        "post_update_populations": {
+          "enemies": {
+            "6": 187
+          },
+          "player_bullets": {
+            "32": 187
+          },
+          "enemy_bullets": {
+            "12": 182,
+            "13": 5
+          },
+          "particles": {
+            "120": 187
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.7576,
+          "p95": 7.6926,
+          "max": 8.741
+        },
+        "edt_paint_ms": {
+          "p50": 2.3799,
+          "p95": 2.6918,
+          "max": 2.8546
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0779,
+          "p95": 0.1086,
+          "max": 0.1984
+        }
+      },
+      "world2_normal_960": {
+        "samples": 191,
+        "post_update_populations": {
+          "enemies": {
+            "6": 191
+          },
+          "player_bullets": {
+            "32": 191
+          },
+          "enemy_bullets": {
+            "12": 186,
+            "13": 5
+          },
+          "particles": {
+            "120": 191
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.438,
+          "p95": 8.7169,
+          "max": 11.2508
+        },
+        "edt_paint_ms": {
+          "p50": 1.4232,
+          "p95": 1.7738,
+          "max": 2.4328
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.1069,
+          "p95": 0.1499,
+          "max": 0.2302
+        }
+      },
+      "world4_high_1280": {
+        "samples": 74,
+        "post_update_populations": {
+          "enemies": {
+            "40": 74
+          },
+          "player_bullets": {
+            "320": 74
+          },
+          "enemy_bullets": {
+            "180": 74
+          },
+          "particles": {
+            "1200": 74
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.393,
+          "p95": 15.3732,
+          "max": 15.6982
+        },
+        "edt_paint_ms": {
+          "p50": 9.8938,
+          "p95": 10.6378,
+          "max": 11.1498
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0779,
+          "p95": 0.1029,
+          "max": 0.2225
+        }
+      },
+      "world4_high_600": {
+        "samples": 107,
+        "post_update_populations": {
+          "enemies": {
+            "40": 107
+          },
+          "player_bullets": {
+            "320": 107
+          },
+          "enemy_bullets": {
+            "180": 107
+          },
+          "particles": {
+            "1200": 107
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.5632,
+          "p95": 14.8832,
+          "max": 15.7563
+        },
+        "edt_paint_ms": {
+          "p50": 2.3868,
+          "p95": 2.7461,
+          "max": 2.9195
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0791,
+          "p95": 0.0966,
+          "max": 0.1115
+        }
+      },
+      "world4_high_960": {
+        "samples": 112,
+        "post_update_populations": {
+          "enemies": {
+            "40": 112
+          },
+          "player_bullets": {
+            "320": 112
+          },
+          "enemy_bullets": {
+            "180": 112
+          },
+          "particles": {
+            "1200": 112
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.6481,
+          "p95": 15.4569,
+          "max": 20.5109
+        },
+        "edt_paint_ms": {
+          "p50": 1.4177,
+          "p95": 1.7292,
+          "max": 2.1076
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0773,
+          "p95": 0.1005,
+          "max": 0.1247
+        }
+      },
+      "world4_normal_1280": {
+        "samples": 99,
+        "post_update_populations": {
+          "enemies": {
+            "6": 97,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 99
+          },
+          "enemy_bullets": {
+            "12": 97,
+            "13": 2
+          },
+          "particles": {
+            "120": 99
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.6585,
+          "p95": 8.8177,
+          "max": 10.3203
+        },
+        "edt_paint_ms": {
+          "p50": 9.8046,
+          "p95": 10.5178,
+          "max": 10.8963
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.083,
+          "p95": 0.1085,
+          "max": 0.2517
+        }
+      },
+      "world4_normal_600": {
+        "samples": 172,
+        "post_update_populations": {
+          "enemies": {
+            "6": 170,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 172
+          },
+          "enemy_bullets": {
+            "12": 167,
+            "13": 5
+          },
+          "particles": {
+            "120": 172
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.5557,
+          "p95": 8.5436,
+          "max": 9.4045
+        },
+        "edt_paint_ms": {
+          "p50": 2.3733,
+          "p95": 2.7436,
+          "max": 3.0688
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0774,
+          "p95": 0.0953,
+          "max": 0.1187
+        }
+      },
+      "world4_normal_960": {
+        "samples": 189,
+        "post_update_populations": {
+          "enemies": {
+            "6": 187,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 189
+          },
+          "enemy_bullets": {
+            "12": 184,
+            "13": 5
+          },
+          "particles": {
+            "120": 189
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.4826,
+          "p95": 8.6227,
+          "max": 11.7185
+        },
+        "edt_paint_ms": {
+          "p50": 1.3989,
+          "p95": 1.8101,
+          "max": 2.4417
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0763,
+          "p95": 0.1031,
+          "max": 0.1327
+        }
+      }
+    }
+  },
+  "initial": {
+    "total_samples": 1286,
+    "warmup_ms": 750,
+    "sample_window_ms": 1750,
+    "cases": {
+      "world2_high_1280": {
+        "samples": 77,
+        "post_update_populations": {
+          "enemies": {
+            "40": 77
+          },
+          "player_bullets": {
+            "320": 77
+          },
+          "enemy_bullets": {
+            "180": 77
+          },
+          "particles": {
+            "1200": 77
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 12.6056,
+          "p95": 13.8309,
+          "max": 14.4529
+        },
+        "edt_paint_ms": {
+          "p50": 9.8259,
+          "p95": 10.8488,
+          "max": 12.1204
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0835,
+          "p95": 0.1164,
+          "max": 0.3924
+        }
+      },
+      "world2_high_600": {
+        "samples": 110,
+        "post_update_populations": {
+          "enemies": {
+            "40": 110
+          },
+          "player_bullets": {
+            "320": 110
+          },
+          "enemy_bullets": {
+            "180": 110
+          },
+          "particles": {
+            "1200": 110
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.1841,
+          "p95": 15.0889,
+          "max": 16.8514
+        },
+        "edt_paint_ms": {
+          "p50": 2.39,
+          "p95": 2.8017,
+          "max": 3.778
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0833,
+          "p95": 0.1032,
+          "max": 0.1185
+        }
+      },
+      "world2_high_960": {
+        "samples": 116,
+        "post_update_populations": {
+          "enemies": {
+            "40": 116
+          },
+          "player_bullets": {
+            "320": 116
+          },
+          "enemy_bullets": {
+            "180": 116
+          },
+          "particles": {
+            "1200": 116
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.2367,
+          "p95": 15.1955,
+          "max": 20.4063
+        },
+        "edt_paint_ms": {
+          "p50": 1.412,
+          "p95": 1.6893,
+          "max": 1.8374
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0816,
+          "p95": 0.1029,
+          "max": 0.24
+        }
+      },
+      "world2_normal_1280": {
+        "samples": 106,
+        "post_update_populations": {
+          "enemies": {
+            "6": 106
+          },
+          "player_bullets": {
+            "32": 106
+          },
+          "enemy_bullets": {
+            "12": 103,
+            "13": 3
+          },
+          "particles": {
+            "120": 106
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.5781,
+          "p95": 7.4889,
+          "max": 8.2482
+        },
+        "edt_paint_ms": {
+          "p50": 9.7743,
+          "p95": 10.1946,
+          "max": 10.782
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0829,
+          "p95": 0.1038,
+          "max": 0.1096
+        }
+      },
+      "world2_normal_600": {
+        "samples": 189,
+        "post_update_populations": {
+          "enemies": {
+            "6": 189
+          },
+          "player_bullets": {
+            "32": 189
+          },
+          "enemy_bullets": {
+            "12": 184,
+            "13": 5
+          },
+          "particles": {
+            "120": 189
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.6848,
+          "p95": 7.31,
+          "max": 8.6487
+        },
+        "edt_paint_ms": {
+          "p50": 2.3674,
+          "p95": 2.6875,
+          "max": 3.4314
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0818,
+          "p95": 0.1176,
+          "max": 0.218
+        }
+      },
+      "world2_normal_960": {
+        "samples": 187,
+        "post_update_populations": {
+          "enemies": {
+            "6": 187
+          },
+          "player_bullets": {
+            "32": 187
+          },
+          "enemy_bullets": {
+            "12": 182,
+            "13": 5
+          },
+          "particles": {
+            "120": 187
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.5267,
+          "p95": 8.9181,
+          "max": 13.3939
+        },
+        "edt_paint_ms": {
+          "p50": 1.415,
+          "p95": 1.8184,
+          "max": 2.6303
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.1102,
+          "p95": 0.1677,
+          "max": 0.3777
+        }
+      },
+      "world4_high_1280": {
+        "samples": 57,
+        "post_update_populations": {
+          "enemies": {
+            "40": 57
+          },
+          "player_bullets": {
+            "320": 57
+          },
+          "enemy_bullets": {
+            "180": 57
+          },
+          "particles": {
+            "1200": 57
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 20.3494,
+          "p95": 22.8586,
+          "max": 26.1639
+        },
+        "edt_paint_ms": {
+          "p50": 9.7772,
+          "p95": 10.8743,
+          "max": 12.029
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.082,
+          "p95": 0.1218,
+          "max": 0.2559
+        }
+      },
+      "world4_high_600": {
+        "samples": 76,
+        "post_update_populations": {
+          "enemies": {
+            "40": 76
+          },
+          "player_bullets": {
+            "320": 76
+          },
+          "enemy_bullets": {
+            "180": 76
+          },
+          "particles": {
+            "1200": 76
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 20.3623,
+          "p95": 21.9929,
+          "max": 26.6962
+        },
+        "edt_paint_ms": {
+          "p50": 2.3901,
+          "p95": 2.6877,
+          "max": 2.7229
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0841,
+          "p95": 0.1154,
+          "max": 0.1429
+        }
+      },
+      "world4_high_960": {
+        "samples": 81,
+        "post_update_populations": {
+          "enemies": {
+            "40": 81
+          },
+          "player_bullets": {
+            "320": 81
+          },
+          "enemy_bullets": {
+            "180": 81
+          },
+          "particles": {
+            "1200": 81
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 20.1573,
+          "p95": 20.7444,
+          "max": 21.5297
+        },
+        "edt_paint_ms": {
+          "p50": 1.3633,
+          "p95": 1.7413,
+          "max": 1.9064
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0791,
+          "p95": 0.1002,
+          "max": 0.1106
+        }
+      },
+      "world4_normal_1280": {
+        "samples": 73,
+        "post_update_populations": {
+          "enemies": {
+            "6": 72,
+            "7": 1
+          },
+          "player_bullets": {
+            "32": 73
+          },
+          "enemy_bullets": {
+            "12": 73
+          },
+          "particles": {
+            "120": 73
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 14.1623,
+          "p95": 14.98,
+          "max": 15.7578
+        },
+        "edt_paint_ms": {
+          "p50": 9.7838,
+          "p95": 10.5689,
+          "max": 10.8104
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0881,
+          "p95": 0.1009,
+          "max": 0.1224
+        }
+      },
+      "world4_normal_600": {
+        "samples": 104,
+        "post_update_populations": {
+          "enemies": {
+            "6": 102,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 104
+          },
+          "enemy_bullets": {
+            "12": 101,
+            "13": 3
+          },
+          "particles": {
+            "120": 104
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 14.2841,
+          "p95": 15.7232,
+          "max": 16.7936
+        },
+        "edt_paint_ms": {
+          "p50": 2.3718,
+          "p95": 2.7014,
+          "max": 2.7473
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0788,
+          "p95": 0.1022,
+          "max": 0.1135
+        }
+      },
+      "world4_normal_960": {
+        "samples": 110,
+        "post_update_populations": {
+          "enemies": {
+            "6": 108,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 110
+          },
+          "enemy_bullets": {
+            "12": 107,
+            "13": 3
+          },
+          "particles": {
+            "120": 110
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 14.3022,
+          "p95": 15.3901,
+          "max": 16.4208
+        },
+        "edt_paint_ms": {
+          "p50": 1.337,
+          "p95": 1.7101,
+          "max": 2.4261
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0759,
+          "p95": 0.096,
+          "max": 0.1144
+        }
+      }
+    }
+  },
+  "after": {
+    "total_samples": 1352,
+    "warmup_ms": 750,
+    "sample_window_ms": 1750,
+    "cases": {
+      "world2_high_1280": {
+        "samples": 77,
+        "post_update_populations": {
+          "enemies": {
+            "40": 77
+          },
+          "player_bullets": {
+            "320": 77
+          },
+          "enemy_bullets": {
+            "180": 77
+          },
+          "particles": {
+            "1200": 77
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 12.5971,
+          "p95": 14.4315,
+          "max": 15.937
+        },
+        "edt_paint_ms": {
+          "p50": 9.7673,
+          "p95": 10.5289,
+          "max": 10.764
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0927,
+          "p95": 0.1307,
+          "max": 0.457
+        }
+      },
+      "world2_high_600": {
+        "samples": 114,
+        "post_update_populations": {
+          "enemies": {
+            "40": 114
+          },
+          "player_bullets": {
+            "320": 114
+          },
+          "enemy_bullets": {
+            "180": 114
+          },
+          "particles": {
+            "1200": 114
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 12.6643,
+          "p95": 15.0823,
+          "max": 15.5255
+        },
+        "edt_paint_ms": {
+          "p50": 2.3579,
+          "p95": 2.7018,
+          "max": 2.8332
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0815,
+          "p95": 0.1031,
+          "max": 0.1189
+        }
+      },
+      "world2_high_960": {
+        "samples": 118,
+        "post_update_populations": {
+          "enemies": {
+            "40": 118
+          },
+          "player_bullets": {
+            "320": 118
+          },
+          "enemy_bullets": {
+            "180": 118
+          },
+          "particles": {
+            "1200": 118
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 13.0445,
+          "p95": 14.6401,
+          "max": 16.3335
+        },
+        "edt_paint_ms": {
+          "p50": 1.3926,
+          "p95": 1.7673,
+          "max": 1.998
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.079,
+          "p95": 0.1048,
+          "max": 0.1476
+        }
+      },
+      "world2_normal_1280": {
+        "samples": 106,
+        "post_update_populations": {
+          "enemies": {
+            "6": 106
+          },
+          "player_bullets": {
+            "32": 106
+          },
+          "enemy_bullets": {
+            "12": 103,
+            "13": 3
+          },
+          "particles": {
+            "120": 106
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.5489,
+          "p95": 7.4455,
+          "max": 7.903
+        },
+        "edt_paint_ms": {
+          "p50": 9.7872,
+          "p95": 10.1452,
+          "max": 10.762
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0837,
+          "p95": 0.1063,
+          "max": 0.2409
+        }
+      },
+      "world2_normal_600": {
+        "samples": 186,
+        "post_update_populations": {
+          "enemies": {
+            "6": 186
+          },
+          "player_bullets": {
+            "32": 186
+          },
+          "enemy_bullets": {
+            "12": 181,
+            "13": 5
+          },
+          "particles": {
+            "120": 186
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 6.7197,
+          "p95": 7.9403,
+          "max": 9.5832
+        },
+        "edt_paint_ms": {
+          "p50": 2.3904,
+          "p95": 2.6902,
+          "max": 3.8177
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0815,
+          "p95": 0.1118,
+          "max": 0.1487
+        }
+      },
+      "world2_normal_960": {
+        "samples": 187,
+        "post_update_populations": {
+          "enemies": {
+            "6": 187
+          },
+          "player_bullets": {
+            "32": 187
+          },
+          "enemy_bullets": {
+            "12": 182,
+            "13": 5
+          },
+          "particles": {
+            "120": 187
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 7.5685,
+          "p95": 9.2929,
+          "max": 11.769
+        },
+        "edt_paint_ms": {
+          "p50": 1.4006,
+          "p95": 1.7378,
+          "max": 2.1299
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.1101,
+          "p95": 0.1557,
+          "max": 0.3154
+        }
+      },
+      "world4_high_1280": {
+        "samples": 62,
+        "post_update_populations": {
+          "enemies": {
+            "40": 62
+          },
+          "player_bullets": {
+            "320": 62
+          },
+          "enemy_bullets": {
+            "180": 62
+          },
+          "particles": {
+            "1200": 62
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 17.8529,
+          "p95": 20.6142,
+          "max": 22.7575
+        },
+        "edt_paint_ms": {
+          "p50": 9.7952,
+          "p95": 11.0563,
+          "max": 11.4139
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0812,
+          "p95": 0.1005,
+          "max": 0.1028
+        }
+      },
+      "world4_high_600": {
+        "samples": 84,
+        "post_update_populations": {
+          "enemies": {
+            "40": 84
+          },
+          "player_bullets": {
+            "320": 84
+          },
+          "enemy_bullets": {
+            "180": 84
+          },
+          "particles": {
+            "1200": 84
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 18.0674,
+          "p95": 20.8316,
+          "max": 21.8104
+        },
+        "edt_paint_ms": {
+          "p50": 2.3519,
+          "p95": 2.7151,
+          "max": 3.1017
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.076,
+          "p95": 0.0987,
+          "max": 0.1236
+        }
+      },
+      "world4_high_960": {
+        "samples": 88,
+        "post_update_populations": {
+          "enemies": {
+            "40": 88
+          },
+          "player_bullets": {
+            "320": 88
+          },
+          "enemy_bullets": {
+            "180": 88
+          },
+          "particles": {
+            "1200": 88
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 18.0391,
+          "p95": 20.4877,
+          "max": 21.4113
+        },
+        "edt_paint_ms": {
+          "p50": 1.3748,
+          "p95": 1.6794,
+          "max": 1.7445
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0792,
+          "p95": 0.1023,
+          "max": 0.2215
+        }
+      },
+      "world4_normal_1280": {
+        "samples": 80,
+        "post_update_populations": {
+          "enemies": {
+            "6": 78,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 80
+          },
+          "enemy_bullets": {
+            "12": 79,
+            "13": 1
+          },
+          "particles": {
+            "120": 80
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 11.7259,
+          "p95": 13.5467,
+          "max": 14.21
+        },
+        "edt_paint_ms": {
+          "p50": 9.806,
+          "p95": 10.5933,
+          "max": 11.6145
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0827,
+          "p95": 0.1081,
+          "max": 0.1258
+        }
+      },
+      "world4_normal_600": {
+        "samples": 121,
+        "post_update_populations": {
+          "enemies": {
+            "6": 119,
+            "7": 2
+          },
+          "player_bullets": {
+            "32": 121
+          },
+          "enemy_bullets": {
+            "12": 118,
+            "13": 3
+          },
+          "particles": {
+            "120": 121
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 11.8237,
+          "p95": 13.4711,
+          "max": 17.948
+        },
+        "edt_paint_ms": {
+          "p50": 2.3612,
+          "p95": 2.7184,
+          "max": 2.9626
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0843,
+          "p95": 0.1077,
+          "max": 0.1303
+        }
+      },
+      "world4_normal_960": {
+        "samples": 129,
+        "post_update_populations": {
+          "enemies": {
+            "6": 128,
+            "7": 1
+          },
+          "player_bullets": {
+            "32": 129
+          },
+          "enemy_bullets": {
+            "12": 126,
+            "13": 3
+          },
+          "particles": {
+            "120": 129
+          }
+        },
+        "simulation_publish_ms": {
+          "p50": 11.7892,
+          "p95": 13.7175,
+          "max": 16.1414
+        },
+        "edt_paint_ms": {
+          "p50": 1.3677,
+          "p95": 1.7368,
+          "max": 2.2972
+        },
+        "edt_dispatch_ms": {
+          "p50": 0.0783,
+          "p95": 0.1067,
+          "max": 0.1575
+        }
+      }
+    }
+  }
+}

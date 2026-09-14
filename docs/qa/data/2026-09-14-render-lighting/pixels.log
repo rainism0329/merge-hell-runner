@@ -1,0 +1,4 @@
+main cases=192 differing_pixels=0 max_channel_difference=0
+cases=200 differing_pixels=0 max_channel_difference=0
+before p50=3.550400 p95=3.731800 p99=4.174200 ms
+after p50=0.256200 p95=0.359900 p99=0.387200 ms

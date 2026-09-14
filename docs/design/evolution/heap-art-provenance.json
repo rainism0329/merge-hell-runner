@@ -1,0 +1,626 @@
+{
+  "format": 1,
+  "generation": "built-in image_gen; prompts beside unchanged source PNGs",
+  "source_sha256": {
+    "heap-background-generated.png": "d2cd0e5317955ed921f73f0ff543e1c50c19ea28dbcfbf8ee3a31477ac88fe7e",
+    "heap-actors-generated.png": "3fac31dd94b8529210e59e905c2513664495737e3e849fb7a2dca181e955b1b8"
+  },
+  "actor_source_mode": "RGBA",
+  "actor_source_size": [
+    1448,
+    1086
+  ],
+  "script": "scripts/art/export_heap_art.py",
+  "script_sha256": "cce022f12e919dc522a2cb9e254d8da957d8df2ad70ab48de81ba3300e7a4505",
+  "utility_dependency_sha256": "bf6afeb3f0ccfcdb6543aa6fca44980b622c80fcf334cfa25df04e392588121e",
+  "software": {
+    "python": "3.10.6",
+    "pillow": "12.2.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "method": "Opaque full-width RGB background; direct cropping of genuine RGBA machines; no matte, alpha normalization, defringing or disconnected-component filtering; inspected existing apertures verified, dark core retained as material; uniform maximum edge 768; tight alpha crop plus 1px guard",
+  "outputs": {
+    "heap-background": {
+      "mode": "RGB",
+      "size": [
+        1774,
+        887
+      ],
+      "png_sha256": "4018039022cb74a0edb7170d68e18625ed5c01f3d93cbafbb5a2aaba8b65b0ad",
+      "properties_sha256": "5d425f1689cb2d75b6d8dce17320dff2a956b3fd0d8a99fda94cc950fdb0c59c"
+    },
+    "heap-actors": {
+      "mode": "RGBA",
+      "size": [
+        1311,
+        778
+      ],
+      "png_sha256": "f24309d7508b20c031fc98275e952e6d840f56ce7f42ec2ed91e1dd49fca5396",
+      "properties_sha256": "0b87d91ea02890c1b09d143bf11feb960d8ff4e7eec3e8a431fc7cff5754990e"
+    }
+  },
+  "parts": [
+    {
+      "name": "boss-shell",
+      "source_cell": [
+        0,
+        0,
+        1040,
+        1086
+      ],
+      "source_crop": [
+        0,
+        0,
+        1040,
+        1086
+      ],
+      "size": [
+        737,
+        770
+      ],
+      "anchor": [
+        368.5,
+        769
+      ],
+      "sockets": {
+        "core": [
+          368.5,
+          360.248619
+        ],
+        "core-left": [
+          273.798077,
+          360.248619
+        ],
+        "core-right": [
+          458.254808,
+          360.248619
+        ],
+        "fan": [
+          369.913462,
+          63.232044
+        ]
+      },
+      "rgba_unchanged_before_resampling": true,
+      "apertures": [
+        {
+          "source": [
+            387,
+            66
+          ],
+          "frame": [
+            274.504808,
+            47.674033
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        },
+        {
+          "source": [
+            652,
+            65
+          ],
+          "frame": [
+            461.788462,
+            46.966851
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        },
+        {
+          "source": [
+            130,
+            280
+          ],
+          "frame": [
+            92.875,
+            199.01105
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        },
+        {
+          "source": [
+            916,
+            280
+          ],
+          "frame": [
+            648.365385,
+            199.01105
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        },
+        {
+          "source": [
+            431,
+            942
+          ],
+          "frame": [
+            305.600962,
+            667.165746
+          ],
+          "source_alpha": 3,
+          "output_alpha": 4
+        },
+        {
+          "source": [
+            612,
+            942
+          ],
+          "frame": [
+            433.519231,
+            667.165746
+          ],
+          "source_alpha": 4,
+          "output_alpha": 4
+        }
+      ],
+      "source_anchor": [
+        520,
+        1050
+      ],
+      "size_before_resampling": [
+        1040,
+        1086
+      ],
+      "anchor_meaning": "bottom center; core and fan sockets retain source geometry",
+      "export_scale": [
+        0.7067307692307693,
+        0.7071823204419889
+      ],
+      "alpha_bbox": [
+        1,
+        1,
+        736,
+        769
+      ],
+      "alpha_zero_pixels": 160002,
+      "alpha_soft_pixels": 406461,
+      "alpha_opaque_pixels": 1027,
+      "alpha_high_coverage_pixels": 389523,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_samples": [
+        {
+          "name": "piston-silver",
+          "source": [
+            283,
+            313
+          ],
+          "source_rgba": [
+            195,
+            174,
+            152,
+            252
+          ],
+          "pre_resample_rgba": [
+            195,
+            174,
+            152,
+            252
+          ],
+          "frame": [
+            201.004808,
+            222.348066
+          ],
+          "output_rgba": [
+            190,
+            171,
+            148,
+            252
+          ]
+        },
+        {
+          "name": "orange-armor-light",
+          "source": [
+            412,
+            221
+          ],
+          "source_rgba": [
+            233,
+            151,
+            90,
+            252
+          ],
+          "pre_resample_rgba": [
+            233,
+            151,
+            90,
+            252
+          ],
+          "frame": [
+            292.173077,
+            157.287293
+          ],
+          "output_rgba": [
+            236,
+            161,
+            103,
+            252
+          ]
+        },
+        {
+          "name": "exhaust-silver",
+          "source": [
+            498,
+            965
+          ],
+          "source_rgba": [
+            239,
+            232,
+            218,
+            252
+          ],
+          "pre_resample_rgba": [
+            239,
+            232,
+            218,
+            252
+          ],
+          "frame": [
+            352.951923,
+            683.430939
+          ],
+          "output_rgba": [
+            234,
+            224,
+            205,
+            252
+          ]
+        },
+        {
+          "name": "dark-core-material",
+          "source": [
+            520,
+            508
+          ],
+          "source_rgba": [
+            18,
+            15,
+            12,
+            252
+          ],
+          "pre_resample_rgba": [
+            18,
+            15,
+            12,
+            252
+          ],
+          "frame": [
+            368.5,
+            360.248619
+          ],
+          "output_rgba": [
+            18,
+            15,
+            12,
+            251
+          ]
+        }
+      ],
+      "source": "docs/design/evolution/sources/heap-actors-generated.png",
+      "atlas_rect": [
+        4,
+        4,
+        737,
+        770
+      ]
+    },
+    {
+      "name": "leak-body",
+      "source_cell": [
+        1040,
+        60,
+        1448,
+        510
+      ],
+      "source_crop": [
+        1057,
+        66,
+        1433,
+        505
+      ],
+      "size": [
+        378,
+        441
+      ],
+      "anchor": [
+        189.0,
+        440
+      ],
+      "sockets": {
+        "core": [
+          189.0,
+          205.0
+        ],
+        "eye": [
+          50.0,
+          167.0
+        ],
+        "flow": [
+          264.0,
+          205.0
+        ]
+      },
+      "rgba_unchanged_before_resampling": true,
+      "apertures": [
+        {
+          "source": [
+            1210,
+            115
+          ],
+          "frame": [
+            154.0,
+            50.0
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        },
+        {
+          "source": [
+            1360,
+            381
+          ],
+          "frame": [
+            304.0,
+            316.0
+          ],
+          "source_alpha": 1,
+          "output_alpha": 1
+        }
+      ],
+      "source_anchor": [
+        1245,
+        495
+      ],
+      "size_before_resampling": [
+        376,
+        439
+      ],
+      "anchor_meaning": "bottom center of floating body; no floor-contact shadow",
+      "export_scale": [
+        1.0,
+        1.0
+      ],
+      "alpha_bbox": [
+        1,
+        1,
+        377,
+        440
+      ],
+      "alpha_zero_pixels": 54552,
+      "alpha_soft_pixels": 112051,
+      "alpha_opaque_pixels": 95,
+      "alpha_high_coverage_pixels": 97758,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_samples": [
+        {
+          "name": "red-eye",
+          "source": [
+            1106,
+            232
+          ],
+          "source_rgba": [
+            227,
+            44,
+            35,
+            252
+          ],
+          "pre_resample_rgba": [
+            227,
+            44,
+            35,
+            252
+          ],
+          "frame": [
+            50.0,
+            167.0
+          ],
+          "output_rgba": [
+            227,
+            44,
+            35,
+            252
+          ]
+        },
+        {
+          "name": "reservoir-glass",
+          "source": [
+            1320,
+            270
+          ],
+          "source_rgba": [
+            113,
+            110,
+            40,
+            252
+          ],
+          "pre_resample_rgba": [
+            113,
+            110,
+            40,
+            252
+          ],
+          "frame": [
+            264.0,
+            205.0
+          ],
+          "output_rgba": [
+            113,
+            110,
+            40,
+            252
+          ]
+        },
+        {
+          "name": "top-brass",
+          "source": [
+            1245,
+            89
+          ],
+          "source_rgba": [
+            33,
+            21,
+            10,
+            252
+          ],
+          "pre_resample_rgba": [
+            33,
+            21,
+            10,
+            252
+          ],
+          "frame": [
+            189.0,
+            24.0
+          ],
+          "output_rgba": [
+            33,
+            21,
+            10,
+            252
+          ]
+        }
+      ],
+      "source": "docs/design/evolution/sources/heap-actors-generated.png",
+      "atlas_rect": [
+        745,
+        4,
+        378,
+        441
+      ]
+    },
+    {
+      "name": "shutter",
+      "source_cell": [
+        1160,
+        530,
+        1345,
+        1040
+      ],
+      "source_crop": [
+        1161,
+        532,
+        1339,
+        1040
+      ],
+      "size": [
+        180,
+        510
+      ],
+      "anchor": [
+        90.0,
+        255.0
+      ],
+      "sockets": {},
+      "rgba_unchanged_before_resampling": true,
+      "apertures": [],
+      "source_anchor": [
+        1250,
+        785
+      ],
+      "size_before_resampling": [
+        178,
+        508
+      ],
+      "anchor_meaning": "center; renderer mirrors this plate for a matching pair",
+      "export_scale": [
+        1.0,
+        1.0
+      ],
+      "alpha_bbox": [
+        1,
+        1,
+        179,
+        509
+      ],
+      "alpha_zero_pixels": 12328,
+      "alpha_soft_pixels": 79464,
+      "alpha_opaque_pixels": 8,
+      "alpha_high_coverage_pixels": 66625,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "protected_samples": [
+        {
+          "name": "red-strip",
+          "source": [
+            1198,
+            767
+          ],
+          "source_rgba": [
+            250,
+            184,
+            124,
+            253
+          ],
+          "pre_resample_rgba": [
+            250,
+            184,
+            124,
+            253
+          ],
+          "frame": [
+            38.0,
+            236.0
+          ],
+          "output_rgba": [
+            250,
+            184,
+            124,
+            253
+          ]
+        },
+        {
+          "name": "edge-metal",
+          "source": [
+            1181,
+            665
+          ],
+          "source_rgba": [
+            79,
+            54,
+            39,
+            250
+          ],
+          "pre_resample_rgba": [
+            79,
+            54,
+            39,
+            250
+          ],
+          "frame": [
+            21.0,
+            134.0
+          ],
+          "output_rgba": [
+            79,
+            54,
+            39,
+            250
+          ]
+        }
+      ],
+      "source": "docs/design/evolution/sources/heap-actors-generated.png",
+      "atlas_rect": [
+        1127,
+        4,
+        180,
+        510
+      ]
+    }
+  ]
+}

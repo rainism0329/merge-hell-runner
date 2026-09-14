@@ -33,6 +33,50 @@ class PlayerTest {
     }
 
     @Test
+    void meleeVisualProgressTracksTheCompleteAttackWindow() {
+        player.melee();
+        assertEquals(0.0, player.getMeleeProgress());
+        for (int tick = 1; tick <= 8; tick++) {
+            player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH,
+                    projectiles, List.of());
+            assertEquals(tick / 8.0, player.getMeleeProgress());
+            assertEquals(tick < 8, player.isMeleeActive());
+        }
+        player.update(false, false, false, false, GROUND_Y, PANEL_WIDTH, projectiles, List.of());
+        assertEquals(1.0, player.getMeleeProgress());
+    }
+
+    @Test
+    void firingFeedbackTracksTheVolleyAfterAmmoFallbackAndSudoOverride() {
+        assertNull(player.getLastFiredWeaponId());
+        player.giveWeapon(WeaponType.HEAVY, 1);
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, List.of());
+        assertEquals(WeaponType.COMMIT, player.getWeapon());
+        assertEquals(WeaponId.GARBAGE_COLLECTOR, player.getLastFiredWeaponId());
+        assertEquals(1, player.getShotSequence());
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, List.of());
+        assertEquals(1, player.getShotSequence());
+        assertEquals(WeaponId.GARBAGE_COLLECTOR, player.getLastFiredWeaponId());
+
+        player.reset(100, GROUND_Y - 30);
+        assertNull(player.getLastFiredWeaponId());
+        player.setSudoTimer(100);
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, List.of());
+        assertEquals(WeaponType.COMMIT, player.getWeapon());
+        assertEquals(WeaponId.FORCE_PUSH, player.getLastFiredWeaponId());
+        assertEquals(1, player.getShotSequence());
+    }
+
+    @Test
+    void chargingBeforeTheFirstBeamDoesNotReportFiringFeedback() {
+        player.setRunBuild(new RunBuild(WeaponId.REFACTOR_BEAM));
+        player.update(false, false, false, true, GROUND_Y, PANEL_WIDTH, projectiles, List.of());
+        assertTrue(player.getBeamChargeTicks() > 0);
+        assertEquals(0, player.getShotSequence());
+        assertNull(player.getLastFiredWeaponId());
+    }
+
+    @Test
     void takeDamage_shouldSetInvincibilityTimer() {
         player.takeDamage(10);
         assertTrue(player.getInvincibleTimer() > 0);
@@ -191,6 +235,16 @@ class PlayerTest {
         player.takeDamage(50);
         player.heal(25);
         assertEquals(75, player.getHp());
+    }
+
+    @Test
+    void lethalDamageAndLargeHealingStayWithinTheHealthRange() {
+        player.takeDamage(Integer.MAX_VALUE);
+        assertEquals(0, player.getHp());
+        player.heal(Integer.MAX_VALUE);
+        assertEquals(player.getMaxHp(), player.getHp());
+        player.heal(-20);
+        assertEquals(player.getMaxHp(), player.getHp());
     }
 
     @Test

@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.random.RandomGenerator;
 
 public final class UpgradeDraftService {
-    private static final int GLOBAL_CARD_COUNT = 2;
-
     private final RandomGenerator random;
     private List<UpgradeDefinition> lastDraft = List.of();
     private boolean rerollUsed;
@@ -46,29 +44,32 @@ public final class UpgradeDraftService {
 
     private List<UpgradeDefinition> createDraft(
             RunBuild build, Set<UpgradeId> previousIds) {
-        List<UpgradeDefinition> relevant = eligible(build).stream()
+        List<UpgradeDefinition> available = eligible(build);
+        List<UpgradeDefinition> relevant = available.stream()
                 .filter(definition -> definition.isWeaponRelevant(build.weapon()))
                 .sorted(Comparator.comparing(UpgradeDefinition::id))
                 .toList();
-        List<UpgradeDefinition> globals = eligible(build).stream()
+        List<UpgradeDefinition> globals = available.stream()
                 .filter(definition -> definition.tag() != UpgradeTag.WEAPON)
                 .filter(definition -> definition.tag() != UpgradeTag.EVOLUTION_CORE)
                 .sorted(Comparator.comparing(UpgradeDefinition::id))
                 .toList();
-        int requiredGlobals = relevant.isEmpty() ? 3 : GLOBAL_CARD_COUNT;
-        if (globals.size() < requiredGlobals) {
-            throw new IllegalStateException("not enough global upgrades are available");
-        }
-
-        UpgradeDefinition weaponCard = relevant.isEmpty()
-                ? chooseRelevant(globals, previousIds) : chooseRelevant(relevant, previousIds);
-        List<UpgradeDefinition> globalCards = chooseGlobals(globals.stream()
-                .filter(card -> card.id() != weaponCard.id()).toList(), previousIds);
-        return List.of(weaponCard, globalCards.get(0), globalCards.get(1));
+        List<UpgradeDefinition> result = new ArrayList<>(3);
+        if (!relevant.isEmpty()) result.add(chooseRelevant(relevant, previousIds));
+        addCandidates(result, globals, previousIds);
+        // Exhausting global modules must not hide remaining weapon progression.
+        addCandidates(result, relevant, previousIds);
+        // A completely developed build keeps receiving an explicit, repeatable supply choice.
+        addCandidates(result, UpgradeCatalog.supplies(), previousIds);
+        return List.copyOf(result);
     }
 
     private List<UpgradeDefinition> eligible(RunBuild build) {
         return UpgradeCatalog.all().stream()
+                .filter(definition -> !definition.isSupply())
+                .filter(definition -> definition.tag() != UpgradeTag.WEAPON
+                        && definition.tag() != UpgradeTag.EVOLUTION_CORE
+                        || definition.isWeaponRelevant(build.weapon()))
                 .filter(definition -> build.rank(definition.id()) < definition.maxRank())
                 .toList();
     }
@@ -82,17 +83,21 @@ public final class UpgradeDraftService {
         return pool.get(random.nextInt(pool.size()));
     }
 
-    private List<UpgradeDefinition> chooseGlobals(
+    private void addCandidates(List<UpgradeDefinition> result,
             List<UpgradeDefinition> candidates, Set<UpgradeId> previousIds) {
         List<UpgradeDefinition> fresh = new ArrayList<>();
         List<UpgradeDefinition> repeated = new ArrayList<>();
         for (UpgradeDefinition candidate : candidates) {
+            if (result.stream().anyMatch(card -> card.id() == candidate.id())) continue;
             (previousIds.contains(candidate.id()) ? repeated : fresh).add(candidate);
         }
         shuffle(fresh);
         shuffle(repeated);
         fresh.addAll(repeated);
-        return List.copyOf(fresh.subList(0, GLOBAL_CARD_COUNT));
+        for (UpgradeDefinition candidate : fresh) {
+            if (result.size() == 3) break;
+            result.add(candidate);
+        }
     }
 
     private void shuffle(List<UpgradeDefinition> values) {

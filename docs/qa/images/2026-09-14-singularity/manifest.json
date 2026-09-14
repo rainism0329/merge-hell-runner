@@ -1,0 +1,97 @@
+[
+  {
+    "file": "displayed-text.txt",
+    "bytes": 107329,
+    "sha256": "984e8bacd7613290603bce33571f6b4ba4a629e5216c1fd42b14ca7c509abbe1"
+  },
+  {
+    "file": "en-singularity-arrival-600.png",
+    "bytes": 104956,
+    "sha256": "43b56c63a5567813aef61800d31d8a229bafa65f1abd3db42e8522c38612e99d"
+  },
+  {
+    "file": "en-singularity-blueprintactive-600.png",
+    "bytes": 148496,
+    "sha256": "b8197e4bfe93074dc0f3ae9bac828c10c7e9d778396f13abca9e51e93597f312"
+  },
+  {
+    "file": "en-singularity-cooldown-600.png",
+    "bytes": 144408,
+    "sha256": "f881c5dc41203679750046fb05aed67dd813ef13abacb7002a332b30899e18c9"
+  },
+  {
+    "file": "en-singularity-memorywarning-600.png",
+    "bytes": 146749,
+    "sha256": "ba7455d955917f820a647aad39b55b10e329952806d08bf1a20062fc19a35ffd"
+  },
+  {
+    "file": "en-singularity-victory-600.png",
+    "bytes": 87508,
+    "sha256": "ffc80aa7d46bf45e9805df8f7fafd85c99da18cf6c589e7de7172590b3e54e20"
+  },
+  {
+    "file": "en-singularity-volleywarning-600.png",
+    "bytes": 155672,
+    "sha256": "426497b61d9af8e580fb078ce603ae1f4bfa97f8c57f0dc0a464fe6adaa2abda"
+  },
+  {
+    "file": "package-check.json",
+    "bytes": 4037,
+    "sha256": "c6b30e2725f768c5630758a35ad4a354cdd92a8169ae1a7efa7f0449344ae975"
+  },
+  {
+    "file": "README.md",
+    "bytes": 1968,
+    "sha256": "a5c75cdb3395094a881a63165b69075b26dedd1c735462a17f15fa09dfb204b8"
+  },
+  {
+    "file": "source-after.json",
+    "bytes": 38325,
+    "sha256": "e9aaf412742dd7dc82b433719b87834995b1c3029f249b80d76d3d9ffd3f5c85"
+  },
+  {
+    "file": "source-before.json",
+    "bytes": 38325,
+    "sha256": "e9aaf412742dd7dc82b433719b87834995b1c3029f249b80d76d3d9ffd3f5c85"
+  },
+  {
+    "file": "state-evidence.csv",
+    "bytes": 6068,
+    "sha256": "fe0877faf963739305c2cdba975f6cc9cfbd985359aa923e3d433226726b10e4"
+  },
+  {
+    "file": "zh-CN-singularity-armed-960.png",
+    "bytes": 203549,
+    "sha256": "f112eef844248de7473199d7a4b630ab1b4309cea9d981a09871cd5ff06512b9"
+  },
+  {
+    "file": "zh-CN-singularity-exposed-960.png",
+    "bytes": 206673,
+    "sha256": "06bab7e7fc78d51eb408b24de0ef87b1ae9ee4bad68dfe40f32731341d803c08"
+  },
+  {
+    "file": "zh-CN-singularity-kernelactive-600.png",
+    "bytes": 147904,
+    "sha256": "b300a8aedd7bd94e0042accf05e0021f3b810c82d1a2f693cca30fc290c8872b"
+  },
+  {
+    "file": "zh-CN-singularity-memoryactive-960.png",
+    "bytes": 194426,
+    "sha256": "dc3c655253a652efdf8f55d0e39dc7180baf4ed561605cc0fb9fba0c28209ee4"
+  },
+  {
+    "file": "zh-CN-singularity-phase2-600.png",
+    "bytes": 151170,
+    "sha256": "5fffd351c0a54c2cb0322cd2ef653c4d0a8a9c23aed8245e42daf07a6e6a50e7"
+  },
+  {
+    "file": "zh-CN-singularity-route-960.png",
+    "bytes": 195976,
+    "sha256": "34815c5118d172e2f304ebb2c96b94369b881a27b3d8afc9275a70bdf4c6b11a"
+  },
+  {
+    "file": "zh-CN-singularity-stabilized-960.png",
+    "bytes": 192560,
+    "sha256": "8d7572e9337ce43b22a1e85e88c00abff385fb8682356c7fae32dd99a166df32"
+  }
+]

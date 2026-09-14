@@ -1,5 +1,7 @@
 package com.bigphil.mergehell.render;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import com.bigphil.mergehell.world.DarkBiome;
 import com.bigphil.mergehell.world.WorldScenery;
 
@@ -67,21 +69,21 @@ public final class DarkWorldRenderer {
         if (ticks <= 0) return;
         double phase = Math.min(1, ticks / 35.0);
         int alpha = (int) (225 * phase);
-        int y = 188;
+        int y = 112;
         int cardW = Math.min(520, width - 80);
         int x = (width - cardW) / 2;
         g.setColor(new Color(7, 11, 17, Math.min(210, alpha)));
-        g.fillRoundRect(x, y, cardW, 70, 10, 10);
+        g.fillRoundRect(x, y, cardW, 48, 8, 8);
         g.setColor(withAlpha(biome.accent, alpha));
-        g.fillRect(x, y, 5, 70);
-        g.drawRoundRect(x, y, cardW, 70, 10, 10);
-        g.setFont(ZONE_FONT);
+        g.fillRect(x, y, 4, 48);
+        g.drawRoundRect(x, y, cardW, 48, 8, 8);
+        g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.BOLD, 17)));
         g.setColor(new Color(255, 255, 255, alpha));
-        g.drawString(biome.displayName, x + 24, y + 31);
-        g.setFont(SMALL_FONT);
+        GameText.draw(g, biome.displayName, x + 18, y + 22);
+        g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, 11)));
         g.setColor(new Color(biome.accent.getRed(), biome.accent.getGreen(),
                 biome.accent.getBlue(), alpha));
-        g.drawString(biome.subtitle.toUpperCase(), x + 25, y + 52);
+        GameText.draw(g, biome.subtitle.toUpperCase(), x + 18, y + 38);
     }
 
     private void drawAtmosphere(Graphics2D g, int width, int groundY,
@@ -209,7 +211,7 @@ public final class DarkWorldRenderer {
             Color body = s.layer() == WorldScenery.Layer.BACK
                     ? withAlpha(biome.silhouette, 190) : new Color(31, 38, 47, 230);
             g.setStroke(new BasicStroke(2f));
-            g.setFont(SMALL_FONT);
+            g.setFont(GameText.font(SMALL_FONT));
             switch (s.kind()) {
                 case CITY_TOWER -> {
                     g.setColor(body); g.fillRect(x, y, w, h);
@@ -220,7 +222,7 @@ public final class DarkWorldRenderer {
                 case NEON_SIGN -> {
                     g.setColor(new Color(13, 18, 24, 225)); g.fillRoundRect(x, y, w, h, 5, 5);
                     g.setColor(withAlpha(biome.accent, 220)); g.drawRoundRect(x, y, w, h, 5, 5);
-                    g.setFont(LABEL_FONT); g.drawString((s.variant() & 1) == 0 ? "PUSH // NIGHT" : "MERGE DISTRICT", x + 8, y + h / 2 + 4);
+                    g.setFont(GameText.font(LABEL_FONT)); GameText.draw(g, (s.variant() & 1) == 0 ? "PUSH // NIGHT" : "MERGE DISTRICT", x + 8, y + h / 2 + 4);
                 }
                 case WATER_TANK -> {
                     g.setColor(body); g.fillOval(x, y, w, h / 2); g.fillRect(x, y + h / 4, w, h / 3);
@@ -234,7 +236,7 @@ public final class DarkWorldRenderer {
                 case FURNACE -> {
                     g.setColor(body); g.fillRoundRect(x, y, w, h, 7, 7);
                     g.setColor(new Color(255, 101, 35, 210)); g.fillRoundRect(x + 22, y + 30, w - 44, h - 40, 10, 10);
-                    g.setColor(Color.YELLOW); g.drawString("BUILD", x + w / 2 - 16, y + 18);
+                    g.setColor(Color.YELLOW); GameText.draw(g, "BUILD", x + w / 2 - 16, y + 18);
                 }
                 case SMOKE_STACK -> {
                     g.setColor(body); g.fillRect(x + w / 4, y + h / 3, w / 2, h * 2 / 3);
@@ -260,7 +262,7 @@ public final class DarkWorldRenderer {
                 case BROKEN_PACKAGE -> {
                     g.rotate((s.variant() % 5 - 2) * 0.05, x + w / 2.0, y + h / 2.0);
                     g.setColor(body); g.fillRect(x, y, w, h); g.setColor(withAlpha(biome.accent, 170)); g.drawRect(x, y, w, h);
-                    g.setFont(LABEL_FONT); g.drawString("404.jar", x + 18, y + h / 2);
+                    g.setFont(GameText.font(LABEL_FONT)); GameText.draw(g, "404.jar", x + 18, y + h / 2);
                     g.drawLine(x + w / 2, y, x + w / 3, y + h);
                 }
                 case SCRAP_HEAP -> {
@@ -275,7 +277,7 @@ public final class DarkWorldRenderer {
                     for (int py = y + 8; py < y + h; py += 20) g.fillPolygon(new int[]{x, x + 9, x + w, x + w - 9}, new int[]{py, py, py + 11, py + 11}, 4);
                 }
                 case BLAST_DOOR -> {
-                    g.setColor(body); g.fillRoundRect(x, y, w, h, 18, 18); g.setColor(withAlpha(biome.accent, 115)); g.setStroke(new BasicStroke(5f)); g.drawRoundRect(x + 12, y + 12, w - 24, h - 12, 12, 12); g.drawLine(x + w / 2, y + 16, x + w / 2, y + h); g.setFont(LABEL_FONT); g.drawString("MAIN // PROTECTED", x + w / 2 - 55, y + 42);
+                    g.setColor(body); g.fillRoundRect(x, y, w, h, 18, 18); g.setColor(withAlpha(biome.accent, 115)); g.setStroke(new BasicStroke(5f)); g.drawRoundRect(x + 12, y + 12, w - 24, h - 12, 12, 12); g.drawLine(x + w / 2, y + 16, x + w / 2, y + h); g.setFont(GameText.font(LABEL_FONT)); GameText.draw(g, "MAIN // PROTECTED", x + w / 2 - 55, y + 42);
                 }
                 case SEARCHLIGHT -> {
                     g.setColor(new Color(255, 68, 58, 24)); g.fillPolygon(new int[]{x + w / 2, x - w, x + w * 2}, new int[]{y, y + h, y + h}, 3);

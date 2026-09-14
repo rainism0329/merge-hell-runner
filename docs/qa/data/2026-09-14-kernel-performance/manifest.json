@@ -1,0 +1,77 @@
+[
+  {
+    "file": "after-samples.csv",
+    "bytes": 114178,
+    "sha256": "e307c81a7811a0ffe825cdf593685755e960987021f46c03a41a52715e5de4fe"
+  },
+  {
+    "file": "after-summary.txt",
+    "bytes": 7345,
+    "sha256": "25a3f7d35e9efd1592c0ecfd3b7cb69f6e8ea7f9579c244a7e448509d55a0963"
+  },
+  {
+    "file": "before-package.sha256",
+    "bytes": 66,
+    "sha256": "cf1936a17d0ed0c996bec4d23850f5a3cd9ce1eaf4c814bfcaf34ba3f5f1bc7a"
+  },
+  {
+    "file": "before-samples.csv",
+    "bytes": 130194,
+    "sha256": "6cee564962328ababc67f2b02ca0211349c1d80df76e1798b0ed5c5350f85f7a"
+  },
+  {
+    "file": "before-summary.txt",
+    "bytes": 7372,
+    "sha256": "b5ab018d8ee01b93f0d4d0dfecbe37da5c30b69c4c87eba109775e58074b74e3"
+  },
+  {
+    "file": "initial-samples.csv",
+    "bytes": 108560,
+    "sha256": "6a31281b2d2c375424cce48d49747fb28760154cbd150130380c22c9252391a6"
+  },
+  {
+    "file": "initial-summary.txt",
+    "bytes": 7342,
+    "sha256": "9caddd65a42a003930bc9557145e9f055125e580e33487ed274e46e97a8a7261"
+  },
+  {
+    "file": "KernelPerformanceProbe.java",
+    "bytes": 13691,
+    "sha256": "39d17336d90ab26ffdde724c8451a3bb90fe85555f3072389bb6279cce109629"
+  },
+  {
+    "file": "package-check.json",
+    "bytes": 3811,
+    "sha256": "6ca53cecb348d1df85d32f72fb17e03083714138c2c12ff6617d289964d453f9"
+  },
+  {
+    "file": "performance-comparison.json",
+    "bytes": 27343,
+    "sha256": "1e0bac73d4f74f467360a22d9b5ae50555e25e087b690681493bd7c5efe225ba"
+  },
+  {
+    "file": "performance-table.md",
+    "bytes": 1043,
+    "sha256": "26db1e43edac9d22ec0fd510a2c381aa8d887f1800c49837ea74deb62ffd1445"
+  },
+  {
+    "file": "performance_report.py",
+    "bytes": 2506,
+    "sha256": "97d980a5fedb006b663b287064980c7a7c05f05aa3042ebb9b3650e250acfcad"
+  },
+  {
+    "file": "README.md",
+    "bytes": 1674,
+    "sha256": "fcb5ff48047ffabfb8a5cb8fa52e0a67333be3a759ff1a226ff43c59ef623ece"
+  },
+  {
+    "file": "source-after.json",
+    "bytes": 36596,
+    "sha256": "3a02edf3806f18b87ea7e838d591dbd3d7b43176faba638f17a070c659d77b20"
+  },
+  {
+    "file": "source-before.json",
+    "bytes": 36596,
+    "sha256": "3a02edf3806f18b87ea7e838d591dbd3d7b43176faba638f17a070c659d77b20"
+  }
+]

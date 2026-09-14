@@ -1,5 +1,7 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import java.awt.*;
 
 public class FloatingText {
@@ -26,8 +28,8 @@ public class FloatingText {
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) Math.max(0, life)));
         g.setColor(color);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        g.drawString(text, (int) x, (int) y);
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 14)));
+        GameText.draw(g, text, (int) x, (int) y);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 }

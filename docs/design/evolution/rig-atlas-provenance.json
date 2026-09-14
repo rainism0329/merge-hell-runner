@@ -1,0 +1,1382 @@
+{
+  "format": 1,
+  "script": "scripts/art/export_rig_atlases.py",
+  "script_sha256": "bf6afeb3f0ccfcdb6543aa6fca44980b622c80fcf334cfa25df04e392588121e",
+  "software": {
+    "python": "3.10.6",
+    "pillow": "12.2.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  },
+  "method": {
+    "background_candidate": "max(RGB)-min(RGB)<=26 and min(RGB)>=138, border/aperture connected only",
+    "matte": "0.45px Gaussian silhouette coverage; <=3->0, >=252->255",
+    "edge_rgb": "nearest two-pixel-eroded object interior only in silhouette band",
+    "crop": "tight nonzero alpha bbox plus one transparent guard pixel",
+    "resampling": "none for production; QA thumbnails only"
+  },
+  "rigs": {
+    "repair": {
+      "source": "docs/design/evolution/sources/repair-rig-generated.png",
+      "source_sha256": "d85f4c978d5a9b9af97c2fe542d2d3f4fded281607ce2e6e9f09e67299d4900b",
+      "source_mode": "RGB",
+      "source_size": [
+        1774,
+        887
+      ],
+      "source_is_true_alpha": false,
+      "selection_reason": "Original rig retains finer armor wear and metal detail than the smoother alpha-retry image; both still contain a baked RGB checkerboard.",
+      "alternatives_reviewed": [
+        {
+          "path": "docs/design/evolution/sources/repair-alpha-retry.png",
+          "sha256": "b717766489a752cf81f4bb042a351ecdf741130cc4aa4036ee3aab78447ad847"
+        }
+      ],
+      "direction": "right; limbs hang downward; scarf collar right, tails left; cannon muzzle right",
+      "output": "src/main/resources/game/art/repair.png",
+      "output_sha256": "aeca1df542947940bb0e1a80c08e7f9b4d304f1b17e5711fbb00ec405e065bca",
+      "output_mode": "RGBA",
+      "output_size": [
+        1604,
+        774
+      ],
+      "metadata_sha256": "8887555a46190588190ff475b67296bc263cb6c54db415b60e4fcadc312486d3",
+      "parts": [
+        {
+          "name": "head",
+          "source_cell": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "source_crop": [
+            83,
+            72,
+            389,
+            367
+          ],
+          "size": [
+            306,
+            295
+          ],
+          "anchor": [
+            154,
+            167
+          ],
+          "sockets": {
+            "neck": [
+              191,
+              271
+            ],
+            "visor": [
+              223,
+              161
+            ],
+            "visor-top-left": [
+              161,
+              87
+            ],
+            "visor-bottom-right": [
+              289,
+              231
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            305,
+            294
+          ],
+          "alpha_zero_pixels": 31994,
+          "alpha_soft_pixels": 2680,
+          "alpha_opaque_pixels": 55596,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 4,
+          "apertures": [
+            {
+              "source": [
+                290,
+                138
+              ],
+              "candidate_region_pixels": 368,
+              "frame": [
+                207,
+                66
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            4,
+            4,
+            306,
+            295
+          ]
+        },
+        {
+          "name": "torso",
+          "source_cell": [
+            443,
+            0,
+            887,
+            443
+          ],
+          "source_crop": [
+            537,
+            80,
+            789,
+            395
+          ],
+          "size": [
+            252,
+            315
+          ],
+          "anchor": [
+            127,
+            158
+          ],
+          "sockets": {
+            "neck": [
+              153,
+              31
+            ],
+            "shoulder": [
+              44,
+              104
+            ],
+            "hip": [
+              95,
+              267
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            251,
+            314
+          ],
+          "alpha_zero_pixels": 23541,
+          "alpha_soft_pixels": 2212,
+          "alpha_opaque_pixels": 53627,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            405,
+            4,
+            252,
+            315
+          ]
+        },
+        {
+          "name": "upper-arm",
+          "source_cell": [
+            887,
+            0,
+            1330,
+            443
+          ],
+          "source_crop": [
+            1033,
+            40,
+            1193,
+            413
+          ],
+          "size": [
+            160,
+            373
+          ],
+          "anchor": [
+            52,
+            80
+          ],
+          "sockets": {
+            "distal": [
+              60,
+              307
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            159,
+            372
+          ],
+          "alpha_zero_pixels": 20655,
+          "alpha_soft_pixels": 2249,
+          "alpha_opaque_pixels": 36776,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            806,
+            4,
+            160,
+            373
+          ]
+        },
+        {
+          "name": "forearm",
+          "source_cell": [
+            1330,
+            0,
+            1774,
+            443
+          ],
+          "source_crop": [
+            1489,
+            86,
+            1646,
+            413
+          ],
+          "size": [
+            157,
+            327
+          ],
+          "anchor": [
+            48,
+            40
+          ],
+          "sockets": {
+            "distal": [
+              97,
+              279
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            156,
+            326
+          ],
+          "alpha_zero_pixels": 18768,
+          "alpha_soft_pixels": 2004,
+          "alpha_opaque_pixels": 30567,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            1207,
+            4,
+            157,
+            327
+          ]
+        },
+        {
+          "name": "thigh",
+          "source_cell": [
+            0,
+            443,
+            443,
+            887
+          ],
+          "source_crop": [
+            131,
+            461,
+            308,
+            840
+          ],
+          "size": [
+            177,
+            379
+          ],
+          "anchor": [
+            43,
+            72
+          ],
+          "sockets": {
+            "distal": [
+              72,
+              318
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            176,
+            378
+          ],
+          "alpha_zero_pixels": 19918,
+          "alpha_soft_pixels": 2281,
+          "alpha_opaque_pixels": 44884,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            4,
+            391,
+            177,
+            379
+          ]
+        },
+        {
+          "name": "shin",
+          "source_cell": [
+            443,
+            443,
+            887,
+            887
+          ],
+          "source_crop": [
+            550,
+            461,
+            806,
+            835
+          ],
+          "size": [
+            256,
+            374
+          ],
+          "anchor": [
+            55,
+            54
+          ],
+          "sockets": {
+            "distal": [
+              128,
+              362
+            ],
+            "ankle": [
+              54,
+              274
+            ],
+            "heel": [
+              20,
+              368
+            ],
+            "toe": [
+              220,
+              372
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            255,
+            373
+          ],
+          "alpha_zero_pixels": 42234,
+          "alpha_soft_pixels": 2742,
+          "alpha_opaque_pixels": 50768,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            405,
+            391,
+            256,
+            374
+          ]
+        },
+        {
+          "name": "cannon",
+          "source_cell": [
+            887,
+            443,
+            1330,
+            887
+          ],
+          "source_crop": [
+            922,
+            565,
+            1298,
+            789
+          ],
+          "size": [
+            376,
+            224
+          ],
+          "anchor": [
+            358,
+            67
+          ],
+          "sockets": {
+            "muzzle": [
+              358,
+              67
+            ],
+            "grip": [
+              53,
+              176
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            375,
+            223
+          ],
+          "alpha_zero_pixels": 35688,
+          "alpha_soft_pixels": 2809,
+          "alpha_opaque_pixels": 45727,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                1028,
+                690
+              ],
+              "candidate_region_pixels": 299,
+              "frame": [
+                106,
+                125
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1038,
+                592
+              ],
+              "candidate_region_pixels": 87,
+              "frame": [
+                116,
+                27
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1011,
+                696
+              ],
+              "candidate_region_pixels": 31,
+              "frame": [
+                89,
+                131
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            806,
+            391,
+            376,
+            224
+          ]
+        },
+        {
+          "name": "scarf",
+          "source_cell": [
+            1330,
+            443,
+            1774,
+            887
+          ],
+          "source_crop": [
+            1354,
+            544,
+            1747,
+            780
+          ],
+          "size": [
+            393,
+            236
+          ],
+          "anchor": [
+            324,
+            57
+          ],
+          "sockets": {
+            "tail": [
+              46,
+              169
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            392,
+            235
+          ],
+          "alpha_zero_pixels": 48584,
+          "alpha_soft_pixels": 3510,
+          "alpha_opaque_pixels": 40654,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                1413,
+                555
+              ],
+              "candidate_region_pixels": 5,
+              "frame": [
+                59,
+                11
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1391,
+                590
+              ],
+              "candidate_region_pixels": 7,
+              "frame": [
+                37,
+                46
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1388,
+                682
+              ],
+              "candidate_region_pixels": 9,
+              "frame": [
+                34,
+                138
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1405,
+                691
+              ],
+              "candidate_region_pixels": 5,
+              "frame": [
+                51,
+                147
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1383,
+                697
+              ],
+              "candidate_region_pixels": 1,
+              "frame": [
+                29,
+                153
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1429,
+                726
+              ],
+              "candidate_region_pixels": 1,
+              "frame": [
+                75,
+                182
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1407,
+                728
+              ],
+              "candidate_region_pixels": 1,
+              "frame": [
+                53,
+                184
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1400,
+                734
+              ],
+              "candidate_region_pixels": 31,
+              "frame": [
+                46,
+                190
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1419,
+                741
+              ],
+              "candidate_region_pixels": 19,
+              "frame": [
+                65,
+                197
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            1207,
+            391,
+            393,
+            236
+          ]
+        }
+      ]
+    },
+    "hostiles": {
+      "source": "docs/design/evolution/sources/hostiles-rig-generated.png",
+      "source_sha256": "19567c124269e6b3db923ed45cb8cb313b9286e8afdbc748c14fbc1eb442e849",
+      "source_mode": "RGB",
+      "source_size": [
+        1774,
+        887
+      ],
+      "source_is_true_alpha": false,
+      "selection_reason": "Original rig retains finer armor wear and metal detail than the smoother alpha-retry image; both still contain a baked RGB checkerboard.",
+      "alternatives_reviewed": [
+        {
+          "path": "docs/design/evolution/sources/hostiles-alpha-retry.png",
+          "sha256": "e3d44a9bd6564f383c45927144a24144957562b356c5d5f3256b55d2f00c8c4b"
+        }
+      ],
+      "direction": "left; bug-upper hip right and elbow left; other limbs proximal top; debt boot toe left",
+      "output": "src/main/resources/game/art/hostiles.png",
+      "output_sha256": "d5d7890be3df497b8e546c8d895e3a12b1fe39a8bdb80cb2b1a14a333a7c13da",
+      "output_mode": "RGBA",
+      "output_size": [
+        1640,
+        840
+      ],
+      "metadata_sha256": "cce7842a07263d832b10bdc726c074dd4ad34355451e1a7ac3c1bac276ac35c1",
+      "parts": [
+        {
+          "name": "bug-body",
+          "source_cell": [
+            0,
+            0,
+            443,
+            443
+          ],
+          "source_crop": [
+            39,
+            86,
+            428,
+            367
+          ],
+          "size": [
+            389,
+            281
+          ],
+          "anchor": [
+            195,
+            142
+          ],
+          "sockets": {},
+          "alpha_bbox": [
+            1,
+            1,
+            388,
+            280
+          ],
+          "alpha_zero_pixels": 39274,
+          "alpha_soft_pixels": 3321,
+          "alpha_opaque_pixels": 66714,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                274,
+                311
+              ],
+              "candidate_region_pixels": 311,
+              "frame": [
+                235,
+                225
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            4,
+            4,
+            389,
+            281
+          ]
+        },
+        {
+          "name": "bug-upper",
+          "source_cell": [
+            443,
+            0,
+            887,
+            443
+          ],
+          "source_crop": [
+            511,
+            93,
+            880,
+            314
+          ],
+          "size": [
+            369,
+            221
+          ],
+          "anchor": [
+            316,
+            70
+          ],
+          "sockets": {
+            "distal": [
+              51,
+              158
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            368,
+            220
+          ],
+          "alpha_zero_pixels": 36193,
+          "alpha_soft_pixels": 2328,
+          "alpha_opaque_pixels": 43028,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                757,
+                208
+              ],
+              "candidate_region_pixels": 121,
+              "frame": [
+                246,
+                115
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                751,
+                140
+              ],
+              "candidate_region_pixels": 56,
+              "frame": [
+                240,
+                47
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            414,
+            4,
+            369,
+            221
+          ]
+        },
+        {
+          "name": "bug-lower",
+          "source_cell": [
+            887,
+            0,
+            1330,
+            443
+          ],
+          "source_crop": [
+            1062,
+            24,
+            1176,
+            422
+          ],
+          "size": [
+            114,
+            398
+          ],
+          "anchor": [
+            76,
+            40
+          ],
+          "sockets": {
+            "distal": [
+              71,
+              391
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            113,
+            397
+          ],
+          "alpha_zero_pixels": 20826,
+          "alpha_soft_pixels": 2473,
+          "alpha_opaque_pixels": 22073,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                1127,
+                177
+              ],
+              "candidate_region_pixels": 262,
+              "frame": [
+                65,
+                153
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1135,
+                113
+              ],
+              "candidate_region_pixels": 70,
+              "frame": [
+                73,
+                89
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            824,
+            4,
+            114,
+            398
+          ]
+        },
+        {
+          "name": "debt-body",
+          "source_cell": [
+            1330,
+            0,
+            1774,
+            443
+          ],
+          "source_crop": [
+            1365,
+            21,
+            1734,
+            433
+          ],
+          "size": [
+            369,
+            412
+          ],
+          "anchor": [
+            187,
+            205
+          ],
+          "sockets": {
+            "hip": [
+              173,
+              393
+            ],
+            "shoulder-left": [
+              25,
+              237
+            ],
+            "shoulder-right": [
+              323,
+              194
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            368,
+            411
+          ],
+          "alpha_zero_pixels": 49804,
+          "alpha_soft_pixels": 3169,
+          "alpha_opaque_pixels": 99055,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 1,
+          "apertures": [
+            {
+              "source": [
+                1641,
+                369
+              ],
+              "candidate_region_pixels": 33,
+              "frame": [
+                276,
+                348
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            1234,
+            4,
+            369,
+            412
+          ]
+        },
+        {
+          "name": "debt-arm",
+          "source_cell": [
+            0,
+            443,
+            443,
+            887
+          ],
+          "source_crop": [
+            95,
+            450,
+            372,
+            857
+          ],
+          "size": [
+            277,
+            407
+          ],
+          "anchor": [
+            232,
+            50
+          ],
+          "sockets": {
+            "distal": [
+              67,
+              349
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            276,
+            406
+          ],
+          "alpha_zero_pixels": 60671,
+          "alpha_soft_pixels": 3222,
+          "alpha_opaque_pixels": 48846,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                330,
+                557
+              ],
+              "candidate_region_pixels": 284,
+              "frame": [
+                235,
+                107
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                342,
+                539
+              ],
+              "candidate_region_pixels": 11,
+              "frame": [
+                247,
+                89
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            4,
+            424,
+            277,
+            407
+          ]
+        },
+        {
+          "name": "debt-leg",
+          "source_cell": [
+            443,
+            443,
+            887,
+            887
+          ],
+          "source_crop": [
+            516,
+            449,
+            818,
+            861
+          ],
+          "size": [
+            302,
+            412
+          ],
+          "anchor": [
+            247,
+            45
+          ],
+          "sockets": {
+            "distal": [
+              149,
+              400
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            301,
+            411
+          ],
+          "alpha_zero_pixels": 56634,
+          "alpha_soft_pixels": 3422,
+          "alpha_opaque_pixels": 64368,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                726,
+                569
+              ],
+              "candidate_region_pixels": 164,
+              "frame": [
+                210,
+                120
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                736,
+                546
+              ],
+              "candidate_region_pixels": 15,
+              "frame": [
+                220,
+                97
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            414,
+            424,
+            302,
+            412
+          ]
+        },
+        {
+          "name": "legacy-core",
+          "source_cell": [
+            887,
+            443,
+            1330,
+            887
+          ],
+          "source_crop": [
+            907,
+            453,
+            1309,
+            862
+          ],
+          "size": [
+            402,
+            409
+          ],
+          "anchor": [
+            203,
+            194
+          ],
+          "sockets": {
+            "reactor": [
+              203,
+              194
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            401,
+            408
+          ],
+          "alpha_zero_pixels": 32945,
+          "alpha_soft_pixels": 4235,
+          "alpha_opaque_pixels": 127238,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 1,
+          "apertures": [
+            {
+              "source": [
+                950,
+                604
+              ],
+              "candidate_region_pixels": 476,
+              "frame": [
+                43,
+                151
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1268,
+                592
+              ],
+              "candidate_region_pixels": 365,
+              "frame": [
+                361,
+                139
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                950,
+                783
+              ],
+              "candidate_region_pixels": 276,
+              "frame": [
+                43,
+                330
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1261,
+                785
+              ],
+              "candidate_region_pixels": 360,
+              "frame": [
+                354,
+                332
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                986,
+                780
+              ],
+              "candidate_region_pixels": 61,
+              "frame": [
+                79,
+                327
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1229,
+                781
+              ],
+              "candidate_region_pixels": 51,
+              "frame": [
+                322,
+                328
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1008,
+                505
+              ],
+              "candidate_region_pixels": 179,
+              "frame": [
+                101,
+                52
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1183,
+                483
+              ],
+              "candidate_region_pixels": 48,
+              "frame": [
+                276,
+                30
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                1263,
+                648
+              ],
+              "candidate_region_pixels": 57,
+              "frame": [
+                356,
+                195
+              ],
+              "output_alpha": 0
+            },
+            {
+              "source": [
+                957,
+                653
+              ],
+              "candidate_region_pixels": 14,
+              "frame": [
+                50,
+                200
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            824,
+            424,
+            402,
+            409
+          ]
+        },
+        {
+          "name": "node",
+          "source_cell": [
+            1330,
+            443,
+            1774,
+            887
+          ],
+          "source_crop": [
+            1439,
+            514,
+            1705,
+            844
+          ],
+          "size": [
+            266,
+            330
+          ],
+          "anchor": [
+            109,
+            170
+          ],
+          "sockets": {
+            "socket": [
+              109,
+              170
+            ]
+          },
+          "alpha_bbox": [
+            1,
+            1,
+            265,
+            329
+          ],
+          "alpha_zero_pixels": 26736,
+          "alpha_soft_pixels": 2692,
+          "alpha_opaque_pixels": 58352,
+          "corner_alpha": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "discarded_disconnected_pixels": 0,
+          "apertures": [
+            {
+              "source": [
+                1571,
+                547
+              ],
+              "candidate_region_pixels": 726,
+              "frame": [
+                132,
+                33
+              ],
+              "output_alpha": 0
+            }
+          ],
+          "interior_rgb_unchanged": true,
+          "atlas_rect": [
+            1234,
+            424,
+            266,
+            330
+          ]
+        }
+      ]
+    }
+  }
+}

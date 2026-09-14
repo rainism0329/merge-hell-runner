@@ -3,6 +3,7 @@ package com.bigphil.mergehell.engine;
 import com.bigphil.mergehell.GameState;
 import com.bigphil.mergehell.combat.CombatEvent;
 import com.bigphil.mergehell.combat.CombatEventSink;
+import com.bigphil.mergehell.combat.CombatRandom;
 import com.bigphil.mergehell.combat.WeaponId;
 import com.bigphil.mergehell.progression.BuildProgress;
 import com.bigphil.mergehell.progression.OverclockMeter;
@@ -14,17 +15,36 @@ import com.bigphil.mergehell.mission.DirectorCommand;
 import com.bigphil.mergehell.mission.DirectorInput;
 import com.bigphil.mergehell.mission.EncounterDirector;
 import com.bigphil.mergehell.mission.MissionSegment;
+import com.bigphil.mergehell.mission.MissionRouteProgress;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public final class GameSession implements CombatEventSink {
+    public record Checkpoint(long seed, int mission, long worldTick, RunBuild.Checkpoint build,
+                             BuildProgress.Checkpoint progress, int overclockCharge, int overclockActiveTicks,
+                             long draftRandomState, int upgradeCount, boolean progressionComplete,
+                             int hostileKills, int maxHostiles) {
+        public Checkpoint {
+            Objects.requireNonNull(build, "build");
+            Objects.requireNonNull(progress, "progress");
+            if (mission < 0 || mission > 4 || worldTick < 0 || worldTick == Long.MAX_VALUE
+                    || progress.pendingChoices() != 0 || !CombatRandom.isValidState(draftRandomState)
+                    || upgradeCount < 0 || hostileKills < 0 || maxHostiles < 0) {
+                throw new IllegalArgumentException("Invalid mission-start session checkpoint");
+            }
+        }
+    }
+
+    private final long seed;
     private final RunBuild runBuild;
     private final BuildProgress buildProgress = new BuildProgress();
     private final UpgradeDraftService draftService;
+    private final CombatRandom draftRandom;
     private final OverclockMeter overclock = new OverclockMeter(100, 480);
-    private final EncounterDirector director;
+    private EncounterDirector director;
+    private int mission;
+    private boolean atMissionStart = true;
     private List<UpgradeDefinition> upgradeChoices = List.of();
     private GameState state = GameState.RUNNING;
     private GameState resumeState = GameState.RUNNING;
@@ -48,14 +68,21 @@ public final class GameSession implements CombatEventSink {
     }
 
     public GameSession(long seed, WeaponId startingWeapon) {
-        runBuild = new RunBuild(Objects.requireNonNull(startingWeapon, "startingWeapon"));
-        draftService = new UpgradeDraftService(new Random(seed));
-        director = new EncounterDirector(DarkMissionDefinition.standard(), new Random(seed ^ 0x5DEECE66DL));
+        this(seed, new RunBuild(Objects.requireNonNull(startingWeapon, "startingWeapon")));
+    }
+
+    private GameSession(long seed, RunBuild build) {
+        this.seed = seed;
+        runBuild = build;
+        draftRandom = new CombatRandom(seed);
+        draftService = new UpgradeDraftService(draftRandom);
+        beginMission(0);
     }
 
     public void tick(InputFrame input) {
         Objects.requireNonNull(input, "input");
         if (!isGameplayState(state)) return;
+        atMissionStart = false;
         worldTick++;
         overclock.tick();
     }
@@ -101,6 +128,7 @@ public final class GameSession implements CombatEventSink {
 
     public List<DirectorCommand> directMission(DirectorInput input) {
         if (!isGameplayState(state)) return List.of();
+        atMissionStart = false;
         return director.tick(new DirectorInput(input.worldTick(), input.playerX(),
                 input.pressure(), input.activeHostiles(), hostileKills));
     }
@@ -108,6 +136,7 @@ public final class GameSession implements CombatEventSink {
     @Override
     public void accept(CombatEvent event) {
         Objects.requireNonNull(event, "event");
+        atMissionStart = false;
         if (event instanceof CombatEvent.EnemyKilled killed && killed.type().isHostile()) {
             hostileKills++;
             int baseValue = killed.type().pointValue;
@@ -115,6 +144,8 @@ public final class GameSession implements CombatEventSink {
             overclock.addCharge(8 + Math.min(12, baseValue / 50));
         } else if (event instanceof CombatEvent.BossNodeDestroyed node) {
             awardBuildXp(node.buildXp());
+        } else if (event instanceof CombatEvent.ProjectileReflected reflected) {
+            overclock.addCharge(reflected.charge());
         }
     }
 
@@ -160,6 +191,7 @@ public final class GameSession implements CombatEventSink {
     public int hostileKills() { return hostileKills; }
     public int missionObjectiveKills() { return director.killsInCurrentSegment(hostileKills); }
     public double missionProgress() { return director.progress(); }
+    public MissionRouteProgress routeProgress() { return director.routeProgress(hostileKills); }
     public int comboWindowTicks() { return runBuild.buildStats().comboGraceTicks(); }
 
     public void advanceMissionSegmentForTesting() {
@@ -178,7 +210,8 @@ public final class GameSession implements CombatEventSink {
         metricsEnemyProjectiles = Math.max(0, enemyProjectiles);
         metricsParticles = Math.max(0, particles);
         metricsFloatingTexts = Math.max(0, floatingTexts);
-        this.rejectedProjectiles = Math.max(this.rejectedProjectiles, rejectedProjectiles);
+        // The panel supplies a cumulative count for the current level/restore interval.
+        this.rejectedProjectiles = Math.max(0, rejectedProjectiles);
         maxHostiles = Math.max(maxHostiles, metricsHostiles);
     }
 
@@ -189,4 +222,60 @@ public final class GameSession implements CombatEventSink {
                 metricsParticles, metricsFloatingTexts, maxHostiles, rejectedProjectiles,
                 worldTick, upgradeCount, bossSpawnTick, completionTick);
     }
+
+    /** Establish an authored level entry. Build/resources carry over; director state starts fresh. */
+    public void beginMission(int mission) {
+        if (mission < 0 || mission > 4 || buildProgress.pendingChoices() != 0) {
+            throw new IllegalStateException("Cannot begin a mission with an invalid index or unresolved upgrades");
+        }
+        this.mission = mission;
+        director = new EncounterDirector(DarkMissionDefinition.standard(),
+                new CombatRandom(seed ^ 0x5DEECE66DL ^ (mission * 0x9E3779B97F4A7C15L)));
+        state = GameState.RUNNING;
+        resumeState = GameState.RUNNING;
+        upgradeChoices = List.of();
+        rerollAvailable = false;
+        bossSpawnTick = -1;
+        completionTick = -1;
+        atMissionStart = true;
+    }
+
+    public Checkpoint checkpointAtMissionStart() {
+        if (!atMissionStart || state != GameState.RUNNING || buildProgress.pendingChoices() != 0) {
+            throw new IllegalStateException("Only an unplayed mission entry can be checkpointed");
+        }
+        return checkpointForMission(mission);
+    }
+
+    /** A detached next entrance keeps the completed mission available for its results screen. */
+    public Checkpoint checkpointForNextMission() {
+        if (completionTick < 0 || mission >= 4 || buildProgress.pendingChoices() != 0) {
+            throw new IllegalStateException("A completed mission with resolved upgrades is required");
+        }
+        return checkpointForMission(mission + 1);
+    }
+
+    private Checkpoint checkpointForMission(int targetMission) {
+        return new Checkpoint(seed, targetMission, worldTick, runBuild.checkpoint(), buildProgress.checkpoint(),
+                overclock.charge(), overclock.activeTicks(), draftRandom.checkpointState(), upgradeCount,
+                progressionComplete, hostileKills, maxHostiles);
+    }
+
+    public static GameSession restoreCheckpoint(Checkpoint checkpoint) {
+        Objects.requireNonNull(checkpoint, "checkpoint");
+        GameSession restored = new GameSession(checkpoint.seed(), RunBuild.restoreCheckpoint(checkpoint.build()));
+        restored.buildProgress.restoreCheckpoint(checkpoint.progress());
+        restored.overclock.restoreCheckpoint(checkpoint.overclockCharge(), checkpoint.overclockActiveTicks());
+        restored.draftRandom.restoreState(checkpoint.draftRandomState());
+        restored.worldTick = checkpoint.worldTick();
+        restored.upgradeCount = checkpoint.upgradeCount();
+        restored.progressionComplete = checkpoint.progressionComplete();
+        restored.hostileKills = checkpoint.hostileKills();
+        restored.maxHostiles = checkpoint.maxHostiles();
+        restored.beginMission(checkpoint.mission());
+        return restored;
+    }
+
+    public long seed() { return seed; }
+    public int mission() { return mission; }
 }

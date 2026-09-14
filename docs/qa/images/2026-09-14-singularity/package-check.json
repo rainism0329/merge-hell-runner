@@ -1,0 +1,118 @@
+{
+  "package": "D:\\IdeaProjects\\merge-hell-runner\\build\\distributions\\merge-hell-runner-1.0.0.zip",
+  "bytes": 11058525,
+  "sha256": "75c9873baf881d3ab5fba0001ee67f1120bf3f7e8ba7a3662e75174fc17c8974",
+  "resources": [
+    {
+      "file": "game/art/city.png",
+      "bytes": 2260572,
+      "sha256": "e33c321325bcc75024f7442912b5da5498b4e04cd76b5555ef6fb2e4f35936a8"
+    },
+    {
+      "file": "game/art/city.properties",
+      "bytes": 217,
+      "sha256": "c41b5dd03b88a6c60108ebd930d87d0b0bd8ed43c4548d774774785b2b76a294"
+    },
+    {
+      "file": "game/art/first-wave.png",
+      "bytes": 1629997,
+      "sha256": "00348ad1613546946d80ac76140872b8e2e003bbd2d674c1fe4b7618a2a26eee"
+    },
+    {
+      "file": "game/art/first-wave.properties",
+      "bytes": 1207,
+      "sha256": "292cd7522da2be0edf77c7aaa85bf5c4660027a32cee47a599c0fd7217c940c0"
+    },
+    {
+      "file": "game/art/heap-actors.png",
+      "bytes": 1464647,
+      "sha256": "f24309d7508b20c031fc98275e952e6d840f56ce7f42ec2ed91e1dd49fca5396"
+    },
+    {
+      "file": "game/art/heap-actors.properties",
+      "bytes": 1123,
+      "sha256": "0b87d91ea02890c1b09d143bf11feb960d8ff4e7eec3e8a431fc7cff5754990e"
+    },
+    {
+      "file": "game/art/heap-background.png",
+      "bytes": 2559225,
+      "sha256": "4018039022cb74a0edb7170d68e18625ed5c01f3d93cbafbb5a2aaba8b65b0ad"
+    },
+    {
+      "file": "game/art/heap-background.properties",
+      "bytes": 341,
+      "sha256": "5d425f1689cb2d75b6d8dce17320dff2a956b3fd0d8a99fda94cc950fdb0c59c"
+    },
+    {
+      "file": "game/art/hostiles.png",
+      "bytes": 1346732,
+      "sha256": "d5d7890be3df497b8e546c8d895e3a12b1fe39a8bdb80cb2b1a14a333a7c13da"
+    },
+    {
+      "file": "game/art/hostiles.properties",
+      "bytes": 2105,
+      "sha256": "cce7842a07263d832b10bdc726c074dd4ad34355451e1a7ac3c1bac276ac35c1"
+    },
+    {
+      "file": "game/art/repair.png",
+      "bytes": 903056,
+      "sha256": "aeca1df542947940bb0e1a80c08e7f9b4d304f1b17e5711fbb00ec405e065bca"
+    },
+    {
+      "file": "game/art/repair.properties",
+      "bytes": 2229,
+      "sha256": "8887555a46190588190ff475b67296bc263cb6c54db415b60e4fcadc312486d3"
+    },
+    {
+      "file": "game/i18n/messages_en.properties",
+      "bytes": 30366,
+      "sha256": "180eab5a8fbe00e7b13444c7f6dfe740d9ddb00a90419baf6f933f37dee0b23e"
+    },
+    {
+      "file": "game/i18n/messages_zh-CN.properties",
+      "bytes": 30557,
+      "sha256": "50e5a936cfb030cf4c93931e8c97b7d95db4dbd698b1be22c1c99fabb9b5431d"
+    }
+  ],
+  "jar": "merge-hell-runner/lib/instrumented-merge-hell-runner-1.0.0.jar",
+  "requiredClasses": [
+    "world/SingularityEdgeController.class",
+    "render/SingularityWorldRenderer.class",
+    "render/SingularityHudRenderer.class",
+    "render/SingularityActorRenderer.class",
+    "boss/SingularityPatternMemory.class",
+    "world/KernelCoreController.class",
+    "render/KernelActorRenderer.class",
+    "render/KernelWorldRenderer.class",
+    "render/KernelHudRenderer.class",
+    "engine/ProjectileBuffer.class",
+    "engine/ProjectileBudget.class",
+    "world/BlueprintCitadelController.class",
+    "render/BlueprintWorldRenderer.class",
+    "render/BlueprintHudRenderer.class",
+    "render/BlueprintActorRenderer.class",
+    "boss/BossArrivalController.class",
+    "render/BossArrivalRenderer.class",
+    "world/TraversalEnvironment.class",
+    "render/TraversalRenderer.class",
+    "audio/AmbienceBank.class",
+    "audio/AmbienceScene.class",
+    "audio/AudioService.class",
+    "audio/PcmMixer.class",
+    "i18n/GameLanguage.class",
+    "i18n/GameText.class",
+    "world/HeapDistrictController.class",
+    "boss/BossFeedbackController.class",
+    "render/HeapWorldRenderer.class",
+    "render/HeapActorRenderer.class",
+    "render/HeapHudRenderer.class",
+    "render/BossFeedbackRenderer.class"
+  ],
+  "tests": {
+    "suites": 106,
+    "tests": 654,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

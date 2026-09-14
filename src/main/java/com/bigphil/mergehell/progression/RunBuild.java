@@ -9,6 +9,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class RunBuild {
+    public record Checkpoint(WeaponId weapon, Map<UpgradeId, Integer> ranks, int weaponLevel,
+                             boolean evolutionCoreInstalled, boolean evolved) {
+        public Checkpoint {
+            Objects.requireNonNull(weapon, "weapon");
+            ranks = Map.copyOf(Objects.requireNonNull(ranks, "ranks"));
+            if (weaponLevel < 1 || weaponLevel > 5) throw new IllegalArgumentException("Invalid weapon level");
+        }
+    }
     private final WeaponId weapon;
     private final EnumMap<UpgradeId, Integer> ranks = new EnumMap<>(UpgradeId.class);
     private BuildStats buildStats;
@@ -23,6 +31,8 @@ public final class RunBuild {
 
     public void apply(UpgradeDefinition upgrade) {
         Objects.requireNonNull(upgrade, "upgrade");
+        // Supplies are consumed by Player; they do not occupy a permanent rank or weapon level.
+        if (upgrade.isSupply()) return;
         if ((upgrade.tag() == UpgradeTag.WEAPON
                 || upgrade.tag() == UpgradeTag.EVOLUTION_CORE)
                 && !upgrade.isWeaponRelevant(weapon)) {
@@ -47,23 +57,30 @@ public final class RunBuild {
     }
 
     public boolean tryEvolve() {
-        if (evolved || weaponLevel < 5 || !evolutionCoreInstalled) {
+        if (!evolutionReady()) {
             return false;
         }
 
-        CombatStats current = buildStats.combat();
-        CombatStats evolvedStats = weapon == WeaponId.COMMIT_CANNON
-                ? new CombatStats(current.damage(), current.cooldownFrames(), current.pellets(),
+        evolved = true;
+        return true;
+    }
+
+    private CombatStats evolvedStats(CombatStats current) {
+        return switch (weapon) {
+            case COMMIT_CANNON -> new CombatStats(current.damage(), current.cooldownFrames(), current.pellets(),
                         current.speed(), current.spreadRadians(), current.pierces(),
                         current.knockback(), Math.min(1, current.criticalChance() + 0.15),
-                        current.ricochets() + 2)
-                : new CombatStats(current.damage(), current.cooldownFrames(),
+                        current.ricochets() + 2);
+            case FORCE_PUSH -> new CombatStats(current.damage(), current.cooldownFrames(),
                         current.pellets() + 4, current.speed(), current.spreadRadians(),
                         current.pierces() + 1, current.knockback() + 12,
                         current.criticalChance(), current.ricochets());
-        buildStats = buildStats.withCombat(evolvedStats);
-        evolved = true;
-        return true;
+            case RAPID_CI -> current.withPierces(current.pierces() + 1);
+            case GARBAGE_COLLECTOR -> current.withPierces(current.pierces() + 2);
+            case FIREWALL -> current.withPierces(current.pierces() + 2);
+            case REFACTOR_BEAM -> current.withPelletsAndSpread(current.pellets() + 2, 0.10)
+                    .withRicochets(current.ricochets() + 2);
+        };
     }
 
     public WeaponId weapon() {
@@ -71,11 +88,11 @@ public final class RunBuild {
     }
 
     public CombatStats effectiveStats() {
-        return buildStats.combat();
+        return evolved ? evolvedStats(buildStats.combat()) : buildStats.combat();
     }
 
     public BuildStats buildStats() {
-        return buildStats;
+        return evolved ? buildStats.withCombat(effectiveStats()) : buildStats;
     }
 
     public int rank(UpgradeId id) {
@@ -90,5 +107,32 @@ public final class RunBuild {
         return evolved;
     }
 
+    public boolean evolutionReady() { return !evolved && weaponLevel >= 5 && evolutionCoreInstalled; }
+
     public Map<UpgradeId, Integer> ranks() { return Map.copyOf(ranks); }
+
+    public Checkpoint checkpoint() {
+        return new Checkpoint(weapon, ranks, weaponLevel, evolutionCoreInstalled, evolved);
+    }
+
+    /** Rebuild once from base stats; evolution remains a derived modifier, never a repeated bonus. */
+    public static RunBuild restoreCheckpoint(Checkpoint value) {
+        Objects.requireNonNull(value, "value");
+        RunBuild restored = new RunBuild(value.weapon());
+        for (UpgradeId id : UpgradeId.values()) {
+            Integer rank = value.ranks().get(id);
+            if (rank == null) continue;
+            UpgradeDefinition definition = UpgradeCatalog.definition(id);
+            if (definition.isSupply() || rank <= 0 || rank > definition.maxRank()) {
+                throw new IllegalArgumentException("Invalid saved rank for " + id);
+            }
+            for (int i = 0; i < rank; i++) restored.apply(definition);
+        }
+        if (restored.weaponLevel != value.weaponLevel()
+                || restored.evolutionCoreInstalled != value.evolutionCoreInstalled()
+                || value.evolved() && !restored.tryEvolve()) {
+            throw new IllegalArgumentException("Saved evolution does not match the build");
+        }
+        return restored;
+    }
 }

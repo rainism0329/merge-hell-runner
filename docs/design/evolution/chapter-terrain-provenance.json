@@ -1,0 +1,876 @@
+{
+  "format": 1,
+  "tool": "built-in image_gen",
+  "method": "Six inspected major alpha>=80 components split overlapping/staggered layout. Native soft alpha assigned to its nearest major component, unchanged RGB/alpha within ownership; crop at alpha>=8. No matte removal, defringing or alpha normalization; maximum640px uniform scaling; 2px transparent guard.",
+  "worlds": {
+    "3": {
+      "source_sha256": "3dd340cbc88048853a1554ef05d3513e4cf651fa66e0bca3a966a9c741ed6ab2",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "parts": [
+        {
+          "name": "deck",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            18,
+            167,
+            705,
+            368
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            191
+          ],
+          "anchor": [
+            322.0,
+            189.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            0.9315866084425036,
+            0.9303482587064676
+          ],
+          "transparent_pixels": 14706,
+          "high_coverage_pixels": 91974,
+          "soft_alpha_pixels": 16324,
+          "alpha_max": 255,
+          "component_seed": [
+            300,
+            250
+          ],
+          "source_major_component_pixels": 114093,
+          "atlas_rect": [
+            4,
+            4,
+            644,
+            191
+          ]
+        },
+        {
+          "name": "platform",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            738,
+            207,
+            1267,
+            306
+          ],
+          "native_source_alpha": true,
+          "size": [
+            533,
+            103
+          ],
+          "anchor": [
+            266.5,
+            101.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 9858,
+          "high_coverage_pixels": 39242,
+          "soft_alpha_pixels": 5799,
+          "alpha_max": 254,
+          "component_seed": [
+            1000,
+            255
+          ],
+          "source_major_component_pixels": 41975,
+          "atlas_rect": [
+            652,
+            4,
+            533,
+            103
+          ]
+        },
+        {
+          "name": "support",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1327,
+            16,
+            1457,
+            469
+          ],
+          "native_source_alpha": true,
+          "size": [
+            134,
+            457
+          ],
+          "anchor": [
+            67.0,
+            455.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 3846,
+          "high_coverage_pixels": 48505,
+          "soft_alpha_pixels": 8887,
+          "alpha_max": 254,
+          "component_seed": [
+            1390,
+            200
+          ],
+          "source_major_component_pixels": 51668,
+          "atlas_rect": [
+            1189,
+            4,
+            134,
+            457
+          ]
+        },
+        {
+          "name": "prop-a",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            48,
+            450,
+            322,
+            975
+          ],
+          "native_source_alpha": true,
+          "size": [
+            278,
+            529
+          ],
+          "anchor": [
+            139.0,
+            527.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 27328,
+          "high_coverage_pixels": 108002,
+          "soft_alpha_pixels": 11732,
+          "alpha_max": 254,
+          "component_seed": [
+            200,
+            780
+          ],
+          "source_major_component_pixels": 112479,
+          "atlas_rect": [
+            1327,
+            4,
+            278,
+            529
+          ]
+        },
+        {
+          "name": "prop-b",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            434,
+            499,
+            865,
+            941
+          ],
+          "native_source_alpha": true,
+          "size": [
+            435,
+            446
+          ],
+          "anchor": [
+            217.5,
+            444.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 42817,
+          "high_coverage_pixels": 141170,
+          "soft_alpha_pixels": 10023,
+          "alpha_max": 254,
+          "component_seed": [
+            650,
+            770
+          ],
+          "source_major_component_pixels": 144958,
+          "atlas_rect": [
+            1609,
+            4,
+            435,
+            446
+          ]
+        },
+        {
+          "name": "trim",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            875,
+            680,
+            1519,
+            817
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            140
+          ],
+          "anchor": [
+            322.0,
+            138.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            0.9937888198757764,
+            0.9927007299270073
+          ],
+          "transparent_pixels": 9683,
+          "high_coverage_pixels": 72955,
+          "soft_alpha_pixels": 7522,
+          "alpha_max": 255,
+          "component_seed": [
+            1150,
+            735
+          ],
+          "source_major_component_pixels": 77733,
+          "atlas_rect": [
+            2048,
+            4,
+            644,
+            140
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter3-terrain.png": {
+          "sha256": "5c8b0b43795ccf82c7e500b35439139407e7cc6accdb624e4ae8ef71b039d5fe",
+          "bytes": 1356617
+        },
+        "chapter3-terrain.properties": {
+          "sha256": "98c43e4d209adb09a6d95c374ce51b6a27a745d5227b1a236916614420f1a95d",
+          "bytes": 1101
+        }
+      }
+    },
+    "4": {
+      "source_sha256": "ca399bc2fb9840cd24edea4adef7be902adc9597c7e83a50f028cdfca918df4d",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "parts": [
+        {
+          "name": "deck",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            23,
+            221,
+            620,
+            502
+          ],
+          "native_source_alpha": true,
+          "size": [
+            601,
+            285
+          ],
+          "anchor": [
+            300.5,
+            283.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 10007,
+          "high_coverage_pixels": 153993,
+          "soft_alpha_pixels": 7285,
+          "alpha_max": 254,
+          "component_seed": [
+            250,
+            300
+          ],
+          "source_major_component_pixels": 157175,
+          "atlas_rect": [
+            4,
+            4,
+            601,
+            285
+          ]
+        },
+        {
+          "name": "platform",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            641,
+            291,
+            1295,
+            407
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            118
+          ],
+          "anchor": [
+            322.0,
+            116.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            0.9785932721712538,
+            0.9827586206896551
+          ],
+          "transparent_pixels": 12699,
+          "high_coverage_pixels": 55166,
+          "soft_alpha_pixels": 8127,
+          "alpha_max": 255,
+          "component_seed": [
+            950,
+            350
+          ],
+          "source_major_component_pixels": 60919,
+          "atlas_rect": [
+            609,
+            4,
+            644,
+            118
+          ]
+        },
+        {
+          "name": "support",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1298,
+            55,
+            1513,
+            533
+          ],
+          "native_source_alpha": true,
+          "size": [
+            219,
+            482
+          ],
+          "anchor": [
+            109.5,
+            480.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 17454,
+          "high_coverage_pixels": 79179,
+          "soft_alpha_pixels": 8925,
+          "alpha_max": 254,
+          "component_seed": [
+            1400,
+            250
+          ],
+          "source_major_component_pixels": 83804,
+          "atlas_rect": [
+            1257,
+            4,
+            219,
+            482
+          ]
+        },
+        {
+          "name": "prop-a",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            12,
+            527,
+            345,
+            970
+          ],
+          "native_source_alpha": true,
+          "size": [
+            337,
+            447
+          ],
+          "anchor": [
+            168.5,
+            445.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 39010,
+          "high_coverage_pixels": 101557,
+          "soft_alpha_pixels": 10072,
+          "alpha_max": 254,
+          "component_seed": [
+            175,
+            700
+          ],
+          "source_major_component_pixels": 105534,
+          "atlas_rect": [
+            1480,
+            4,
+            337,
+            447
+          ]
+        },
+        {
+          "name": "prop-b",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            344,
+            698,
+            947,
+            914
+          ],
+          "native_source_alpha": true,
+          "size": [
+            607,
+            220
+          ],
+          "anchor": [
+            303.5,
+            218.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 21781,
+          "high_coverage_pixels": 103883,
+          "soft_alpha_pixels": 7876,
+          "alpha_max": 254,
+          "component_seed": [
+            650,
+            800
+          ],
+          "source_major_component_pixels": 107375,
+          "atlas_rect": [
+            1821,
+            4,
+            607,
+            220
+          ]
+        },
+        {
+          "name": "trim",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            960,
+            753,
+            1518,
+            913
+          ],
+          "native_source_alpha": true,
+          "size": [
+            562,
+            164
+          ],
+          "anchor": [
+            281.0,
+            162.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 18979,
+          "high_coverage_pixels": 65154,
+          "soft_alpha_pixels": 8035,
+          "alpha_max": 254,
+          "component_seed": [
+            1200,
+            840
+          ],
+          "source_major_component_pixels": 67956,
+          "atlas_rect": [
+            2432,
+            4,
+            562,
+            164
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter4-terrain.png": {
+          "sha256": "f343de2320eaad7cb2591c31aa116f20c8e9af35f2caceb1f2b2092d9753b75a",
+          "bytes": 1517612
+        },
+        "chapter4-terrain.properties": {
+          "sha256": "69264e486102e75492ea030d109736714bfdc4a6e97d0ebd8fb8f6a894810d53",
+          "bytes": 1102
+        }
+      }
+    },
+    "5": {
+      "source_sha256": "1ac6a91ac9e226833b7350113e8a26e4be0eadaa29b8354abcc2ae0f0fb8a58c",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "parts": [
+        {
+          "name": "deck",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            19,
+            176,
+            790,
+            457
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            237
+          ],
+          "anchor": [
+            322.0,
+            235.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            0.8300907911802854,
+            0.8291814946619217
+          ],
+          "transparent_pixels": 35282,
+          "high_coverage_pixels": 103865,
+          "soft_alpha_pixels": 13481,
+          "alpha_max": 255,
+          "component_seed": [
+            500,
+            260
+          ],
+          "source_major_component_pixels": 159193,
+          "atlas_rect": [
+            4,
+            4,
+            644,
+            237
+          ]
+        },
+        {
+          "name": "platform",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            818,
+            226,
+            1315,
+            355
+          ],
+          "native_source_alpha": true,
+          "size": [
+            501,
+            133
+          ],
+          "anchor": [
+            250.5,
+            131.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 27090,
+          "high_coverage_pixels": 27622,
+          "soft_alpha_pixels": 11921,
+          "alpha_max": 254,
+          "component_seed": [
+            1000,
+            250
+          ],
+          "source_major_component_pixels": 32647,
+          "atlas_rect": [
+            652,
+            4,
+            501,
+            133
+          ]
+        },
+        {
+          "name": "support",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1354,
+            26,
+            1494,
+            606
+          ],
+          "native_source_alpha": true,
+          "size": [
+            144,
+            584
+          ],
+          "anchor": [
+            72.0,
+            582.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 12198,
+          "high_coverage_pixels": 62995,
+          "soft_alpha_pixels": 8903,
+          "alpha_max": 254,
+          "component_seed": [
+            1420,
+            250
+          ],
+          "source_major_component_pixels": 66496,
+          "atlas_rect": [
+            1157,
+            4,
+            144,
+            584
+          ]
+        },
+        {
+          "name": "prop-a",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            20,
+            457,
+            363,
+            992
+          ],
+          "native_source_alpha": true,
+          "size": [
+            347,
+            539
+          ],
+          "anchor": [
+            173.5,
+            537.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 60709,
+          "high_coverage_pixels": 91617,
+          "soft_alpha_pixels": 34707,
+          "alpha_max": 254,
+          "component_seed": [
+            180,
+            650
+          ],
+          "source_major_component_pixels": 113044,
+          "atlas_rect": [
+            1305,
+            4,
+            347,
+            539
+          ]
+        },
+        {
+          "name": "prop-b",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            380,
+            522,
+            838,
+            993
+          ],
+          "native_source_alpha": true,
+          "size": [
+            462,
+            475
+          ],
+          "anchor": [
+            231.0,
+            473.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 75801,
+          "high_coverage_pixels": 126884,
+          "soft_alpha_pixels": 16765,
+          "alpha_max": 254,
+          "component_seed": [
+            600,
+            800
+          ],
+          "source_major_component_pixels": 133122,
+          "atlas_rect": [
+            1656,
+            4,
+            462,
+            475
+          ]
+        },
+        {
+          "name": "trim",
+          "source_cell": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            840,
+            727,
+            1516,
+            964
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            228
+          ],
+          "anchor": [
+            322.0,
+            226.0
+          ],
+          "sockets": {},
+          "source_sockets": {},
+          "scale": [
+            0.9467455621301775,
+            0.9451476793248945
+          ],
+          "transparent_pixels": 57510,
+          "high_coverage_pixels": 74289,
+          "soft_alpha_pixels": 15033,
+          "alpha_max": 255,
+          "component_seed": [
+            1200,
+            850
+          ],
+          "source_major_component_pixels": 88775,
+          "atlas_rect": [
+            2122,
+            4,
+            644,
+            228
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter5-terrain.png": {
+          "sha256": "77e4f8eff0b75bc7bd482637c5a252a635a7ac040d4e315a203d2ee3521f7d4b",
+          "bytes": 1766683
+        },
+        "chapter5-terrain.properties": {
+          "sha256": "c40d8f1ae6818551100731c25b53c422a87146a9d29c7d22991942daee48c8f5",
+          "bytes": 1101
+        }
+      }
+    }
+  },
+  "script_sha256": "daafb4489b815f79c472d6fab96325fbb15add96c97e5841a8616fe0bfda06f6",
+  "helper_script_sha256": "595fe01da1478d27da7d5a0afd84f9dfbf6e0d31169d9571960b4fbc46ed0c67"
+}

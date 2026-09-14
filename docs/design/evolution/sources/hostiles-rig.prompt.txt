@@ -1,0 +1,15 @@
+Mode: built-in image_gen; reference-based generation/edit.
+Use case: game-production transparent sprite parts.
+Asset: ONE genuinely transparent PNG atlas, EXACT 4 columns x 2 rows, eight detached mechanical parts for Java2D skeletal animation. Target2048x1024, each equal cell512x512. No grid lines, labels, backgrounds, floor or cast floor shadows. Each piece fits centrally within380x380 area with transparent padding.
+Reference1 defines the ONLY art style: dimensional old industrial machines, weathered gunmetal and rusty orange plates, heavy rivets, mechanical pistons, amber edge highlights, dark readable silhouettes, red hostile light sources. Faithful painted pre-rendered game sprite aesthetic, not flat vector and not pixel art. Same scale lighting and material within each machine, exactly side-on view facing LEFT (toward the player), no foreshortening floor.
+Eight cells in left-to-right then top-to-bottom order:
+1. BUG mechanical spider BODY only: compact armored beetle engine chassis, glowing red-orange sensor eyes on LEFT, black metal jaw, orange-red armored shell and visible sockets for three legs. NO LEGS.
+2. BUG detached upper leg strut, horizontal segment with round hip on RIGHT and elbow on LEFT, rusty orange armor cap over dark piston.
+3. BUG detached pointed lower leg strut, straight vertical from rounded joint at TOP to claw tip at BOTTOM, sharp dark steel with orange highlight.
+4. TECH DEBT server-stack robot TORSO and HEAD as one unit: three thick horizontal stacked vented server trays, small slanted red eye slit at top, heavy rust-brown steel frame and round shoulder sockets, abdomen hip joint at bottom. NO ARMS OR LEGS, no letters.
+5. TECH DEBT detached thick ARM with blocky fist hanging down, shoulder pivot at TOP, layered battered server casing and dark elbow.
+6. TECH DEBT detached articulated LEG with broad armored BOOT, hip pivot TOP and grounded sole BOTTOM, toe pointing LEFT.
+7. LEGACY BOSS central CORE machinery body only: monumental cylindrical reactor surrounded by a rounded rectangular armored industrial frame, exposed circular orange glowing center, vents, thick cables tucked around silhouette and four external node cable sockets. NO ARMS OR LEGS. More massive than enemy pieces but entirely within its own cell. Core should look vulnerable and structurally distinct.
+8. DEPENDENCY NODE freestanding small industrial power relay box: compact vertical yellow-rusted terminal, one glowing red inset circular socket on front, short base foot, thick side cable plugs. No attached cables extending outside its silhouette.
+Eight distinct detached pieces only, no assembled scene. Keep strong body-part boundaries and transparent margins for runtime animation, no scattered sparks.
+

@@ -1,0 +1,3 @@
+# Automated chapter route probe
+
+Six deterministic runs, each limited to 12,000 simulation steps. Chapter entry and seed are fixtures. Base profile starts with an ordinary Commit Cannon build. Developed profile applies eight legal permanent upgrades through RunBuild.apply before entering: two drone ranks, two critical ranks, two ricochet ranks, one dash cache, one shield reboot. No LAB, HP injection, enemy clearing, teleports, route shortcuts or invulnerability are used during traversal. Natural upgrade drafts are selected by real number-key input. The bot stops at the actual boss fight, game over, or step limit. The bot has no general path planning and cannot establish human difficulty or impossibility.

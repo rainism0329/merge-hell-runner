@@ -13,17 +13,21 @@ public final class StateMigrator {
     public StateMigrator(LegacyScoreSource legacy) { this.legacy = legacy; }
 
     public MergeHellState migrate(MergeHellState value) {
-        MergeHellState state = value == null ? new MergeHellState() : value;
-        if (state.schemaVersion < 0 || state.schemaVersion > 1) state = new MergeHellState();
-        state.schemaVersion = 1;
+        MergeHellState state = value == null ? new MergeHellState() : StateCopies.state(value);
+        int sourceVersion = state.schemaVersion;
+        if (sourceVersion < 0) state = new MergeHellState();
+        state.schemaVersion = 2;
         if (state.topScores == null) state.topScores = new ArrayList<>();
         state.topScores.removeIf(score -> score == null || score < 0);
         if (state.unlockedWeapons == null) state.unlockedWeapons = EnumSet.noneOf(WeaponId.class);
-        else state.unlockedWeapons = state.unlockedWeapons.isEmpty()
-                ? EnumSet.noneOf(WeaponId.class) : EnumSet.copyOf(state.unlockedWeapons);
+        else {
+            state.unlockedWeapons.remove(null);
+            state.unlockedWeapons = state.unlockedWeapons.isEmpty()
+                    ? EnumSet.noneOf(WeaponId.class) : EnumSet.copyOf(state.unlockedWeapons);
+        }
         state.unlockedWeapons.add(WeaponId.COMMIT_CANNON);
         if (state.completedMissions == null) state.completedMissions = new HashSet<>();
-        state.completedMissions.removeIf(mission -> mission == null || mission < 0);
+        state.completedMissions.removeIf(mission -> mission == null || mission < 0 || mission > 4);
         if (state.settings == null) state.settings = new MergeHellState.Settings();
         clampSettings(state.settings);
         state.refactorPoints = Math.max(0, state.refactorPoints);
@@ -33,7 +37,8 @@ public final class StateMigrator {
         state.topScores.sort(Comparator.reverseOrder());
         if (state.topScores.size() > 5) state.topScores = new ArrayList<>(state.topScores.subList(0, 5));
         else state.topScores = new ArrayList<>(state.topScores);
-        repairActiveRun(state);
+        repairActiveRun(state, sourceVersion);
+        if (state.checkpointNotice == null) state.checkpointNotice = "";
         return state;
     }
 
@@ -50,18 +55,26 @@ public final class StateMigrator {
         }
     }
 
-    private static void repairActiveRun(MergeHellState state) {
+    private static void repairActiveRun(MergeHellState state, int sourceVersion) {
         if (state.activeRun == null) return;
-        if (state.activeRun.mission < 0 || state.activeRun.lives <= 0) { state.activeRun = null; return; }
-        if (state.activeRun.weapon == null) state.activeRun.weapon = WeaponId.COMMIT_CANNON;
-        if (state.activeRun.upgradeRanks == null) state.activeRun.upgradeRanks = new java.util.EnumMap<>(com.bigphil.mergehell.progression.UpgradeId.class);
-        state.activeRun.upgradeRanks.entrySet().removeIf(e -> e.getKey() == null || e.getValue() == null || e.getValue() < 0);
+        try {
+            if (sourceVersion != 2) throw new IllegalArgumentException("Old checkpoint format");
+            CheckpointCodec.validate(state.activeRun);
+        } catch (RuntimeException invalid) {
+            state.legacyActiveRunBackup = StateCopies.run(state.activeRun);
+            state.activeRun = null;
+            state.checkpointNotice = sourceVersion < 2
+                    ? "Previous run lacks a complete level-start checkpoint. Scores, unlocks and settings were kept."
+                    : "The saved run cannot be restored. Its data was backed up; scores, unlocks and settings were kept.";
+        }
     }
 
     private static void clampSettings(MergeHellState.Settings settings) {
+        settings.language = com.bigphil.mergehell.i18n.GameLanguage.fromTag(settings.language).tag();
         settings.shakePercent = clamp(settings.shakePercent);
         settings.particlePercent = clamp(settings.particlePercent);
         settings.volumePercent = clamp(settings.volumePercent);
+        settings.backgroundVolumePercent = clamp(settings.backgroundVolumePercent);
     }
 
     private static int clamp(int value) { return Math.max(0, Math.min(100, value)); }

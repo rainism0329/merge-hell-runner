@@ -1,5 +1,7 @@
 package com.bigphil.mergehell.render;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import com.bigphil.mergehell.model.EntityType;
 
 import java.awt.BasicStroke;
@@ -29,10 +31,10 @@ public final class VectorEntityRenderer {
             case MIRROR -> drawMirror(g, x, y, w, h);
             default -> { return; }
         }
-        g.setFont(LABEL);
+        g.setFont(GameText.font(LABEL));
         g.setColor(Color.WHITE);
         String label = type == EntityType.TECHDEBT ? "DEBT" : type.name();
-        g.drawString(label, x + 5, y + Math.min(h - 8, 28));
+        GameText.draw(g, label, x + 5, y + Math.min(h - 8, 28));
 
         if (maxHp > 1) {
             g.setColor(new Color(10, 12, 18, 200));

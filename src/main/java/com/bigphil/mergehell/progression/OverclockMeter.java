@@ -28,4 +28,13 @@ public final class OverclockMeter {
     public int charge() { return charge; }
     public int activeTicks() { return activeTicks; }
     public double ratio() { return isActive() ? 1.0 : charge / (double) capacity; }
+
+    public void restoreCheckpoint(int charge, int activeTicks) {
+        if (charge < 0 || charge > capacity || activeTicks < 0 || activeTicks > durationTicks
+                || activeTicks > 0 && charge != capacity || activeTicks == 0 && charge == capacity) {
+            throw new IllegalArgumentException("Invalid saved overclock state");
+        }
+        this.charge = charge;
+        this.activeTicks = activeTicks;
+    }
 }

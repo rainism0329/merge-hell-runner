@@ -31,4 +31,6 @@ public record UpgradeDefinition(
         return (tag == UpgradeTag.WEAPON || tag == UpgradeTag.EVOLUTION_CORE)
                 && supportedWeapons.contains(weapon);
     }
+
+    public boolean isSupply() { return tag == UpgradeTag.SUPPLY; }
 }

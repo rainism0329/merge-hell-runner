@@ -39,11 +39,12 @@ class WeaponCatalogTest {
     }
 
     @Test
-    void unimplementedWeaponsAreRejected() {
-        IllegalArgumentException error = assertThrows(IllegalArgumentException.class,
-                () -> WeaponCatalog.definition(WeaponId.RAPID_CI));
-
-        assertTrue(error.getMessage().contains("RAPID_CI"));
+    void everyWeaponHasAnAuthoredDefinitionAndRoundTripsThroughLegacyPickups() {
+        for (WeaponId weapon : WeaponId.values()) {
+            assertEquals(weapon, WeaponCatalog.definition(weapon).id());
+            assertEquals(weapon, WeaponCatalog.fromLegacy(WeaponCatalog.toLegacy(weapon)));
+            assertTrue(WeaponCatalog.definition(weapon).tags().length > 0);
+        }
     }
 
     @Test

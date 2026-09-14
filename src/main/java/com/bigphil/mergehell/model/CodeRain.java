@@ -1,5 +1,7 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.i18n.GameText;
+
 import java.awt.*;
 
 public class CodeRain {
@@ -33,6 +35,6 @@ public class CodeRain {
 
     public void draw(Graphics2D g) {
         g.setColor(new Color(1f, 1f, 1f, alpha));
-        g.drawString(text, (int) x, (int) y);
+        GameText.draw(g, text, (int) x, (int) y);
     }
 }

@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service(Service.Level.APP)
 @State(name = "MergeHellRunner", storages = @Storage("mergeHellRunner.xml"))
@@ -20,6 +22,9 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
     private static final MergeHellStateService FALLBACK = new MergeHellStateService();
     private final StateMigrator migrator = new StateMigrator(this::readLegacyScores);
     private MergeHellState state = migrator.migrate(null);
+    // Application-session ownership is intentionally not persisted across IDE restarts.
+    private String activeOwner;
+    private String claimedRunId;
 
     public static MergeHellStateService getInstance() {
         Application app = ApplicationManager.getApplication();
@@ -27,10 +32,14 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
     }
 
     @Override
-    public synchronized MergeHellState getState() { return copy(state); }
+    public synchronized MergeHellState getState() { return StateCopies.state(state); }
 
     @Override
-    public synchronized void loadState(@NotNull MergeHellState value) { state = migrator.migrate(value); }
+    public synchronized void loadState(@NotNull MergeHellState value) {
+        MergeHellState next = migrator.migrate(value);
+        if (activeOwner != null) next.activeRun = StateCopies.run(state.activeRun);
+        state = next;
+    }
 
     public synchronized void recordScore(int score) {
         if (score < 0) return;
@@ -39,63 +48,120 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
         if (state.topScores.size() > 5) state.topScores = new ArrayList<>(state.topScores.subList(0, 5));
     }
 
-    public synchronized void unlockWeapon(WeaponId weapon) { state.unlockedWeapons.add(weapon); }
+    public synchronized void unlockWeapon(WeaponId weapon) { state.unlockedWeapons.add(Objects.requireNonNull(weapon)); }
 
     public synchronized boolean completeMission(int mission, int refactorPoints) {
+        if (mission < 0 || mission > 4) return false;
         if (!state.completedMissions.add(mission)) return false;
-        state.refactorPoints = Math.max(0, state.refactorPoints + Math.max(0, refactorPoints));
+        state.refactorPoints = (int) Math.min(Integer.MAX_VALUE, (long) state.refactorPoints + Math.max(0, refactorPoints));
         return true;
     }
 
+    /** Publish rewards and the next safe entrance (or final score) in one persistence snapshot.
+     * A second live window may earn its first-clear reward but cannot touch the owner's run. */
+    public synchronized boolean settleCampaignMission(String ownerId, int mission, int refactorPoints,
+                                                       MergeHellState.ActiveRun nextEntrance, int finalScore) {
+        requireOwner(ownerId);
+        if (mission < 0 || mission > 4) throw new IllegalArgumentException("Invalid mission");
+        MergeHellState.ActiveRun next = StateCopies.run(nextEntrance);
+        if (mission < 4) {
+            CheckpointCodec.validate(next);
+            if (next.mission != mission + 1) throw new IllegalArgumentException("Expected the next mission entrance");
+            if (ownerId.equals(activeOwner) && !Objects.equals(claimedRunId, next.runId)) {
+                throw new IllegalArgumentException("Checkpoint belongs to another run");
+            }
+        } else if (next != null || finalScore < 0) {
+            throw new IllegalArgumentException("Final mission requires a score and no next entrance");
+        }
+        boolean firstClear = completeMission(mission, refactorPoints);
+        if (mission < 4) {
+            if (ownerId.equals(activeOwner)) {
+                state.activeRun = next;
+                state.checkpointNotice = "";
+            }
+        } else {
+            recordScore(finalScore);
+            clearCheckpoint(ownerId);
+            releaseRun(ownerId);
+        }
+        return firstClear;
+    }
+
     public synchronized void updateSettings(MergeHellState.Settings settings) {
-        MergeHellState candidate = copy(state);
-        candidate.settings = copySettings(settings);
+        MergeHellState candidate = StateCopies.state(state);
+        candidate.settings = StateCopies.settings(settings);
         state = migrator.migrate(candidate);
     }
 
     public synchronized void saveActiveRun(MergeHellState.ActiveRun run) {
-        state.activeRun = copyRun(run);
+        if (activeOwner != null) return; // Legacy callers cannot overwrite a claimed run.
+        state.activeRun = StateCopies.run(run);
         state = migrator.migrate(state);
     }
 
-    public synchronized void clearActiveRun() { state.activeRun = null; }
+    public synchronized void clearActiveRun() { if (activeOwner == null) state.activeRun = null; }
+
+    /** Claim storage for a new run. A different live window retains exclusive ownership. */
+    public synchronized boolean claimRun(String ownerId, String runId) {
+        requireOwner(ownerId);
+        if (!CheckpointCodec.validRunId(runId)) throw new IllegalArgumentException("Invalid run ID");
+        if (activeOwner != null && !activeOwner.equals(ownerId)) return false;
+        activeOwner = ownerId;
+        claimedRunId = runId;
+        return true;
+    }
+
+    /** Atomically claim and copy the current checkpoint, avoiding a read/claim race on Continue. */
+    public synchronized Optional<MergeHellState.ActiveRun> claimCheckpoint(String ownerId) {
+        requireOwner(ownerId);
+        if (state.activeRun == null || activeOwner != null && !activeOwner.equals(ownerId)) return Optional.empty();
+        activeOwner = ownerId;
+        claimedRunId = state.activeRun.runId;
+        return Optional.of(StateCopies.run(state.activeRun));
+    }
+
+    public synchronized Optional<MergeHellState.ActiveRun> readCheckpoint() {
+        return Optional.ofNullable(StateCopies.run(state.activeRun));
+    }
+
+    public synchronized boolean saveCheckpoint(String ownerId, MergeHellState.ActiveRun run) {
+        requireOwner(ownerId);
+        if (!ownerId.equals(activeOwner) || run == null || !Objects.equals(claimedRunId, run.runId)) return false;
+        MergeHellState.ActiveRun copy = StateCopies.run(run);
+        CheckpointCodec.validate(copy);
+        state.activeRun = copy;
+        state.checkpointNotice = "";
+        return true;
+    }
+
+    public synchronized boolean clearCheckpoint(String ownerId) {
+        requireOwner(ownerId);
+        if (!ownerId.equals(activeOwner)) return false;
+        state.activeRun = null;
+        state.checkpointNotice = "";
+        return true;
+    }
+
+    public synchronized boolean releaseRun(String ownerId) {
+        requireOwner(ownerId);
+        if (!ownerId.equals(activeOwner)) return false;
+        activeOwner = null;
+        claimedRunId = null;
+        return true;
+    }
+
+    public synchronized boolean ownedByAnotherWindow(String ownerId) {
+        requireOwner(ownerId);
+        return activeOwner != null && !activeOwner.equals(ownerId);
+    }
+
+    private static void requireOwner(String ownerId) {
+        if (ownerId == null || ownerId.isBlank() || ownerId.length() > 128) throw new IllegalArgumentException("Invalid owner ID");
+    }
 
     private String readLegacyScores() {
         try { return PropertiesComponent.getInstance().getValue(LEGACY_KEY); }
         catch (RuntimeException ignored) { return null; }
     }
 
-    private static MergeHellState copy(MergeHellState source) {
-        MergeHellState out = new MergeHellState();
-        out.schemaVersion = source.schemaVersion;
-        out.topScores = new ArrayList<>(source.topScores);
-        out.unlockedWeapons = source.unlockedWeapons.isEmpty()
-                ? java.util.EnumSet.noneOf(WeaponId.class) : java.util.EnumSet.copyOf(source.unlockedWeapons);
-        out.completedMissions = new java.util.HashSet<>(source.completedMissions);
-        out.refactorPoints = source.refactorPoints;
-        out.legacyScoresMigrated = source.legacyScoresMigrated;
-        out.settings = copySettings(source.settings);
-        out.activeRun = copyRun(source.activeRun);
-        return out;
-    }
-
-    private static MergeHellState.Settings copySettings(MergeHellState.Settings source) {
-        MergeHellState.Settings out = new MergeHellState.Settings();
-        if (source == null) return out;
-        out.shakePercent = source.shakePercent; out.crt = source.crt; out.flashes = source.flashes;
-        out.particlePercent = source.particlePercent; out.volumePercent = source.volumePercent;
-        out.autoFire = source.autoFire; out.highContrast = source.highContrast;
-        return out;
-    }
-
-    private static MergeHellState.ActiveRun copyRun(MergeHellState.ActiveRun source) {
-        if (source == null) return null;
-        MergeHellState.ActiveRun out = new MergeHellState.ActiveRun();
-        out.mission = source.mission; out.checkpointX = source.checkpointX;
-        out.checkpointY = source.checkpointY; out.lives = source.lives;
-        out.weapon = source.weapon; out.worldTick = source.worldTick;
-        out.upgradeRanks = new java.util.EnumMap<>(com.bigphil.mergehell.progression.UpgradeId.class);
-        if (source.upgradeRanks != null) out.upgradeRanks.putAll(source.upgradeRanks);
-        return out;
-    }
 }

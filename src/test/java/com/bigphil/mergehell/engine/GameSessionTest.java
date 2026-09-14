@@ -5,6 +5,7 @@ import com.bigphil.mergehell.combat.CombatEvent;
 import com.bigphil.mergehell.model.EntityType;
 import com.bigphil.mergehell.progression.UpgradeDefinition;
 import com.bigphil.mergehell.progression.UpgradeId;
+import com.bigphil.mergehell.mission.DirectorInput;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -132,6 +133,23 @@ class GameSessionTest {
         assertThrows(IllegalArgumentException.class,
                 () -> session.setGameplayState(GameState.UPGRADE_SELECTION));
         assertThrows(NullPointerException.class, () -> session.tick(null));
+    }
+
+    @Test void upgradeSelectionFreezesTheRouteTimerAndStageProgress() {
+        GameSession session = new GameSession(61L);
+        session.tick(InputFrame.NONE);
+        session.directMission(new DirectorInput(session.worldTick(), 0, .5, 0));
+        var before = session.routeProgress();
+        session.awardBuildXp(100);
+        for (int i = 0; i < 500; i++) {
+            session.tick(InputFrame.NONE);
+            assertTrue(session.directMission(new DirectorInput(session.worldTick(), 0, .5, 0)).isEmpty());
+        }
+        assertEquals(before, session.routeProgress());
+        session.chooseUpgrade(0);
+        session.tick(InputFrame.NONE);
+        session.directMission(new DirectorInput(session.worldTick(), 0, .5, 0));
+        assertEquals(before.stageTicksRemaining() - 1, session.routeProgress().stageTicksRemaining());
     }
 
     private static List<UpgradeId> ids(List<UpgradeDefinition> definitions) {

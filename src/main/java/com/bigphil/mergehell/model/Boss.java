@@ -1,7 +1,13 @@
 package com.bigphil.mergehell.model;
 
+import com.bigphil.mergehell.i18n.GameText;
+import com.bigphil.mergehell.engine.ProjectileBudget;
+import com.bigphil.mergehell.boss.SingularityPatternMemory;
+import com.bigphil.mergehell.boss.ChapterBossEncounter;
+
 import java.awt.*;
 import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -55,8 +61,9 @@ public class Boss {
 
     private double x;
     private double y;
-    private final int width = 120;
-    private final int height = 150;
+    private final int width;
+    private final int height;
+    private final ChapterBossEncounter chapterEncounter;
     private final int maxHp;
     private int hp;
     private final String name;
@@ -84,9 +91,31 @@ public class Boss {
     private String moveName = "MATERIALIZING";
     private String dashMoveName = "CORE DUMP";
     private boolean flashing;
+    private int vulnerabilityTicks;
+    private int blueprintDisruptionTicks;
+    private int kernelDisruptionTicks;
+    private int kernelRebootTicks;
+    private int kernelLaneWarningTicks;
+    private final SingularityPatternMemory singularityMemory = new SingularityPatternMemory();
+    private boolean singularityPlayerFired;
+    private int singularityWarningTicks, singularityDisruptionTicks, singularityRebootTicks;
+    private List<PredictedShot> singularityShots = List.of();
+    public record PredictedShot(double x, double y, double vx, double vy) { }
+    public static final int SINGULARITY_WARNING_TICKS = 75;
+    public static final int KERNEL_CHARGE_WARNING_TICKS = 60;
+    public static final int KERNEL_LANE_WARNING_TICKS = 75;
+    private int hitFlashTicks;
+    private int highestStage = 1;
+    private double hitRecoilStrength;
+    private long damageSequence;
+    public static final int MAX_VULNERABILITY_TICKS = 180;
 
     public Boss(String name, int hpPool, String symbol, double spawnWorldX, int bossLevel) {
         this(name, hpPool, symbol, spawnWorldX, bossLevel, new Random());
+    }
+
+    public Boss(String name, int hpPool, String symbol, double spawnWorldX, int bossLevel, long seed) {
+        this(name, hpPool, symbol, spawnWorldX, bossLevel, new Random(seed));
     }
 
     Boss(String name, int hpPool, String symbol, double spawnWorldX,
@@ -99,8 +128,13 @@ public class Boss {
         this.archetype = Archetype.forLevel(bossLevel);
         this.random = Objects.requireNonNull(random, "random");
         this.x = spawnWorldX + 200;
-        this.targetX = spawnWorldX - 150;
+        this.targetX = spawnWorldX - (bossLevel == 2 ? 280 + 85 : bossLevel == 3 ? 240 + 85
+                : bossLevel == 4 ? 270 + 85 : 150);
         this.y = 100;
+        this.chapterEncounter = bossLevel >= 2 && bossLevel <= 4
+                ? new ChapterBossEncounter(bossLevel, maxHp, targetX, x) : null;
+        this.width = chapterEncounter == null ? 120 : chapterEncounter.width();
+        this.height = chapterEncounter == null ? 150 : chapterEncounter.height();
         this.actionCooldown = 70 + this.random.nextInt(25);
         this.minorCooldown = 38 + this.random.nextInt(15);
     }
@@ -109,37 +143,113 @@ public class Boss {
     public double getY() { return y; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+    public int getGroundY() { return lastGroundY; }
     public int getHp() { return hp; }
     public int getMaxHp() { return maxHp; }
     public String getName() { return name; }
     public boolean isActive() { return active; }
-    public boolean isDashing() { return phase == Phase.DASH; }
-    public String getPersonalityName() { return archetype.personality; }
-    public String getMoveName() { return moveName; }
+    public boolean isDashing() { return chapterEncounter != null ? chapterEncounter.isDashing() : phase == Phase.DASH; }
+    public int getBossLevel() { return bossLevel; }
+    public int getCombatTick() { return chapterEncounter != null ? chapterEncounter.tick() : combatTick; }
+    public int getWarningTicks() { return chapterEncounter != null ? chapterEncounter.warningTicks() : phase == Phase.DASH_WARN ? warningTicks : 0; }
+    public int getKernelLaneWarningTicks() { return chapterEncounter != null && bossLevel == 3 ? chapterEncounter.warningTicks() : kernelLaneWarningTicks; }
+    public int getKernelRebootTicks() { return chapterEncounter != null && bossLevel == 3 ? chapterEncounter.recoveryTicks() : kernelRebootTicks; }
+    public int getSingularityWarningTicks() { return chapterEncounter != null && bossLevel == 4 ? chapterEncounter.warningTicks() : Math.max(singularityWarningTicks, getWarningTicks()); }
+    public int getSingularityRebootTicks() { return chapterEncounter != null && bossLevel == 4 ? chapterEncounter.recoveryTicks() : singularityRebootTicks; }
+    public List<PredictedShot> getSingularityPredictedShots() { return chapterEncounter != null ? chapterEncounter.predictedShots() : singularityShots; }
+    /** Called only after the player actually emitted a shot, including budget admission. */
+    public void recordPlayerShot() { if (archetype == Archetype.SINGULARITY) singularityPlayerFired = true; }
+    public double getDashDirection() { return chapterEncounter != null ? chapterEncounter.direction() : dashDir; }
+    /** A fault shutdown and safe return cannot hurt the player through body contact. */
+    public boolean isContactDangerous() {
+        if (chapterEncounter != null) return active && hp > 0 && chapterEncounter.isContactDangerous();
+        return active && hp > 0 && (archetype != Archetype.KERNEL_PANIC
+                || kernelDisruptionTicks == 0 && kernelRebootTicks == 0 && phase != Phase.RECOVER)
+                && (archetype != Archetype.SINGULARITY
+                || singularityDisruptionTicks == 0 && singularityRebootTicks == 0
+                && phase != Phase.RECOVER && phase != Phase.DASH_WARN);
+    }
+    public boolean isVulnerable() { return hp > 0 && (vulnerabilityTicks > 0 || chapterEncounter != null && chapterEncounter.exposureTicks() > 0); }
+    public int getVulnerabilityTicks() { return hp > 0 ? Math.max(vulnerabilityTicks, chapterEncounter == null ? 0 : chapterEncounter.exposureTicks()) : 0; }
+    public int getHitFlashTicks() { return hp > 0 ? hitFlashTicks : 0; }
+    public long getDamageSequence() { return damageSequence; }
+    public String getPersonalityName() { return chapterEncounter == null ? archetype.personality
+            : GameText.message("chapter.boss.name." + bossLevel); }
+    public String getMoveName() { return chapterEncounter == null ? moveName : GameText.message(chapterEncounter.moveKey()); }
     public int getCombatStage() {
         double ratio = hp / (double) maxHp;
-        if (ratio <= 0.30) return 3;
-        if (ratio <= 0.65) return 2;
-        return 1;
+        return Math.max(highestStage, ratio <= 0.30 ? 3 : ratio <= 0.65 ? 2 : 1);
     }
-    public String getStageName() { return archetype.stages[getCombatStage() - 1]; }
+    public String getStageName() { return chapterEncounter == null ? archetype.stages[getCombatStage() - 1]
+            : GameText.message("chapter.boss.stage." + bossLevel + "." + getCombatStage()); }
     public String getEncounterStatus() {
-        return "P" + getCombatStage() + " " + getStageName() + "  //  " + moveName;
+        return "P" + getCombatStage() + " " + getStageName() + "  //  " + getMoveName();
     }
 
-    Set<String> movesSeenForTesting() { return Set.copyOf(movesSeen); }
+    Set<String> movesSeenForTesting() { return chapterEncounter == null ? Set.copyOf(movesSeen) : chapterEncounter.movesSeen(); }
 
     public void activate() {
         active = true;
         setMove("MATERIALIZING", 120);
     }
 
+    /** Preparation moves the visible body without advancing attacks, contact damage or cooldowns. */
+    public void previewArrival(double progress, int groundY) {
+        if (active) return;
+        if (chapterEncounter != null) {
+            chapterEncounter.preview(progress, groundY);
+            x = chapterEncounter.x(); y = chapterEncounter.y(); lastGroundY = groundY;
+            return;
+        }
+        double t = Math.max(0, Math.min(1, progress));
+        t = t * t * (3 - 2 * t);
+        x = targetX + 350 * (1 - t);
+        y = 100 + (Math.max(100, groundY - height - 50) - 100) * t;
+    }
+
     public void update(ObstacleManager obstacleManager, int groundY, double px, double py,
                        List<Projectile> enemyBullets) {
         if (!active || hp <= 0) return;
+        if (vulnerabilityTicks > 0) vulnerabilityTicks--;
+        if (hitFlashTicks > 0) hitFlashTicks--;
+        if (chapterEncounter != null) {
+            chapterEncounter.update(groundY, px, py, getCombatStage(), obstacleManager, enemyBullets);
+            x = chapterEncounter.x(); y = chapterEncounter.y(); lastGroundY = groundY;
+            return;
+        }
         playerX = px;
         playerY = py;
         lastGroundY = groundY;
+        if (archetype == Archetype.SINGULARITY) {
+            singularityMemory.observe(px, py + 15, singularityPlayerFired);
+            singularityPlayerFired = false;
+            if (singularityDisruptionTicks > 0 || singularityRebootTicks > 0) {
+                if (singularityDisruptionTicks > 0) singularityDisruptionTicks--;
+                else singularityRebootTicks--;
+                actionCooldown = Math.max(actionCooldown, 70);
+                return;
+            }
+        }
+
+        if (kernelDisruptionTicks > 0 || kernelRebootTicks > 0) {
+            if (kernelDisruptionTicks > 0) kernelDisruptionTicks--;
+            else kernelRebootTicks--;
+            actionCooldown = Math.max(actionCooldown, 70);
+            if (kernelDisruptionTicks == 0 && kernelRebootTicks == 0) {
+                phase = Phase.RECOVER;
+                setMove("REBOOTING", 45);
+            }
+            return;
+        }
+
+        if (blueprintDisruptionTicks > 0) {
+            blueprintDisruptionTicks--;
+            moveLabelTicks = blueprintDisruptionTicks;
+            actionCooldown = Math.max(actionCooldown, 55);
+            minorCooldown = Math.max(minorCooldown, 40);
+            if (blueprintDisruptionTicks == 0) setMove(archetype.idleMove, 0);
+            return;
+        }
 
         if (phase == Phase.ENTER) {
             x = Math.max(targetX, x - (5 + bossLevel * 0.35));
@@ -162,6 +272,20 @@ public class Boss {
         int stage = getCombatStage();
         if (stage != lastStage) {
             lastStage = stage;
+            if (archetype == Archetype.KERNEL_PANIC || archetype == Archetype.SINGULARITY) {
+                phase = Phase.RECOVER;
+                warningTicks = dashTicks = kernelLaneWarningTicks = 0;
+                flashing = false;
+                if (archetype == Archetype.KERNEL_PANIC) {
+                    kernelRebootTicks = 90;
+                    markMove("PHASE_SHIFT_" + stage, "RING-0 RECONFIGURING // STAND CLEAR", 90);
+                } else {
+                    singularityWarningTicks = 0; singularityShots = List.of();
+                    singularityRebootTicks = 90; singularityMemory.reset();
+                    markMove("PHASE_SHIFT_" + stage, "PATTERN RESET // STAND CLEAR", 90);
+                }
+                return;
+            }
             x = targetX;
             phase = Phase.IDLE;
             flashing = false;
@@ -238,27 +362,24 @@ public class Boss {
     private void updateKernelPanic(ObstacleManager om, int groundY,
                                    List<Projectile> bullets, int stage) {
         if (updateDashState(groundY, stage)) return;
-
-        double jitter = Math.sin(combatTick * 0.23) * (45 + stage * 12);
-        y = clampY(y + (playerY - height / 2.0 + jitter - y) * 0.075, groundY);
-
-        if (--minorCooldown <= 0) {
-            aimedVolley(bullets, stage >= 3 ? 2 : 1, 0.16, 7.2 + stage * 0.45, true);
-            minorCooldown = 68 - stage * 10;
+        // Grounded charges cross the real fault nodes. The warning locks both height and direction.
+        y = groundY - height;
+        if (kernelLaneWarningTicks > 0) {
+            if (--kernelLaneWarningTicks == 0) {
+                panicLanes(bullets, groundY, stage);
+                om.spawnEnemy((int) x + width + 25, groundY - 60, EntityType.INTERRUPT);
+                markMove("PANIC_LANES", "PANIC LANES // IRQ STORM", 60);
+                actionCooldown = 110 - stage * 10;
+            }
+            return;
         }
-
         if (--actionCooldown > 0) return;
         patternIndex++;
         if ((patternIndex & 1) == 1) {
-            if (stage == 3) panicLanes(bullets, groundY, stage);
             startDash("CORE DUMP", "CORE_DUMP", stage);
         } else {
-            panicLanes(bullets, groundY, stage);
-            om.spawnEnemy((int) x + width + 25, groundY - 60, EntityType.INTERRUPT);
-            if (stage >= 2) {
-                om.spawnFromLeft(groundY, (int) targetX - 800, EntityType.INTERRUPT);
-            }
-            markMove("PANIC_LANES", "PANIC LANES // IRQ STORM", 76);
+            kernelLaneWarningTicks = KERNEL_LANE_WARNING_TICKS;
+            setMove("IRQ LANES // FIND THE GAP", kernelLaneWarningTicks);
         }
         actionCooldown = 138 - stage * 16;
     }
@@ -266,39 +387,62 @@ public class Boss {
     private void updateSingularity(ObstacleManager om, int groundY,
                                    List<Projectile> bullets, int stage) {
         if (updateDashState(groundY, stage)) return;
-
+        if (singularityWarningTicks > 0) {
+            if (--singularityWarningTicks == 0) {
+                var lockedShots = singularityShots;
+                ProjectileBudget.emit(bullets, lockedShots.size(), () -> {
+                    List<Projectile> emitted = new ArrayList<>();
+                    for (var shot : lockedShots)
+                        emitted.add(new Projectile(shot.x(), shot.y(), shot.vx(), shot.vy(), ProjectileType.ENEMY));
+                    return emitted;
+                });
+                singularityShots = List.of();
+                actionCooldown = 125 - stage * 10;
+                setMove("ECHO RELEASED // REPOSITION", actionCooldown);
+            }
+            return;
+        }
         x = targetX + Math.sin(combatTick * 0.027) * (18 + stage * 5);
         double orbitY = (groundY - height) / 2.0 + Math.sin(combatTick * 0.041) * (65 + stage * 18);
         y = clampY(y + (orbitY - y) * 0.06, groundY);
-
-        if (--minorCooldown <= 0) {
-            spiralShot(bullets, 4.4 + stage * 0.5, stage == 3 && patternIndex % 2 == 0);
-            minorCooldown = 45 - stage * 6;
-        }
-
         if (--actionCooldown > 0) return;
         patternIndex++;
-        switch (patternIndex % 4) {
-            case 1 -> {
-                radialBurst(bullets, 11 + stage * 3, 3.5 + stage * 0.45, stage == 3);
-                markMove("MEMORY_ECHO", "MEMORY ECHO // ABSORB", 70);
+        var reading = singularityMemory.select(playerX, playerY + 15);
+        if (reading.pattern() == SingularityPatternMemory.Pattern.KERNEL_ECHO) {
+            y = groundY - height;
+            startDash("KERNEL ECHO", "KERNEL_ECHO", stage);
+            dashDir = reading.targetX() > x ? 1 : -1;
+            return;
+        }
+        List<PredictedShot> shots = new ArrayList<>();
+        double cx = x + width / 2.0, cy = y + height / 2.0;
+        if (reading.pattern() == SingularityPatternMemory.Pattern.BLUEPRINT_ECHO) {
+            // Leave a generous, announced corridor around the historical height. No weapon is disabled.
+            double gapY = Math.max(95, Math.min(groundY - 55, reading.targetY()));
+            for (int i = 0; i < 8; i++) {
+                double laneY = 35 + (groundY - 70) * i / 7.0;
+                if (Math.abs(laneY - gapY) < 65) continue;
+                shots.add(new PredictedShot(cx, laneY, -(5.4 + stage * .45), 0));
             }
-            case 2 -> {
-                blueprintGrid(bullets, groundY, Math.min(3, stage + 1));
-                markMove("BLUEPRINT_ECHO", "BLUEPRINT ECHO // REWRITE", 74);
-            }
-            case 3 -> {
-                if (stage == 3) aimedVolley(bullets, 5, 0.7, 6.4, true);
-                startDash("KERNEL ECHO", "KERNEL_ECHO", stage);
-            }
-            default -> {
-                aimedVolley(bullets, 7 + stage * 2, 1.25, 5.5 + stage * 0.5, stage >= 2);
-                radialBurst(bullets, 8 + stage * 2, 2.8 + stage * 0.5, false);
-                if (stage >= 2) om.spawnEnemy((int) x + width + 30, groundY - 100, EntityType.MIRROR);
-                markMove("EVENT_HORIZON", "EVENT HORIZON // NO RETURN", 86);
+        } else {
+            int count = reading.pattern() == SingularityPatternMemory.Pattern.MEMORY_ECHO ? 4 + stage : 8 + stage;
+            double base = Math.atan2(reading.targetY() - cy, reading.targetX() - cx);
+            for (int i = 0; i < count; i++) {
+                double angle = reading.pattern() == SingularityPatternMemory.Pattern.MEMORY_ECHO
+                        ? base + (i / (double) (count - 1) - .5) * .7
+                        : Math.PI * 2 * i / count + .18;
+                double speed = 4.1 + stage * .35;
+                shots.add(new PredictedShot(cx, cy, Math.cos(angle) * speed, Math.sin(angle) * speed));
             }
         }
-        actionCooldown = 145 - stage * 17;
+        singularityShots = List.copyOf(shots);
+        singularityWarningTicks = SINGULARITY_WARNING_TICKS;
+        String label = switch (reading.pattern()) {
+            case MEMORY_ECHO -> "MEMORY LOCK // MOVE FROM THE MARK";
+            case BLUEPRINT_ECHO -> "BLUEPRINT ECHO // MARKED SAFE GAP";
+            default -> "EVENT HORIZON // WATCH THE SPOKES";
+        };
+        markMove(reading.pattern().name(), label, singularityWarningTicks);
     }
 
     private void updateGeneric(ObstacleManager om, int groundY,
@@ -319,7 +463,7 @@ public class Boss {
     private void startDash(String displayName, String moveId, int stage) {
         dashMoveName = displayName;
         dashDir = playerX > x ? 1 : -1;
-        warningTicks = Math.max(16, 34 - stage * 5);
+        warningTicks = groundedCharge() ? KERNEL_CHARGE_WARNING_TICKS : Math.max(16, 34 - stage * 5);
         phase = Phase.DASH_WARN;
         markMove(moveId, displayName + " // TELEGRAPH", warningTicks + 20);
     }
@@ -327,18 +471,24 @@ public class Boss {
     private boolean updateDashState(int groundY, int stage) {
         if (phase == Phase.DASH_WARN) {
             flashing = (warningTicks / 4) % 2 == 0;
-            y = clampY(y + (playerY - y - height / 2.0) * 0.10, groundY);
+            y = groundedCharge() ? groundY - height
+                    : clampY(y + (playerY - y - height / 2.0) * 0.10, groundY);
             if (--warningTicks <= 0) {
                 phase = Phase.DASH;
-                dashTicks = 15 + stage * 2;
+                dashTicks = (groundedCharge() ? 22 : 15) + stage * 2;
                 setMove(dashMoveName + " // EXECUTE", dashTicks + 18);
             }
             return true;
         }
         if (phase == Phase.DASH) {
+            if (groundedCharge() && dashTicks <= 0) {
+                phase = Phase.RECOVER;
+                return true;
+            }
             x += dashDir * (20 + stage * 3);
             if (--dashTicks <= 0 || x < targetX - 760 || x > targetX + 140) {
-                phase = Phase.RECOVER;
+                if (groundedCharge()) dashTicks = 0;
+                else phase = Phase.RECOVER;
             }
             return true;
         }
@@ -359,62 +509,86 @@ public class Boss {
 
     private void aimedVolley(List<Projectile> bullets, int count, double spread,
                              double speed, boolean critical) {
-        double cx = x + width / 2.0;
-        double cy = y + height / 2.0;
-        double base = Math.atan2(playerY + 15 - cy, playerX - cx);
-        for (int i = 0; i < count; i++) {
-            double offset = count == 1 ? 0 : (i / (double) (count - 1) - 0.5) * spread;
-            double angle = base + offset;
-            ProjectileType type = critical && (i % 2 == 0) ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
-            bullets.add(new Projectile(cx, cy,
-                    Math.cos(angle) * speed, Math.sin(angle) * speed, type));
-        }
+        ProjectileBudget.emit(bullets, count, () -> {
+            List<Projectile> accepted = new ArrayList<>();
+            double cx = x + width / 2.0;
+            double cy = y + height / 2.0;
+            double base = Math.atan2(playerY + 15 - cy, playerX - cx);
+            for (int i = 0; i < count; i++) {
+                double offset = count == 1 ? 0 : (i / (double) (count - 1) - 0.5) * spread;
+                double angle = base + offset;
+                ProjectileType type = critical && (i % 2 == 0) ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
+                accepted.add(new Projectile(cx, cy,
+                        Math.cos(angle) * speed, Math.sin(angle) * speed, type));
+            }
+            return accepted;
+        });
     }
 
     private void radialBurst(List<Projectile> bullets, int count, double speed, boolean critical) {
-        double cx = x + width / 2.0;
-        double cy = y + height / 2.0;
-        double rotation = combatTick * 0.035;
-        for (int i = 0; i < count; i++) {
-            double angle = rotation + Math.PI * 2 * i / count;
-            ProjectileType type = critical && (i % 3 == 0) ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
-            bullets.add(new Projectile(cx, cy,
-                    Math.cos(angle) * speed, Math.sin(angle) * speed, type));
-        }
+        ProjectileBudget.emit(bullets, count, () -> {
+            List<Projectile> accepted = new ArrayList<>();
+            double cx = x + width / 2.0;
+            double cy = y + height / 2.0;
+            double rotation = combatTick * 0.035;
+            for (int i = 0; i < count; i++) {
+                double angle = rotation + Math.PI * 2 * i / count;
+                ProjectileType type = critical && (i % 3 == 0) ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
+                accepted.add(new Projectile(cx, cy,
+                        Math.cos(angle) * speed, Math.sin(angle) * speed, type));
+            }
+            return accepted;
+        });
     }
 
     private void blueprintGrid(List<Projectile> bullets, int groundY, int stage) {
-        int lanes = 3 + stage;
-        double speed = 6.0 + stage * 0.65;
-        for (int i = 0; i < lanes; i++) {
-            double laneY = 34 + (groundY - 68) * (i + 1) / (double) (lanes + 1);
-            ProjectileType type = stage == 3 && (i & 1) == 0
-                    ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
-            bullets.add(new Projectile(x + 10 + (i % 2) * 28, laneY, -speed, 0, type));
-        }
+        ProjectileBudget.emit(bullets, 3 + stage, () -> {
+            List<Projectile> accepted = new ArrayList<>();
+            int lanes = 3 + stage;
+            double speed = 6.0 + stage * 0.65;
+            for (int i = 0; i < lanes; i++) {
+                double laneY = 34 + (groundY - 68) * (i + 1) / (double) (lanes + 1);
+                ProjectileType type = stage == 3 && (i & 1) == 0
+                        ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
+                accepted.add(new Projectile(x + 10 + (i % 2) * 28, laneY, -speed, 0, type));
+            }
+            return accepted;
+        });
     }
 
     private void panicLanes(List<Projectile> bullets, int groundY, int stage) {
-        int lanes = 4 + stage;
-        for (int i = 0; i < lanes; i++) {
-            double laneY = 28 + (groundY - 56) * i / (double) Math.max(1, lanes - 1);
-            double vy = ((i & 1) == 0 ? 0.45 : -0.45) * stage;
-            ProjectileType type = (i + patternIndex) % 3 == 0
-                    ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
-            bullets.add(new Projectile(x + width / 2.0, laneY,
-                    -(7.0 + stage * 0.8), vy, type));
-        }
+        ProjectileBudget.emit(bullets, 4 + stage, () -> {
+            List<Projectile> accepted = new ArrayList<>();
+            int lanes = 4 + stage;
+            for (int i = 0; i < lanes; i++) {
+                double laneY = 28 + (groundY - 56) * i / (double) Math.max(1, lanes - 1);
+                double vy = ((i & 1) == 0 ? 0.45 : -0.45) * stage;
+                ProjectileType type = (i + patternIndex) % 3 == 0
+                        ? ProjectileType.CRITICAL : ProjectileType.ENEMY;
+                accepted.add(new Projectile(x + width / 2.0, laneY,
+                        -(7.0 + stage * 0.8), vy, type));
+            }
+            return accepted;
+        });
     }
 
     private void spiralShot(List<Projectile> bullets, double speed, boolean critical) {
-        double angle = combatTick * 0.23 + patternIndex * 0.8;
-        bullets.add(new Projectile(x + width / 2.0, y + height / 2.0,
-                Math.cos(angle) * speed, Math.sin(angle) * speed,
-                critical ? ProjectileType.CRITICAL : ProjectileType.ENEMY));
+        ProjectileBudget.emit(bullets, 1, () -> {
+            List<Projectile> accepted = new ArrayList<>();
+            double angle = combatTick * 0.23 + patternIndex * 0.8;
+            accepted.add(new Projectile(x + width / 2.0, y + height / 2.0,
+                    Math.cos(angle) * speed, Math.sin(angle) * speed,
+                    critical ? ProjectileType.CRITICAL : ProjectileType.ENEMY));
+            return accepted;
+        });
     }
 
     private double clampY(double value, int groundY) {
         return Math.max(20, Math.min(value, groundY - height));
+    }
+
+    private boolean groundedCharge() {
+        return archetype == Archetype.KERNEL_PANIC || archetype == Archetype.SINGULARITY;
     }
 
     private void markMove(String id, String displayName, int ticks) {
@@ -428,12 +602,120 @@ public class Boss {
     }
 
     public void takeDamage(int amount) {
-        if (!active || amount <= 0) return;
-        hp = Math.max(0, hp - amount);
+        damage(amount);
+    }
+
+    /** Confirmed damage after the external GC exposure bonus, capped to remaining health. */
+    public int damage(int amount) {
+        return damage(amount, false);
+    }
+
+    /** Support fire deals the same confirmed damage but produces a quieter local reaction. */
+    public int damage(int amount, boolean supportFire) {
+        if (!active || hp <= 0 || amount <= 0) return 0;
+        long amplified = isVulnerable() ? ((long) amount * 3 + 1) / 2 : amount;
+        if (chapterEncounter != null) chapterEncounter.splashParts(amount);
+        return confirmDamage((int) Math.min(Integer.MAX_VALUE, amplified), supportFire);
+    }
+
+    private int confirmDamage(int amount, boolean supportFire) {
+        int accepted = Math.min(hp, amount);
+        hp -= accepted;
+        highestStage = getCombatStage();
+        hitFlashTicks = Math.max(hitFlashTicks, supportFire ? 2 : 6);
+        hitRecoilStrength = Math.max(hitFlashTicks > 2 ? hitRecoilStrength : 0, supportFire ? .7 : 3);
+        damageSequence++;
+        return accepted;
+    }
+
+    public void openVulnerability(int ticks) {
+        if (!active || hp <= 0 || ticks <= 0) return;
+        vulnerabilityTicks = Math.max(vulnerabilityTicks, Math.min(MAX_VULNERABILITY_TICKS, ticks));
+    }
+
+    /** Removing an Architect support interrupts its attacks for the same exposed-core window. */
+    public void interruptBlueprint(int ticks) {
+        if (chapterEncounter != null) {
+            // Route consoles do not replace shooting the actual boss components.
+            return;
+        }
+        if (archetype != Archetype.ARCHITECT || !active || hp <= 0 || ticks <= 0) return;
+        openVulnerability(ticks);
+        blueprintDisruptionTicks = Math.max(blueprintDisruptionTicks, Math.min(MAX_VULNERABILITY_TICKS, ticks));
+        phase = Phase.IDLE;
+        warningTicks = dashTicks = 0;
+        flashing = false;
+        setMove("SUPPORTS OFFLINE // CORE EXPOSED", blueprintDisruptionTicks);
+    }
+
+    /** An armed fault node stops the actual charge and opens a bounded damage window. */
+    public void interruptKernel(int ticks) {
+        if (chapterEncounter != null) {
+            // Route consoles do not replace shooting the actual boss components.
+            return;
+        }
+        if (archetype != Archetype.KERNEL_PANIC || !active || hp <= 0 || ticks <= 0) return;
+        openVulnerability(ticks);
+        kernelDisruptionTicks = Math.max(kernelDisruptionTicks, Math.min(MAX_VULNERABILITY_TICKS, ticks));
+        kernelRebootTicks = kernelLaneWarningTicks = warningTicks = dashTicks = 0;
+        phase = Phase.RECOVER;
+        flashing = false;
+        setMove("FAULT TRIPPED // CORE EXPOSED", kernelDisruptionTicks);
+    }
+
+    public void interruptSingularity(int ticks) {
+        if (chapterEncounter != null) {
+            // Route consoles do not replace shooting the actual boss components.
+            return;
+        }
+        if (archetype != Archetype.SINGULARITY || !active || hp <= 0 || ticks <= 0) return;
+        openVulnerability(ticks);
+        singularityDisruptionTicks = Math.max(singularityDisruptionTicks, Math.min(MAX_VULNERABILITY_TICKS, ticks));
+        singularityRebootTicks = singularityWarningTicks = warningTicks = dashTicks = 0;
+        singularityShots = List.of(); singularityMemory.reset(); singularityPlayerFired = false;
+        phase = Phase.RECOVER; flashing = false;
+        setMove("ANCHORS LINKED // CORE EXPOSED", singularityDisruptionTicks);
+    }
+
+    /** A respawn or route reset closes the external window without altering the encounter. */
+    public void clearVulnerability() {
+        vulnerabilityTicks = 0;
+        if (chapterEncounter != null) { chapterEncounter.resetTransient(); return; }
+        if (blueprintDisruptionTicks > 0) setMove(archetype.idleMove, 0);
+        blueprintDisruptionTicks = 0;
+        if (archetype == Archetype.KERNEL_PANIC) {
+            kernelDisruptionTicks = kernelLaneWarningTicks = warningTicks = dashTicks = 0;
+            kernelRebootTicks = 90;
+            phase = Phase.RECOVER;
+            setMove("RING-0 RECONFIGURING // STAND CLEAR", kernelRebootTicks);
+        }
+        if (archetype == Archetype.SINGULARITY) {
+            singularityDisruptionTicks = singularityWarningTicks = warningTicks = dashTicks = 0;
+            singularityRebootTicks = 90; singularityShots = List.of(); singularityMemory.reset();
+            singularityPlayerFired = false; phase = Phase.RECOVER;
+            setMove("PATTERN RESET // STAND CLEAR", singularityRebootTicks);
+        }
+    }
+
+    /** Return blocks can heal a living boss, but cannot revive it or roll an unlocked phase back. */
+    public int heal(int amount) {
+        if (!active || hp <= 0 || amount <= 0) return 0;
+        int accepted = (int) Math.min((long) maxHp - hp, amount);
+        hp += accepted;
+        return accepted;
     }
 
     public void draw(Graphics2D g) {
+        draw(g, true);
+    }
+
+    public void draw(Graphics2D g, boolean impactFlashes) {
         if (!active) return;
+        if (chapterEncounter != null) {
+            com.bigphil.mergehell.render.ChapterActorRenderer.boss(g, this, getCombatTick() * .016,
+                    impactFlashes, false);
+            return;
+        }
         Paint oldPaint = g.getPaint();
         Stroke oldStroke = g.getStroke();
         Composite oldComposite = g.getComposite();
@@ -441,6 +723,9 @@ public class Boss {
 
         g.setColor(new Color(0, 0, 0, 95));
         g.fillRoundRect((int) x + 7, (int) y + 9, width, height, 24, 24);
+        java.awt.geom.AffineTransform bodyTransform = g.getTransform();
+        if (getHitFlashTicks() > 0)
+            g.translate(Math.sin((7 - getHitFlashTicks()) * Math.PI / 7) * hitRecoilStrength, 0);
         switch (archetype) {
             case MEMORY_LEAK -> drawMemoryLeak(g);
             case ARCHITECT -> drawArchitect(g);
@@ -449,13 +734,20 @@ public class Boss {
             case GENERIC -> drawGeneric(g);
         }
 
+        if (impactFlashes && getHitFlashTicks() > 0) {
+            g.setColor(new Color(255, 242, 213, getHitFlashTicks() * 20));
+            g.setStroke(new BasicStroke(2));
+            g.drawRoundRect((int) x + 12, (int) y + 16, width - 24, height - 32, 14, 14);
+        }
+        g.setTransform(bodyTransform);
+
         drawIdentity(g);
         drawTelegraph(g);
 
         g.setPaint(oldPaint);
         g.setStroke(oldStroke);
         g.setComposite(oldComposite);
-        g.setFont(oldFont);
+        g.setFont(GameText.font(oldFont));
     }
 
     private void drawMemoryLeak(Graphics2D g) {
@@ -477,14 +769,14 @@ public class Boss {
                     archetype.accent.getBlue(), 125));
             g.fillOval(bx - 7, by - 7, 14, 14);
         }
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 23));
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 23)));
         g.setColor(Color.BLACK);
-        g.drawString("HEAP", (int) x + 28, (int) y + 77);
+        GameText.draw(g, "HEAP", (int) x + 28, (int) y + 77);
         g.setColor(Color.WHITE);
-        g.drawString("HEAP", (int) x + 26, (int) y + 75);
-        g.setFont(new Font("JetBrains Mono", Font.PLAIN, 10));
+        GameText.draw(g, "HEAP", (int) x + 26, (int) y + 75);
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.PLAIN, 10)));
         g.setColor(archetype.accent);
-        g.drawString("retained=" + (100 - hp * 100 / maxHp) + "%", (int) x + 16, (int) y + 106);
+        GameText.draw(g, "retained=" + (100 - hp * 100 / maxHp) + "%", (int) x + 16, (int) y + 106);
         for (int i = 0; i < getCombatStage(); i++) {
             int leakY = (int) y + height + (combatTick * 2 + i * 17) % 35;
             g.fillRect((int) x + 24 + i * 31, leakY, 7, 7);
@@ -505,9 +797,9 @@ public class Boss {
         g.drawLine((int) x + 15, (int) y + 116, (int) x + 60, (int) y + 35);
         g.drawLine((int) x + 60, (int) y + 35, (int) x + 106, (int) y + 116);
         g.drawLine((int) x + 15, (int) y + 116, (int) x + 106, (int) y + 116);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 17));
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 17)));
         g.setColor(Color.WHITE);
-        g.drawString("ARCH", (int) x + 37, (int) y + 88);
+        GameText.draw(g, "ARCH", (int) x + 37, (int) y + 88);
         for (int i = 0; i < 4; i++) {
             g.fillOval((int) x + 12 + i * 31, (int) y + 124, 7, 7);
         }
@@ -523,8 +815,8 @@ public class Boss {
         g.fillRect((int) x - glitch, (int) y + 57, width + 8, 16);
         g.fillRect((int) x + glitch * 2, (int) y + 112, width - 18, 25);
         g.setColor(Color.WHITE);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 20));
-        g.drawString("PANIC", (int) x + 28 + glitch, (int) y + 101);
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 20)));
+        GameText.draw(g, "PANIC", (int) x + 28 + glitch, (int) y + 101);
         g.setStroke(new BasicStroke(3));
         g.setColor(flashing ? Color.WHITE : archetype.primary);
         g.drawRect((int) x, (int) y, width, height);
@@ -546,9 +838,9 @@ public class Boss {
                 new float[]{0f, 0.55f, 1f},
                 new Color[]{Color.BLACK, new Color(70, 20, 95), archetype.primary}));
         g.fillOval(cx - 27, cy - 27, 54, 54);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 12)));
         g.setColor(Color.WHITE);
-        g.drawString("∞ MERGE", cx - 25, cy + 5);
+        GameText.draw(g, "∞ MERGE", cx - 25, cy + 5);
     }
 
     private void drawGeneric(Graphics2D g) {
@@ -559,25 +851,51 @@ public class Boss {
         g.setColor(archetype.accent);
         g.setStroke(new BasicStroke(3));
         g.drawRect((int) x, (int) y, width, height);
-        g.setFont(new Font("SansSerif", Font.BOLD, 52));
+        g.setFont(GameText.font(new Font("SansSerif", Font.BOLD, 52)));
         g.setColor(Color.WHITE);
         FontMetrics fm = g.getFontMetrics();
-        g.drawString(symbol, (int) x + (width - fm.stringWidth(symbol)) / 2, (int) y + 92);
+        GameText.draw(g, symbol, (int) x + (width - fm.stringWidth(GameText.text(symbol))) / 2, (int) y + 92);
     }
 
     private void drawIdentity(Graphics2D g) {
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 11));
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 11)));
         g.setColor(Color.BLACK);
-        g.drawString("P" + getCombatStage() + " // " + getStageName(), (int) x + 1, (int) y - 9);
+        GameText.draw(g, "P" + getCombatStage() + " // " + getStageName(), (int) x + 1, (int) y - 9);
         g.setColor(archetype.accent);
-        g.drawString("P" + getCombatStage() + " // " + getStageName(), (int) x, (int) y - 10);
-        g.setFont(new Font("JetBrains Mono", Font.BOLD, 9));
+        GameText.draw(g, "P" + getCombatStage() + " // " + getStageName(), (int) x, (int) y - 10);
+        g.setFont(GameText.font(new Font("JetBrains Mono", Font.BOLD, 9)));
         g.setColor(new Color(255, 255, 255, 210));
         String shortMove = moveName.length() > 23 ? moveName.substring(0, 23) : moveName;
-        g.drawString(shortMove, (int) x + 5, (int) y + height - 8);
+        GameText.draw(g, shortMove, (int) x + 5, (int) y + height - 8);
+    }
+
+    /** Existing attack geometry stays available when a world-specific body renderer is used. */
+    public void drawAttackTelegraph(Graphics2D target) {
+        if (!active) return;
+        if (chapterEncounter != null) {
+            Graphics2D g = (Graphics2D) target.create();
+            try { drawChapterTelegraphs(g); } finally { g.dispose(); }
+            return;
+        }
+        Graphics2D g = (Graphics2D) target.create();
+        try { drawTelegraph(g); }
+        finally { g.dispose(); }
     }
 
     private void drawTelegraph(Graphics2D g) {
+        if (groundedCharge()) {
+            drawKernelTelegraph(g);
+            if (archetype == Archetype.SINGULARITY && singularityWarningTicks > 0) {
+                g.setColor(new Color(245, 168, 118, 190));
+                g.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{8, 6}, 0));
+                for (var shot : singularityShots) {
+                    double scale = 840 / Math.hypot(shot.vx(), shot.vy());
+                    g.draw(new java.awt.geom.Line2D.Double(shot.x(), shot.y(),
+                            shot.x() + shot.vx() * scale, shot.y() + shot.vy() * scale));
+                }
+            }
+            return;
+        }
         if (phase == Phase.DASH_WARN) {
             g.setColor(new Color(255, 40, 40, flashing ? 210 : 95));
             g.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL,
@@ -604,6 +922,44 @@ public class Boss {
         }
     }
 
+    /** Uses the very same lane origins/velocities as panicLanes, even with flashes disabled. */
+    private void drawKernelTelegraph(Graphics2D g) {
+        if (phase == Phase.DASH_WARN) {
+            double destination = x;
+            int stage = getCombatStage();
+            for (int step = 0; step < 22 + stage * 2; step++) {
+                destination += dashDir * (20 + stage * 3);
+                if (destination < targetX - 760 || destination > targetX + 140) break;
+            }
+            int end = (int) destination;
+            int left = (int) Math.min(x, end), right = (int) Math.max(x + width, end + width);
+            g.setColor(new Color(238, 150, 91, 35));
+            g.fillRect(left, lastGroundY - height, right - left, height);
+            g.setColor(new Color(248, 173, 101, 210));
+            g.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{10, 7}, 0));
+            g.drawRect(left, lastGroundY - height, right - left, height);
+            int cy = lastGroundY - height / 2;
+            for (int px = left + 30; px < right - 20; px += 65) {
+                int d = (int) dashDir;
+                g.drawLine(px - d * 10, cy - 7, px + d * 4, cy);
+                g.drawLine(px - d * 10, cy + 7, px + d * 4, cy);
+            }
+        }
+        if (kernelLaneWarningTicks > 0) {
+            int stage = getCombatStage(), lanes = 4 + stage;
+            double speed = 7.0 + stage * .8;
+            g.setColor(new Color(246, 167, 95, 155));
+            g.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{7, 5}, 0));
+            for (int i = 0; i < lanes; i++) {
+                double originY = 28 + (lastGroundY - 56) * i / (double) (lanes - 1);
+                double vy = ((i & 1) == 0 ? .45 : -.45) * stage;
+                double length = 820;
+                g.drawLine((int) (x + width / 2.0), (int) originY,
+                        (int) (x + width / 2.0 - length), (int) (originY + length / speed * vy));
+            }
+        }
+    }
+
     private Color stageColor(Color calm, Color danger) {
         return switch (getCombatStage()) {
             case 1 -> calm;
@@ -620,7 +976,81 @@ public class Boss {
                 (int) (a.getBlue() * keep + b.getBlue() * ratio));
     }
 
+
+    /** Immutable simulation geometry, safe to retain in a published frame. */
+    public record Bounds(double x, double y, double width, double height) {
+        public Rectangle rectangle() {
+            int left = (int) Math.floor(x), top = (int) Math.floor(y);
+            return new Rectangle(left, top, (int) Math.ceil(x + width) - left,
+                    (int) Math.ceil(y + height) - top);
+        }
+        public boolean intersects(Rectangle other) {
+            return other.getMaxX() > x && other.getX() < x + width
+                    && other.getMaxY() > y && other.getY() < y + height;
+        }
+    }
+    public record PartView(String id, Bounds bounds, int hp, int maxHp,
+                           boolean targetable, boolean weak, boolean destroyed) { }
+    public record AttackTelegraph(String id, Bounds bounds, int warningTicks,
+                                  boolean active, int damage, int fullWarningTicks) { }
+
+    public boolean hasMultipartEncounter() { return chapterEncounter != null; }
+    public String getEncounterAction() { return chapterEncounter == null ? phase.name() : chapterEncounter.action().name(); }
+    public String getEncounterHint() { return chapterEncounter == null ? "" : chapterEncounter.hintKey(); }
+    public int getHeat() { return chapterEncounter == null ? 0 : chapterEncounter.heat(); }
+    public double getRebuildProgress() { return chapterEncounter == null ? 0 : chapterEncounter.rebuildProgress(); }
+    public List<PartView> getParts() {
+        if (hp <= 0) return List.of();
+        return chapterEncounter == null ? List.of(new PartView("core", new Bounds(x, y, width, height),
+                hp, maxHp, true, isVulnerable(), false)) : chapterEncounter.parts(hp, maxHp);
+    }
+    public List<AttackTelegraph> getAttackTelegraphs() {
+        return !active || hp <= 0 || chapterEncounter == null ? List.of() : chapterEncounter.telegraphs();
+    }
+    public List<AttackTelegraph> getActiveHazards() {
+        return getAttackTelegraphs().stream().filter(t -> t.active() && t.damage() > 0).toList();
+    }
+    public List<Bounds> getContactBounds() {
+        if (!isContactDangerous()) return List.of();
+        return chapterEncounter == null ? List.of(new Bounds(x, y, width, height)) : chapterEncounter.contacts();
+    }
+    public boolean canHit(Rectangle hit) {
+        return active && hp > 0 && (chapterEncounter == null ? getBounds().intersects(hit)
+                : chapterEncounter.canHit(hit, hp, maxHp));
+    }
+    public int damageAt(Rectangle hit, int amount, boolean supportFire) {
+        if (!active || hp <= 0 || amount <= 0 || hit == null) return 0;
+        if (chapterEncounter == null) return getBounds().intersects(hit) ? damage(amount, supportFire) : 0;
+        ChapterBossEncounter.Damage result = chapterEncounter.hit(hit, amount, hp, maxHp);
+        if (result.coreDamage() == 0 && result.partDamage() == 0) return 0;
+        return confirmDamage(result.coreDamage(), supportFire);
+    }
+    public int damageAt(Rectangle hit, int amount) { return damageAt(hit, amount, false); }
+
+    private void drawChapterTelegraphs(Graphics2D g) {
+        for (AttackTelegraph tell : getAttackTelegraphs()) {
+            Rectangle r = tell.bounds().rectangle();
+            boolean activeHazard = tell.active() && tell.damage() > 0;
+            g.setColor(activeHazard ? new Color(255, 87, 54, 110) : new Color(255, 192, 86, 35));
+            g.fill(r);
+            g.setColor(activeHazard ? new Color(255, 144, 82, 235) : new Color(255, 204, 119, 210));
+            g.setStroke(new BasicStroke(activeHazard ? 3 : 2, BasicStroke.CAP_BUTT,
+                    BasicStroke.JOIN_MITER, 10, activeHazard ? null : new float[]{8, 6}, 0));
+            g.draw(r);
+        }
+        g.setStroke(new BasicStroke(1.5f));
+        g.setColor(new Color(246, 183, 131, 175));
+        for (PredictedShot shot : chapterEncounter.predictedShots()) {
+            double length = 620 / Math.max(1, Math.hypot(shot.vx(), shot.vy()));
+            g.draw(new java.awt.geom.Line2D.Double(shot.x(), shot.y(),
+                    shot.x() + shot.vx() * length, shot.y() + shot.vy() * length));
+        }
+    }
+
     public Rectangle getBounds() {
-        return new Rectangle((int) x, (int) y, width, height);
+        Rectangle bounds = new Rectangle((int) x, (int) y, width, height);
+        if (chapterEncounter != null) for (PartView part : getParts())
+            if (part.targetable()) bounds = bounds.union(part.bounds().rectangle());
+        return bounds;
     }
 }

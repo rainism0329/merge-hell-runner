@@ -1,0 +1,5356 @@
+=== en-menu-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+=== en-menu-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+=== en-settings-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Choose one language for every game screen and message.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+One language across menus, combat and story.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Scene ambience and music. Set to 0 for effects only.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Background volume. Set to 0 for effects only.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Start quietly by default. M toggles all game audio.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Turn off sound without changing volume.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-heap-choice-960 ===
+$
+$
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[23:27:48] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 15%
+E Purge: safer / F Salvage: more reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-choice-600 ===
+$
+$
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[23:27:48] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 15%
+E Purge: safer / F Salvage: more
+reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-960 ===
+$
+$
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[23:27:49] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000600
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 40%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-600 ===
+$
+$
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[23:27:49] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 40%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-upgrade-960 ===
+$
+$
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  EVOLUTION_CORE
+Cherry-Pick Core
+Unlock Commit evolution
+ACTUAL EFFECT
+ENABLES EVOLUTION AT
+LEVEL 5 / SAFE NODE
+RANK 0 → 1 / 1
+[ 2 ]  SHIELD
+Hot Standby
++1 shield reboot
+ACTUAL EFFECT
+LETHAL REBOOTS 0 → 1
+RANK 0 → 1 / 3
+[ 3 ]  MOVEMENT
+Dash Cache
+-15% dash cooldown; next
+volley after dash crits and
+pierces
+ACTUAL EFFECT
+DASH COOLDOWN 45f →
+38f
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-upgrade-600 ===
+$
+$
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  EVOLUTION_CORE
+Cherry-Pick Core
+Unlock Commit evolution
+ACTUAL EFFECT
+ENABLES EVOLUTION AT
+LEVEL 5 / SAFE NODE
+RANK 0 → 1 / 1
+[ 2 ]  SHIELD
+Hot Standby
++1 shield reboot
+ACTUAL EFFECT
+LETHAL REBOOTS 0 → 1
+RANK 0 → 1 / 3
+[ 3 ]  MOVEMENT
+Dash Cache
+-15% dash cooldown; next
+volley after dash crits and
+pierces
+ACTUAL EFFECT
+DASH COOLDOWN 45f →
+38f
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-boss-impact-960 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+[23:27:53] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-boss-impact-600 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+[23:27:53] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-pause-960 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+=== en-pause-600 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+=== en-complete-960 ===
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-complete-600 ===
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-repository-960 ===
+$
+[23:27:54] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+Invincible · [ T ] Disable
+=== en-repository-600 ===
+$
+[23:27:54] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-legacy-960 ===
+$
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+3120 / 3120
+[23:27:55] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-legacy-600 ===
+$
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+3120 / 3120
+[23:27:55] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-game-over-960 ===
+$
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ SPACE / ENTER ]  NEW RUN
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Invincibility on · Practice run   [ T ] Disable
+=== en-game-over-600 ===
+$
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ SPACE / ENTER ]  NEW RUN
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Invincibility on · Practice run   [ T ] Disable
+=== en-world-3-boss-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[23:27:56] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-3-boss-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[23:27:56] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-world-4-boss-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[23:27:58] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-4-boss-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[23:27:58] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-world-5-boss-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:27:59] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-5-boss-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:27:59] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-error-960 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Close and reopen the tool window to restart safely.
+=== en-error-600 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Close and reopen the tool window to restart safely.
+=== zh-CN-menu-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-menu-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-settings-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+所有游戏界面、提示与剧情使用同一种语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+菜单、战斗提示与剧情统一使用所选语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+场景氛围与音乐；调至 0 可只保留战斗音效。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+背景音量；调至 0 可只保留战斗音效。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+默认静音，按 M 切换全部游戏声音。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+关闭声音，保留音量设置。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-heap-choice-960 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[23:28:00] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 15%
+E 净化：安全 / F 回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-choice-600 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[23:28:00] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 15%
+E 净化：安全 / F
+回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[23:28:00] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000600
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[23:28:00] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-upgrade-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  武器
+精选提交
+弹射次数 +1
+实际效果
+弹射 1 → 2
+等级 0 → 1 / 3
+[ 2 ]  无人机
+智能无人机搭档
+部署 1 架无人机。
+独立瞄准与开火；
+优先攻击标记目标。
+实际效果
+无人机 0 → 1
+每架 10 伤害 / 1.15秒
+自动锁定 · 560像素
+等级 0 → 1 / 3
+[ 3 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-upgrade-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  武器
+精选提交
+弹射次数 +1
+实际效果
+弹射 1 → 2
+等级 0 → 1 / 3
+[ 2 ]  无人机
+智能无人机搭档
+部署 1 架无人机。
+独立瞄准与开火；
+优先攻击标记目标。
+实际效果
+无人机 0 → 1
+每架 10 伤害 / 1.15秒
+自动锁定 · 560像素
+等级 0 → 1 / 3
+[ 3 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-boss-impact-960 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+[23:28:03] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-boss-impact-600 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+[23:28:03] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-pause-960 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+=== zh-CN-pause-600 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+=== zh-CN-complete-960 ===
+$
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-complete-600 ===
+$
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-repository-960 ===
+$
+$
+[23:28:04] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+无敌开启 · [ T ] 关闭
+=== zh-CN-repository-600 ===
+$
+$
+[23:28:04] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-960 ===
+$
+$
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+3120 / 3120
+[23:28:05] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-600 ===
+$
+$
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+3120 / 3120
+[23:28:05] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-game-over-960 ===
+$
+$
+首领关卡
+构建失败
+得分：0
+[ SPACE / ENTER ] 开始新局
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-game-over-600 ===
+$
+$
+首领关卡
+构建失败
+得分：0
+[ SPACE / ENTER ] 开始新局
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-world-3-boss-960 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[23:28:07] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-3-boss-600 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[23:28:07] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-4-boss-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[23:28:08] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-4-boss-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[23:28:08] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-5-boss-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:28:09] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-5-boss-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:28:09] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-error-960 ===
+游戏运行已暂停
+游戏因意外错误中断。
+请关闭并重新打开游戏工具窗口。
+=== zh-CN-error-600 ===
+游戏运行已暂停
+游戏因意外错误中断。
+请关闭并重新打开游戏工具窗口。
+
+=== en-chapter3-entrance-960 ===
+[23:26:33] The trail rises above the city. Shoot bridge counterweights to lower crossings; survey rifles lock before firing.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-entrance-600 ===
+[23:26:33] The trail rises above the city. Shoot bridge counterweights to lower crossings; survey rifles lock b...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-route-1-960 ===
+[23:26:33] The trail rises above the city. Shoot bridge counterweights to lower crossings; survey rifles lock before firing.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-route-1-600 ===
+[23:26:33] The trail rises above the city. Shoot bridge counterweights to lower crossings; survey rifles lock b...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-route-2-960 ===
+L
++
+[23:26:34] The citadel assembles its own guards. Let shield rams commit, then strike their open chassis.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-route-2-600 ===
+L
++
+[23:26:34] The citadel assembles its own guards. Let shield rams commit, then strike their open chassis.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-route-3-960 ===
++
+S
+H
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them stays open.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-route-3-600 ===
++
+S
+H
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them sta...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-enemy-squad-960 ===
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them stays open.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-enemy-squad-600 ===
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them sta...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-enemy-warning-960 ===
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them stays open.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-enemy-warning-600 ===
+[23:26:34] The crown routes every machine below. Cable wasps mark two lanes; the gap between them sta...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-arrival-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+[23:26:35] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+AERIAL GANTRY ARCHITECT
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter3-boss-arrival-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+[23:26:35] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+AERIAL GANTRY ARCHITECT
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter3-boss-ready-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-ready-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-phase-1-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  LEFT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-phase-1-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  LEFT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-attack-1-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  LEFT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+82/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-attack-1-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P1
+2500 / 2500
+P1 ASSEMBLE  //  LEFT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+82/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-phase-2-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P2
+1500 / 2500
+P2 REINFORCE  //  CROSSBEAM SWEEP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+82/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-phase-2-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P2
+1500 / 2500
+P2 REINFORCE  //  CROSSBEAM SWEEP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+82/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-attack-2-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P2
+1500 / 2500
+P2 REINFORCE  //  CROSSBEAM SWEEP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+64/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-attack-2-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P2
+1500 / 2500
+P2 REINFORCE  //  CROSSBEAM SWEEP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+64/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-phase-3-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P3
+625 / 2500
+P3 FINAL SCHEMA  //  RIGHT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+64/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-phase-3-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P3
+625 / 2500
+P3 FINAL SCHEMA  //  RIGHT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+64/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-attack-3-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P3
+625 / 2500
+P3 FINAL SCHEMA  //  RIGHT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+46/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-attack-3-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CONTACT -18
+AERIAL GANTRY ARCHITECT / P3
+625 / 2500
+P3 FINAL SCHEMA  //  RIGHT CLAW STAMP
+Break both claws. Each broken claw loses its attacks.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+46/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter3-boss-dismantled-960 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CORE
+CONTACT -18
+CORE EXPOSED
+499 / 2500
+CORE WINDOW // DAMAGE +50%
+Core exposed. Jump and aim at the command unit.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+46/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter3-boss-dismantled-600 ===
+$
+LEFT CLAW
+RIGHT CLAW
+CORE
+CONTACT -18
+CORE EXPOSED
+499 / 2500
+CORE WINDOW // DAMAGE +50%
+Core exposed. Jump and aim at the command unit.
+[23:26:37] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+46/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-entrance-960 ===
+[23:26:46] The stolen power leads underground. Conveyors feed the furnaces; coolant valves can quiet the molten channels.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-entrance-600 ===
+[23:26:46] The stolen power leads underground. Conveyors feed the furnaces; coolant valves can quiet the ...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-route-1-960 ===
+R
+[23:26:46] The stolen power leads underground. Conveyors feed the furnaces; coolant valves can quiet the molten channels.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-route-1-600 ===
+R
+[23:26:46] The stolen power leads underground. Conveyors feed the furnaces; coolant valves can quiet the ...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-route-2-960 ===
+$
++
+[23:26:47] Drills stir below the floor. Watch the emerging rubble, and use the raised pipes to evade welding dives.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-route-2-600 ===
+$
++
+[23:26:47] Drills stir below the floor. Watch the emerging rubble, and use the raised pipes to evade welding...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-route-3-960 ===
++
+S
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before heat returns.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-route-3-600 ===
++
+S
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before he...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-enemy-squad-960 ===
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before heat returns.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-enemy-squad-600 ===
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before he...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-enemy-warning-960 ===
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before heat returns.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-enemy-warning-600 ===
+[23:26:47] These furnaces are forging something alive. Break coolant tanks to cross the trenches before he...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-arrival-960 ===
+ARMOR
+REAR VENT
+[23:26:48] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+GEOTHERMAL SIEGE ENGINE
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter4-boss-arrival-600 ===
+ARMOR
+REAR VENT
+[23:26:48] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+GEOTHERMAL SIEGE ENGINE
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter4-boss-ready-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-ready-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-phase-1-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  DRILL CHARGE
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-phase-1-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  DRILL CHARGE
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-attack-1-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  DRILL CHARGE
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-attack-1-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+3250 / 3250
+P1 ARMORED  //  DRILL CHARGE
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-phase-2-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P2
+1950 / 3250
+P2 REDLINE  //  MAGMA MORTAR
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-phase-2-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P2
+1950 / 3250
+P2 REDLINE  //  MAGMA MORTAR
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-attack-2-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P2
+1950 / 3250
+P2 REDLINE  //  MAGMA MORTAR
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-attack-2-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P2
+1950 / 3250
+P2 REDLINE  //  MAGMA MORTAR
+Break the front plate, or wait for its cooling cycle.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-phase-3-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+812 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-phase-3-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+812 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-attack-3-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+812 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-attack-3-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+812 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter4-boss-dismantled-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+652 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter4-boss-dismantled-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P3
+652 / 3250
+P3 MELTDOWN  //  DRILL CHARGE
+Shoot the rear vent to force an overheat.
+[23:26:49] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-entrance-960 ===
+[23:26:55] The metal gives way to living tissue. Destroy egg nests before they hatch; leap between the acid banks.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-entrance-600 ===
+[23:26:55] The metal gives way to living tissue. Destroy egg nests before they hatch; leap between the acid ...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-route-1-960 ===
+[23:26:55] The metal gives way to living tissue. Destroy egg nests before they hatch; leap between the acid banks.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-route-1-600 ===
+[23:26:55] The metal gives way to living tissue. Destroy egg nests before they hatch; leap between the acid ...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-route-2-960 ===
+$
+F
++
+[23:26:55] Resin seals the old service tunnels. Break the membranes while watching the drifting spore pods.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-route-2-600 ===
+$
+F
++
+[23:26:55] Resin seals the old service tunnels. Break the membranes while watching the drifting spore pods.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-route-3-960 ===
+$
+$
++
++
+S
+H
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-route-3-600 ===
+$
+$
++
++
+S
+H
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-enemy-squad-960 ===
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-enemy-squad-600 ===
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-enemy-warning-960 ===
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-enemy-warning-600 ===
+[23:26:56] Hazard contact. Reach the raised route.
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-arrival-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+[23:26:56] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+ALIEN ROOTHEART
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter5-boss-arrival-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+[23:26:56] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+ALIEN ROOTHEART
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-chapter5-boss-ready-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-ready-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-phase-1-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  SPORE RELEASE
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-phase-1-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  SPORE RELEASE
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-attack-1-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-attack-1-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+4000 / 4000
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-phase-2-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P2
+2400 / 4000
+P2 REGROWTH  //  LEFT TENDRIL
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-phase-2-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P2
+2400 / 4000
+P2 REGROWTH  //  LEFT TENDRIL
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+92/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-attack-2-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+CONTACT -22
+ALIEN ROOTHEART / P2
+2400 / 4000
+P2 REGROWTH  //  LEFT TENDRIL
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-attack-2-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+CONTACT -22
+ALIEN ROOTHEART / P2
+2400 / 4000
+P2 REGROWTH  //  LEFT TENDRIL
+Destroy both brood organs to open the heart.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-phase-3-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  SPORE RELEASE
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-phase-3-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  SPORE RELEASE
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-attack-3-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  WATCH THE BODY
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-attack-3-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  WATCH THE BODY
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-chapter5-boss-dismantled-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  WATCH THE BODY
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+=== en-chapter5-boss-dismantled-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+CORE
+ALIEN ROOTHEART / P3
+1000 / 4000
+P3 UNBOUND HEART  //  WATCH THE BODY
+Heart exposed. Strike before the organs regrow.
+[23:26:58] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+70/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== zh-CN-chapter3-entrance-960 ===
+[23:27:05] 追踪信号，登上城巅。击断配重可放下桥面；测距枪会先锁定再开火。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-entrance-600 ===
+[23:27:05] 追踪信号，登上城巅。击断配重可放下桥面；测距枪会先锁定再开火。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-route-1-960 ===
+[23:27:05] 追踪信号，登上城巅。击断配重可放下桥面；测距枪会先锁定再开火。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-route-1-600 ===
+[23:27:05] 追踪信号，登上城巅。击断配重可放下桥面；测距枪会先锁定再开火。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-route-2-960 ===
+L
++
+[23:27:05] 堡垒正在组装守军。盾卫冲撞后装甲张开，趁机攻击底盘。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-route-2-600 ===
+L
++
+[23:27:05] 堡垒正在组装守军。盾卫冲撞后装甲张开，趁机攻击底盘。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-route-3-960 ===
++
+S
+H
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-route-3-600 ===
++
+S
+H
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-enemy-squad-960 ===
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-enemy-squad-600 ===
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-enemy-warning-960 ===
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-enemy-warning-600 ===
+[23:27:06] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-arrival-960 ===
+$
+左机械爪
+右机械爪
+[23:27:06] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+天空构架师
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter3-boss-arrival-600 ===
+$
+左机械爪
+右机械爪
+[23:27:06] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+天空构架师
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter3-boss-ready-960 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-ready-600 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-phase-1-960 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  左爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-phase-1-600 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  左爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-attack-1-960 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  左爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+82/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-attack-1-600 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 1
+2500 / 2500
+P1 构装  //  左爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+82/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-phase-2-960 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 2
+1500 / 2500
+P2 加固  //  横梁扫射
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+82/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-phase-2-600 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 2
+1500 / 2500
+P2 加固  //  横梁扫射
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+82/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-attack-2-960 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 2
+1500 / 2500
+P2 加固  //  横梁扫射
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+64/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-attack-2-600 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 2
+1500 / 2500
+P2 加固  //  横梁扫射
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+64/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-phase-3-960 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 3
+625 / 2500
+P3 终末构型  //  右爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+64/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-phase-3-600 ===
+$
+左机械爪
+右机械爪
+天空构架师 / 阶段 3
+625 / 2500
+P3 终末构型  //  右爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+64/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-attack-3-960 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 3
+625 / 2500
+P3 终末构型  //  右爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+46/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-attack-3-600 ===
+$
+左机械爪
+右机械爪
+碰撞 -18
+天空构架师 / 阶段 3
+625 / 2500
+P3 终末构型  //  右爪重砸
+拆掉双爪；断爪不会再发动攻击。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+46/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter3-boss-dismantled-960 ===
+$
+左机械爪
+右机械爪
+核心
+碰撞 -18
+核心暴露
+499 / 2500
+核心暴露 // 伤害 +50%
+核心暴露，跳起瞄准指挥单元。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+46/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter3-boss-dismantled-600 ===
+$
+左机械爪
+右机械爪
+核心
+碰撞 -18
+核心暴露
+499 / 2500
+核心暴露 // 伤害 +50%
+核心暴露，跳起瞄准指挥单元。
+[23:27:08] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+46/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-entrance-960 ===
+[23:27:17] 失窃的能源流向地下。传送带正为熔炉送料；冷却阀能暂时压住熔流。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-entrance-600 ===
+[23:27:17] 失窃的能源流向地下。传送带正为熔炉送料；冷却阀能暂时压住熔流。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-route-1-960 ===
+R
+[23:27:17] 失窃的能源流向地下。传送带正为熔炉送料；冷却阀能暂时压住熔流。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-route-1-600 ===
+R
+[23:27:17] 失窃的能源流向地下。传送带正为熔炉送料；冷却阀能暂时压住熔流。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-route-2-960 ===
+$
++
+[23:27:18] 钻兽潜伏在地板下。留意翻起的碎石，借高架管道避开焊机俯冲。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-route-2-600 ===
+$
++
+[23:27:18] 钻兽潜伏在地板下。留意翻起的碎石，借高架管道避开焊机俯冲。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-route-3-960 ===
++
+S
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-route-3-600 ===
++
+S
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-enemy-squad-960 ===
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-enemy-squad-600 ===
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-enemy-warning-960 ===
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-enemy-warning-600 ===
+[23:27:18] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-arrival-960 ===
+前装甲
+后散热口
+[23:27:19] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+地热攻城兽
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter4-boss-arrival-600 ===
+前装甲
+后散热口
+[23:27:19] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+地热攻城兽
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter4-boss-ready-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-ready-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-phase-1-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  钻头冲锋
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-phase-1-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  钻头冲锋
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-attack-1-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  钻头冲锋
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-attack-1-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+3250 / 3250
+P1 装甲推进  //  钻头冲锋
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-phase-2-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 2
+1950 / 3250
+P2 高热运转  //  熔岩迫击
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-phase-2-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 2
+1950 / 3250
+P2 高热运转  //  熔岩迫击
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-attack-2-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 2
+1950 / 3250
+P2 高热运转  //  熔岩迫击
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-attack-2-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 2
+1950 / 3250
+P2 高热运转  //  熔岩迫击
+击破前装甲，或等待散热循环。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-phase-3-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+812 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-phase-3-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+812 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-attack-3-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+812 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-attack-3-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+812 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter4-boss-dismantled-960 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+652 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter4-boss-dismantled-600 ===
+前装甲
+后散热口
+地热攻城兽 / 阶段 3
+652 / 3250
+P3 熔毁  //  钻头冲锋
+射击后方散热口，迫使引擎过热。
+[23:27:20] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-entrance-960 ===
+[23:27:25] 金属尽头是活体组织。卵巢会孵出猎兽；先摧毁卵巢，再跃过酸池。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-entrance-600 ===
+[23:27:25] 金属尽头是活体组织。卵巢会孵出猎兽；先摧毁卵巢，再跃过酸池。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-route-1-960 ===
+[23:27:25] 金属尽头是活体组织。卵巢会孵出猎兽；先摧毁卵巢，再跃过酸池。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-route-1-600 ===
+[23:27:25] 金属尽头是活体组织。卵巢会孵出猎兽；先摧毁卵巢，再跃过酸池。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-route-2-960 ===
+$
+F
++
+[23:27:26] 树脂封住了旧检修隧道。击破肉膜开路，同时留意漂浮的孢囊。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-route-2-600 ===
+$
+F
++
+[23:27:26] 树脂封住了旧检修隧道。击破肉膜开路，同时留意漂浮的孢囊。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-route-3-960 ===
+$
+$
++
++
+S
+H
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-route-3-600 ===
+$
+$
++
++
+S
+H
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-enemy-squad-960 ===
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-enemy-squad-600 ===
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-enemy-warning-960 ===
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-enemy-warning-600 ===
+[23:27:26] 接触危险地面，尽快登上高处。
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-arrival-960 ===
+左育巢器
+右育巢器
+[23:27:27] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+异星根源之心
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter5-boss-arrival-600 ===
+左育巢器
+右育巢器
+[23:27:27] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+异星根源之心
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-chapter5-boss-ready-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-ready-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-phase-1-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  孢子喷发
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-phase-1-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  孢子喷发
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-attack-1-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-attack-1-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+4000 / 4000
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-phase-2-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 2
+2400 / 4000
+P2 再生  //  左侧触须
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-phase-2-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 2
+2400 / 4000
+P2 再生  //  左侧触须
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+92/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-attack-2-960 ===
+左育巢器
+右育巢器
+碰撞 -22
+异星根源之心 / 阶段 2
+2400 / 4000
+P2 再生  //  左侧触须
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-attack-2-600 ===
+左育巢器
+右育巢器
+碰撞 -22
+异星根源之心 / 阶段 2
+2400 / 4000
+P2 再生  //  左侧触须
+摧毁两侧育巢器官，打开心核。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-phase-3-960 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  孢子喷发
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-phase-3-600 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  孢子喷发
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-attack-3-960 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  观察动作
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-attack-3-600 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  观察动作
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-chapter5-boss-dismantled-960 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  观察动作
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+=== zh-CN-chapter5-boss-dismantled-600 ===
+左育巢器
+右育巢器
+核心
+异星根源之心 / 阶段 3
+1000 / 4000
+P3 破壳之心  //  观察动作
+心脏暴露，趁器官再生前攻击。
+[23:27:28] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+70/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%

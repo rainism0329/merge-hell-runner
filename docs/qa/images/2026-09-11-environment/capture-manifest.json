@@ -1,0 +1,52 @@
+[
+  {
+    "file": "zh-CN-water-walk-960.png",
+    "bytes": 863931,
+    "sha256": "966ce9f9d9607594e4100dec11ff006a95f3d765ec6f5ce512e07be6627cf180"
+  },
+  {
+    "file": "zh-CN-water-dash-600.png",
+    "bytes": 374810,
+    "sha256": "3917a1455790140353190c64f079a89877fddee97c4e438a18455a4a92654e79"
+  },
+  {
+    "file": "zh-CN-water-landing-600.png",
+    "bytes": 372732,
+    "sha256": "77a82648aa32185d139f1d0ae74ad9c6463bb836e5d6ce55565b426a48017416"
+  },
+  {
+    "file": "zh-CN-heap-upper-route-960.png",
+    "bytes": 986642,
+    "sha256": "3ded0a3e32e64dc4b5be8aeaa4f808370153ef9bb8cc1988419bc73caafc2653"
+  },
+  {
+    "file": "zh-CN-capacitor-before-600.png",
+    "bytes": 367713,
+    "sha256": "a327963a9e7f926ca5669124ef4865189e81d504bdfd10da0e4546d04a517405"
+  },
+  {
+    "file": "zh-CN-capacitor-discharge-600.png",
+    "bytes": 368778,
+    "sha256": "f580a76267b3203547a3ac7db5d3e529bb6524e56e5cd5f261624907281a4a6b"
+  },
+  {
+    "file": "en-supplies-before-600.png",
+    "bytes": 367792,
+    "sha256": "6f77dbd3107b3d4d34ad455c356b0e6af7c110ff5edf8bca3e6bbaeb9ce58ca8"
+  },
+  {
+    "file": "en-supplies-after-600.png",
+    "bytes": 368978,
+    "sha256": "cab7bcd694003df9db87108d720dcd7df9b89614e1e49f231da9b70a7e96412e"
+  },
+  {
+    "file": "zh-CN-boss-arrival-600.png",
+    "bytes": 352882,
+    "sha256": "913e4df954c6c2df0871438b99ea2c92a3aa6d0529b930248a68897dc0b89d3d"
+  },
+  {
+    "file": "en-boss-arrival-960.png",
+    "bytes": 793222,
+    "sha256": "08008abab163fa821b18565f051a6f3b9a0222f9fac70620579c76010eae512a"
+  }
+]

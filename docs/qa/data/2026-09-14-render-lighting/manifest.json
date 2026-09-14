@@ -1,0 +1,46 @@
+{
+  "after-samples.csv": {
+    "bytes": 118057,
+    "sha256": "23b96682c1718da250ff7c88015e3139155cf0d9d534a4ffc498019cfda7509a"
+  },
+  "after-summary.txt": {
+    "bytes": 7385,
+    "sha256": "89aed401bdef992a7e59656c608756a28f662b36b14f80ede5d6cd873f203a34"
+  },
+  "after.png": {
+    "bytes": 1007154,
+    "sha256": "40ae1b4ec12a4b010ddc8797e366cf5e45285159da3de2186457b34b3eaf04f7"
+  },
+  "BackdropProbe.java": {
+    "bytes": 3736,
+    "sha256": "df1807a556337ddf979f4769302518e966f52acc664fd7cbf6f6ade51f9678ca"
+  },
+  "before-samples.csv": {
+    "bytes": 111044,
+    "sha256": "2de3f9e46460ba0ab720db53afa19fb7d1827f1f85c214097bb605d901f910aa"
+  },
+  "before-summary.txt": {
+    "bytes": 7388,
+    "sha256": "06bff6403f675af569d62655ff67efc70daea025657ceb82afcc7861f5af88f7"
+  },
+  "before.png": {
+    "bytes": 1007154,
+    "sha256": "40ae1b4ec12a4b010ddc8797e366cf5e45285159da3de2186457b34b3eaf04f7"
+  },
+  "IndustrialArtReference.java": {
+    "bytes": 5628,
+    "sha256": "7aa0e1851f322f0343f18321098a3a03331c4365778bbc13e118fb844ad49d30"
+  },
+  "pixels.log": {
+    "bytes": 214,
+    "sha256": "bb5925fea3d83f81fe696fa9d4dde16dd87035c5cb8ad75086b8dfe7a5135e53"
+  },
+  "README.md": {
+    "bytes": 4305,
+    "sha256": "bab738cb6e5aace31b959d0e4e12fdf7de27793858b92d64bdd3e267979bd009"
+  },
+  "tests.log": {
+    "bytes": 920,
+    "sha256": "9743dd0fd4967af0a27b08943bbc909b84458131bdd2df3ba6138508af7d2efa"
+  }
+}

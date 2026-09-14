@@ -7,5 +7,6 @@ public enum UpgradeTag {
     CRITICAL,
     SHIELD,
     COMBO,
-    EVOLUTION_CORE
+    EVOLUTION_CORE,
+    SUPPLY
 }

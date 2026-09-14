@@ -1,0 +1,52 @@
+[
+  {
+    "file": "zh-CN-water-walk-600.png",
+    "bytes": 377357,
+    "sha256": "de6969630e6ab4abdb121b26923dcc66d2e3494dc71fa7d9ba62de17f00e123c"
+  },
+  {
+    "file": "zh-CN-water-dash-960.png",
+    "bytes": 872440,
+    "sha256": "d0ec1e935a8f158bbd773a97339165fe4d9cebaf1893e74c7490a7cffe6c5193"
+  },
+  {
+    "file": "en-boss-arrival-600.png",
+    "bytes": 355300,
+    "sha256": "61c7ed1dd623307a33012b2295510a1d2d78095bf7e9fd738b518422e04ce995"
+  },
+  {
+    "file": "zh-CN-blueprint-route-960.png",
+    "bytes": 598326,
+    "sha256": "d7704cc450582933eb6a5d7aa31ed140b35709ac5ab211153a84f51d5a2f3414"
+  },
+  {
+    "file": "en-blueprint-warning-600.png",
+    "bytes": 300243,
+    "sha256": "ade74160c89abc0bb6a763c7bc1908909ed3ecadf6ba089c878e7b0c04005063"
+  },
+  {
+    "file": "zh-CN-blueprint-overload-600.png",
+    "bytes": 302920,
+    "sha256": "2fa79da7cd79d9ef99ae7f11543ddfb2f4b1e6c1664c762d2799a6fb53002d04"
+  },
+  {
+    "file": "zh-CN-blueprint-collapse-600.png",
+    "bytes": 299837,
+    "sha256": "87fdbc9110a2cc13a1763c8d6fb20a5fa4fdac35bed511b8896148531e239d53"
+  },
+  {
+    "file": "zh-CN-blueprint-cleared-600.png",
+    "bytes": 301503,
+    "sha256": "104cbde111f85063997b9cbf09f6c2b5017c4227b6e537c54ad5c5bd6ce78bdc"
+  },
+  {
+    "file": "zh-CN-blueprint-arrival-960.png",
+    "bytes": 539250,
+    "sha256": "e77c34a27ccfe692f1b4913c9069cd0bf0216a459c90c4b40bc9660affe85538"
+  },
+  {
+    "file": "en-blueprint-exposed-600.png",
+    "bytes": 289926,
+    "sha256": "e6e6b30191e25935a766099efc48b1c9bd2d8785a94d41fe5a1407bc60a0d8b3"
+  }
+]

@@ -1,0 +1,4189 @@
+=== en-menu-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+=== en-menu-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+=== en-settings-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Choose one language for every game screen and message.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+One language across menus, combat and story.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Scene ambience and music. Set to 0 for effects only.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Background volume. Set to 0 for effects only.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Start quietly by default. M toggles all game audio.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. One stubborn repair bot.
+J>  REPAIR UNIT 01
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+[ ENTER / SPACE ]
+Campaign
+Normal · Auto-save
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ R ] Continue · World 2 entrance
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+LOCAL PROFILE
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Turn off sound without changing volume.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-heap-choice-960 ===
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[13:16:11] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 15%
+E Purge: safer / F Salvage: more reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-choice-600 ===
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[13:16:11] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 15%
+E Purge: safer / F Salvage: more
+reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-960 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[13:16:11] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000600
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 40%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-600 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[13:16:11] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 40%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-upgrade-960 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  WEAPON
+Cherry Pick
++1 projectile ricochet
+ACTUAL EFFECT
+RICOCHET 1 → 2
+RANK 0 → 1 / 3
+[ 2 ]  COMBO
+Long Transaction
++30 combo grace ticks;
+critical hits extend the current
+COMBO
+ACTUAL EFFECT
+COMBO GRACE 0 → 30
+TICKS
+RANK 0 → 1 / 3
+[ 3 ]  SHIELD
+Hot Standby
++1 shield reboot
+ACTUAL EFFECT
+LETHAL REBOOTS 0 → 1
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-upgrade-600 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  WEAPON
+Cherry Pick
++1 projectile ricochet
+ACTUAL EFFECT
+RICOCHET 1 → 2
+RANK 0 → 1 / 3
+[ 2 ]  COMBO
+Long Transaction
++30 combo grace ticks;
+critical hits extend the current
+COMBO
+ACTUAL EFFECT
+COMBO GRACE 0 → 30
+TICKS
+RANK 0 → 1 / 3
+[ 3 ]  SHIELD
+Hot Standby
++1 shield reboot
+ACTUAL EFFECT
+LETHAL REBOOTS 0 → 1
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-boss-impact-960 ===
+$
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+[13:16:15] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-boss-impact-600 ===
+$
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+[13:16:15] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-pause-960 ===
+$
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+=== en-pause-600 ===
+$
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // DAMAGE +50%
+1300 / 1750
+CORE WINDOW // DAMAGE +50%
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+=== en-complete-960 ===
+$
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-complete-600 ===
+$
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-repository-960 ===
+[13:16:15] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+Invincible · [ T ] Disable
+=== en-repository-600 ===
+[13:16:15] Invincibility enabled · Unlimited ammo/bombs · No ranking
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-legacy-960 ===
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+3120 / 3120
+[13:16:17] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-legacy-600 ===
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+3120 / 3120
+[13:16:17] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-game-over-960 ===
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ SPACE / ENTER ]  NEW RUN
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Invincibility on · Practice run   [ T ] Disable
+=== en-game-over-600 ===
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ SPACE / ENTER ]  NEW RUN
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Invincibility on · Practice run   [ T ] Disable
+=== en-world-3-boss-960 ===
+$
+The Architect / P1
+2500 / 2500
+[13:16:20] ALERT: The Architect engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+BLUEPRINT CITADEL
+Break an arena support to interrupt the grid.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-world-3-boss-600 ===
+$
+The Architect / P1
+2500 / 2500
+[13:16:20] ALERT: The Architect engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+BLUEPRINT CITADEL
+Break an arena support to interrupt the
+grid.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== en-world-4-boss-960 ===
+E ARM
+SAFE 1.8s
+SAFE 1.8s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:16:23] The executioner is grounded. Arm a fault node and lure its charge through the node.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+KERNEL CORE
+Arm a fault node with E before the charge.
+DISPATCH
+The executioner is grounded. Arm a fault node and lure its charge through the node.
+=== en-world-4-boss-600 ===
+E ARM
+SAFE 1.8s
+SAFE 1.8s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:16:23] The executioner is grounded. Arm a fault node and lure its charge through the node.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+KERNEL CORE
+Arm a fault node with E before the
+charge.
+DISPATCH
+The executioner is grounded. Arm a fault node and lure its charge through the
+node.
+=== en-world-5-boss-960 ===
+∞ MERGE
+P1 // OBSERVE
+P1 // OBSERVE
+LOCK ACQUIRED
+Singularity Engine / P1
+4000 / 4000
+[13:16:25] ALERT: Singularity Engine engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-5-boss-600 ===
+∞ MERGE
+P1 // OBSERVE
+P1 // OBSERVE
+LOCK ACQUIRED
+Singularity Engine / P1
+4000 / 4000
+[13:16:25] ALERT: Singularity Engine engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-error-960 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Close and reopen the tool window to restart safely.
+=== en-error-600 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Close and reopen the tool window to restart safely.
+=== zh-CN-menu-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-menu-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-settings-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+所有游戏界面、提示与剧情使用同一种语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+菜单、战斗提示与剧情统一使用所选语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+场景氛围与音乐；调至 0 可只保留战斗音效。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+背景音量；调至 0 可只保留战斗音效。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+默认静音，按 M 切换全部游戏声音。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，一台执着的维修机器人。
+J>  维修机 01
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+[ ENTER / SPACE ]
+开始战役
+普通伤害 · 关卡续玩
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ R ] 继续战役 · 第 2 关入口
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+本地配置
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+关闭声音，保留音量设置。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-heap-choice-960 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[13:16:26] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 15%
+E 净化：安全 / F 回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-choice-600 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[13:16:26] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 15%
+E 净化：安全 / F
+回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[13:16:26] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000600
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[13:16:26] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-upgrade-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  武器
+签名提交
+暴击率 +10%
+实际效果
+暴击率 10% → 20%
+等级 0 → 1 / 3
+[ 2 ]  护盾
+热备份
+致命伤害护盾重启次数 +1
+实际效果
+致命保护 0 → 1
+等级 0 → 1 / 3
+[ 3 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-upgrade-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  武器
+签名提交
+暴击率 +10%
+实际效果
+暴击率 10% → 20%
+等级 0 → 1 / 3
+[ 2 ]  护盾
+热备份
+致命伤害护盾重启次数 +1
+实际效果
+致命保护 0 → 1
+等级 0 → 1 / 3
+[ 3 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-boss-impact-960 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+[13:16:29] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-boss-impact-600 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+[13:16:29] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-pause-960 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+=== zh-CN-pause-600 ===
+$
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害 +50%
+1300 / 1750
+核心暴露 // 伤害 +50%
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+=== zh-CN-complete-960 ===
+$
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-complete-600 ===
+$
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-repository-960 ===
+[13:16:30] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+无敌开启 · [ T ] 关闭
+=== zh-CN-repository-600 ===
+[13:16:30] 无敌已开启 · 无限弹药/炸弹 · 本局不计排名
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-960 ===
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+3120 / 3120
+[13:16:31] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-600 ===
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+3120 / 3120
+[13:16:31] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-game-over-960 ===
+首领关卡
+构建失败
+得分：0
+[ SPACE / ENTER ] 开始新局
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-game-over-600 ===
+首领关卡
+构建失败
+得分：0
+[ SPACE / ENTER ] 开始新局
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-world-3-boss-960 ===
+$
+架构师 / 阶段 1
+2500 / 2500
+[13:16:34] 警报：架构师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+蓝图城塞
+拆掉竞技场支撑体，打断格栅攻击。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-world-3-boss-600 ===
+$
+架构师 / 阶段 1
+2500 / 2500
+[13:16:34] 警报：架构师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+蓝图城塞
+拆掉竞技场支撑体，打断格栅攻击。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-world-4-boss-960 ===
+$
+E 武装
+安全 1.8秒
+安全 1.8秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:16:37] 执行机已落地。武装故障节点，让它的冲锋穿过节点。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+内核核心
+在冲锋前靠近故障节点，按 E 武装。
+调度频道
+执行机已落地。武装故障节点，让它的冲锋穿过节点。
+=== zh-CN-world-4-boss-600 ===
+$
+E 武装
+安全 1.8秒
+安全 1.8秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:16:37] 执行机已落地。武装故障节点，让它的冲锋穿过节点。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内核核心
+在冲锋前靠近故障节点，按 E 武装。
+调度频道
+执行机已落地。武装故障节点，让它的冲锋穿过节点。
+=== zh-CN-world-5-boss-960 ===
+$
+∞ 合并
+阶段 1 // 观察
+阶段 1 // 观察
+锁定目标
+奇点引擎 / 阶段 1
+4000 / 4000
+[13:16:39] 警报：奇点引擎已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-5-boss-600 ===
+$
+∞ 合并
+阶段 1 // 观察
+阶段 1 // 观察
+锁定目标
+奇点引擎 / 阶段 1
+4000 / 4000
+[13:16:39] 警报：奇点引擎已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-error-960 ===
+$
+游戏运行已暂停
+游戏因意外错误中断。
+请关闭并重新打开游戏工具窗口。
+=== zh-CN-error-600 ===
+$
+游戏运行已暂停
+游戏因意外错误中断。
+请关闭并重新打开游戏工具窗口。
+
+=== en-water-walk-960 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+=== en-water-walk-600 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-water-dash-960 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+=== en-water-dash-600 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:32
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-water-landing-960 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+=== en-water-landing-600 ===
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-capacitor-before-960 ===
+CAPACITOR · SHOOT TO OPEN
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+=== en-capacitor-before-600 ===
+CAPACITOR · SHOOT TO OPEN
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-capacitor-discharge-960 ===
+CAPACITOR DISCHARGE
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+=== en-capacitor-discharge-600 ===
+CAPACITOR DISCHARGE
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-supplies-before-960 ===
+$
+CAPACITOR DISCHARGE
+SUPPLY CACHE · SHOOT TO OPEN
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+70/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+1
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+=== en-supplies-before-600 ===
+$
+CAPACITOR DISCHARGE
+SUPPLY CACHE · SHOOT TO OPEN
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+70/100
+Commit Cannon L1
+LIVES 3
+[B]
+1
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-supplies-after-960 ===
+$
+CAPACITOR DISCHARGE
+SUPPLIES +1 BOMB / +15 HP
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+85/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+2
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+=== en-supplies-after-600 ===
+$
+CAPACITOR DISCHARGE
+SUPPLIES +1 BOMB / +15 HP
+[13:16:50] Level 1 starting...
+M UNMUTE / P PAUSE
+HP
+85/100
+Commit Cannon L1
+LIVES 3
+[B]
+2
+BOMBS
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:31
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+=== en-heap-low-steps-960 ===
+$
+GC STATION
+ARENA LOCKED  //  WAVE 1 / 3
+[13:16:54] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+HEAP DISTRICT · Pressure 15%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-low-steps-600 ===
+$
+GC STATION
+ARENA LOCKED  //  WAVE 1 / 3
+[13:16:54] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+HEAP · Pressure 15%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-upper-route-960 ===
+$
+$
+GC STATION
+ARENA LOCKED  //  WAVE 2 / 3
+[13:16:54] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+HEAP DISTRICT · Pressure 15%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-upper-route-600 ===
+$
+$
+GC STATION
+ARENA LOCKED  //  WAVE 2 / 3
+[13:16:54] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+HEAP · Pressure 15%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-boss-arrival-960 ===
+$
+BOSS GATE
+[13:16:55] Invincibility disabled. Normal damage restored. N starts a new ranked run.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+Legacy Code Monstrosity
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+Invincibility off · Normal damage restored
+Practice run; no ranking. [ N ] New normal run
+=== en-boss-arrival-600 ===
+$
+BOSS GATE
+[13:16:55] Invincibility disabled. Normal damage restored. N starts a new ranked run.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+Legacy Code Monstrosity
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+Invincibility off · Normal damage restored
+Practice run; no ranking. [ N ] New normal run
+=== zh-CN-water-walk-960 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+=== zh-CN-water-walk-600 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-water-dash-960 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+=== zh-CN-water-dash-600 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:32
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-water-landing-960 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+=== zh-CN-water-landing-600 ===
+$
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-capacitor-before-960 ===
+$
+电容罐 · 射击开启
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+=== zh-CN-capacitor-before-600 ===
+$
+电容罐 · 射击开启
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-capacitor-discharge-960 ===
+$
+电容放电
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+=== zh-CN-capacitor-discharge-600 ===
+$
+电容放电
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-supplies-before-960 ===
+$
+电容放电
+补给箱 · 射击开启
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+70/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+1
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+=== zh-CN-supplies-before-600 ===
+$
+电容放电
+补给箱 · 射击开启
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+70/100
+提交炮 1级
+生命 3
+[B]
+1
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-supplies-after-960 ===
+$
+电容放电
+获得补给：炸弹 +1 / 生命 +15
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+85/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+2
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+=== zh-CN-supplies-after-600 ===
+$
+电容放电
+获得补给：炸弹 +1 / 生命 +15
+[13:16:56] 第 1 关即将开始……
+M 开启声音 / P 暂停
+生命
+85/100
+提交炮 1级
+生命 3
+[B]
+2
+炸弹
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:31
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+=== zh-CN-heap-low-steps-960 ===
+$
+$
+回收站
+竞技场已锁定 // 第 1 / 3 波
+[13:16:58] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+堆内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-low-steps-600 ===
+$
+$
+回收站
+竞技场已锁定 // 第 1 / 3 波
+[13:16:58] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-upper-route-960 ===
+$
+$
+回收站
+竞技场已锁定 // 第 2 / 3 波
+[13:16:58] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+堆内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-upper-route-600 ===
+$
+$
+回收站
+竞技场已锁定 // 第 2 / 3 波
+[13:16:58] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-boss-arrival-960 ===
+$
+首领关卡
+[13:16:59] 无敌已关闭，恢复正常伤害。按 N 可开始普通计分新局。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+遗留代码巨兽
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+无敌已关闭 · 已恢复正常伤害
+本局用过练习，不计排名；[ N ] 开始普通新局
+=== zh-CN-boss-arrival-600 ===
+$
+首领关卡
+[13:16:59] 无敌已关闭，恢复正常伤害。按 N 可开始普通计分新局。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+遗留代码巨兽
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+无敌已关闭 · 已恢复正常伤害
+本局用过练习，不计排名；[ N ] 开始普通新局
+
+=== en-blueprint-route-960 ===
+$
+SUPPORT · SHOOT / E OVERLOAD
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect its scanner.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Shoot the support, or press E nearby to overload.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-blueprint-route-600 ===
+$
+SUPPORT · SHOOT / E OVERLOAD
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect it...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Shoot the support, or press E nearby to
+overload.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== en-blueprint-warning-960 ===
+$
+SUPPORT · SHOOT / E OVERLOAD
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect its scanner.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Shoot the support, or press E nearby to overload.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-blueprint-warning-600 ===
+$
+SUPPORT · SHOOT / E OVERLOAD
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect it...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Shoot the support, or press E nearby to
+overload.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== en-blueprint-overload-960 ===
+$
+OVERLOADING · STAY CLOSE
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect its scanner.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Overloading support: stay on the ground nearby.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-blueprint-overload-600 ===
+$
+OVERLOADING · STAY CLOSE
+CAPACITOR · SHOOT TO OPEN
+[13:17:11] Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect it...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Overloading support: stay on the ground
+nearby.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== en-blueprint-collapse-960 ===
+$
+WALKWAY COLLAPSING · MOVE
+CAPACITOR · SHOOT TO OPEN
+[13:17:17] First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000350
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Walkway collapsing: leave the outlined platform.
+SCHEMATIC RADIO / FIELD LOG
+First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+=== en-blueprint-collapse-600 ===
+$
+WALKWAY COLLAPSING · MOVE
+CAPACITOR · SHOOT TO OPEN
+[13:17:17] First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Walkway collapsing: leave the outlined
+platform.
+SCHEMATIC RADIO / FIELD LOG
+First support disconnected. The scanner is off; its outlined walkway will collapse in
+one second.
+=== en-blueprint-cleared-960 ===
+$
+SUPPORT DISCONNECTED
+CAPACITOR · SHOOT TO OPEN
+[13:17:17] First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000350
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Watch scanner warnings. Break supports to change the
+route.
+SCHEMATIC RADIO / FIELD LOG
+First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+=== en-blueprint-cleared-600 ===
+$
+SUPPORT DISCONNECTED
+CAPACITOR · SHOOT TO OPEN
+[13:17:17] First support disconnected. The scanner is off; its outlined walkway will collapse in one second.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Watch scanner warnings. Break
+supports to change the route.
+SCHEMATIC RADIO / FIELD LOG
+First support disconnected. The scanner is off; its outlined walkway will collapse in
+one second.
+=== en-blueprint-pause-960 ===
+$
+SUPPORT DISCONNECTED
+CAPACITOR · SHOOT TO OPEN
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+=== en-blueprint-pause-600 ===
+$
+SUPPORT DISCONNECTED
+CAPACITOR · SHOOT TO OPEN
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+=== en-blueprint-arrival-960 ===
+[13:17:18] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+The Architect
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-blueprint-arrival-600 ===
+[13:17:18] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+The Architect
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-blueprint-boss-960 ===
+The Architect / P1
+2500 / 2500
+[13:17:21] ALERT: The Architect engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Break an arena support to interrupt the grid.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-blueprint-boss-600 ===
+The Architect / P1
+2500 / 2500
+[13:17:21] ALERT: The Architect engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Break an arena support to interrupt the
+grid.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== en-blueprint-exposed-960 ===
+WALKWAY COLLAPSING · MOVE
+CORE WINDOW // DAMAGE +50%
+2500 / 2500
+CORE WINDOW // DAMAGE +50%
+[13:17:24] SUPPORTS OFFLINE // CORE EXPOSED
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BLUEPRINT CITADEL
+Walkway collapsing: leave the outlined platform.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to disconnect
+its scanner.
+=== en-blueprint-exposed-600 ===
+WALKWAY COLLAPSING · MOVE
+CORE WINDOW // DAMAGE +50%
+2500 / 2500
+CORE WINDOW // DAMAGE +50%
+[13:17:24] SUPPORTS OFFLINE // CORE EXPOSED
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BLUEPRINT CITADEL
+Walkway collapsing: leave the outlined
+platform.
+SCHEMATIC RADIO / FIELD LOG
+Blueprint intake: the fortress keeps rebuilding its own defenses. Break a support to
+disconnect its scanner.
+=== zh-CN-blueprint-route-960 ===
+$
+支撑体 · 射击 / E 过载
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+射击支撑体，或靠近按 E 过载。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-route-600 ===
+$
+支撑体 · 射击 / E 过载
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+射击支撑体，或靠近按 E 过载。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-warning-960 ===
+$
+支撑体 · 射击 / E 过载
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+射击支撑体，或靠近按 E 过载。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-warning-600 ===
+$
+支撑体 · 射击 / E 过载
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+射击支撑体，或靠近按 E 过载。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-overload-960 ===
+$
+过载中 · 保持靠近
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+支撑体过载中：留在附近地面上。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-overload-600 ===
+$
+过载中 · 保持靠近
+电容罐 · 射击开启
+[13:17:24] 蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+支撑体过载中：留在附近地面上。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-collapse-960 ===
+$
+平台即将坍塌 · 撤离
+电容罐 · 射击开启
+[13:17:28] 第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000350
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+平台即将坍塌：离开描边区域。
+设计室通讯 / 现场记录
+第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+=== zh-CN-blueprint-collapse-600 ===
+$
+平台即将坍塌 · 撤离
+电容罐 · 射击开启
+[13:17:28] 第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+平台即将坍塌：离开描边区域。
+设计室通讯 / 现场记录
+第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+=== zh-CN-blueprint-cleared-960 ===
+$
+支撑体已断开
+电容罐 · 射击开启
+[13:17:28] 第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000350
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+留意扫描预警，拆除支撑体可改变路线。
+设计室通讯 / 现场记录
+第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+=== zh-CN-blueprint-cleared-600 ===
+$
+支撑体已断开
+电容罐 · 射击开启
+[13:17:28] 第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+留意扫描预警，拆除支撑体可改变路线
+。
+设计室通讯 / 现场记录
+第一处支撑已断开。扫描炮塔关闭，描边平台将在约一秒后坍塌。
+=== zh-CN-blueprint-pause-960 ===
+$
+支撑体已断开
+电容罐 · 射击开启
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+=== zh-CN-blueprint-pause-600 ===
+$
+支撑体已断开
+电容罐 · 射击开启
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+=== zh-CN-blueprint-arrival-960 ===
+[13:17:30] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+架构师
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-blueprint-arrival-600 ===
+[13:17:30] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+架构师
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-blueprint-boss-960 ===
+架构师 / 阶段 1
+2500 / 2500
+[13:17:33] 警报：架构师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+拆掉竞技场支撑体，打断格栅攻击。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-boss-600 ===
+架构师 / 阶段 1
+2500 / 2500
+[13:17:33] 警报：架构师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+拆掉竞技场支撑体，打断格栅攻击。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-exposed-960 ===
+平台即将坍塌 · 撤离
+核心暴露 // 伤害 +50%
+2500 / 2500
+核心暴露 // 伤害 +50%
+[13:17:34] 支撑已断开 // 核心暴露
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+蓝图城塞
+平台即将坍塌：离开描边区域。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+=== zh-CN-blueprint-exposed-600 ===
+平台即将坍塌 · 撤离
+核心暴露 // 伤害 +50%
+2500 / 2500
+核心暴露 // 伤害 +50%
+[13:17:34] 支撑已断开 // 核心暴露
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+蓝图城塞
+平台即将坍塌：离开描边区域。
+设计室通讯 / 现场记录
+蓝图入口：城塞不断重建防御。拆除支撑体，可以断开相连的扫描炮塔。
+
+=== en-kernel-route-960 ===
+E CUT POWER
+SAFE 1.9s
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platforms.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+E cuts power. The raised deck stays safe.
+DISPATCH
+The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service
+platforms.
+=== en-kernel-route-600 ===
+E CUT POWER
+SAFE 1.8s
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platf...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+E cuts power. The raised deck stays
+safe.
+DISPATCH
+The watchdog feeds power into the floor rails. Isolate each circuit or take the raised
+service platforms.
+=== en-kernel-warning-960 ===
+E CUT POWER
+LIVE IN 1.2s
+S
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platforms.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+E cuts power. The raised deck stays safe.
+DISPATCH
+The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service
+platforms.
+=== en-kernel-warning-600 ===
+E CUT POWER
+LIVE IN 1.2s
+S
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platf...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+E cuts power. The raised deck stays
+safe.
+DISPATCH
+The watchdog feeds power into the floor rails. Isolate each circuit or take the raised
+service platforms.
+=== en-kernel-active-960 ===
+E CUT POWER
+LIVE 1.5s
+S
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platforms.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+E cuts power. The raised deck stays safe.
+DISPATCH
+Press E to cut rail power. Use raised platforms to cross live tracks.
+=== en-kernel-active-600 ===
+E CUT POWER
+LIVE 1.5s
+S
+[13:13:08] The watchdog feeds power into the floor rails. Isolate each circuit or take the raised service platf...
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+E cuts power. The raised deck stays
+safe.
+DISPATCH
+Press E to cut rail power. Use raised platforms to cross live tracks.
+=== en-kernel-poweroff-960 ===
+POWER OFF 9.6s
+SAFE 9.6s
+S
+[13:13:13] First circuit isolated. The switch will reset; use the quiet interval to move through.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000250
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+Watch the rail countdown; cross when safe.
+DISPATCH
+First circuit isolated. The switch will reset; use the quiet interval to move through.
+=== en-kernel-poweroff-600 ===
+POWER OFF 9.6s
+SAFE 9.6s
+S
+[13:13:13] First circuit isolated. The switch will reset; use the quiet interval to move through.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+Watch the rail countdown; cross when
+safe.
+DISPATCH
+First circuit isolated. The switch will reset; use the quiet interval to move through.
+=== en-kernel-pause-960 ===
+POWER OFF 9.6s
+SAFE 9.6s
+S
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+=== en-kernel-pause-600 ===
+POWER OFF 9.6s
+SAFE 9.6s
+S
+RUN PAUSED
+[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE
+[ P / ESC ]  RESUME RUN
+[ O ] SETTINGS    [ M ] MUTE
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+=== en-kernel-arrival-960 ===
+[13:13:13] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+BOSS INCOMING
+Kernel Panic Overlord
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-kernel-arrival-600 ===
+[13:13:13] WARNING: Boss arena detected!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+BOSS INCOMING
+Kernel Panic Overlord
+APPROACHING FROM THE RIGHT
+Safe preparation — move into position
+2
+ARRIVAL IN 2
+=== en-kernel-armed-960 ===
+ARMED 7.2s
+SAFE 1.9s
+SAFE 1.9s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:13:16] Fault node armed. Put it between you and the executioner; jump when the charge begins.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+Node armed: lure the charge across it.
+DISPATCH
+Fault node armed. Put it between you and the executioner; jump when the charge begins.
+=== en-kernel-armed-600 ===
+ARMED 7.2s
+SAFE 1.9s
+SAFE 1.9s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:13:16] Fault node armed. Put it between you and the executioner; jump when the charge begins.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+Node armed: lure the charge across it.
+DISPATCH
+Fault node armed. Put it between you and the executioner; jump when the charge
+begins.
+=== en-kernel-chargewarning-960 ===
+ARMED 6.4s
+SAFE 1.1s
+SAFE 1.1s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:13:16] Fault node armed. Put it between you and the executioner; jump when the charge begins.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+Node armed: lure the charge across it.
+DISPATCH
+Fault node armed. Put it between you and the executioner; jump when the charge begins.
+=== en-kernel-chargewarning-600 ===
+ARMED 6.4s
+SAFE 1.1s
+SAFE 1.1s
+Kernel Panic Overlord / P1
+3250 / 3250
+[13:13:16] Fault node armed. Put it between you and the executioner; jump when the charge begins.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+Node armed: lure the charge across it.
+DISPATCH
+Fault node armed. Put it between you and the executioner; jump when the charge
+begins.
+=== en-kernel-exposed-960 ===
+RESET 9.6s
+SAFE 2.4s
+SAFE 9.6s
+CORE WINDOW // DAMAGE +50%
+3250 / 3250
+CORE WINDOW // DAMAGE +50%
+[13:13:18] The charge has tripped the circuit. Its armor is open; use the shutdown window.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+3
+BOMBS
+LIVES 3
+DASH READY
+JUMPS 2/2
+KERNEL CORE
+Fault tripped: strike the exposed core.
+DISPATCH
+The charge has tripped the circuit. Its armor is open; use the shutdown window.
+=== en-kernel-exposed-600 ===
+RESET 9.6s
+SAFE 2.4s
+SAFE 9.6s
+CORE WINDOW // DAMAGE +50%
+3250 / 3250
+CORE WINDOW // DAMAGE +50%
+[13:13:18] The charge has tripped the circuit. Its armor is open; use the shutdown window.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+3
+BOMBS
+DASH READY
+JUMPS 2/2
+SUDO 0%
+KERNEL CORE
+Fault tripped: strike the exposed core.
+DISPATCH
+The charge has tripped the circuit. Its armor is open; use the shutdown window.
+=== zh-CN-kernel-route-960 ===
+E 断电
+安全 1.9秒
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+=== zh-CN-kernel-route-600 ===
+E 断电
+安全 1.8秒
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+=== zh-CN-kernel-warning-960 ===
+E 断电
+1.2秒后通电
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+=== zh-CN-kernel-warning-600 ===
+E 断电
+1.2秒后通电
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+=== zh-CN-kernel-active-960 ===
+E 断电
+通电 1.5秒
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+按 E 切断轨道电源，也可以利用高台穿过通电区。
+=== zh-CN-kernel-active-600 ===
+E 断电
+通电 1.5秒
+[13:13:19] 看门狗正在向地面轨道供电。切断回路，或从上方检修平台绕行。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+按 E 断电；轨道上方的高台保持安全。
+调度频道
+按 E 切断轨道电源，也可以利用高台穿过通电区。
+=== zh-CN-kernel-poweroff-960 ===
+断电 9.6秒
+安全 9.6秒
+[13:13:22] 第一条回路已隔离。开关稍后会复位，趁断电间隙通过。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000250
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+观察轨道倒计时，趁断电时通过。
+调度频道
+第一条回路已隔离。开关稍后会复位，趁断电间隙通过。
+=== zh-CN-kernel-poweroff-600 ===
+断电 9.6秒
+安全 9.6秒
+[13:13:22] 第一条回路已隔离。开关稍后会复位，趁断电间隙通过。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+观察轨道倒计时，趁断电时通过。
+调度频道
+第一条回路已隔离。开关稍后会复位，趁断电间隙通过。
+=== zh-CN-kernel-pause-960 ===
+断电 9.6秒
+安全 9.6秒
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+=== zh-CN-kernel-pause-600 ===
+断电 9.6秒
+安全 9.6秒
+游戏已暂停
+[ Q ] 返回菜单 / 从关卡入口续玩
+[ P / ESC ] 继续游戏
+[ O ] 设置    [ M ] 静音
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+=== zh-CN-kernel-arrival-960 ===
+[13:13:23] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+首领即将抵达
+内核崩溃霸主
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-kernel-arrival-600 ===
+[13:13:23] 警告：发现首领竞技场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+首领即将抵达
+内核崩溃霸主
+首领从右侧接近
+安全准备时间 · 调整站位
+2
+距离交战 2 秒
+=== zh-CN-kernel-armed-960 ===
+已武装 7.2秒
+安全 1.9秒
+安全 1.9秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:13:25] 故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+节点已武装：诱导冲锋穿过节点。
+调度频道
+故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+=== zh-CN-kernel-armed-600 ===
+已武装 7.2秒
+安全 1.9秒
+安全 1.9秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:13:25] 故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+节点已武装：诱导冲锋穿过节点。
+调度频道
+故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+=== zh-CN-kernel-chargewarning-960 ===
+已武装 6.4秒
+安全 1.1秒
+安全 1.1秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:13:25] 故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+节点已武装：诱导冲锋穿过节点。
+调度频道
+故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+=== zh-CN-kernel-chargewarning-600 ===
+已武装 6.4秒
+安全 1.1秒
+安全 1.1秒
+内核崩溃霸主 / 阶段 1
+3250 / 3250
+[13:13:25] 故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+节点已武装：诱导冲锋穿过节点。
+调度频道
+故障节点已武装。让节点处于你和执行机之间，冲锋开始时起跳躲避。
+=== zh-CN-kernel-exposed-960 ===
+重置 9.6秒
+安全 2.4秒
+安全 9.6秒
+核心暴露 // 伤害 +50%
+3250 / 3250
+核心暴露 // 伤害 +50%
+[13:13:27] 冲锋触发了回路故障。装甲已经打开，趁停机窗口攻击核心。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+3
+炸弹
+生命 3
+冲刺就绪
+跳跃 2/2
+内核核心
+故障已触发：攻击暴露的核心。
+调度频道
+冲锋触发了回路故障。装甲已经打开，趁停机窗口攻击核心。
+=== zh-CN-kernel-exposed-600 ===
+重置 9.6秒
+安全 2.4秒
+安全 9.6秒
+核心暴露 // 伤害 +50%
+3250 / 3250
+核心暴露 // 伤害 +50%
+[13:13:27] 冲锋触发了回路故障。装甲已经打开，趁停机窗口攻击核心。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+3
+炸弹
+冲刺就绪
+跳跃 2/2
+超频 0%
+内核核心
+故障已触发：攻击暴露的核心。
+调度频道
+冲锋触发了回路故障。装甲已经打开，趁停机窗口攻击核心。
+

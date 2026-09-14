@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import com.bigphil.mergehell.model.EntityType;
 import com.bigphil.mergehell.model.Platform;
+import com.bigphil.mergehell.world.ChapterRouteController;
 
 import java.util.HashSet;
 import java.util.List;
@@ -106,5 +107,67 @@ class LevelManagerTest {
         }
         assertEquals(4, rosters.size());
         assertEquals(4, terrainStyles.size());
+    }
+
+    @Test
+    void laterChapterFamiliesNeverRecycleTheEarlierChaptersEnemies() {
+        assertEquals(Set.of(EntityType.SENTINEL, EntityType.WARDEN, EntityType.RIGGER),
+                new LevelManager(2).getEnemyRoster());
+        assertEquals(Set.of(EntityType.INTERRUPT, EntityType.DRILLER, EntityType.SLAG_SPITTER),
+                new LevelManager(3).getEnemyRoster());
+        assertEquals(Set.of(EntityType.MIRROR, EntityType.SPORE_POD, EntityType.LURKER),
+                new LevelManager(4).getEnemyRoster());
+    }
+
+    @Test
+    void laterChaptersUseSparseEncountersOutsideDifferentlyPlacedArenas() {
+        int[][] starts = {{1250, 5200}, {1700, 4200, 6350}, {1850, 5900}};
+        int[][] ends = {{2050, 6000}, {2400, 4850, 7000}, {2550, 6500}};
+        for (int chapter = 2; chapter <= 4; chapter++) {
+            LevelManager level = new LevelManager(chapter, 27);
+            var triggers = level.getPendingTriggers(level.getBossGateX());
+            var hostiles = triggers.stream().filter(t -> t.type.isHostile()).toList();
+            assertTrue(hostiles.size() >= 15 && hostiles.size() <= 22);
+            for (var trigger : hostiles) {
+                assertEquals(1, trigger.count);
+                assertEquals(0, trigger.fromLeft, "Early movement never spawns an unintroduced rear ambush");
+                assertNull(level.getBattleAt(trigger.worldX));
+            }
+            for (int i = 0; i < starts[chapter - 2].length; i++) {
+                int start = starts[chapter - 2][i], end = ends[chapter - 2][i];
+                var battle = level.getBattleAt(start);
+                assertEquals(start, battle.start);
+                assertEquals(end, battle.end);
+                assertTrue(battle.waves.length >= 2 && battle.waves.length <= 3);
+                for (var wave : battle.waves) {
+                    int actors = wave.count * (wave.fromDir == 2 ? 2 : 1);
+                    assertTrue(actors <= 2, "Each specialist gets readable attack space");
+                }
+                assertNull(level.getBattleAt(end));
+            }
+            assertEquals(7600, level.getBossGateX());
+            assertEquals(8600, level.getCameraMaxX());
+        }
+    }
+
+    @Test
+    void laterCoinsUseTheSameStaticPhysicalLedgesAndNeverAStaleMovingLift() {
+        for (int chapter = 2; chapter <= 4; chapter++) {
+            LevelManager level = new LevelManager(chapter, 27);
+            var route = new ChapterRouteController(chapter, 480);
+            var all = route.snapshot();
+            assertEquals(all.platforms().size() - all.lifts().size(), level.getPlatforms().size());
+            for (Platform p : level.getPlatforms()) {
+                assertTrue(all.platforms().stream().anyMatch(actual -> actual.x == p.x && actual.y == p.y
+                        && actual.width == p.width && actual.style == p.style));
+                assertFalse(all.lifts().stream().anyMatch(lift -> lift.platform().x == p.x && lift.platform().y == p.y));
+            }
+            assertFalse(level.getCoins().isEmpty());
+            for (var coin : level.getCoins()) {
+                assertTrue(level.getPlatforms().stream().anyMatch(p -> coin.x >= p.x + 25
+                        && coin.x <= p.x + p.width - 25 && coin.y == p.y - 30));
+                assertTrue(coin.x < level.getBossGateX());
+            }
+        }
     }
 }

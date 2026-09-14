@@ -417,8 +417,8 @@ class CollisionSystemTest {
                 GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                 particles, texts, logMessages::add);
 
-        CombatEvent.EnemyKilled event = assertInstanceOf(
-                CombatEvent.EnemyKilled.class, events.get(0));
+        CombatEvent.EnemyKilled event = events.stream().filter(CombatEvent.EnemyKilled.class::isInstance)
+                .map(CombatEvent.EnemyKilled.class::cast).findFirst().orElseThrow();
         assertEquals(EntityType.BUG, event.type());
         assertEquals(100, event.points());
         assertEquals(110, event.x(), 0.0001);
@@ -440,8 +440,8 @@ class CollisionSystemTest {
                 GameState.RUNNING, PANEL_WIDTH, PANEL_HEIGHT, 0,
                 particles, texts, logMessages::add);
 
-        assertEquals(1, events.size());
-        assertInstanceOf(CombatEvent.EnemyKilled.class, events.get(0));
+        assertEquals(1, events.stream().filter(CombatEvent.EnemyKilled.class::isInstance).count());
+        assertEquals(1, events.stream().filter(CombatEvent.DamageDealt.class::isInstance).count());
     }
 
     @Test

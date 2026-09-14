@@ -1,0 +1,43 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :initializeIntelliJPlugin
+
+> Task :patchPluginXml
+[gradle-intellij-plugin :patchPluginXml] Patching plugin.xml: attribute 'since-build=[232.0]' of 'idea-version' tag will be set to '232'
+
+> Task :verifyPluginConfiguration
+> Task :compileJava UP-TO-DATE
+> Task :processResources
+> Task :classes
+> Task :instrumentCode
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :instrumentTestCode
+> Task :classpathIndexCleanup
+> Task :instrumentedJar
+> Task :jar
+> Task :prepareSandbox
+> Task :buildSearchableOptions SKIPPED
+> Task :jarSearchableOptions SKIPPED
+> Task :buildPlugin
+> Task :assemble
+> Task :prepareTestingSandbox
+
+> Task :test
+CompileCommand: exclude com/intellij/openapi/vfs/impl/FilePartNodeRoot.trieDescend bool exclude = true
+
+> Task :check
+> Task :build
+> Task :verifyPlugin
+
+[Incubating] Problems report is available at: file:///D:/IdeaProjects/merge-hell-runner/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 45s
+16 actionable tasks: 15 executed, 1 up-to-date

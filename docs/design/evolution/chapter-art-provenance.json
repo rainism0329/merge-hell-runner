@@ -1,0 +1,1058 @@
+{
+  "format": 1,
+  "tool": "built-in image_gen",
+  "method": "Native RGBA crop bounded by alpha >=8 to exclude remote near-transparent noise; no background extraction, alpha normalization, matte or connected-component removal. Uniform maximum edge640; two-pixel transparent guard; immutable originals. Actor frames pre-minified by AssetStore at load.",
+  "worlds": {
+    "3": {
+      "source_sha256": {
+        "chapter3-actors-generated.png": "a8460121569d5bc132e8a4abb23fa1d9aa07374a128001c2442e8da33607a73f",
+        "chapter3-background-generated.png": "84d332a647b35665eeac5fac9caed9f5919996403fa3ef34167c4b0514c789df"
+      },
+      "actor_source_size": [
+        1536,
+        1024
+      ],
+      "background_source_size": [
+        1774,
+        887
+      ],
+      "parts": [
+        {
+          "name": "enemy-a",
+          "source_cell": [
+            0,
+            0,
+            554,
+            470
+          ],
+          "source_crop": [
+            13,
+            7,
+            518,
+            438
+          ],
+          "native_source_alpha": true,
+          "size": [
+            509,
+            435
+          ],
+          "anchor": [
+            254.5,
+            433.0
+          ],
+          "sockets": {
+            "muzzle": [
+              11.0,
+              158.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              22,
+              163
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 124961,
+          "high_coverage_pixels": 69523,
+          "soft_alpha_pixels": 26931,
+          "alpha_max": 254,
+          "atlas_rect": [
+            4,
+            4,
+            509,
+            435
+          ]
+        },
+        {
+          "name": "enemy-b",
+          "source_cell": [
+            554,
+            0,
+            1028,
+            470
+          ],
+          "source_crop": [
+            609,
+            2,
+            1004,
+            451
+          ],
+          "native_source_alpha": true,
+          "size": [
+            399,
+            453
+          ],
+          "anchor": [
+            199.5,
+            451.0
+          ],
+          "sockets": {
+            "shield": [
+              43.0,
+              226.0
+            ]
+          },
+          "source_sockets": {
+            "shield": [
+              650,
+              226
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 55047,
+          "high_coverage_pixels": 104512,
+          "soft_alpha_pixels": 21188,
+          "alpha_max": 254,
+          "atlas_rect": [
+            517,
+            4,
+            399,
+            453
+          ]
+        },
+        {
+          "name": "enemy-c",
+          "source_cell": [
+            1028,
+            0,
+            1536,
+            470
+          ],
+          "source_crop": [
+            1032,
+            25,
+            1526,
+            428
+          ],
+          "native_source_alpha": true,
+          "size": [
+            498,
+            407
+          ],
+          "anchor": [
+            249.0,
+            405.0
+          ],
+          "sockets": {
+            "muzzle": [
+              10.0,
+              259.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              1040,
+              282
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 87084,
+          "high_coverage_pixels": 76993,
+          "soft_alpha_pixels": 38609,
+          "alpha_max": 254,
+          "atlas_rect": [
+            920,
+            4,
+            498,
+            407
+          ]
+        },
+        {
+          "name": "boss-shell",
+          "source_cell": [
+            0,
+            500,
+            810,
+            1024
+          ],
+          "source_crop": [
+            18,
+            540,
+            804,
+            931
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            322
+          ],
+          "anchor": [
+            322.0,
+            320.0
+          ],
+          "sockets": {
+            "core": [
+              326.07125,
+              151.64706
+            ],
+            "left-joint": [
+              68.76845,
+              180.92583
+            ],
+            "right-joint": [
+              561.38931,
+              180.92583
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              416,
+              724
+            ],
+            "left-joint": [
+              100,
+              760
+            ],
+            "right-joint": [
+              705,
+              760
+            ]
+          },
+          "scale": [
+            0.8142493638676844,
+            0.8132992327365729
+          ],
+          "transparent_pixels": 75810,
+          "high_coverage_pixels": 102713,
+          "soft_alpha_pixels": 28845,
+          "alpha_max": 255,
+          "atlas_rect": [
+            1422,
+            4,
+            644,
+            322
+          ]
+        },
+        {
+          "name": "boss-limb",
+          "source_cell": [
+            810,
+            470,
+            1080,
+            1024
+          ],
+          "source_crop": [
+            818,
+            477,
+            1055,
+            1011
+          ],
+          "native_source_alpha": true,
+          "size": [
+            241,
+            538
+          ],
+          "anchor": [
+            120.5,
+            269.0
+          ],
+          "sockets": {
+            "joint": [
+              127.0,
+              56.0
+            ]
+          },
+          "source_sockets": {
+            "joint": [
+              943,
+              531
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 54656,
+          "high_coverage_pixels": 57985,
+          "soft_alpha_pixels": 17017,
+          "alpha_max": 254,
+          "atlas_rect": [
+            2070,
+            4,
+            241,
+            538
+          ]
+        },
+        {
+          "name": "boss-core",
+          "source_cell": [
+            1080,
+            470,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1112,
+            557,
+            1486,
+            955
+          ],
+          "native_source_alpha": true,
+          "size": [
+            378,
+            402
+          ],
+          "anchor": [
+            189.0,
+            201.0
+          ],
+          "sockets": {
+            "core": [
+              185.0,
+              196.0
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              1295,
+              751
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 33355,
+          "high_coverage_pixels": 100723,
+          "soft_alpha_pixels": 17878,
+          "alpha_max": 253,
+          "atlas_rect": [
+            2315,
+            4,
+            378,
+            402
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter3-actors.png": {
+          "sha256": "406458521b6ffb1bb4ad4567bf66210726b6fb6013317c18165a3d2440c901d3",
+          "bytes": 1970415
+        },
+        "chapter3-actors.properties": {
+          "sha256": "f5353f5a7195b07cfdfca68a0644b32bc84abc65d91667c687a5349dca925891",
+          "bytes": 1770
+        },
+        "chapter3-background.png": {
+          "sha256": "84d332a647b35665eeac5fac9caed9f5919996403fa3ef34167c4b0514c789df",
+          "bytes": 2466910
+        },
+        "chapter3-background.properties": {
+          "sha256": "a152bb2885e7e9b91223488825ba83b430ad2e55cdcae8fcf41861c2138498e7",
+          "bytes": 343
+        }
+      }
+    },
+    "4": {
+      "source_sha256": {
+        "chapter4-actors-generated.png": "09f3c6713fe948e5dda6c81cb2347db3a3aaef5f2ebee0713231497ee6c1383a",
+        "chapter4-background-generated.png": "23afc18a94acee92ad024a02fa86b299f32c30f8488bf5e3a0e2522b81d84e26"
+      },
+      "actor_source_size": [
+        1536,
+        1024
+      ],
+      "background_source_size": [
+        1774,
+        887
+      ],
+      "parts": [
+        {
+          "name": "enemy-a",
+          "source_cell": [
+            0,
+            0,
+            510,
+            462
+          ],
+          "source_crop": [
+            15,
+            142,
+            506,
+            435
+          ],
+          "native_source_alpha": true,
+          "size": [
+            495,
+            297
+          ],
+          "anchor": [
+            247.5,
+            295.0
+          ],
+          "sockets": {
+            "muzzle": [
+              39.0,
+              95.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              52,
+              235
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 49762,
+          "high_coverage_pixels": 76078,
+          "soft_alpha_pixels": 21175,
+          "alpha_max": 254,
+          "atlas_rect": [
+            4,
+            4,
+            495,
+            297
+          ]
+        },
+        {
+          "name": "enemy-b",
+          "source_cell": [
+            510,
+            0,
+            1108,
+            462
+          ],
+          "source_crop": [
+            516,
+            194,
+            1104,
+            436
+          ],
+          "native_source_alpha": true,
+          "size": [
+            592,
+            246
+          ],
+          "anchor": [
+            296.0,
+            244.0
+          ],
+          "sockets": {
+            "muzzle": [
+              9.0,
+              116.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              523,
+              308
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 39054,
+          "high_coverage_pixels": 91673,
+          "soft_alpha_pixels": 14905,
+          "alpha_max": 254,
+          "atlas_rect": [
+            503,
+            4,
+            592,
+            246
+          ]
+        },
+        {
+          "name": "enemy-c",
+          "source_cell": [
+            1108,
+            0,
+            1536,
+            462
+          ],
+          "source_crop": [
+            1109,
+            30,
+            1522,
+            442
+          ],
+          "native_source_alpha": true,
+          "size": [
+            417,
+            416
+          ],
+          "anchor": [
+            208.5,
+            414.0
+          ],
+          "sockets": {
+            "muzzle": [
+              8.0,
+              244.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              1115,
+              272
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 62953,
+          "high_coverage_pixels": 89181,
+          "soft_alpha_pixels": 21338,
+          "alpha_max": 254,
+          "atlas_rect": [
+            1099,
+            4,
+            417,
+            416
+          ]
+        },
+        {
+          "name": "boss-shell",
+          "source_cell": [
+            0,
+            462,
+            885,
+            1024
+          ],
+          "source_crop": [
+            29,
+            530,
+            877,
+            958
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            327
+          ],
+          "anchor": [
+            322.0,
+            325.0
+          ],
+          "sockets": {
+            "core": [
+              615.58491,
+              114.44626
+            ],
+            "front-joint": [
+              32.18868,
+              150.67056
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              842,
+              679
+            ],
+            "front-joint": [
+              69,
+              727
+            ]
+          },
+          "scale": [
+            0.7547169811320755,
+            0.7546728971962616
+          ],
+          "transparent_pixels": 55896,
+          "high_coverage_pixels": 140748,
+          "soft_alpha_pixels": 13944,
+          "alpha_max": 255,
+          "atlas_rect": [
+            1520,
+            4,
+            644,
+            327
+          ]
+        },
+        {
+          "name": "boss-limb",
+          "source_cell": [
+            885,
+            462,
+            1182,
+            1024
+          ],
+          "source_crop": [
+            893,
+            472,
+            1154,
+            965
+          ],
+          "native_source_alpha": true,
+          "size": [
+            265,
+            497
+          ],
+          "anchor": [
+            132.5,
+            248.5
+          ],
+          "sockets": {
+            "joint": [
+              199.0,
+              42.0
+            ]
+          },
+          "source_sockets": {
+            "joint": [
+              1090,
+              512
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 42585,
+          "high_coverage_pixels": 69396,
+          "soft_alpha_pixels": 19724,
+          "alpha_max": 254,
+          "atlas_rect": [
+            2168,
+            4,
+            265,
+            497
+          ]
+        },
+        {
+          "name": "boss-core",
+          "source_cell": [
+            1182,
+            462,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1199,
+            547,
+            1518,
+            954
+          ],
+          "native_source_alpha": true,
+          "size": [
+            323,
+            411
+          ],
+          "anchor": [
+            161.5,
+            205.5
+          ],
+          "sockets": {
+            "core": [
+              153.0,
+              210.0
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              1350,
+              755
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 21612,
+          "high_coverage_pixels": 99815,
+          "soft_alpha_pixels": 11326,
+          "alpha_max": 254,
+          "atlas_rect": [
+            2437,
+            4,
+            323,
+            411
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter4-actors.png": {
+          "sha256": "2f1d2b9c7ce6003d03d559463009e41f7f5c4d44cfcb2225e3fd3d39f9950d27",
+          "bytes": 1866564
+        },
+        "chapter4-actors.properties": {
+          "sha256": "b01fe17c8fc7f4926e7d9aa026a29981ee8d79f107c075a5fda84c25d82e4e20",
+          "bytes": 1701
+        },
+        "chapter4-background.png": {
+          "sha256": "23afc18a94acee92ad024a02fa86b299f32c30f8488bf5e3a0e2522b81d84e26",
+          "bytes": 2658847
+        },
+        "chapter4-background.properties": {
+          "sha256": "e27a2d6af395109fb3791c9ec3e1024c458ba832f497f860419818315670d026",
+          "bytes": 343
+        }
+      }
+    },
+    "5": {
+      "source_sha256": {
+        "chapter5-actors-generated.png": "2cb8ca5fc84ff677cb62e8a0647a8623af77967376a7ed4e3caf508fcab2da98",
+        "chapter5-background-generated.png": "9bd48be573d0711910b10fd369d086bfd8b03ce6f4c6e640db4442d68f5653bc"
+      },
+      "actor_source_size": [
+        1536,
+        1024
+      ],
+      "background_source_size": [
+        1774,
+        887
+      ],
+      "parts": [
+        {
+          "name": "enemy-a",
+          "source_cell": [
+            0,
+            0,
+            704,
+            452
+          ],
+          "source_crop": [
+            16,
+            30,
+            692,
+            447
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            399
+          ],
+          "anchor": [
+            322.0,
+            397.0
+          ],
+          "sockets": {
+            "muzzle": [
+              52.17751,
+              173.45084
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              69,
+              211
+            ]
+          },
+          "scale": [
+            0.9467455621301775,
+            0.947242206235012
+          ],
+          "transparent_pixels": 93361,
+          "high_coverage_pixels": 110541,
+          "soft_alpha_pixels": 53054,
+          "alpha_max": 255,
+          "atlas_rect": [
+            4,
+            4,
+            644,
+            399
+          ]
+        },
+        {
+          "name": "enemy-b",
+          "source_cell": [
+            704,
+            0,
+            986,
+            498
+          ],
+          "source_crop": [
+            722,
+            8,
+            954,
+            484
+          ],
+          "native_source_alpha": true,
+          "size": [
+            236,
+            480
+          ],
+          "anchor": [
+            118.0,
+            478.0
+          ],
+          "sockets": {
+            "core": [
+              116.0,
+              131.0
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              836,
+              137
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 31999,
+          "high_coverage_pixels": 33677,
+          "soft_alpha_pixels": 47604,
+          "alpha_max": 253,
+          "atlas_rect": [
+            652,
+            4,
+            236,
+            480
+          ]
+        },
+        {
+          "name": "enemy-c",
+          "source_cell": [
+            986,
+            0,
+            1536,
+            478
+          ],
+          "source_crop": [
+            996,
+            173,
+            1522,
+            455
+          ],
+          "native_source_alpha": true,
+          "size": [
+            530,
+            286
+          ],
+          "anchor": [
+            265.0,
+            284.0
+          ],
+          "sockets": {
+            "muzzle": [
+              15.0,
+              161.0
+            ]
+          },
+          "source_sockets": {
+            "muzzle": [
+              1009,
+              332
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 62436,
+          "high_coverage_pixels": 54377,
+          "soft_alpha_pixels": 34767,
+          "alpha_max": 253,
+          "atlas_rect": [
+            892,
+            4,
+            530,
+            286
+          ]
+        },
+        {
+          "name": "boss-shell",
+          "source_cell": [
+            0,
+            452,
+            730,
+            1024
+          ],
+          "source_crop": [
+            16,
+            457,
+            716,
+            1012
+          ],
+          "native_source_alpha": true,
+          "size": [
+            644,
+            511
+          ],
+          "anchor": [
+            322.0,
+            509.0
+          ],
+          "sockets": {
+            "core": [
+              307.37143,
+              242.25405
+            ],
+            "left-joint": [
+              119.94286,
+              266.00541
+            ],
+            "right-joint": [
+              540.51429,
+              266.00541
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              350,
+              720
+            ],
+            "left-joint": [
+              145,
+              746
+            ],
+            "right-joint": [
+              605,
+              746
+            ]
+          },
+          "scale": [
+            0.9142857142857143,
+            0.9135135135135135
+          ],
+          "transparent_pixels": 106275,
+          "high_coverage_pixels": 171093,
+          "soft_alpha_pixels": 51716,
+          "alpha_max": 255,
+          "atlas_rect": [
+            1426,
+            4,
+            644,
+            511
+          ]
+        },
+        {
+          "name": "boss-limb",
+          "source_cell": [
+            730,
+            498,
+            1120,
+            1024
+          ],
+          "source_crop": [
+            775,
+            504,
+            1070,
+            996
+          ],
+          "native_source_alpha": true,
+          "size": [
+            299,
+            496
+          ],
+          "anchor": [
+            149.5,
+            248.0
+          ],
+          "sockets": {
+            "joint": [
+              98.0,
+              32.0
+            ],
+            "core": [
+              207.0,
+              229.0
+            ]
+          },
+          "source_sockets": {
+            "joint": [
+              871,
+              534
+            ],
+            "core": [
+              980,
+              731
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 60679,
+          "high_coverage_pixels": 63620,
+          "soft_alpha_pixels": 24005,
+          "alpha_max": 253,
+          "atlas_rect": [
+            2074,
+            4,
+            299,
+            496
+          ]
+        },
+        {
+          "name": "boss-core",
+          "source_cell": [
+            1120,
+            478,
+            1536,
+            1024
+          ],
+          "source_crop": [
+            1176,
+            496,
+            1464,
+            1006
+          ],
+          "native_source_alpha": true,
+          "size": [
+            292,
+            514
+          ],
+          "anchor": [
+            146.0,
+            257.0
+          ],
+          "sockets": {
+            "core": [
+              146.0,
+              229.0
+            ]
+          },
+          "source_sockets": {
+            "core": [
+              1320,
+              723
+            ]
+          },
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "transparent_pixels": 58764,
+          "high_coverage_pixels": 60805,
+          "soft_alpha_pixels": 30519,
+          "alpha_max": 253,
+          "atlas_rect": [
+            2377,
+            4,
+            292,
+            514
+          ]
+        }
+      ],
+      "outputs": {
+        "chapter5-actors.png": {
+          "sha256": "d52842a8e9e2fcbd40c15ead2cd3cd9eac4c62359626e2994430f54e022d378d",
+          "bytes": 2087189
+        },
+        "chapter5-actors.properties": {
+          "sha256": "55a6b896fd8feecee56f95136a7d9dbf23fc1cb75271f278e0989897efaef153",
+          "bytes": 1821
+        },
+        "chapter5-background.png": {
+          "sha256": "9bd48be573d0711910b10fd369d086bfd8b03ce6f4c6e640db4442d68f5653bc",
+          "bytes": 2720656
+        },
+        "chapter5-background.properties": {
+          "sha256": "975adc1411a94e3573265a5b13f4c752135c214ef09bf4194c8a8db270354159",
+          "bytes": 343
+        }
+      }
+    }
+  },
+  "export_script_sha256": "595fe01da1478d27da7d5a0afd84f9dfbf6e0d31169d9571960b4fbc46ed0c67"
+}

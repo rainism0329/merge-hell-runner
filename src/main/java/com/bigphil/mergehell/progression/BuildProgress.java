@@ -1,6 +1,15 @@
 package com.bigphil.mergehell.progression;
 
 public final class BuildProgress {
+    public record Checkpoint(int level, int currentXp, int pendingChoices) {
+        public Checkpoint {
+            if (level < 1 || level > 1_000_000 || currentXp < 0
+                    || currentXp >= 100L + (level - 1L) * 50
+                    || pendingChoices < 0 || pendingChoices >= level) {
+                throw new IllegalArgumentException("Invalid saved build progression");
+            }
+        }
+    }
     private int level = 1;
     private int currentXp;
     private int pendingChoices;
@@ -44,5 +53,14 @@ public final class BuildProgress {
 
     public int level() {
         return level;
+    }
+
+    public Checkpoint checkpoint() { return new Checkpoint(level, currentXp, pendingChoices); }
+
+    public void restoreCheckpoint(Checkpoint checkpoint) {
+        java.util.Objects.requireNonNull(checkpoint, "checkpoint");
+        level = checkpoint.level();
+        currentXp = checkpoint.currentXp();
+        pendingChoices = checkpoint.pendingChoices();
     }
 }
