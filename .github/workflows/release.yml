@@ -52,7 +52,7 @@ jobs:
         run: |
           archive="build/distributions/merge-hell-runner-$VERSION.zip"
           test -f "$archive"
-          sha256sum "$archive" > "$archive.sha256"
+          (cd "$(dirname "$archive")" && sha256sum "$(basename "$archive")") > "$archive.sha256"
           echo "ARCHIVE=$archive" >> "$GITHUB_ENV"
 
       - name: Preserve release artifacts

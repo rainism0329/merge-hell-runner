@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "archive": "build/distributions/merge-hell-runner-2.0.0.zip",
+  "bytes": 35759236,
+  "sha256": "bc12837ead875c6b1568c277cf9c92b3f4acaa8c853ddfdb54008f1d051e0464",
+  "checksumFile": "build/distributions/merge-hell-runner-2.0.0.zip.sha256",
+  "pluginId": "com.bigphil.mergehell",
+  "sinceBuild": "232",
+  "buildPlugin": "passed",
+  "verifyPlugin": "passed",
+  "marketplaceNotesMatch": true,
+  "tests": {
+    "tests": 745,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "testScope": "Full suite passed before the final version and release-copy update; all packaged game classes and game resources are byte-identical to that tested candidate.",
+  "gameClassesCompared": 386,
+  "gameResourcesCompared": 43,
+  "nativeIdeInstallSmoke": "pending",
+  "externalPublication": "not performed"
+}

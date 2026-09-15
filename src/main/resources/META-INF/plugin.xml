@@ -19,13 +19,15 @@
             playable in the time it takes your CI pipeline to fail again.
         </p>
         <br>
-        <h3>🚀 What's inside v1.0.0:</h3>
+        <h3>🚀 What's inside:</h3>
         <ul>
             <li>🗺️ <b>5 Distinct Missions:</b> Run from <i>Repository City</i> to the <i>Heap District</i>, <i>Aerial Citadel</i>, <i>Geothermal Foundry</i>, and the reality-bending <i>Alien Hive</i>.</li>
-            <li>👹 <b>5 Unique Bosses:</b> Break the dependency graph of the <i>Legacy Code Monstrosity</i>, then face the <i>Memory Leak Daemon</i>, <i>Aerial Gantry Architect</i>, <i>Geothermal Siege Engine</i>, and the adaptive <i>Alien Rootheart</i>.</li>
+            <li>👹 <b>5 Unique Bosses:</b> Break the dependency graph of the <i>Legacy Code Monstrosity</i>, then face the <i>Memory Leak Daemon</i>, <i>Aerial Gantry Architect</i>, <i>Geothermal Siege Engine</i>, and the <i>Alien Rootheart</i>.</li>
             <li>🧬 <b>Level-Specific Enemies:</b> Fight heap leaks, rail sentinels, shield wardens, cable wasps, welding drones, thermal drillers, slag crawlers, resin spitters, spore drifters, and alien pouncers.</li>
             <li>🌊 <b>Arena Battle Zones:</b> Clear authored squads of chapter-specific enemies while navigating suspended platforms, foundry machinery and living defenses.</li>
-            <li>🔫 <b>6-Weapon Arsenal:</b> Blast bugs with <code>git push</code>, spread-fire <code>git push -f</code>, rapid <code>git commit -a</code>, the devastating <code>rm -rf /</code>, flaming <code>git blaze</code>, and the screen-clearing <code>sudo rm -rf /</code> laser.</li>
+            <li>🔫 <b>6-Weapon Arsenal:</b> Choose Commit Cannon, Force Push, Rapid CI, Garbage Collector, Firewall, or Refactor Beam, with dedicated upgrades and evolutions.</li>
+            <li><b>4 Operatives &amp; 3 Difficulties:</b> Pick your character and starting weapon independently, unlock the Night-shift engineer, and choose Relaxed, Standard, or Challenge.</li>
+            <li><b>Directional Combat:</b> Eight-way aiming, crouch fire, airborne downward shots, stationary aim, and independent drone companions.</li>
             <li>⚡ <b>Sudo Overclock &amp; Defense:</b> Kills and reflections charge a brief boosted barrage. Shield pickups grant temporary damage immunity; Shield Reboot can prevent a fatal hit, and health drops restore HP.</li>
             <li>🪙 <b>Coins &amp; Local Leaderboard:</b> Collect coins mid-run and chase your Top 5 high scores, saved right in your IDE.</li>
             <li>🏃 <b>Tight Platforming:</b> Double-jump, dash through danger with i-frames, and rack up a <b>combo multiplier</b> for style points.</li>
@@ -45,27 +47,17 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <h3>v1.0.0 — Combat &amp; Exploration Expansion</h3>
-        <ul>
-            <li><b>NEW:</b> Eight-way aiming, grounded crouch fire and stationary aim with matching articulated poses for every weapon.</li>
-            <li><b>NEW:</b> Four independent operatives, including a hidden Night-shift Engineer discovered in the first chapter.</li>
-            <li><b>NEW:</b> Relaxed, Standard and Challenge profiles with separate rankings, tougher enemies and faster Boss attack combinations.</li>
-            <li><b>NEW:</b> Longer routes across all five chapters, solid jump obstacles, crawl passages, upper facilities and optional secrets.</li>
-            <li><b>NEW:</b> Safe-segment saves preserve resources, route changes and discoveries while existing entrance saves remain compatible.</li>
-            <li><b>IMPROVED:</b> Illustrated route materials, a bilingual F1 controls guide and a one-second bomb cooldown. Audio is still muted by default.</li>
-        </ul>
-        <h3>Illustrated Campaign Overhaul</h3>
-        <p>Merge Hell Runner is now a complete five-mission campaign with a distinct world, enemy ecosystem, and boss encounter for every chapter.</p>
-        <ul>
-            <li><b>NEW:</b> Five visually distinct missions: Repository City, Heap District, Aerial Citadel, Geothermal Foundry, and Alien Hive.</li>
-            <li><b>NEW:</b> Five handcrafted bosses with unique phase rules, attacks, silhouettes, and encounter HUDs.</li>
-            <li><b>NEW:</b> Nine exclusive later-chapter enemy families with distinct movement, armor, attack warnings and projectile patterns.</li>
-            <li><b>NEW:</b> Authored arena squads, working elevators and counterweights, conveyors and coolant, breakable membranes and hatching nests.</li>
-            <li><b>NEW:</b> Six-weapon arsenal, including the Flame and Laser weapons.</li>
-            <li><b>NEW:</b> Coin collection and a persistent local Top-5 leaderboard.</li>
-            <li><b>NEW:</b> Platforming layer with dash i-frames, double jump, and combo multipliers.</li>
-            <li><b>FIXED:</b> Cleared arenas no longer restart, Lab boss shortcuts work in every mission, and mission-complete screens remain readable before the next level begins.</li>
-        </ul>
+<h3>Merge Hell Runner 2.0.0</h3>
+<p>A major upgrade to the campaign, combat, and visual experience.</p>
+<ul>
+  <li>Rebuilt worlds with richer scenery, distinct enemies, and multipart bosses.</li>
+  <li>Four playable characters, including the unlockable Night-shift Engineer.</li>
+  <li>Eight-way aiming, crouch fire, and deeper weapon and drone upgrades.</li>
+  <li>Three difficulty levels, longer routes, interactive terrain, and hidden secrets.</li>
+  <li>Improved character animation, enemy navigation, combat feedback, and HUD clarity.</li>
+  <li>English and Simplified Chinese support, improved checkpoints, and optional music and sound—muted by default.</li>
+</ul>
+<p>Plus fixes for running-shot range, drone behavior, collisions, and input handling.</p>
     ]]></change-notes>
 
     <idea-version since-build="232.0"/>

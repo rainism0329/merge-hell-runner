@@ -9,10 +9,14 @@
 
 Tired of fixing merge conflicts? Exhausted by memory leaks? **Don't fix them. Jump over them.** Turn your coding stress into high-octane parkour gameplay.
 
-## Illustrated campaign overhaul
+## Version 2.0.0 · Illustrated worlds, deeper combat
 
-The current source includes six starting weapons with upgrades and evolutions, six combat
-combinations, distinct synthesized weapon sounds, checkpoint Continue, persistent settings,
+The 2.0.0 release brings rebuilt later chapters, four playable operatives, eight-way aiming,
+three difficulty settings, longer exploration routes and quieter, clearer combat presentation.
+Read the [release notes](docs/releases/2.0.0.md) for the highlights.
+
+Build your run with six starting weapons, upgrades, evolutions and six combat combinations.
+The game includes distinct synthesized weapon sounds, checkpoint Continue, persistent settings,
 and a compact HUD for small tool windows. Press **O** from the menu or pause screen for settings;
 use arrows to select/adjust, Enter to toggle, and Esc to return. Audio is **muted by default**;
 **M** enables or mutes it and saves your choice. Five world ambience loops and a Boss theme
@@ -35,7 +39,6 @@ route, an independent painted panorama and a multipart Boss with its own combat 
 Chapter 3 uses suspended bridges, counterweights and moving lifts; Chapter 4 uses conveyors,
 molten trenches and coolant; Chapter 5 uses acid, root ledges, living membranes and hatching nests.
 The original first two chapters retain their industrial city and leaking pipeworks identity.
-This is a local development package; it has not been published to the Marketplace.
 The [chapter design and acceptance matrix](docs/design/evolution/chapter-quality-overhaul.md)
 defines the overhaul, and [art provenance](docs/design/evolution/chapter-premium-art.md)
 records the production assets. Headless captures and automated combat checks are recorded separately
@@ -43,10 +46,10 @@ from native IDE performance and human playthroughs.
 
 ---
 
-## Combat & exploration update · 2026-09-15
+## Combat, characters and exploration
 
 Choose **Y** for your operative, **D** for Relaxed / Standard / Challenge, and **Z** for
-an independent starting weapon. The default is Standard, with tougher production enemies,
+an independent starting weapon. The default is Standard, with tougher enemies,
 faster recovery between attacks, paired later Boss patterns and finite bomb damage. Boss
 telegraphs retain their preparation time. Rankings are separated by difficulty.
 
@@ -56,7 +59,7 @@ to aim without walking. All six weapons and all four illustrated operatives use 
 poses. **F1** opens the bilingual controls guide and pauses combat.
 
 All five routes now include solid obstacles, upper routes, two required facility interactions
-and an optional secret room. Later Boss gates move from 7,600 to 9,900 world units; the first
+and an optional secret room. Boss gates in chapters 2–5 move from 7,600 to 9,900 world units; the first
 mission gains about 27% more authored time. Press **E** at the marked facilities. The first
 chapter's abandoned office unlocks the tired, bespectacled **Night-shift Engineer** in a normal
 campaign. Practice can preview the character. Quiet ground segments save resources, route
@@ -69,6 +72,14 @@ compatible and default to Repair / Standard. Audio remains muted by default.
 
 See the [implementation and validation record](docs/design/evolution/combat-depth-validation.md)
 for balance values, source artwork and the limits of automated playthrough evidence.
+
+Character proportions, shoulder and neck connections, two-handed weapon grips and crouch poses
+have been refined across all four operatives. Ground enemies can climb around solid route walls;
+fliers route above or below them, and burrowers wait for clear ground before emerging. Ordinary
+shots now use local weapon or organ charge cues, while piercing shots, rushes, leaps and Boss
+attacks keep the warning detail needed to react. Enemy health bars appear after damage.
+See the [character, navigation and warning validation](docs/design/evolution/character-terrain-polish-validation.md)
+for the latest evidence.
 
 ---
 
@@ -83,15 +94,15 @@ records the explicit capture fixtures, combat probes, bilingual checks and local
 
 ---
 
-## 🚀 Features v1.0.0: The Campaign Release
+## 🚀 Campaign features
 
-Version 1.0.0 turns the endless runner into a **full 5-level campaign** — distinct worlds, arena survival, and a handcrafted boss waiting at the end of every route.
+Play a **five-chapter campaign** with distinct worlds, arena survival, exploration and a boss at the end of every route.
 
 * **🗺️ 5-Level Campaign**: Run through **Repository City → Heap District → Aerial Citadel → Geothermal Foundry → Alien Hive**. The opening mission evolves across five biomes; every later mission has its own architecture, route layout, and atmosphere.
 * **👹 5 Unique Bosses**: Break the dependency graph of the **Legacy Code Monstrosity** (⚠️), survive **Memory Leak Daemon** (💀), outmaneuver **Aerial Gantry Architect**, dismantle the **Geothermal Siege Engine**, and destroy the **Alien Rootheart**. Each encounter has three stages and its own attacks, summons, silhouette, and HUD identity.
 * **🧬 Level-Specific Enemies**: Heap **Leaks** give way to rail sentinels, shield wardens and cable wasps in the sky; welding drones, thermal drillers and slag crawlers in the foundry; resin spitters, spore drifters and pouncers in the hive. Each later chapter uses only its own three families.
 * **🌊 Arena Battle Zones**: Clear authored squads before the camera unlocks. Later chapters combine their own specialist enemies with bridges, foundry platforms or living defenses.
-* **🔫 6-Weapon Arsenal**: Swap between `git push`, spread-fire `git push -f`, rapid `git commit -a`, the devastating `rm -rf /`, flaming `git blaze`, and the screen-clearing `sudo rm -rf /` laser.
+* **🔫 6-Weapon Arsenal**: Choose **Commit Cannon**, **Force Push**, **Rapid CI**, **Garbage Collector**, **Firewall**, or **Refactor Beam**, with dedicated upgrade and evolution paths.
 * **⚡ Sudo Overclock**: Kills and projectile reflections build overclock charge. Filling the meter grants a brief boosted spread-shot barrage.
 * **🛡️ Defense Matrix**: Shield pickups provide temporary damage immunity; the Shield Reboot upgrade can prevent a fatal hit. Grab ❤️ health drops to recover HP.
 * **🪙 Coins & Leaderboard**: Collect coins mid-run and chase your **Top 5 high scores**, saved locally in your IDE.
@@ -153,7 +164,7 @@ permanently **unranked** and discards its own campaign checkpoint. Use **H** for
 gate. Press **N** to start a fresh ranked run with Lab Mode disabled.
 
 Repository City's route now shows stage number, current-stage time and the actual Boss
-gate conditions. Its seven timed stages take 4:20 of active game time; the last requires
+gate conditions. Its seven timed stages take approximately 5:30 of active game time; the last requires
 30 kills in that stage, followed by clearing remaining enemies. Pauses and upgrade choices
 do not advance the route. Moving shots inherit the player's completed horizontal movement
 once at launch, preserving each weapon's relative speed during a run.
@@ -253,9 +264,9 @@ and recovery windows.
 
 | Enemy | Behavior | Counterplay |
 | :--- | :--- | :--- |
-| **Survey Sentry** (`SENTINEL`) | A planted survey turret locks a long sightline, then fires one fast rail shot. Its firing position stays fixed through the warning. | Move out of the locked line before release, then attack during its long recovery. Ground sentinels stay on their side of a bridge gap. |
+| **Survey Sentry** (`SENTINEL`) | A planted survey turret commits to one fast rail shot, with a bright muzzle and short direction marks. Its firing position stays fixed through the warning. | Change height or move after it takes aim, then attack during recovery. Ground sentinels stay on their side of a bridge gap. |
 | **Bulwark Warden** (`WARDEN`) | A construction guard advances behind frontal armor, then marks and commits to a short ground ram. | Frontal guarding reduces damage without granting immunity. Attack from behind, jump over the committed ram, or punish the open recovery. |
-| **Cable Wasp** (`RIGGER`) | An airborne rig patrols across shafts and fires two parallel lanes above and below its aiming line. | Read both lanes and use the space between them. Jump to its height or let drones cover the air while it recovers. |
+| **Cable Wasp** (`RIGGER`) | An airborne rig patrols across shafts, charges its weapon and fires two parallel shots above and below its aiming line. | Dodge the pair or use the space between them. Jump to its height or let drones cover the air while it recovers. |
 
 ### Chapter 4 · Geothermal Foundry
 
@@ -263,13 +274,13 @@ and recovery windows.
 | :--- | :--- | :--- |
 | **Arc Welder** (`INTERRUPT`) | A hovering welder marks a destination, dives along the committed path and slowly climbs back to patrol height. | Move after the destination locks; punish the low end of the dive before it returns to patrol height. |
 | **Thermal Driller** (`DRILLER`) | A tracked burrower approaches beneath the deck, pauses with an emergence warning, then bursts upward before settling into recovery. | Its exposed crest remains shootable while buried. The warning has no contact damage; clear the marked eruption and attack the fully exposed body afterward. |
-| **Slag Bellows** (`SLAG_SPITTER`) | A heavy furnace crawler plants itself and lobs a shell along a visible gravity-driven arc toward a locked position. | Move away from the predicted landing after the warning locks. Close the distance between volleys, using ledges and coolant to manage the surrounding floor hazards. |
+| **Slag Bellows** (`SLAG_SPITTER`) | A heavy furnace crawler plants itself, charges its furnace and lobs a shell toward the position it targeted. The shell follows a gravity-driven arc. | Keep moving after it charges and watch the falling shell. Close the distance between volleys, using ledges and coolant to manage the surrounding floor hazards. |
 
 ### Chapter 5 · Alien Hive
 
 | Enemy | Behavior | Counterplay |
 | :--- | :--- | :--- |
-| **Resin Mimic** (`MIRROR`) | A chitinous ground creature keeps its distance, releases a two-shot resin fan and retreats during recovery. | Read the fan's separated paths, then close in or change height while it retreats. |
+| **Resin Mimic** (`MIRROR`) | A chitinous ground creature keeps its distance, charges its firing organ, releases a two-shot resin fan and retreats during recovery. | Dodge the separated shots, then close in or change height while it retreats. |
 | **Spore Drifter** (`SPORE_POD`) | A floating incubator releases three arcing seeds at different horizontal speeds after a long warning. | Track the descending arcs and reposition between their landings. Reach it from root ledges or use drones to cover its elevated body. |
 | **Chitin Pouncer** (`LURKER`) | A low, fast six-legged creature stalks the player, crouches to mark a landing and commits to a long arcing leap. Route nests and the Rootheart can hatch more of these creatures. | Change position after the landing locks, then attack during the recovery. Destroy route nests early to prevent their remaining broods. |
 
@@ -292,10 +303,10 @@ and recovery windows.
 ### Install Plugin (Manual)
 1.  Build the plugin: `./gradlew buildPlugin`
 2.  Go to IDEA `Settings` -> `Plugins` -> `⚙️` -> `Install Plugin from Disk...`
-3.  Select `build/distributions/merge-hell-runner-1.0.0.zip` without extracting it.
+3.  Select `build/distributions/merge-hell-runner-2.0.0.zip` without extracting it.
 
 For release engineering instructions, see [RELEASING.md](RELEASING.md). For the full
-1.0.0 change list, see [CHANGELOG.md](CHANGELOG.md).
+change history, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

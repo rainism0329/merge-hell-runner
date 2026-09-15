@@ -20,8 +20,8 @@ build/distributions/merge-hell-runner-<version>.zip
 Create a SHA-256 file next to it:
 
 ```bash
-sha256sum build/distributions/merge-hell-runner-<version>.zip \
-  > build/distributions/merge-hell-runner-<version>.zip.sha256
+cd build/distributions
+sha256sum merge-hell-runner-<version>.zip > merge-hell-runner-<version>.zip.sha256
 ```
 
 On Windows PowerShell, use:
@@ -37,6 +37,7 @@ $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
 - [ ] Update `pluginVersion` in `gradle.properties`.
 - [ ] Add the dated release to `CHANGELOG.md`.
 - [ ] Add `docs/releases/<version>.md` for the GitHub Release body.
+- [ ] Keep the Marketplace HTML identical to the descriptor's change notes.
 - [ ] Confirm Marketplace description and change notes in `plugin.xml`.
 - [ ] Run `clean test buildPlugin verifyPlugin` on JDK 17.
 - [ ] Install the generated ZIP into IntelliJ IDEA 2023.2 and the newest supported IDE.
@@ -48,7 +49,7 @@ $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
 
 ## Automated release
 
-Pushing a tag such as `v1.0.0` starts `.github/workflows/release.yml`. The workflow:
+Pushing a tag such as `v2.0.0` starts `.github/workflows/release.yml`. The workflow:
 
 1. Rejects the tag if it does not match `pluginVersion`.
 2. Runs all tests and validates the plugin archive.
@@ -76,3 +77,8 @@ the environment, then run:
 
 Do not reuse a version that has already been uploaded to Marketplace. Increment
 `pluginVersion` for every subsequent upload, including corrections.
+
+## Prepared 2.0.0 materials
+
+See the [2.0.0 publishing checklist](docs/releases/2.0.0-publishing.md) for the concise English
+release notes, Marketplace HTML, candidate archive and remaining publication steps.
