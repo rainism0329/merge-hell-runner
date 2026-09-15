@@ -19,6 +19,7 @@ public class Projectile {
     private final ProjectileType type;
     private boolean dead = false;
     private final int width, height;
+    private boolean oriented;
     private final ProjectileSpec spec;
     private final double originalSpeed;
     private int remainingPierces;
@@ -38,6 +39,14 @@ public class Projectile {
 
     public Projectile(double x, double y, ProjectileSpec spec) {
         this(x, y, spec, projectileTypeFor(spec));
+    }
+
+    /** Player fire originates at the visible muzzle, centered in the rotated projectile. */
+    public static Projectile fromMuzzle(double x, double y, ProjectileSpec spec) {
+        Projectile p = new Projectile(x, y, spec);
+        p.x -= p.width / 2.0; p.y -= p.height / 2.0;
+        p.previousX = p.x; p.previousY = p.y; p.oriented = true;
+        return p;
     }
 
     /** Gravity is opt-in for authored enemy lobbers; every existing projectile stays linear. */
@@ -179,18 +188,20 @@ public class Projectile {
     public double hitFraction(Rectangle target) {
         if (target.width <= 0 || target.height <= 0) return Double.POSITIVE_INFINITY;
         double entry = 0, exit = 1, dx = x - previousX, dy = y - previousY;
-        double left = target.getMinX() - width + 1e-9, right = target.getMaxX() - 1e-9;
-        double top = target.getMinY() - height + 1e-9, bottom = target.getMaxY() - 1e-9;
+        double halfX = collisionHalfX(), halfY = collisionHalfY();
+        double px = previousX + width / 2.0, py = previousY + height / 2.0;
+        double left = target.getMinX() - halfX + 1e-9, right = target.getMaxX() + halfX - 1e-9;
+        double top = target.getMinY() - halfY + 1e-9, bottom = target.getMaxY() + halfY - 1e-9;
         if (Math.abs(dx) < 1e-12) {
-            if (previousX < left || previousX > right) return Double.POSITIVE_INFINITY;
+            if (px < left || px > right) return Double.POSITIVE_INFINITY;
         } else {
-            double a = (left - previousX) / dx, b = (right - previousX) / dx;
+            double a = (left - px) / dx, b = (right - px) / dx;
             entry = Math.max(entry, Math.min(a, b)); exit = Math.min(exit, Math.max(a, b));
         }
         if (Math.abs(dy) < 1e-12) {
-            if (previousY < top || previousY > bottom) return Double.POSITIVE_INFINITY;
+            if (py < top || py > bottom) return Double.POSITIVE_INFINITY;
         } else {
-            double a = (top - previousY) / dy, b = (bottom - previousY) / dy;
+            double a = (top - py) / dy, b = (bottom - py) / dy;
             entry = Math.max(entry, Math.min(a, b)); exit = Math.min(exit, Math.max(a, b));
         }
         return entry <= exit ? entry : Double.POSITIVE_INFINITY;
@@ -312,7 +323,22 @@ public class Projectile {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle((int) x, (int) y, width, height);
+        if (!oriented) return new Rectangle((int) x, (int) y, width, height);
+        double hx = collisionHalfX(), hy = collisionHalfY();
+        int left = (int) Math.floor(x + width / 2.0 - hx), top = (int) Math.floor(y + height / 2.0 - hy);
+        return new Rectangle(left, top, (int)Math.ceil(x + width / 2.0 + hx) - left,
+                (int)Math.ceil(y + height / 2.0 + hy) - top);
+    }
+
+    private double collisionHalfX() {
+        if (!oriented) return width / 2.0;
+        double a = Math.atan2(vy, vx);
+        return (Math.abs(Math.cos(a))*width + Math.abs(Math.sin(a))*height)/2;
+    }
+    private double collisionHalfY() {
+        if (!oriented) return height / 2.0;
+        double a = Math.atan2(vy, vx);
+        return (Math.abs(Math.sin(a))*width + Math.abs(Math.cos(a))*height)/2;
     }
 
     private static ProjectileSpec legacySpec(double speedX, double speedY, ProjectileType type) {

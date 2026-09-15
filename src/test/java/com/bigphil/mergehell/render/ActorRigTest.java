@@ -5,6 +5,8 @@ import com.bigphil.mergehell.assets.AssetStore;
 import com.bigphil.mergehell.model.EntityType;
 import com.bigphil.mergehell.model.ObstacleManager;
 import com.bigphil.mergehell.model.Player;
+import com.bigphil.mergehell.combat.HeroAim;
+import com.bigphil.mergehell.progression.CharacterId;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -19,8 +21,8 @@ class ActorRigTest {
     private static final IndustrialArt ART = IndustrialArt.load();
 
     @Test void obliqueSourceLimbsAttachBothSocketsWithoutStretchingCircularJoints() {
-        for (String id : List.of("repair", "hostiles")) {
-            List<String> parts = id.equals("repair") ? List.of("upper-arm", "forearm", "thigh", "shin")
+        for (String id : List.of("repair", "scout", "warden", "engineer", "hostiles")) {
+            List<String> parts = !id.equals("hostiles") ? List.of("upper-arm", "forearm", "thigh", "shin")
                     : List.of("bug-upper", "bug-lower", "debt-arm", "debt-leg");
             for (String part : parts) {
                 var frame = ART.frame(id, part).orElseThrow();
@@ -63,12 +65,19 @@ class ActorRigTest {
     }
 
     @Test void muzzleStaysAtTheActualPlayerEmissionPointInBothDirectionsThroughoutRecoil() {
-        var muzzle = ART.frame("repair", "cannon").orElseThrow().sockets().get("muzzle");
-        for (int facing : new int[]{1, -1}) for (int step = 0; step <= 20; step++) {
+        for (CharacterId role : CharacterId.values())
+        for (int facing : new int[]{1, -1}) for (boolean crouching : new boolean[]{false,true})
+        for (double angle : new double[]{-Math.PI/2,-Math.PI/4,0,Math.PI/4,Math.PI/2})
+        for (int step = 0; step <= 20; step++) {
+            var muzzle = ART.frame(role.art(), "cannon").orElseThrow().sockets().get("muzzle");
+            var pose = new ActorVisuals.Hero(115,130,facing,ActorVisuals.Action.IDLE,0,
+                    step/20.0,0,false,false,1,Math.cos(angle)*facing,Math.sin(angle),crouching,role);
+            var expected=HeroAim.local(Math.cos(angle),Math.sin(angle),crouching,role);
             AffineTransform world = new AffineTransform();
             world.translate(115, 130); world.scale(facing, 1);
-            world.concatenate(ActorVisuals.cannonTransform(ART, step / 20.0));
-            assertPoint(115 + facing * 15, 115, world.transform(point(muzzle), null));
+            world.concatenate(ActorVisuals.cannonTransform(ART, pose));
+            assertPoint(115 + facing * expected.x(), 130+expected.y(), world.transform(point(muzzle), null));
+            assertUniform(world);
         }
     }
 

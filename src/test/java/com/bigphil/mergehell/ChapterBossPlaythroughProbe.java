@@ -77,7 +77,9 @@ public final class ChapterBossPlaythroughProbe {
             h.set("session", session); h.player().setRunBuild(session.runBuild()); h.player().setCombatSeed(seed);
             h.set("level", chapter); h.invoke("advanceLevel"); step(h);
             ((LevelManager) h.get("levelManager")).advanceToBossGateForTesting();
-            h.player().setX(7600); h.player().setY(450); h.set("cameraX", 7312.0); step(h);
+            h.finishExplorationFixture();
+            double gate=h.panel.getLevelManager().getBossGateX();
+            h.player().setX(gate); h.player().setY(450); h.set("cameraX", gate-288); step(h);
             for (int i = 0; i < 260 && h.state() != GameState.BOSS_FIGHT; i++) step(h);
             if (h.state() != GameState.BOSS_FIGHT || h.player().getHp() != 100
                     || h.player().getLives() != 3 || h.player().isDebugMode())
@@ -124,8 +126,14 @@ public final class ChapterBossPlaythroughProbe {
                     }
                     int direction = desired < p.getX() - 8 ? -1 : desired > p.getX() + 8 ? 1 : 0;
                     if (direction == 0 && Math.abs(dx) > 30 && p.getFacingDir() != (dx < 0 ? -1 : 1)) direction = dx < 0 ? -1 : 1;
-                    held(h, "LEFT", "LEFT_R", "keyLeft", direction < 0);
-                    held(h, "RIGHT", "RIGHT_R", "keyRight", direction > 0);
+                    double dy=aim.bounds().getCenterY()-(p.getY()+p.getBounds().height*.5);
+                    int aimVertical=Math.abs(dy)>Math.abs(dx)*.414?(dy<0?-1:1):0;
+                    int aimHorizontal=Math.abs(dy)>Math.abs(dx)*2.414?0:dx<0?-1:1;
+                    held(h,"AIM_LOCK","AIM_LOCK_R","keyAimLock",direction==0);
+                    held(h,"MENU_UP","MENU_UP_R","keyUp",aimVertical<0);
+                    held(h,"MENU_DOWN","MENU_DOWN_R","keyDown",aimVertical>0 && !p.isGrounded());
+                    held(h, "LEFT", "LEFT_R", "keyLeft", direction==0?aimHorizontal<0:direction<0);
+                    held(h, "RIGHT", "RIGHT_R", "keyRight", direction==0?aimHorizontal>0:direction>0);
                     held(h, "SHOOT", "SHOOT_R", "keyShoot", true);
                     reason = escaping ? "evade:" + action : "aim:" + target;
 

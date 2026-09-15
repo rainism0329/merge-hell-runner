@@ -23,15 +23,16 @@ public final class WeaponFireController {
                     : (i - (stats.pellets() - 1) / 2.0) * stats.spreadRadians() / (stats.pellets() - 1);
             // One launch-time velocity addition preserves the authored spread in the shooter's frame.
             // Projectiles never read the player's movement again after this request.
-            double vx = Math.cos(offset) * stats.speed() * request.facing() + request.shooterVelocityX();
-            double vy = Math.sin(offset) * stats.speed();
+            double c = Math.cos(offset), s = Math.sin(offset) * request.facing();
+            double vx = (c * request.aim().x() - s * request.aim().y()) * stats.speed() + request.shooterVelocityX();
+            double vy = (c * request.aim().y() + s * request.aim().x()) * stats.speed();
             boolean critical = request.random().nextDouble() < stats.criticalChance();
             int damage = critical ? baseDamage * 2 : baseDamage;
             ProjectileSpec spec = new ProjectileSpec(
                     request.weapon(), damage, vx, vy, critical, pierces,
                     stats.knockback(), stats.ricochets(),
                     ProjectileEffects.forWeapon(request.weapon(), request.evolved()));
-            result.add(new Projectile(request.originX(), request.originY(), spec));
+            result.add(Projectile.fromMuzzle(request.originX(), request.originY(), spec));
         }
         return result;
     }

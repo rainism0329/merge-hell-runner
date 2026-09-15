@@ -12,6 +12,14 @@ import java.util.Set;
 
 /** Heap District mechanics owned by the simulation. No actors, rendering, wall clock or storage. */
 public final class HeapDistrictController {
+    public Set<Integer> savedUsedNodes() {
+        Set<Integer> used=new HashSet<>();for(var node:nodes)if(!node.bossStation && node.state==NodeState.USED)used.add(node.id);return used;
+    }
+    public void restoreUsedNodes(Set<Integer> used) {
+        if(used==null || used.stream().anyMatch(id->id==null || nodes.stream().noneMatch(n->n.id==id&&!n.bossStation)))
+            throw new IllegalArgumentException("Invalid heap nodes");
+        for(var node:nodes)if(used.contains(node.id))node.state=NodeState.USED;
+    }
     public static final int POOL_WARNING_TICKS = 60;
     public static final int POOL_ACTIVE_TICKS = 250;
     public static final int MAX_POOLS = 2;

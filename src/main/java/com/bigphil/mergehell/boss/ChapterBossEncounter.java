@@ -39,6 +39,10 @@ public final class ChapterBossEncounter {
     private Action action = Action.ARRIVAL;
     private Step step = Step.REST;
     private int pattern;
+    private com.bigphil.mergehell.progression.GameDifficulty combatDifficulty;
+    public void configureCombat(com.bigphil.mergehell.progression.GameDifficulty difficulty) {
+        combatDifficulty=java.util.Objects.requireNonNull(difficulty);
+    }
     private List<Boss.Bounds> volumes = List.of();
     private List<Boss.PredictedShot> shots = List.of();
 
@@ -339,6 +343,11 @@ public final class ChapterBossEncounter {
     }
 
     private void rest(Action action, int ticks) {
+        if(combatDifficulty!=null && action==Action.READY) {
+            ticks=com.bigphil.mergehell.progression.CombatBalance.recovery(ticks,combatDifficulty);
+            // Later stages pair attacks, with a full warning before each commitment.
+            if(stage>=2 && pattern%2==1) ticks=Math.max(24,ticks/2);
+        }
         this.action = action;
         step = Step.REST;
         remaining = ticks;

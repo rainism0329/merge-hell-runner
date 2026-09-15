@@ -30,6 +30,10 @@ class GameTextTest {
                     assertTrue(translated.codePoints().anyMatch(GameTextTest::han), key + " => " + translated);
             }
         }
+        try (var language = GameText.use(GameLanguage.SIMPLIFIED_CHINESE)) {
+            assertTrue(GameText.text("[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE").contains("移动"));
+            assertEquals("操作说明", GameText.message("controls.guideLabel"));
+        }
     }
 
     @Test void existingLogAndNestedNamesSwitchWithoutChangingTheirSource() {
@@ -115,7 +119,12 @@ class GameTextTest {
         while (matcher.find()) slots.add(matcher.group()); return slots;
     }
     private static Properties bundle(String language) throws Exception {
-        Properties values = new Properties();
+        Properties values = new Properties() {
+            @Override public synchronized Object put(Object key, Object value) {
+                assertFalse(containsKey(key), "Duplicate locale key: " + key);
+                return super.put(key, value);
+            }
+        };
         try (var reader = new InputStreamReader(Objects.requireNonNull(GameText.class.getResourceAsStream(
                 "/game/i18n/messages_" + language + ".properties")), StandardCharsets.UTF_8)) { values.load(reader); }
         return values;

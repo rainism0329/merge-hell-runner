@@ -1,0 +1,2 @@
+profile,chapter,seed,result,steps,bossHp,bossMaxHp,bossStage,playerHp,lives,bombs,kills,partBreaks,damageEvents,longestDamageStall,reason
+base,3,2026091452,BOSS_DEFEATED,5538,0,3800,3,46,3,3,0,2,3,281,aim:core

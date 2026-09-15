@@ -90,7 +90,7 @@ class GamePanelLifecycleTest {
             storage.releaseRun("reopened-window");
         } else {
             assertTrue(storage.readCheckpoint().isEmpty());
-            assertEquals(1, storage.getState().topScores.size());
+            assertEquals(1, storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).size());
         }
     }
 

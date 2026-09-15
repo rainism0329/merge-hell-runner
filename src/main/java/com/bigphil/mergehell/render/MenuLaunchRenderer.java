@@ -7,7 +7,11 @@ import java.awt.*;
 /** The menu's visible actions and their logical hit areas share the same layout. */
 public final class MenuLaunchRenderer {
     public enum Choice { START, PRACTICE, BOSS, CONTINUE, SETTINGS, MUTE }
-    public record Model(boolean godArmed, int savedWorld, boolean otherWindow, boolean muted) { }
+    public record Model(boolean godArmed, int savedWorld, boolean otherWindow, boolean muted, boolean savedSegment) {
+        public Model(boolean godArmed, int savedWorld, boolean otherWindow, boolean muted) {
+            this(godArmed, savedWorld, otherWindow, muted, false);
+        }
+    }
 
     private static Rectangle bounds(Choice choice) {
         return switch (choice) {
@@ -40,8 +44,10 @@ public final class MenuLaunchRenderer {
             g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compact ? 18 : 15)));
             g.setColor(new Color(205, 220, 207));
             String continuation = model.otherWindow() ? "ANOTHER WINDOW IS SAVING THE CAMPAIGN"
-                    : model.savedWorld() > 0 ? "[ R ] Continue · World " + model.savedWorld() + " entrance"
-                    : "No campaign save · Saved at world entrances";
+                    : model.savedWorld() > 0 ? model.savedSegment()
+                        ? GameText.message("explore.continue", model.savedWorld())
+                        : "[ R ] Continue · World " + model.savedWorld() + " entrance"
+                    : GameText.message("explore.noSave");
             GameText.draw(g, continuation, saved.x + 12, saved.y + 22);
             g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compact ? 17 : 14)));
             for (Choice choice : new Choice[]{Choice.SETTINGS, Choice.MUTE}) {

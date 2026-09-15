@@ -6,7 +6,12 @@ import java.util.Objects;
 public record FireRequest(
         WeaponId weapon, double originX, double originY, int facing,
         CombatStats stats, boolean overclocked,
-        RandomGenerator random, boolean evolved, double shooterVelocityX) {
+        RandomGenerator random, boolean evolved, double shooterVelocityX, Aim aim) {
+    public FireRequest(WeaponId weapon, double originX, double originY, int facing,
+                       CombatStats stats, boolean overclocked, RandomGenerator random, boolean evolved,
+                       double shooterVelocityX) {
+        this(weapon, originX, originY, facing, stats, overclocked, random, evolved, shooterVelocityX, Aim.horizontal(facing));
+    }
     public FireRequest(WeaponId weapon, double originX, double originY, int facing,
                        CombatStats stats, boolean overclocked, RandomGenerator random) {
         this(weapon, originX, originY, facing, stats, overclocked, random, false);
@@ -19,6 +24,7 @@ public record FireRequest(
         Objects.requireNonNull(weapon, "weapon");
         Objects.requireNonNull(stats, "stats");
         Objects.requireNonNull(random, "random");
+        Objects.requireNonNull(aim, "aim");
         if (facing != -1 && facing != 1) throw new IllegalArgumentException("facing must be -1 or 1");
         if (!Double.isFinite(originX) || !Double.isFinite(originY)) throw new IllegalArgumentException("Invalid firing origin");
         if (!Double.isFinite(shooterVelocityX)) throw new IllegalArgumentException("Invalid shooter velocity");

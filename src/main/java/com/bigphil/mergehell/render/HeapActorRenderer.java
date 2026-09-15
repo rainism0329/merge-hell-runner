@@ -78,18 +78,13 @@ public final class HeapActorRenderer {
     }
 
     private static void leakStatus(Graphics2D target, ActorVisuals.Hostile p) {
-        if (p.death() > 0) return;
+        if (!EnemyWarningRenderer.showHealth(p)) return;
         Graphics2D status = (Graphics2D) target.create();
         try {
             status.setColor(new Color(9, 16, 18, 225));
             status.fillRoundRect((int) p.x(), (int) p.y() - 9, (int) p.width(), 4, 3, 3);
             status.setColor(RED); status.fillRoundRect((int) p.x(), (int) p.y() - 9,
                     (int) (p.width() * Math.max(0, p.hp()) / Math.max(1, p.maxHp())), 4, 3, 3);
-            // Leak currently has no projectile attack. A warning is shown only if the logic adds one.
-            if (p.warning() > 0) {
-                status.setColor(RED); status.setStroke(new BasicStroke(2));
-                status.drawOval((int) (p.x() + p.width() / 2 - 6), (int) p.y() - 26, 12, 12);
-            }
         } finally { status.dispose(); }
     }
 

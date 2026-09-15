@@ -31,6 +31,10 @@ public class CollisionSystem {
     private final BooleanSupplier phaseOneDrops;
     private final IntSupplier comboGraceTicks;
     private java.util.function.BiPredicate<Projectile, Double> worldImpact = (projectile, before) -> false;
+    private java.util.function.BiPredicate<Projectile, Double> enemyWorldImpact = (projectile, before) -> false;
+    public void setEnemyWorldImpactHandler(java.util.function.BiPredicate<Projectile, Double> handler) {
+        enemyWorldImpact=Objects.requireNonNull(handler);
+    }
 
     /** Simulation-owned scenery claims contacts in the same swept order as enemies. */
     public void setWorldImpactHandler(java.util.function.BiPredicate<Projectile, Double> handler) {
@@ -154,7 +158,7 @@ public class CollisionSystem {
         processEnemyBullets(ctx, enemyManager.getEnemyBullets(), player, projectiles, particles, texts, panelWidth, panelHeight, cameraX);
         processMeleeAttack(ctx, player, enemyManager, boss, particles, texts);
         processPlayerEnemyCollisions(ctx, player, enemyManager, particles, texts, logger);
-        processPlayerBossCollision(ctx, player, boss, state, texts, logger);
+        processPlayerBossCollision(ctx, player, boss, state, texts, logger, cameraX, panelWidth);
     }
 
     private void processProjectileCollisions(Context ctx,
@@ -189,12 +193,13 @@ public class CollisionSystem {
                 if (!p.isDead() && worldImpact.test(p, p.hitFraction(en.getBounds()))) break;
                 if (!en.isDead() && en.getType().isHostile() && !p.isDead()
                         && p.canHit(en) && p.hits(en.getBounds())) {
-                    int hitDirection = p.getVx() >= 0 ? 1 : -1;
+                    boolean vertical = Math.abs(p.getVx())<.001 && Math.abs(p.getVy())>.001;
+                    int hitDirection = vertical?0:p.getVx()>=0?1:-1;
                     ProjectileEffects effects = p.getSpec().effects();
                     int damage = p.getDamage();
                     if (ctx.marks.containsKey(en)) damage = (int) Math.ceil(damage * 1.25);
                     DamageSource source = new DamageSource(p.getWeapon(), p.getRootEventId(), p.getDamageKind(), 0);
-                    double knockback = Math.min(24, p.getKnockback());
+                    double knockback = vertical ? 0 : Math.min(24, p.getKnockback());
                     double clippedKnockback = clippedKnockback(en, knockback, hitDirection, terrain);
                     boolean hitWall = clippedKnockback < knockback;
                     damageEnemy(ctx, en, damage, clippedKnockback, hitDirection,
@@ -466,6 +471,7 @@ public class CollisionSystem {
         while (it.hasNext()) {
             Projectile b = it.next();
             b.update();
+            if(enemyWorldImpact.test(b,b.hitFraction(player.getBounds()))) {it.remove();continue;}
             if (b.getX() < leftBound || b.getX() > rightBound
                     || b.getY() < -50 || b.getY() > panelHeight + 50 || b.isDead()) {
                 it.remove();
@@ -507,16 +513,16 @@ public class CollisionSystem {
             if (b.isDead()) { it.remove(); continue; }
 
             // Enemy bullet hits player
-            if (player.getBounds().intersects(b.getBounds())) {
+            if (b.hits(player.getBounds())) {
                 b.setDead(true);
                 if (player.getShieldTimer() > 0 || player.getInvincibleTimer() > 0) {
                     spawnExplosion(particles, (int) b.getX(), (int) b.getY(), 8, GameColors.SHIELD_CYAN);
                 } else {
-                    player.takeDamage(b.getDamage());
+                    int hpBefore=player.getHp();player.takeDamage(b.getDamage());
                     ctx.shakeTimer = 8;
                     ctx.flashTimer = 8;
                     spawnExplosion(particles, (int) b.getX(), (int) b.getY(), 10, GameColors.DANGER_RED);
-                    texts.add(new FloatingText(b.getX(), b.getY(), "-" + b.getDamage(), Color.RED));
+                    if(hpBefore>player.getHp())texts.add(new FloatingText(b.getX(), b.getY(), "-" + (hpBefore-player.getHp()), Color.RED));
                 }
                 it.remove();
             }
@@ -602,7 +608,7 @@ public class CollisionSystem {
                                             Boss boss,
                                             GameState state,
                                             List<FloatingText> texts,
-                                            Consumer<String> logger) {
+                                            Consumer<String> logger, double cameraX, int panelWidth) {
 
         if (state != GameState.BOSS_FIGHT || boss == null || !boss.isActive() || boss.getHp() <= 0) return;
         Rectangle playerBounds = player.getBounds();
@@ -611,11 +617,15 @@ public class CollisionSystem {
                 .mapToInt(Boss.AttackTelegraph::damage).max().orElse(0);
         if (damage == 0 && boss.isContactDangerous()
                 && boss.getContactBounds().stream().anyMatch(bounds -> playerBounds.intersects(bounds.rectangle())))
-            damage = boss.isDashing() ? 35 : 5;
+            damage = boss.isDashing() ? 35 : 18;
         if (damage == 0) return;
         if (player.getShieldTimer() > 0 || player.getInvincibleTimer() > 0) return;
 
+        int previousHp=player.getHp();
         player.takeDamage(damage);
+        int actual=previousHp-player.getHp();
+        if(actual<=0)return;
+        player.pushAway(boss.getBounds().getCenterX(),18,cameraX,cameraX+panelWidth-player.getBounds().width);
 
         if (boss.isDashing()) {
             ctx.shakeTimer = 30;
@@ -624,7 +634,7 @@ public class CollisionSystem {
             logger.accept("CRITICAL: Hit by core dump!");
         } else {
             ctx.shakeTimer = 5;
-            texts.add(new FloatingText(player.getX(), player.getY(), "CONTACT -" + damage, Color.ORANGE));
+            texts.add(new FloatingText(player.getX(), player.getY(), "CONTACT -" + actual, Color.ORANGE));
         }
     }
 

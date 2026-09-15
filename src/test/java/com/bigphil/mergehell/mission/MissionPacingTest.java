@@ -11,9 +11,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MissionPacingTest {
-    @Test void theStandardRouteHasFourMinutesTwentyOfTimedGameplayBeforeTheGate() {
+    @Test void standardRouteAddsTwentySevenPercentCombatTimeAndKeepsRecoveryWindows() {
         DarkMissionDefinition mission = DarkMissionDefinition.standard();
-        assertEquals(260_000_000_000L, mission.bossGateStartTick() * GameLoop.LEGACY_STEP_NANOS);
+        assertEquals(329_600_000_000L, mission.bossGateStartTick() * GameLoop.LEGACY_STEP_NANOS);
         assertEquals(List.of(750, 1000), mission.segments().stream()
                 .filter(segment -> segment.kind() == MissionSegment.Kind.RECOVERY)
                 .map(MissionSegment::durationTicks).toList());
@@ -80,13 +80,13 @@ class MissionPacingTest {
         EncounterDirector director = new EncounterDirector(mission, new Random(5));
         var start = director.routeProgress(0);
         assertEquals(1, start.stageNumber()); assertEquals(8, start.stageCount());
-        assertEquals(7, start.stagesRemaining()); assertEquals(16_250, start.routeTicksRemaining());
+        assertEquals(7, start.stagesRemaining()); assertEquals(20_600, start.routeTicksRemaining());
         assertEquals(0, start.routeFraction());
-        for (int tick = 0; tick < 2000; tick++) director.tick(new DirectorInput(tick, 0, .5, 0, 0));
+        for (int tick = 0; tick < 2600; tick++) director.tick(new DirectorInput(tick, 0, .5, 0, 0));
         var recovery = director.routeProgress(0);
         assertEquals(2, recovery.stageNumber()); assertEquals(6, recovery.stagesRemaining());
         assertEquals(750, recovery.stageTicksRemaining());
-        assertEquals(14_250, recovery.routeTicksRemaining());
+        assertEquals(18_000, recovery.routeTicksRemaining());
         assertEquals(1 / 8.0, recovery.routeFraction());
     }
 

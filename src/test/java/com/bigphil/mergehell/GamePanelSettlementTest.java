@@ -52,10 +52,10 @@ class GamePanelSettlementTest {
             var next = storage.readCheckpoint().orElseThrow();
             assertEquals(level + 1, next.mission);
             assertEquals(get(h.panel, "runId"), next.runId);
-            assertTrue(storage.getState().topScores.isEmpty());
+            assertTrue(storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).isEmpty());
         } else {
             assertTrue(storage.readCheckpoint().isEmpty());
-            assertEquals(1, storage.getState().topScores.size());
+            assertEquals(1, storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).size());
             assertFalse((boolean) get(h.panel, "ownsCheckpoint"));
         }
     }
@@ -89,7 +89,7 @@ class GamePanelSettlementTest {
             h.panel.dispose();
             assertEquals(Set.of(0, 1, 2, 3, 4), storage.getState().completedMissions);
             assertEquals(1250, storage.getState().refactorPoints);
-            assertEquals(run + 1, storage.getState().topScores.size());
+            assertEquals(run + 1, storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).size());
         }
     }
 
@@ -146,12 +146,12 @@ class GamePanelSettlementTest {
         invoke(h.panel, "completeCurrentMission");
         h.action("START");
         assertEquals(GameState.VICTORY, get(h.panel, "state"));
-        assertEquals(List.of(finalScore), storage.getState().topScores);
+        assertEquals(List.of(finalScore), storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()));
         h.action("MENU"); h.panel.dispose();
         assertTrue(storage.readCheckpoint().isEmpty());
         assertEquals(Set.of(4), storage.getState().completedMissions);
         assertEquals(250, storage.getState().refactorPoints);
-        assertEquals(List.of(finalScore), storage.getState().topScores);
+        assertEquals(List.of(finalScore), storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()));
     }
 
     @Test void anotherWindowsFinalClearCannotDeleteOrReleaseTheOwnersCheckpoint() throws Exception {
@@ -186,7 +186,7 @@ class GamePanelSettlementTest {
         assertEquals(GameState.MISSION_COMPLETE, get(h.panel, "state"));
         assertTrue(storage.getState().completedMissions.isEmpty());
         assertEquals(0, storage.getState().refactorPoints);
-        assertTrue(storage.getState().topScores.isEmpty());
+        assertTrue(storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).isEmpty());
         h.action("START");
         assertEquals(1, get(h.panel, "level"));
         assertTrue(storage.readCheckpoint().isEmpty());

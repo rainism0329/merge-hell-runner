@@ -13,8 +13,8 @@ class RunFireCollisionTest {
         var stats = WeaponCatalog.definition(WeaponId.REFACTOR_BEAM).baseStats().withPelletsAndSpread(3, 0.10);
         Projectile shot = new WeaponFireController().fire(new FireRequest(WeaponId.REFACTOR_BEAM,
                 100, 100.95, 1, stats, false, new Random(3), true, 5)).get(2);
-        // Stable legacy body: the right edge at x=126 is crossed between samples.
-        var target = new ObstacleManager.Enemy(86, 111, EntityType.BUG, 3);
+        // Stable legacy body: the right edge at x=96 is crossed between samples.
+        var target = new ObstacleManager.Enemy(56, 107, EntityType.BUG, 3);
         assertFalse(shot.getBounds().intersects(target.getBounds()));
         shot.update();
         assertFalse(shot.getBounds().intersects(target.getBounds()), "Endpoint has passed the enemy's right corner");

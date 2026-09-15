@@ -1,0 +1,7 @@
+Production Player: file:/D:/IdeaProjects/merge-hell-runner/build/polish/packaged/mergehell.jar
+Production ActorVisuals: file:/D:/IdeaProjects/merge-hell-runner/build/polish/packaged/mergehell.jar
+288 real simulation ticks per role; 1152 player updates; 16 ms per tick; no fabricated Hero snapshots.
+REPAIR: directions=8, actions=[IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT], crouchWalk=true, airborneDown=true, volleys=16, hp=90
+SCOUT: directions=8, actions=[IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT], crouchWalk=true, airborneDown=true, volleys=16, hp=89
+WARDEN: directions=8, actions=[IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT], crouchWalk=true, airborneDown=true, volleys=16, hp=91
+ENGINEER: directions=8, actions=[IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT], crouchWalk=true, airborneDown=true, volleys=16, hp=90

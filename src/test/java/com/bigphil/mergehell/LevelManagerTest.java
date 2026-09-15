@@ -20,15 +20,15 @@ class LevelManagerTest {
     @Test
     void darkMissionRouteDoesNotEndBeforeItsTimedBossGate() {
         assertTrue(new LevelManager(0).getCameraMaxX() > 500_000);
-        assertEquals(8_600, new LevelManager(1).getCameraMaxX(), 0.001);
+        assertEquals(10_900, new LevelManager(1).getCameraMaxX(), 0.001);
     }
 
     @Test
     void bossGate_isAfterAllAuthoredBattleZones() {
         LevelManager level = new LevelManager(0);
 
-        assertFalse(level.shouldSpawnBoss(7_599));
-        assertTrue(level.shouldSpawnBoss(7_600));
+        assertFalse(level.shouldSpawnBoss(9_899));
+        assertTrue(level.shouldSpawnBoss(9_900));
         assertTrue(level.getBossGateX() > 7_000);
     }
 
@@ -127,9 +127,9 @@ class LevelManagerTest {
             LevelManager level = new LevelManager(chapter, 27);
             var triggers = level.getPendingTriggers(level.getBossGateX());
             var hostiles = triggers.stream().filter(t -> t.type.isHostile()).toList();
-            assertTrue(hostiles.size() >= 15 && hostiles.size() <= 22);
+            assertTrue(hostiles.size() >= 21 && hostiles.size() <= 28);
             for (var trigger : hostiles) {
-                assertEquals(1, trigger.count);
+                assertTrue(trigger.count >= 1 && trigger.count <= (trigger.worldX < 7600 ? 1 : 2));
                 assertEquals(0, trigger.fromLeft, "Early movement never spawns an unintroduced rear ambush");
                 assertNull(level.getBattleAt(trigger.worldX));
             }
@@ -145,8 +145,8 @@ class LevelManagerTest {
                 }
                 assertNull(level.getBattleAt(end));
             }
-            assertEquals(7600, level.getBossGateX());
-            assertEquals(8600, level.getCameraMaxX());
+            assertEquals(9900, level.getBossGateX());
+            assertEquals(10900, level.getCameraMaxX());
         }
     }
 

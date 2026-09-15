@@ -10,14 +10,26 @@ import java.util.Objects;
 
 public final class RunBuild {
     public record Checkpoint(WeaponId weapon, Map<UpgradeId, Integer> ranks, int weaponLevel,
-                             boolean evolutionCoreInstalled, boolean evolved) {
+                             boolean evolutionCoreInstalled, boolean evolved, CharacterId character, GameDifficulty difficulty) {
+        public Checkpoint(WeaponId weapon, Map<UpgradeId,Integer> ranks, int weaponLevel,
+                          boolean evolutionCoreInstalled,boolean evolved) {
+            this(weapon,ranks,weaponLevel,evolutionCoreInstalled,evolved,CharacterId.REPAIR,GameDifficulty.STANDARD);
+        }
         public Checkpoint {
             Objects.requireNonNull(weapon, "weapon");
+            Objects.requireNonNull(character,"character"); Objects.requireNonNull(difficulty,"difficulty");
             ranks = Map.copyOf(Objects.requireNonNull(ranks, "ranks"));
             if (weaponLevel < 1 || weaponLevel > 5) throw new IllegalArgumentException("Invalid weapon level");
         }
     }
     private final WeaponId weapon;
+    private CharacterId character=CharacterId.REPAIR;
+    private GameDifficulty difficulty=GameDifficulty.STANDARD;
+    public CharacterId character() { return character; }
+    public GameDifficulty difficulty() { return difficulty; }
+    public void setIdentity(CharacterId character, GameDifficulty difficulty) {
+        this.character=Objects.requireNonNull(character);this.difficulty=Objects.requireNonNull(difficulty);
+    }
     private final EnumMap<UpgradeId, Integer> ranks = new EnumMap<>(UpgradeId.class);
     private BuildStats buildStats;
     private int weaponLevel = 1;
@@ -112,13 +124,14 @@ public final class RunBuild {
     public Map<UpgradeId, Integer> ranks() { return Map.copyOf(ranks); }
 
     public Checkpoint checkpoint() {
-        return new Checkpoint(weapon, ranks, weaponLevel, evolutionCoreInstalled, evolved);
+        return new Checkpoint(weapon, ranks, weaponLevel, evolutionCoreInstalled, evolved, character, difficulty);
     }
 
     /** Rebuild once from base stats; evolution remains a derived modifier, never a repeated bonus. */
     public static RunBuild restoreCheckpoint(Checkpoint value) {
         Objects.requireNonNull(value, "value");
         RunBuild restored = new RunBuild(value.weapon());
+        restored.setIdentity(value.character(),value.difficulty());
         for (UpgradeId id : UpgradeId.values()) {
             Integer rank = value.ranks().get(id);
             if (rank == null) continue;

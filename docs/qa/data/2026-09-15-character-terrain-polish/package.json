@@ -1,0 +1,16 @@
+{
+  "zip": "D:\\IdeaProjects\\merge-hell-runner\\build\\distributions\\merge-hell-runner-1.0.0.zip",
+  "sha256": "764ec37574ea1ad5f6bbd70cf0039087bf46375e1fea474b408b50c1397eaf70",
+  "bytes": 35760506,
+  "verifiedResources": [
+    "game/art/repair.png",
+    "game/art/repair.properties",
+    "game/art/scout.png",
+    "game/art/scout.properties",
+    "game/art/warden.png",
+    "game/art/warden.properties",
+    "game/art/engineer.png",
+    "game/art/engineer.properties"
+  ],
+  "jar": "merge-hell-runner/lib/instrumented-merge-hell-runner-1.0.0.jar"
+}

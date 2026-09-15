@@ -23,7 +23,7 @@ class HudRendererTest {
                 assertBombInstrument(player, compact, "3", "hud.bombs.label");
                 assertTrue(player.useBomb());
                 assertBombInstrument(player, compact, "2", "hud.bombs.label");
-                assertTrue(player.useBomb()); assertTrue(player.useBomb());
+                coolBomb(player); assertTrue(player.useBomb()); coolBomb(player); assertTrue(player.useBomb());
                 assertFalse(player.useBomb());
                 assertBombInstrument(player, compact, "0", "hud.bombs.empty");
                 player.setDebugMode(true);
@@ -37,6 +37,9 @@ class HudRendererTest {
         }
     }
 
+    private static void coolBomb(Player p) {
+        for(int i=0;i<60;i++)p.update(false,false,false,false,480,960,new java.util.ArrayList<>(),List.of());
+    }
     private static void assertBombInstrument(Player player, boolean compact, String count, String statusKey) {
         BufferedImage image = new BufferedImage(960, 600, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
@@ -79,7 +82,7 @@ class HudRendererTest {
         GameSession session = new GameSession(1);
         var card = HudRenderer.missionCard(session.routeProgress());
         assertEquals("ROUTE 1/8 · 7 LEFT", card.route());
-        assertEquals("THIS STAGE 00:32", card.condition());
+        assertEquals("THIS STAGE 00:42", card.condition());
         assertEquals("BOSS: ROUTE + CLEAR AREA", card.next());
         assertEquals(0, card.progress());
     }

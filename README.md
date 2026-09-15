@@ -12,14 +12,14 @@ Tired of fixing merge conflicts? Exhausted by memory leaks? **Don't fix them. Ju
 ## Illustrated campaign overhaul
 
 The current source includes six starting weapons with upgrades and evolutions, six combat
-combinations, distinct synthesized weapon sounds, level-entrance Continue, persistent settings,
+combinations, distinct synthesized weapon sounds, checkpoint Continue, persistent settings,
 and a compact HUD for small tool windows. Press **O** from the menu or pause screen for settings;
 use arrows to select/adjust, Enter to toggle, and Esc to return. Audio is **muted by default**;
 **M** enables or mutes it and saves your choice. Five world ambience loops and a Boss theme
 fade between scenes. Set **Background Audio** to 0 to keep only combat effects.
 Pausing, choosing upgrades, switching to the editor, hiding or closing the game silences audio.
 Returning focus keeps the game paused until you resume it. Muted startup opens no audio device.
-Pause then press **Q** to return to the menu; **R** continues from the saved level entrance.
+Pause then press **Q** to return to the menu; **R** continues from the saved safe segment or level entrance.
 Closing mid-fight does not preserve that exact combat frame.
 
 The industrial city, repair robot, first-world enemies and Legacy Boss now use the illustrated art
@@ -40,6 +40,35 @@ The [chapter design and acceptance matrix](docs/design/evolution/chapter-quality
 defines the overhaul, and [art provenance](docs/design/evolution/chapter-premium-art.md)
 records the production assets. Headless captures and automated combat checks are recorded separately
 from native IDE performance and human playthroughs.
+
+---
+
+## Combat & exploration update · 2026-09-15
+
+Choose **Y** for your operative, **D** for Relaxed / Standard / Challenge, and **Z** for
+an independent starting weapon. The default is Standard, with tougher production enemies,
+faster recovery between attacks, paired later Boss patterns and finite bomb damage. Boss
+telegraphs retain their preparation time. Rankings are separated by difficulty.
+
+Hold **↑** to aim up, combine it with **← / →** for diagonals, and hold **↓** in the air
+to fire down. On the ground **↓** crouches with a lower muzzle and smaller hitbox. Hold **V**
+to aim without walking. All six weapons and all four illustrated operatives use the new aiming
+poses. **F1** opens the bilingual controls guide and pauses combat.
+
+All five routes now include solid obstacles, upper routes, two required facility interactions
+and an optional secret room. Later Boss gates move from 7,600 to 9,900 world units; the first
+mission gains about 27% more authored time. Press **E** at the marked facilities. The first
+chapter's abandoned office unlocks the tired, bespectacled **Night-shift Engineer** in a normal
+campaign. Practice can preview the character. Quiet ground segments save resources, route
+changes and discovery state; **R** continues that checkpoint. Existing entrance saves remain
+compatible and default to Repair / Standard. Audio remains muted by default.
+
+本轮新增八向射击、地面蹲射、三档难度、独立角色选择，以及五关的跳跃路线、设施事件和秘密。
+主菜单 **Y 选角色 / D 选难度 / Z 选武器**，游戏内 **F1 看操作、E 交互、V 定点瞄准**。
+正常战役探索第一关旧办公室可解锁戴厚眼镜、挂工牌的夜班工程师；安全段落会自动保存。
+
+See the [implementation and validation record](docs/design/evolution/combat-depth-validation.md)
+for balance values, source artwork and the limits of automated playthrough evidence.
 
 ---
 
@@ -79,16 +108,20 @@ Version 1.0.0 turns the endless runner into a **full 5-level campaign** — dist
 | **Enter** | `Start / Jump / Continue` | Start a run, jump during combat, or continue after clearing a world. |
 | **C** | `Commit / Shoot` | Fire code projectiles to debug enemies. |
 | **← / →** | `Move` | Dodge left and right. |
+| **↑ / ↓** | `Aim / Crouch` | Aim up, crouch on the ground, or aim down in the air. Combine with left/right for diagonals. |
+| **V** | `Aim lock` | Hold to select a firing direction without walking. |
+| **Y / D** | `Character / Difficulty` | Choose the operative and difficulty on the title screen. |
+| **F1** | `Controls guide` | Open the localized controls guide; combat pauses while reading. |
 | **Shift** | `Dash` | Dash through danger; briefly grants invulnerability. |
 | **X** | `Melee` | Strike nearby enemies. |
 | **Z** | `Weapon` | Cycle weapons; on the title screen, choose a starting weapon. |
-| **B** | `Bomb` | Trigger the emergency screen clear; the small [ B ] indicator shows remaining charges. |
-| **E** | `World interaction` | Purge Heap or open a nearby Foundry coolant valve. Shoot sky counterweights, hive membranes and nests. |
+| **B** | `Bomb` | Deal emergency area damage and clear hostile shots, with a one-second cooldown; the small [ B ] indicator shows remaining charges. |
+| **E** | `World interaction` | Activate a nearby marked facility, collect a secret, purge Heap or open a Foundry coolant valve. Shoot sky counterweights, hive membranes and nests. |
 | **F** | `Risk salvage` | At an unused Heap route station, take a larger one-time reward and increase leak pressure. |
 | **1** / **2** / **3** | `Upgrade` | Choose an upgrade when a draft appears. |
-| **R** | `Continue / Reroll` | Continue from the saved level entrance in the menu; reroll an upgrade draft when available. |
+| **R** | `Continue / Reroll` | Continue from the saved safe segment or level entrance in the menu; reroll an upgrade draft when available. |
 | **P** / **Esc** | `Pause` | Pause the game (and pretend you're working). |
-| **Q** | `Return to menu` | Available while paused or at world completion; Continue restores the saved entrance. |
+| **Q** | `Return to menu` | Available while paused or at world completion; Continue restores the saved checkpoint. |
 | **O** | `Settings` | Open from menu/pause; arrows adjust, Enter toggles, Esc returns. |
 | **M** | `Mute` | Toggle saved mute without changing volume. |
 | **G** | `Invincible practice` | Start from the menu with invincibility; preserves the campaign checkpoint. |
@@ -109,7 +142,7 @@ follow the OS language (Chinese or English). Keycap names and code syntax remain
 
 The menu offers **G / 无敌练习** and **L / Boss 练习** as clickable practice entries.
 Both start with invincibility and unlimited ammunition/bombs, without replacing the saved
-campaign entrance. While enabled, the HUD shows **无敌开启 · [ T ] 关闭**. Switching it off
+campaign checkpoint. While enabled, the HUD shows **无敌开启 · [ T ] 关闭**. Switching it off
 confirms normal damage for about three seconds, then removes the status badge. The result
 screen explains that a run which used practice does not award ranking or permanent rewards.
 **R** resumes the saved campaign with normal damage; **N** starts a new normal campaign.

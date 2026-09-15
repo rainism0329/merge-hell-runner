@@ -60,17 +60,13 @@ public final class SingularityActorRenderer {
                 g.setStroke(new BasicStroke(1.6f)); g.draw(polygon(12, 10, 39, 9, 48, 25, 40, 43, 14, 44, 7, 27));
             }
         } finally { g.dispose(); }
-        if (pose.death() == 0) {
+        EnemyWarningRenderer.render(target, pose, WARNING);
+        if (EnemyWarningRenderer.showHealth(pose)) {
             Graphics2D status = (Graphics2D) target.create();
             try {
                 int x = (int) pose.x(), y = (int) pose.y();
                 status.setColor(new Color(6, 17, 26, 225)); status.fillRoundRect(x + 4, y - 8, (int) pose.width() - 8, 4, 3, 3);
                 status.setColor(COPPER); status.fillRect(x + 4, y - 8, (int) ((pose.width() - 8) * Math.max(0, pose.hp()) / Math.max(1, pose.maxHp())), 3);
-                if (pose.warning() > 0) {
-                    int cx = (int) (pose.x() + pose.width() / 2), top = y - 24;
-                    status.setColor(WARNING); status.fillPolygon(new int[]{cx, cx - 7, cx + 7}, new int[]{top - 4, top + 9, top + 9}, 3);
-                    status.setColor(INK); status.fillRect(cx - 1, top, 2, 4); status.fillRect(cx - 1, top + 6, 2, 1);
-                }
             } finally { status.dispose(); }
         }
         return true;

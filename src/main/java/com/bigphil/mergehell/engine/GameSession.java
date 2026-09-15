@@ -140,8 +140,9 @@ public final class GameSession implements CombatEventSink {
         if (event instanceof CombatEvent.EnemyKilled killed && killed.type().isHostile()) {
             hostileKills++;
             int baseValue = killed.type().pointValue;
-            awardBuildXp(5 + Math.min(15, baseValue / 50));
-            overclock.addCharge(8 + Math.min(12, baseValue / 50));
+            boolean bomb=killed.cause()==CombatEvent.DamageKind.BOMB;
+            awardBuildXp(bomb?2:5 + Math.min(15, baseValue / 50));
+            if(!bomb) overclock.addCharge(8 + Math.min(12, baseValue / 50));
         } else if (event instanceof CombatEvent.BossNodeDestroyed node) {
             awardBuildXp(node.buildXp());
         } else if (event instanceof CombatEvent.ProjectileReflected reflected) {
@@ -245,6 +246,18 @@ public final class GameSession implements CombatEventSink {
             throw new IllegalStateException("Only an unplayed mission entry can be checkpointed");
         }
         return checkpointForMission(mission);
+    }
+
+    /** Caller supplies a clear, grounded route boundary; no active combat entities are restored. */
+    public Checkpoint checkpointAtSafeSegment() {
+        if(state!=GameState.RUNNING || buildProgress.pendingChoices()!=0 || bossSpawnTick>=0)
+            throw new IllegalStateException("An active, resolved route is required");
+        return checkpointForMission(mission);
+    }
+    public EncounterDirector.Checkpoint directorCheckpoint() {return director.checkpoint();}
+    public void restoreDirector(EncounterDirector.Checkpoint value) {
+        if(value.startKills()>hostileKills)throw new IllegalArgumentException("Director kill count exceeds session");
+        director.restore(value);atMissionStart=false;
     }
 
     /** A detached next entrance keeps the completed mission available for its results screen. */

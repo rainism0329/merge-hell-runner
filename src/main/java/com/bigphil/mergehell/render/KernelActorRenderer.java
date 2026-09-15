@@ -70,19 +70,14 @@ public final class KernelActorRenderer {
                 g.draw(polygon(10, 10, 27, 10, 29, 38, 24, 44, 12, 44, 8, 38));
             }
         } finally { g.dispose(); }
-        if (pose.death() == 0) {
+        EnemyWarningRenderer.render(target, pose, DANGER);
+        if (EnemyWarningRenderer.showHealth(pose)) {
             Graphics2D status = (Graphics2D) target.create();
             try {
                 status.setColor(new Color(5, 16, 23, 225));
                 status.fillRoundRect((int) pose.x(), (int) pose.y() - 8, (int) pose.width(), 4, 3, 3);
                 status.setColor(COPPER); status.fillRect((int) pose.x(), (int) pose.y() - 8,
                         (int) (pose.width() * Math.max(0, pose.hp()) / Math.max(1, pose.maxHp())), 3);
-                if (pose.warning() > 0) {
-                    int x = (int) (pose.x() + pose.width() / 2), y = (int) pose.y() - 24;
-                    status.setColor(DANGER);
-                    status.fillPolygon(new int[]{x, x - 7, x + 7}, new int[]{y - 4, y + 9, y + 9}, 3);
-                    status.setColor(INK); status.fillRect(x - 1, y, 2, 4); status.fillRect(x - 1, y + 6, 2, 1);
-                }
             } finally { status.dispose(); }
         }
         return true;

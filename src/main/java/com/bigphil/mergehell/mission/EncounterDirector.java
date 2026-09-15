@@ -122,6 +122,25 @@ public final class EncounterDirector {
     }
 
     public int lastAvailableBudget() { return lastAvailableBudget; }
+    public record Checkpoint(int segment, int tick, int startKills, double budget, int cooldown,
+                             boolean announced, long randomState) { }
+    public Checkpoint checkpoint() {
+        if(bossSpawned || !(random instanceof com.bigphil.mergehell.combat.CombatRandom stream))
+            throw new IllegalStateException("Director cannot be saved here");
+        return new Checkpoint(segmentIndex,segmentTick,segmentStartHostileKills,budget,spawnCooldown,segmentAnnounced,stream.checkpointState());
+    }
+    public void restore(Checkpoint value) {
+        if(value==null || value.segment()<0 || value.segment()>=mission.segments().size()
+                || value.tick()<0 || value.tick()>mission.segments().get(value.segment()).durationTicks()
+                || value.startKills()<0 || !Double.isFinite(value.budget()) || value.budget()<0 || value.budget()>1000
+                || value.cooldown()<0 || value.cooldown()>1000 || !com.bigphil.mergehell.combat.CombatRandom.isValidState(value.randomState())
+                || !(random instanceof com.bigphil.mergehell.combat.CombatRandom))
+            throw new IllegalArgumentException("Invalid director checkpoint");
+        segmentIndex=value.segment();segmentTick=value.tick();segmentStartHostileKills=value.startKills();
+        budget=value.budget();spawnCooldown=value.cooldown();segmentAnnounced=value.announced();
+        ((com.bigphil.mergehell.combat.CombatRandom)random).restoreState(value.randomState());
+        bossSpawned=false;lastActiveHostiles=0;
+    }
     public MissionSegment currentSegment() {
         return segmentIndex < mission.segments().size() ? mission.segments().get(segmentIndex) : null;
     }

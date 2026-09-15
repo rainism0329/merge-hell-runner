@@ -1,5 +1,4 @@
 package com.bigphil.mergehell.render;
-
 import com.bigphil.mergehell.i18n.GameText;
 import com.bigphil.mergehell.model.Boss;
 import com.bigphil.mergehell.model.EntityType;
@@ -37,12 +36,15 @@ public final class ChapterActorRenderer {
         Graphics2D g = (Graphics2D) target.create();
         try {
             quality(g);
-            if (pose.death() <= 0) enemyWarning(g, pose, level);
+
             var tactics = pose.tactics();
             boolean buried = tactics.burrowed();
             g.setColor(new Color(7, 12, 18, 85));
-            g.fill(new Ellipse2D.Double(pose.x() + 3, pose.y() + pose.height() - 3, pose.width() - 6, 7));
+            if(pose.climbDirection()==0)
+                g.fill(new Ellipse2D.Double(pose.x() + 3, pose.y() + pose.height() - 3, pose.width() - 6, 7));
+            ActorVisuals.wallContact(g,pose);
             if (buried) {
+                enemyWarning(g, pose, level);
                 // Only the exposed drill crest is visible while the actual enemy is below ground.
                 Graphics2D buriedArt = (Graphics2D) g.create();
                 try {
@@ -79,6 +81,7 @@ public final class ChapterActorRenderer {
                 }
             } finally { body.dispose(); }
             if (pose.death() > 0) return true;
+            enemyWarning(g, pose, level);
             if (tactics.shielded()) {
                 double sx = pose.facing() < 0 ? pose.x() + 3 : pose.x() + pose.width() - 3;
                 g.setStroke(new BasicStroke(4)); g.setColor(new Color(81, 207, 238, 70));
@@ -86,7 +89,7 @@ public final class ChapterActorRenderer {
                 g.setStroke(new BasicStroke(1.5f)); g.setColor(new Color(141, 228, 243));
                 g.draw(new Line2D.Double(sx, pose.y() + 9, sx, pose.y() + pose.height() - 6));
             }
-            if (pose.hp() < pose.maxHp() || pose.warning() > 0) {
+            if (EnemyWarningRenderer.showHealth(pose)) {
                 meter(g, pose.x(), pose.y() - 6, pose.width(), pose.hp() / (double) Math.max(1, pose.maxHp()), accent(level));
             }
         } finally { g.dispose(); }
@@ -110,48 +113,7 @@ public final class ChapterActorRenderer {
     }
 
     private static void enemyWarning(Graphics2D g, ActorVisuals.Hostile pose, int level) {
-        var t = pose.tactics();
-        if (pose.warning() <= 0 || pose.death() > 0) return;
-        Color light = accent(level);
-        g.setColor(new Color(light.getRed(), light.getGreen(), light.getBlue(), 175));
-        g.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10, new float[]{5, 6}, 0));
-        for (var lane : t.lanes()) {
-            double cx = lane.projectileType().width / 2.0, cy = lane.projectileType().height / 2.0;
-            Path2D path = new Path2D.Double(); path.moveTo(lane.x() + cx, lane.y() + cy);
-            for (int n = 1; n <= 75; n++) {
-                double x = lane.x() + cx + lane.velocityX() * n;
-                double y = lane.y() + cy + lane.velocityY() * n + lane.gravity() * n * (n - 1) / 2;
-                path.lineTo(x, y);
-                if (y > 482 || y < 10 || Math.abs(x - lane.x()) > 750) break;
-            }
-            g.draw(path);
-        }
-        if (t.lanes().isEmpty()) {
-            if (pose.type() == EntityType.DRILLER) {
-                g.draw(new RoundRectangle2D.Double(pose.x() - 4, pose.y() - 56,
-                        pose.width() + 8, pose.height() + 56, 12, 12));
-            } else if (pose.type() == EntityType.WARDEN) {
-                double left = Math.min(t.originX(), t.targetX());
-                g.draw(new Rectangle((int) left, (int) pose.y(), (int) Math.abs(t.targetX() - t.originX()) + (int) pose.width(), (int) pose.height()));
-            } else {
-                Path2D arc = new Path2D.Double();
-                double h = pose.type() == EntityType.LURKER ? 108 : 28;
-                for (int i = 0; i <= 24; i++) {
-                    double f = i / 24.0;
-                    double x = t.originX() + (t.targetX() - t.originX()) * f + pose.width() / 2;
-                    double y = t.originY() + (t.targetY() - t.originY()) * f - Math.sin(f * Math.PI) * h + pose.height() / 2;
-                    if (i == 0) arc.moveTo(x, y); else arc.lineTo(x, y);
-                }
-                g.draw(arc);
-                g.draw(new Ellipse2D.Double(t.targetX(), t.targetY() + pose.height() - 4, pose.width(), 8));
-            }
-        }
-        double cx = pose.x() + pose.width() / 2, cy = pose.y() - 18;
-        g.setColor(DARK); g.fillOval((int) cx - 8, (int) cy - 8, 16, 16);
-        g.setStroke(new BasicStroke(2)); g.setColor(light);
-        int progress = (int) (360 * (1 - pose.warning() / (double) Math.max(1, t.totalTicks())));
-        g.drawArc((int) cx - 8, (int) cy - 8, 16, 16, 90, -Math.max(5, progress));
-        g.fillRect((int) cx - 1, (int) cy - 4, 2, 5); g.fillRect((int) cx - 1, (int) cy + 3, 2, 2);
+        EnemyWarningRenderer.render(g, pose, accent(level));
     }
 
     public static void boss(Graphics2D target, Boss boss, double seconds, boolean flashes, boolean highContrast) {

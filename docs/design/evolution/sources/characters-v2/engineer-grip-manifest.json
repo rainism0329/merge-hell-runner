@@ -1,0 +1,47 @@
+{
+  "mode": "built-in imagegen; precise-object-edit; native RGBA; original preserved",
+  "source": "engineer-grip-source.png",
+  "originalSource": "../characters/engineer-source.png",
+  "generatedOriginal": "C:/Users/lenovo/.codex/generated_images/01a0a2a7-0d1b-7d81-8c27-8284cd5c1956/exec-8ea08f3a-8a89-4c77-b94e-7168f5a0acf7.png",
+  "sha256": "65594f6b853a13bdf0738e9dfeefab79d2beef65447de75b2481725619d06519",
+  "size": [
+    1774,
+    887
+  ],
+  "alphaExtrema": [
+    0,
+    255
+  ],
+  "consumeOnly": "forearm",
+  "calibration": {
+    "coordinateSpace": "pixels local to the trimmed forearm frame; visually measured starting points",
+    "anchorElbow": [48, 68],
+    "wrist": [86, 240],
+    "gripPalm": [127, 298],
+    "recommendedWorldForearmLength": 9.5
+  },
+  "forearm": {
+    "cell": [
+      1330,
+      0,
+      1774,
+      443
+    ],
+    "trimInCell": [
+      159,
+      50,
+      345,
+      406
+    ],
+    "size": [
+      186,
+      356
+    ],
+    "sourceBounds": [
+      1489,
+      50,
+      1675,
+      406
+    ]
+  }
+}

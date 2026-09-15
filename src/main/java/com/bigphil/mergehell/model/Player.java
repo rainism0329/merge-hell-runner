@@ -3,6 +3,7 @@ package com.bigphil.mergehell.model;
 import com.bigphil.mergehell.i18n.GameText;
 
 import com.bigphil.mergehell.combat.CombatStats;
+import com.bigphil.mergehell.combat.Aim;
 import com.bigphil.mergehell.combat.FireRequest;
 import com.bigphil.mergehell.combat.WeaponFireController;
 import com.bigphil.mergehell.combat.WeaponId;
@@ -17,7 +18,11 @@ import java.util.List;
 
 public class Player {
     private double x, y, dy;
-    private final int width = 30, height = 30;
+    private final int width = 30;
+    private int height = 30;
+    private boolean aimUp, aimDown, aimLocked, aimLeft, aimRight;
+    private Aim aim = Aim.horizontal(1);
+    private List<Rectangle> solids = List.of();
     private boolean grounded = false;
     private int jumpsRemaining = 2;
     private int jumpBufferTimer = 0;
@@ -78,6 +83,18 @@ public class Player {
 
     public double getX() { return x; }
     public double getY() { return y; }
+    public Aim getAim() { return aim; }
+    public boolean isCrouching() { return height < 30; }
+    public double muzzleX() { return x + width / 2.0 + facingDir * aimMuzzle().x(); }
+    public double muzzleY() { return y + height + aimMuzzle().y(); }
+    private com.bigphil.mergehell.combat.HeroAim.Muzzle aimMuzzle() {
+        return com.bigphil.mergehell.combat.HeroAim.local(aim.x()*facingDir,aim.y(),isCrouching(),runBuild.character());
+    }
+    public void setAimInput(boolean up, boolean down, boolean lock, boolean left, boolean right) {
+        aimUp=up; aimDown=down; aimLocked=lock; aimLeft=left; aimRight=right;
+    }
+    public void clearAimInput() { setAimInput(false,false,false,false,false); aim=Aim.horizontal(facingDir); }
+    public void setSolids(List<Rectangle> value) { solids=List.copyOf(value); }
     public int getHp() { return hp; }
     public int getMaxHp() { return maxHp; }
     public int getSudoTimer() { return sudoTimer; }
@@ -118,13 +135,19 @@ public class Player {
                              int invincibleTicks, int cooldown, int dashCooldown, int meleeCooldown,
                              boolean temporaryWeapon, WeaponType weapon, int ammo,
                              Map<WeaponType, Integer> ammoReserve, int shieldRebootsUsed,
-                             int rapidHeat, long combatRandomState) {
+                             int rapidHeat, long combatRandomState, int bombCooldown) {
+        public Checkpoint(int hp,int lives,int bombs,int sudoTicks,int shieldTicks,int invincibleTicks,
+                          int cooldown,int dashCooldown,int meleeCooldown,boolean temporaryWeapon,WeaponType weapon,
+                          int ammo,Map<WeaponType,Integer> ammoReserve,int shieldRebootsUsed,int rapidHeat,long combatRandomState) {
+            this(hp,lives,bombs,sudoTicks,shieldTicks,invincibleTicks,cooldown,dashCooldown,meleeCooldown,
+                    temporaryWeapon,weapon,ammo,ammoReserve,shieldRebootsUsed,rapidHeat,combatRandomState,0);
+        }
         public Checkpoint {
             Objects.requireNonNull(weapon, "weapon");
             ammoReserve = Map.copyOf(Objects.requireNonNull(ammoReserve, "ammoReserve"));
             if (hp <= 0 || hp > 100 || lives <= 0 || lives > 99 || bombs < 0 || bombs > 5
                     || ammo < 0 || ammo > 1_000_000 || shieldRebootsUsed < 0
-                    || rapidHeat < 0 || rapidHeat > 100 || !CombatRandom.isValidState(combatRandomState)) {
+                    || bombCooldown<0 || bombCooldown>60 || rapidHeat < 0 || rapidHeat > 100 || !CombatRandom.isValidState(combatRandomState)) {
                 throw new IllegalArgumentException("Invalid player checkpoint resources");
             }
             for (int timer : new int[]{sudoTicks, shieldTicks, invincibleTicks, cooldown, dashCooldown, meleeCooldown}) {
@@ -154,7 +177,7 @@ public class Player {
         if (debugMode) throw new IllegalStateException("Lab resources cannot be checkpointed");
         return new Checkpoint(hp, lives, bombs, sudoTimer, shieldTimer, invincibleTimer,
                 cooldown, dashCooldown, meleeCooldown, temporaryWeapon, currentWeapon, weaponAmmo,
-                ammoReserve, shieldRebootsUsed, rapidHeat, combatRandom.checkpointState());
+                ammoReserve, shieldRebootsUsed, rapidHeat, combatRandom.checkpointState(),bombCooldown);
     }
 
     /** Validates the complete checkpoint before mutating this player. Never restores Lab powers. */
@@ -168,10 +191,10 @@ public class Player {
             throw new IllegalArgumentException("Checkpoint does not match the build or safe position");
         }
         runBuild = build;
-        x = startX; y = startY; dy = 0; grounded = false;
+        x = startX; y = startY; dy = 0; grounded = false; height=30; clearAimInput();
         jumpsRemaining = MAX_JUMPS; jumpBufferTimer = 0; coyoteTimer = 0;
         dashTimer = 0; dashVx = 0; meleeTimer = 0; beamCharge = 0; facingDir = 1;
-        hp = value.hp(); lives = value.lives(); bombs = value.bombs();
+        hp = value.hp(); lives = value.lives(); bombs = value.bombs(); bombCooldown=value.bombCooldown();
         sudoTimer = value.sudoTicks(); shieldTimer = value.shieldTicks(); invincibleTimer = value.invincibleTicks();
         cooldown = value.cooldown(); dashCooldown = value.dashCooldown(); meleeCooldown = value.meleeCooldown();
         temporaryWeapon = value.temporaryWeapon(); currentWeapon = value.weapon(); weaponAmmo = value.ammo();
@@ -189,6 +212,8 @@ public class Player {
         debugMode = enabled;
         if (debugMode && temporaryWeapon) weaponAmmo = Math.max(weaponAmmo, 999);
     }
+    private int bombCooldown;
+    public int getBombCooldown() { return bombCooldown; }
     public int getBombs() { return bombs; }
     public int getLives() { return lives; }
 
@@ -200,7 +225,8 @@ public class Player {
 
     public boolean useBomb() {
         if (debugMode) return true;
-        if (bombs <= 0) return false;
+        if (bombs <= 0 || bombCooldown>0) return false;
+        bombCooldown=60;
         bombs--;
         return true;
     }
@@ -271,12 +297,13 @@ public class Player {
     }
 
     public void reset(int startX, int startY) {
+        height=30; clearAimInput(); solids=List.of();
         this.x = startX; this.y = startY;
         this.hp = 100; this.dy = 0;
         this.sudoTimer = 0; this.shieldTimer = 0; this.invincibleTimer = 0;
         this.cooldown = 0; this.dashTimer = 0; this.dashCooldown = 0;
         this.meleeTimer = 0; this.meleeCooldown = 0;
-        this.bombs = 3; this.facingDir = 1;
+        this.bombs = 3; bombCooldown=0; this.facingDir = 1;
         this.lives = 3;
         this.grounded = false;
         this.jumpsRemaining = MAX_JUMPS;
@@ -298,6 +325,7 @@ public class Player {
 
     /** Moves a campaign survivor to a new level without restoring spent resources or build charges. */
     public void beginNextLevel(int startX, int startY) {
+        height=30; clearAimInput(); solids=List.of();
         x = startX;
         y = startY;
         dy = 0;
@@ -377,10 +405,14 @@ public class Player {
         // Kept for callers that use the original update contract. The game panel uses
         // requestJump() on the key press so a held Space key does not keep jumping.
         if (jump) requestJump();
+        updateStance();
         if (dashCacheTicks > 0) dashCacheTicks--;
+        if (bombCooldown > 0) bombCooldown--;
 
         if (dashTimer > 0) {
+            double beforeDashX=x;
             x += dashVx;
+            resolveHorizontalSolids(beforeDashX);
             dashTimer--;
             if (dashTimer == 0) {
                 dashCooldown = Math.max(12, (int) Math.round(DASH_COOLDOWN_MAX
@@ -396,13 +428,21 @@ public class Player {
         double previousBottom = y + height;
         boolean canWalkStep = grounded && dy >= 0 && jumpBufferTimer == 0
                 && hasSupportAt(previousX, previousBottom, groundY, platforms);
-        if (left) { x -= SPEED; facingDir = -1; }
-        if (right) { x += SPEED; facingDir = 1; }
+        if (left) { if(!aimLocked) x -= SPEED * runBuild.character().speed() * (isCrouching() ? .45 : 1); facingDir = -1; }
+        if (right) { if(!aimLocked) x += SPEED * runBuild.character().speed() * (isCrouching() ? .45 : 1); facingDir = 1; }
 
         x = Math.max(leftLimit, Math.min(rightLimit, x));
 
+        resolveHorizontalSolids(previousX);
+        double previousY=y;
         dy += GRAVITY;
         y += dy;
+        if (dy < 0) for (Rectangle solid:solids) {
+            double bodyOffset=movementHeight()-height;
+            if(x+width>solid.x && x<solid.getMaxX() && previousY-bodyOffset>=solid.getMaxY()-.01 && y-bodyOffset<solid.getMaxY()) {
+                y=solid.getMaxY()+bodyOffset; dy=0;
+            }
+        }
 
         // Compare all downward crossings before changing velocity or snapping position. A thick
         // platform must not catch someone beneath it, and a fast fall must not skip a thin deck.
@@ -410,6 +450,8 @@ public class Player {
         if (dy >= 0) {
             double currentBottom = y + height;
             if (currentBottom >= groundY) landingTop = groundY;
+            for (Rectangle solid:solids) if(x+width>solid.x && x<solid.getMaxX()
+                    && previousBottom<=solid.y+.01 && currentBottom>=solid.y) landingTop=Math.min(landingTop,solid.y);
             for (Platform p : platforms) {
                 if (x + width <= p.x || x >= p.x + p.width) continue;
                 boolean crossedTop = previousBottom <= p.y + SURFACE_EPSILON && currentBottom >= p.y;
@@ -446,6 +488,7 @@ public class Player {
             }
         }
 
+        aim = Aim.from(aimLeft || left, aimRight || right, aimUp, aimDown, grounded, facingDir);
         if (cooldown > 0) cooldown--;
         if (sudoTimer > 0) sudoTimer--;
         if (shieldTimer > 0) shieldTimer--;
@@ -465,7 +508,6 @@ public class Player {
                 w = currentWeapon;
             }
 
-            double bulletX = (facingDir > 0) ? x + width : x;
             WeaponId weaponId = WeaponCatalog.fromLegacy(w);
             boolean usesCore = runBuild.weapon() == weaponId;
             boolean evolved = usesCore && runBuild.evolved();
@@ -480,8 +522,8 @@ public class Player {
                 stats = stats.withPelletsAndSpread(3, 0.18).withRicochets(stats.ricochets() + 2);
             }
             if (dashCacheTicks > 0) stats = stats.withCriticalChance(1).withPierces(stats.pierces() + 1);
-            FireRequest request = new FireRequest(weaponId, bulletX, y + height / 2.0,
-                    facingDir, stats, sudoTimer > 0, combatRandom, evolved, x - previousX);
+            FireRequest request = new FireRequest(weaponId, muzzleX(), muzzleY(),
+                    facingDir, stats, sudoTimer > 0, combatRandom, evolved, x - previousX, aim);
             if (!fireController.fireInto(request, projectiles)) return;
             if (weaponId == WeaponId.REFACTOR_BEAM) beamCharge = 0;
             dashCacheTicks = 0;
@@ -509,6 +551,8 @@ public class Player {
 
     private boolean hasSupportAt(double left, double bottom, int groundY, List<Platform> platforms) {
         if (Math.abs(bottom - groundY) <= SURFACE_EPSILON) return true;
+        for(Rectangle solid:solids) if(left+width>solid.x && left<solid.getMaxX()
+                && Math.abs(bottom-solid.y)<=SURFACE_EPSILON) return true;
         for (Platform p : platforms) {
             if (left + width > p.x && left < p.x + p.width
                     && Math.abs(bottom - p.y) <= SURFACE_EPSILON) return true;
@@ -516,9 +560,33 @@ public class Player {
         return false;
     }
 
+    private void updateStance() {
+        boolean crouch = grounded && aimDown && !aimUp && jumpBufferTimer==0 && !isDashing();
+        int next=crouch?18:30;
+        if(next==height)return;
+        double feet=y+height;
+        Rectangle standing=new Rectangle((int)x,(int)(feet-54),width,54);
+        if(next==30 && solids.stream().anyMatch(standing::intersects))return;
+        height=next; y=feet-height;
+    }
+    private void resolveHorizontalSolids(double previousX) {
+        for(Rectangle solid:solids) {
+            if(y+height<=solid.y+.01 || y+height-movementHeight()>=solid.getMaxY()-.01)continue;
+            if(x>previousX && previousX+width<=solid.x+.01 && x+width>solid.x) x=solid.x-width;
+            else if(x<previousX && previousX>=solid.getMaxX()-.01 && x<solid.getMaxX()) x=solid.getMaxX();
+        }
+    }
+    /** Scenery uses the full silhouette; combat keeps the forgiving inner damage box. */
+    public int movementHeight() {return isCrouching()?36:54;}
+    public void pushAway(double sourceX,int distance,double minX,double maxX) {
+        double before=x;
+        x=Math.max(minX,Math.min(maxX,x+(x+width*.5<sourceX?-distance:distance)));
+        resolveHorizontalSolids(before);
+    }
     public void takeDamage(int amount) {
         if (debugMode || shieldTimer > 0 || invincibleTimer > 0) return;
-        int damage = Math.max(0, amount);
+        if(amount<=0)return;
+        int damage = Math.max(1,(int)Math.round(runBuild.difficulty().damage(amount)*runBuild.character().incoming()));
         int availableReboots = runBuild.buildStats().shieldReboots();
         if (damage >= hp && shieldRebootsUsed < availableReboots) {
             shieldRebootsUsed++;

@@ -259,6 +259,14 @@ public class GameRenderer {
         }
     }
 
+    private com.bigphil.mergehell.progression.CharacterId menuCharacter = com.bigphil.mergehell.progression.CharacterId.REPAIR;
+    private com.bigphil.mergehell.progression.GameDifficulty scoreDifficulty = com.bigphil.mergehell.progression.GameDifficulty.STANDARD;
+    public void setRunIdentity(com.bigphil.mergehell.progression.CharacterId character,
+                               com.bigphil.mergehell.progression.GameDifficulty difficulty) {
+        menuCharacter = character;
+        scoreDifficulty = difficulty;
+    }
+
     private void drawMenu(Graphics2D g, int width, int height) {
         g.setPaint(new GradientPaint(0, 0, new Color(7, 11, 16, 242), width, 0, new Color(7, 11, 16, 40)));
         g.fillRect(0, 0, width, height);
@@ -269,15 +277,14 @@ public class GameRenderer {
         g.setColor(new Color(246, 179, 77)); GameText.draw(g, "HELL", 60, 228);
         g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compact ? 17 : 13)));
         g.setColor(new Color(177, 188, 190)); GameText.draw(g, "RUN THE BUILD. OUTRUN THE FAILURE.", 65, 261);
-        g.setColor(new Color(224, 215, 197)); GameText.draw(g, "Five worlds. Six weapons. One stubborn repair bot.", 65, 292);
+        g.setColor(new Color(224, 215, 197)); GameText.draw(g, GameText.message("menu.roster.tagline"), 65, 292);
         if (industrialArt.has("repair")) {
             Graphics2D character = (Graphics2D) g.create();
             character.translate(727, 428); character.scale(4.3, 4.3);
             ActorVisuals.hero(character, industrialArt, new ActorVisuals.Hero(0, 0, -1,
-                    ActorVisuals.Action.IDLE, visualSeconds * 15, 0, 0, false, false, 1));
+                    ActorVisuals.Action.IDLE, visualSeconds * 15, 0, 0, false, false, 1, -1, 0, false, menuCharacter));
             character.dispose();
             g.setFont(GameText.font(new Font(Font.MONOSPACED, Font.PLAIN, 10))); g.setColor(new Color(215, 167, 90));
-            GameText.draw(g, "J>  REPAIR UNIT 01", 650, 460);
         }
         drawControlStrip(g, width, height - 39);
     }
@@ -297,13 +304,13 @@ public class GameRenderer {
     }
 
     private void drawTopScores(Graphics2D g, int width, int centerY) {
-        java.util.List<Integer> scores = ScoreStore.load();
+        java.util.List<Integer> scores = ScoreStore.load(scoreDifficulty);
         if (scores.isEmpty()) return;
 
         g.setFont(GameText.font(new Font("JetBrains Mono", Font.PLAIN, 14)));
         int y = centerY + 120;
         g.setColor(Color.LIGHT_GRAY);
-        String header = "-- TOP SCORES --";
+        String header = GameText.message(scoreDifficulty.key()) + " / " + GameText.text("-- TOP SCORES --");
         int hx = (width - g.getFontMetrics().stringWidth(GameText.text(header))) / 2;
         GameText.draw(g, header, hx, y);
         y += 24;

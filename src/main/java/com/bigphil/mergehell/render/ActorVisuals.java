@@ -3,6 +3,7 @@ package com.bigphil.mergehell.render;
 import com.bigphil.mergehell.i18n.GameText;
 
 import com.bigphil.mergehell.model.*;
+import com.bigphil.mergehell.progression.CharacterId;
 import com.bigphil.mergehell.assets.AnimationClip;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,10 +20,21 @@ import java.util.List;
 public final class ActorVisuals {
     public enum Action { IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT, DEAD }
     public record Hero(double x, double footY, int facing, Action action, double phase,
-                       double shot, double impact, boolean shield, boolean sudo, float opacity) { }
+                       double shot, double impact, boolean shield, boolean sudo, float opacity,
+                       double aimX,double aimY,boolean crouching,CharacterId character) {
+        public Hero(double x,double footY,int facing,Action action,double phase,double shot,double impact,
+                    boolean shield,boolean sudo,float opacity) {
+            this(x,footY,facing,action,phase,shot,impact,shield,sudo,opacity,facing,0,false,CharacterId.REPAIR);
+        }
+    }
     public record Hostile(EntityType type, double x, double y, double width, double height,
                           int facing, int hp, int maxHp, int warning, double phase, double hit, double death,
-                          ObstacleManager.Enemy.Tactics tactics) {
+                          ObstacleManager.Enemy.Tactics tactics, int climbDirection) {
+        public Hostile(EntityType type, double x, double y, double width, double height,
+                       int facing, int hp, int maxHp, int warning, double phase, double hit, double death,
+                       ObstacleManager.Enemy.Tactics tactics) {
+            this(type,x,y,width,height,facing,hp,maxHp,warning,phase,hit,death,tactics,0);
+        }
         public Hostile(EntityType type, double x, double y, double width, double height,
                        int facing, int hp, int maxHp, int warning, double phase, double hit, double death) {
             this(type, x, y, width, height, facing, hp, maxHp, warning, phase, hit, death,
@@ -33,11 +45,11 @@ public final class ActorVisuals {
         public Snapshot { enemies = List.copyOf(enemies); }
     }
     private static final class Track {
-        double x, hit, death, phase;
+        double x, y, hit, death, phase;
         int hp;
         boolean seen;
         Hostile last;
-        Track(ObstacleManager.Enemy e) { x = e.getX(); hp = e.getHp(); }
+        Track(ObstacleManager.Enemy e) { x = e.getX(); y = e.getY(); hp = e.getHp(); }
     }
     private final IdentityHashMap<ObstacleManager.Enemy, Track> tracks = new IdentityHashMap<>();
     private Snapshot snapshot = new Snapshot(null, List.of());
@@ -72,7 +84,7 @@ public final class ActorVisuals {
         Hero hero = new Hero(player.getX() + player.getBounds().width / 2.0,
                 player.getY() + player.getBounds().height, player.getFacingDir(), action,
                 action == Action.MELEE ? player.getMeleeProgress() : action == Action.RUN ? runPhase : time * 15,
-                shot, Math.max(impact, landing), player.getShieldTimer() > 0, player.getSudoTimer() > 0, opacity);
+                shot, Math.max(impact, landing), player.getShieldTimer() > 0, player.getSudoTimer() > 0, opacity,player.getAim().x(),player.getAim().y(),player.isCrouching(),player.getRunBuild().character());
         lastX = player.getX(); lastHp = player.getHp(); lastShot = player.getShotSequence(); grounded = player.isGrounded();
         tracks.values().forEach(track -> track.seen = false);
         List<Hostile> poses = new ArrayList<>();
@@ -84,11 +96,12 @@ public final class ActorVisuals {
             int facing = enemy.getX() - track.x > 0.05 ? 1 : enemy.getX() - track.x < -0.05 ? -1
                     : enemy.getX() > player.getX() ? -1 : 1;
             if (enemy.getType().isChapterSpecialist()) facing = enemy.getTactics().facing();
-            track.phase = (track.phase + Math.abs(enemy.getX() - track.x) * Math.PI / 12) % (Math.PI * 2);
-            track.x = enemy.getX(); track.hp = enemy.getHp();
+            if (enemy.getTerrainClimbDirection()!=0) facing=enemy.getTerrainClimbFacing();
+            track.phase = (track.phase + Math.hypot(enemy.getX() - track.x, enemy.getY() - track.y) * Math.PI / 12) % (Math.PI * 2);
+            track.x = enemy.getX(); track.y = enemy.getY(); track.hp = enemy.getHp();
             track.last = new Hostile(enemy.getType(), enemy.getX(), enemy.getY(), enemy.getBounds().width,
                     enemy.getType().height, facing, enemy.getHp(), enemy.getMaxHp(),
-                    enemy.getTelegraphTicks(), track.phase, track.hit, 0, enemy.getTactics());
+                    enemy.getTelegraphTicks(), track.phase, track.hit, 0, enemy.getTactics(),enemy.getTerrainClimbDirection());
             poses.add(track.last);
         }
         for (Iterator<Map.Entry<ObstacleManager.Enemy, Track>> it = tracks.entrySet().iterator(); it.hasNext();) {
@@ -135,46 +148,63 @@ public final class ActorVisuals {
 
     private static void heroBody(Graphics2D target, IndustrialArt art, Hero p) {
         Graphics2D g = (Graphics2D) target.create();
+        String id=art.has(p.character().art())?p.character().art():"repair";
         try {
             g.translate(p.x(), p.footY()); g.scale(p.facing(), 1);
             boolean run = p.action() == Action.RUN, air = p.action() == Action.RISE || p.action() == Action.FALL;
             boolean dash = p.action() == Action.DASH, melee = p.action() == Action.MELEE;
             double bob = run ? Math.abs(Math.sin(p.phase())) * 1.1 : Math.sin(p.phase() * 0.2) * 0.5;
             if (p.action() == Action.LAND || run) bob += p.impact() * (run ? 1.5 : 3);
+            if(p.crouching()) bob=0;
             if (p.action() == Action.DEAD) { g.translate(-3, -5); g.rotate(-Math.PI / 2, 0, -8); bob = 0; }
             double lean = dash ? 0.28 : run ? 0.08 : p.action() == Action.HURT ? -0.16 * p.impact() : 0;
-            AffineTransform torso = partTransform(art, "repair", "torso", 0, -25 + bob, 17.5, lean, null);
-            Point2D hip = socket(art, "repair", "torso", torso, "hip", -2, -17 + bob);
-            Point2D shoulder = socket(art, "repair", "torso", torso, "shoulder", -5, -27 + bob);
-            Point2D neck = socket(art, "repair", "torso", torso, "neck", 1, -32 + bob);
+            double torsoHeight=21;
+            double torsoWidth=widthAtHeight(art,id,"torso",torsoHeight);
+            AffineTransform torso = partTransform(art, id, "torso", p.crouching()?-5:0,
+                    (p.crouching()?-14:-20) + bob, torsoWidth, p.crouching()?.90:lean, "hip");
+            Point2D hip = socket(art, id, "torso", torso, "hip", -2, -17 + bob);
+            Point2D shoulder = socket(art, id, "torso", torso, "shoulder", -5, -27 + bob);
+            Point2D neck = socket(art, id, "torso", torso, "neck", 1, -32 + bob);
             // Stance feet travel opposite body movement; recovery feet lift above the contact plane.
-            Point2D backFoot = run ? footAt(p.phase() + Math.PI) : new Point2D.Double(air ? -6 : dash ? -10 : -5, air ? -8 : dash ? -5 : 0);
-            Point2D frontFoot = run ? footAt(p.phase()) : new Point2D.Double(air ? 5 : dash ? -2 : 5, air ? -4 : dash ? -2 : 0);
-            leg(g, art, hip.getX() - 2.5, hip.getY(), backFoot.getX(), backFoot.getY(), 0.65f);
-            leg(g, art, hip.getX() + 2.5, hip.getY(), frontFoot.getX(), frontFoot.getY(), 1f);
-            rigidPart(g, art, "repair", "scarf", neck.getX(), neck.getY() + 1, 22,
-                    Math.sin(p.phase() * 0.8) * 0.08 - (dash ? 0.12 : 0), null);
-            transformedPart(g, art, "repair", "torso", torso);
-            AffineTransform head = partTransform(art, "repair", "head", neck.getX(), neck.getY(), 23.5, lean * 0.4, "neck");
-            drawHead(g, art, head, p.facing());
-            // Muzzle sits exactly at the unchanged Player emission point: center +/-15, footY-15.
-            double muzzleX = 15, muzzleY = -15;
-            // Recoil pivots around the emitted muzzle point, preserving both facing directions.
-            AffineTransform cannon = cannonTransform(art, p.shot());
-            Point2D grip = socket(art, "repair", "cannon", cannon, "grip", -3, -11);
-            double armEndX = melee ? 12 + Math.sin(p.phase() * Math.PI) * 9 : grip.getX();
-            double armEndY = melee ? -30 + p.phase() * 24 : grip.getY();
-            arm(g, art, shoulder.getX(), shoulder.getY(), armEndX, armEndY);
+            Point2D backFoot = run ? footAt(p.phase() + Math.PI) : new Point2D.Double(air ? -6 : dash ? -10 : p.crouching()?-2:-5, air ? -8 : dash ? -5 : 0);
+            Point2D frontFoot = run ? footAt(p.phase()) : new Point2D.Double(air ? 5 : dash ? -2 : p.crouching()?7:5, air ? -4 : dash ? -2 : 0);
+            leg(g, art, id, hip.getX() - 1.5, hip.getY(), backFoot.getX(), backFoot.getY(), 0.85f, p.crouching());
+            leg(g, art, id, hip.getX() + 1.5, hip.getY(), frontFoot.getX(), frontFoot.getY(), 1f, p.crouching());
+            double localAimX=p.aimX()*p.facing(), localAimY=p.aimY();
+            double aimAngle=Math.atan2(localAimY,localAimX);
+            var muzzle=com.bigphil.mergehell.combat.HeroAim.local(localAimX,localAimY,p.crouching(),p.character());
+            double muzzleX=muzzle.x(), muzzleY=muzzle.y();
+            AffineTransform cannon=cannonTransform(art,p);
+            Point2D grip=socket(art,id,"cannon",cannon,"grip",1,-24);
+            Point2D support=socket(art,id,"cannon",cannon,"support-grip",grip.getX()+7,grip.getY()-2);
+            if(!melee) {
+                Graphics2D far=(Graphics2D)g.create();opacity(far,.85f);
+                arm(far,art,id,shoulder.getX()+4,shoulder.getY()-1,support.getX(),support.getY(),p.crouching());far.dispose();
+            }
+            // The engineer's collar is already painted into the jacket; only the robots need a separate scarf.
+            if(p.character()!=CharacterId.ENGINEER) rigidPart(g,art,id,"scarf",neck.getX()-2,neck.getY()+3,
+                    p.crouching()?10:16,Math.sin(p.phase()*.5)*.035-(dash?.12:0),null);
+            transformedPart(g,art,id,"torso",torso);
+            double headHeight=switch(p.character()) {case REPAIR->20.5;case SCOUT->22;case WARDEN->16;case ENGINEER->14;};
+            double look=Math.max(-.25,Math.min(.20,aimAngle*.14));
+            AffineTransform head=partTransform(art,id,"head",neck.getX()+(localAimY<-.7?-1:0),neck.getY(),
+                    widthAtHeight(art,id,"head",headHeight),look+lean*.25,"neck");
+            drawHead(g,art,id,head,p.facing());
+            double armEndX=melee?12+Math.sin(p.phase()*Math.PI)*9:grip.getX();
+            double armEndY=melee?-30+p.phase()*24:grip.getY();
             if (!melee) {
-                transformedPart(g, art, "repair", "cannon", cannon);
+                transformedPart(g, art, id, "cannon", cannon);
+                arm(g,art,id,shoulder.getX(),shoulder.getY(),armEndX,armEndY,p.crouching());
                 if (p.shot() > 0 && p.action() != Action.DEAD) {
-                    g.setColor(new Color(255, 163, 46, (int) (210 * p.shot())));
-                    Path2D flame = new Path2D.Double(); flame.moveTo(muzzleX, muzzleY);
-                    flame.lineTo(muzzleX + 12 * p.shot(), muzzleY - 3); flame.lineTo(muzzleX + 6, muzzleY);
-                    flame.lineTo(muzzleX + 12 * p.shot(), muzzleY + 3); flame.closePath(); g.fill(flame);
-                    g.setColor(new Color(255, 248, 201, (int) (255 * p.shot()))); g.fillOval(14, -17, 5, 4);
+                    Graphics2D flash=(Graphics2D)g.create();
+                    flash.translate(muzzleX,muzzleY);flash.rotate(aimAngle);
+                    flash.setColor(new Color(255,163,46,(int)(210*p.shot())));
+                    Path2D flame=new Path2D.Double();flame.moveTo(0,0);flame.lineTo(12*p.shot(),-3);
+                    flame.lineTo(6,0);flame.lineTo(12*p.shot(),3);flame.closePath();flash.fill(flame);
+                    flash.setColor(new Color(255,248,201,(int)(255*p.shot())));flash.fillOval(-1,-2,5,4);flash.dispose();
                 }
             } else {
+                arm(g,art,id,shoulder.getX(),shoulder.getY(),armEndX,armEndY,p.crouching());
                 double sweep = Math.sin(p.phase() * Math.PI);
                 g.setColor(new Color(255, 168, 65, (int) (100 * sweep))); g.setStroke(new BasicStroke(3));
                 g.drawArc(3, -38, 34, 36, -65, 140);
@@ -184,33 +214,38 @@ public final class ActorVisuals {
         } finally { g.dispose(); }
     }
 
-    private static void leg(Graphics2D target, IndustrialArt art, double hx, double hy, double fx, double fy, float opacity) {
+    private static double widthAtHeight(IndustrialArt art,String id,String part,double height) {
+        var frame=art.frame(id,part).orElse(null);
+        return frame==null?height:height*frame.width()/frame.height();
+    }
+
+    private static void leg(Graphics2D target, IndustrialArt art, String id, double hx, double hy, double fx, double fy, float opacity, boolean crouching) {
         Graphics2D g = (Graphics2D) target.create();
         opacity(g, opacity);
         try {
-            var shin = art.frame("repair", "shin").orElse(null);
+            var shin = art.frame(id, "shin").orElse(null);
             var ankle = shin == null ? null : shin.sockets().get("ankle");
             if (ankle == null) {
                 Limb limb = solveLimb(hx, hy, fx, fy, 9, 11, 1);
-                segment(g, art, "repair", "thigh", hx, hy, limb.joint().getX(), limb.joint().getY());
-                segment(g, art, "repair", "shin", limb.joint().getX(), limb.joint().getY(), limb.tip().getX(), limb.tip().getY());
+                segment(g, art, id, "thigh", hx, hy, limb.joint().getX(), limb.joint().getY());
+                segment(g, art, id, "shin", limb.joint().getX(), limb.joint().getY(), limb.tip().getX(), limb.tip().getY());
                 return;
             }
             double lowerLength = 10;
             double scale = lowerLength / Math.hypot(ankle.x() - shin.anchor().x(), ankle.y() - shin.anchor().y());
             AffineTransform boot = bootTransform(shin, fx, fy, scale, fy == 0 ? 0 : -0.18);
             Point2D targetAnkle = boot.transform(new Point2D.Double(ankle.x(), ankle.y()), null);
-            Limb limb = solveLimb(hx, hy, targetAnkle.getX(), targetAnkle.getY(), 9, lowerLength, 1);
-            segment(g, art, "repair", "thigh", hx, hy, limb.joint().getX(), limb.joint().getY());
+            Limb limb = solveLimb(hx, hy, targetAnkle.getX(), targetAnkle.getY(), 8.5, lowerLength, 1);
+            segment(g, art, id, "thigh", hx, hy, limb.joint().getX(), limb.joint().getY());
             AffineTransform calf = segmentTransform(shin, ankle, limb.joint().getX(), limb.joint().getY(),
                     limb.tip().getX(), limb.tip().getY());
             // The painted ankle cap overlaps both clips and conceals the articulation seam.
-            transformedPart(g, art, "repair", "shin", calf,
+            transformedPart(g, art, id, "shin", calf,
                     new Rectangle2D.Double(0, 0, shin.width(), ankle.y() + 14));
             AffineTransform reachCorrection = AffineTransform.getTranslateInstance(
                     limb.tip().getX() - targetAnkle.getX(), limb.tip().getY() - targetAnkle.getY());
             reachCorrection.concatenate(boot);
-            transformedPart(g, art, "repair", "shin", reachCorrection,
+            transformedPart(g, art, id, "shin", reachCorrection,
                     new Rectangle2D.Double(0, ankle.y() - 40, shin.width(), shin.height() - ankle.y() + 40));
         } finally { g.dispose(); }
     }
@@ -225,10 +260,10 @@ public final class ActorVisuals {
         return transform;
     }
 
-    private static void arm(Graphics2D g, IndustrialArt art, double sx, double sy, double ex, double ey) {
-        Limb limb = solveLimb(sx, sy, ex, ey, 9, 11, -1);
-        segment(g, art, "repair", "upper-arm", sx, sy, limb.joint().getX(), limb.joint().getY());
-        segment(g, art, "repair", "forearm", limb.joint().getX(), limb.joint().getY(), limb.tip().getX(), limb.tip().getY());
+    private static void arm(Graphics2D g, IndustrialArt art, String id, double sx, double sy, double ex, double ey, boolean crouching) {
+        Limb limb = solveLimb(sx, sy, ex, ey, 9.5, 9.5, -1);
+        segment(g, art, id, "upper-arm", sx, sy, limb.joint().getX(), limb.joint().getY());
+        segment(g, art, id, "forearm", limb.joint().getX(), limb.joint().getY(), limb.tip().getX(), limb.tip().getY());
     }
 
     private static void segment(Graphics2D g, IndustrialArt art, String id, String part,
@@ -242,8 +277,12 @@ public final class ActorVisuals {
 
     record Limb(Point2D joint, Point2D tip) { }
 
-    static AffineTransform cannonTransform(IndustrialArt art, double recoil) {
-        return partTransform(art, "repair", "cannon", 15, -15, 22, -recoil * 0.06, "muzzle");
+    static AffineTransform cannonTransform(IndustrialArt art, Hero pose) {
+        String id=art.has(pose.character().art())?pose.character().art():"repair";
+        double aimX=pose.aimX()*pose.facing();
+        var muzzle=com.bigphil.mergehell.combat.HeroAim.local(aimX,pose.aimY(),pose.crouching(),pose.character());
+        return partTransform(art,id,"cannon",muzzle.x(),muzzle.y(),20,
+                Math.atan2(pose.aimY(),aimX)-pose.shot()*.04,"muzzle");
     }
 
     /** A reachable target changes joint angles, never the authored proportions or bone lengths. */
@@ -259,18 +298,18 @@ public final class ActorVisuals {
     }
 
     /** Counter-mirror only the CRT glass; the metal head and its direction keep the source silhouette. */
-    private static void drawHead(Graphics2D g, IndustrialArt art, AffineTransform head, int facing) {
-        var frame = art.frame("repair", "head").orElse(null);
+    private static void drawHead(Graphics2D g, IndustrialArt art, String id, AffineTransform head, int facing) {
+        var frame = art.frame(id, "head").orElse(null);
         Shape glass = frame == null ? null : visorClip(frame);
         if (facing >= 0 || glass == null) {
-            transformedPart(g, art, "repair", "head", head);
+            transformedPart(g, art, id, "head", head);
             return;
         }
         Area shell = new Area(new Rectangle2D.Double(0, 0, frame.width(), frame.height()));
         shell.subtract(new Area(glass));
         // Disjoint regions prevent the source glyph ghosting or gaining opacity during invincibility.
-        transformedPart(g, art, "repair", "head", head, shell);
-        readableVisor(g, art, head);
+        transformedPart(g, art, id, "head", head, shell);
+        readableVisor(g, art, id, head);
     }
 
     private static Shape visorClip(AnimationClip.Frame frame) {
@@ -280,8 +319,8 @@ public final class ActorVisuals {
                 bottom.x() - top.x(), bottom.y() - top.y(), 20, 20);
     }
 
-    private static void readableVisor(Graphics2D g, IndustrialArt art, AffineTransform head) {
-        var frame = art.frame("repair", "head").orElse(null);
+    private static void readableVisor(Graphics2D g, IndustrialArt art, String id, AffineTransform head) {
+        var frame = art.frame(id, "head").orElse(null);
         if (frame == null || head == null) return;
         var top = frame.sockets().get("visor-top-left");
         var bottom = frame.sockets().get("visor-bottom-right");
@@ -291,7 +330,7 @@ public final class ActorVisuals {
             visor.transform(head);
             visor.clip(visorClip(frame));
             visor.translate(top.x() + bottom.x(), 0); visor.scale(-1, 1);
-            art.part(visor, "repair", "head", 0, 0, frame.width(), frame.height());
+            art.part(visor, id, "head", 0, 0, frame.width(), frame.height());
         } finally { visor.dispose(); }
     }
 
@@ -369,13 +408,15 @@ public final class ActorVisuals {
         boolean rigged = art.has("hostiles") && (p.type() == EntityType.BUG || p.type() == EntityType.TECHDEBT);
         if (!fullBody && !rigged) {
             if (p.death() == 0) VectorEntityRenderer.render(target, p.type(), (int) p.x(), (int) p.y(),
-                    (int) p.width(), (int) p.height(), p.hp(), p.maxHp(), p.warning());
+                    (int) p.width(), (int) p.height(), p.hp(), p.maxHp(), 0);
+            EnemyWarningRenderer.render(target,p,new Color(255,105,62));
             return;
         }
         double center = p.x() + p.width() / 2, foot = p.y() + p.height();
         // Lock's logical bottom is airborne; there is no ground projection in this value snapshot.
-        if (p.type() != EntityType.LOCK)
+        if (p.type() != EntityType.LOCK && p.climbDirection()==0)
             shadow(target, center, foot, p.width(), (float) (0.55 * (1 - p.death())));
+        wallContact(target,p);
         Graphics2D g = (Graphics2D) target.create();
         try {
             g.translate(center, foot);
@@ -419,18 +460,27 @@ public final class ActorVisuals {
             }
         } finally { g.dispose(); }
         if (p.death() > 0) return;
-        if (p.maxHp() > 1) {
+        if (EnemyWarningRenderer.showHealth(p)) {
             target.setColor(new Color(11, 12, 14, 225)); target.fillRoundRect((int) p.x(), (int) p.y() - 11, (int) p.width(), 4, 3, 3);
             target.setColor(new Color(255, 87, 65)); target.fillRoundRect((int) p.x(), (int) p.y() - 11,
                     (int) (p.width() * p.hp() / p.maxHp()), 4, 3, 3);
         }
-        if (p.warning() > 0) {
-            target.setColor(new Color(255, 73, 55, 200)); target.setStroke(new BasicStroke(1.8f));
-            target.drawLine((int) center, (int) (p.y() + p.height() / 2),
-                    (int) center + p.facing() * 90, (int) (p.y() + p.height() / 2));
-            target.drawOval((int) center - 7, (int) p.y() - 27, 14, 14);
-            target.setFont(GameText.font(new Font(Font.MONOSPACED, Font.BOLD, 11))); GameText.draw(target, "!", (int) center - 3, (int) p.y() - 16);
-        }
+        EnemyWarningRenderer.render(target,p,new Color(255,105,62));
+    }
+
+    /** Small contact chips belong to the wall face, rather than a floating floor under the climber. */
+    static void wallContact(Graphics2D target,Hostile pose) {
+        if(pose.climbDirection()==0 || pose.death()>0)return;
+        Graphics2D g=(Graphics2D)target.create();
+        try {
+            double wall=pose.facing()>0?pose.x()+pose.width()+3:pose.x()-3;
+            g.setColor(new Color(201,179,141,150));g.setStroke(new BasicStroke(1));
+            for(int i=0;i<2;i++) {
+                double y=pose.y()+pose.height()*(i==0?.38:.82)+Math.sin(pose.phase()+i*Math.PI)*2;
+                g.draw(new java.awt.geom.Line2D.Double(wall,y-2,wall,y+2));
+                g.fill(new Rectangle2D.Double(wall-pose.facing()*(3+i),y+4+i,1.5,1.5));
+            }
+        } finally {g.dispose();}
     }
 
     private static String firstWavePart(EntityType type) {

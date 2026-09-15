@@ -48,6 +48,16 @@ public final class ChapterRouteController {
         if (level < 2 || level > 4) throw new IllegalArgumentException("chapter route: " + level);
         this.level=level; this.groundY=groundY;
         if (level==2) buildCitadel(); else if (level==3) buildFoundry(); else buildHive();
+        if(level==2) {
+            surface(8800,165,SurfaceKind.GAP,0);prop(Kind.COUNTERWEIGHT,8740,65,35,50,90);
+        } else if(level==3) {
+            surface(8140,250,SurfaceKind.CONVEYOR,1);surface(8890,120,SurfaceKind.VENT,80);
+            prop(Kind.COOLANT,8490,0,48,86,60);
+        } else {
+            surface(8500,220,SurfaceKind.ACID,0);prop(Kind.NEST,8910,0,82,90,145);
+            prop(Kind.MEMBRANE,9700,0,96,150,210);
+        }
+        ledge(10080,90,180);ledge(10370,160,150);
         rebuildPlatforms();
     }
     private void ledge(int x,int rise,int w) {
@@ -147,7 +157,7 @@ public final class ChapterRouteController {
         return groundY;
     }
     public MovementBounds movementBounds(double x,int width) {
-        double min=0,max=8600;
+        double min=0,max=com.bigphil.mergehell.LevelManager.LEVEL_WIDTH;
         if(!arena && level==2) for(Surface gap:terrain) if(gap.kind==SurfaceKind.GAP) {
             if(gap.x+gap.width<=x)min=Math.max(min,gap.x+gap.width);
             else if(gap.x>=x+width)max=Math.min(max,gap.x);
@@ -244,11 +254,27 @@ public final class ChapterRouteController {
         return List.copyOf(result);
     }
     public List<Platform> platforms() { return platforms; }
+    public java.util.Map<Integer,Integer> savedHealth() {
+        var result=new java.util.HashMap<Integer,Integer>();for(var s:structures)result.put(s.id,s.hp);return result;
+    }
+    public java.util.Map<Integer,Integer> savedHatches() {
+        var result=new java.util.HashMap<Integer,Integer>();for(var s:structures)result.put(s.id,s.hatchCount);return result;
+    }
+    public void restoreStructures(java.util.Map<Integer,Integer> health, java.util.Map<Integer,Integer> hatches) {
+        if(health==null || hatches==null || health.size()!=structures.size() || hatches.size()!=structures.size())
+            throw new IllegalArgumentException("Invalid route checkpoint");
+        for(var s:structures) {
+            int hp=health.getOrDefault(s.id,-1),count=hatches.getOrDefault(s.id,-1);
+            if(hp<0 || hp>s.maxHp || count<0 || count>3)throw new IllegalArgumentException("Invalid structure resources");
+        }
+        for(var s:structures) {s.hp=health.get(s.id);s.hatchCount=hatches.get(s.id);s.hatch=-1;}
+        rebuildPlatforms();
+    }
     public List<Event> drainEvents() { List<Event> copy=List.copyOf(events);events.clear();return copy; }
     public Snapshot snapshot() {
         return new Snapshot(level,tick,surfaces(),structures.stream().map(s->new Prop(s.id,s.kind,s.bounds,s.hp,s.maxHp,s.effectTicks,s.hatch>0&&s.hatch<=120?s.hatch:0)).toList(),lifts,platforms,sectionKey(),arena);
     }
-    private int sectionIndex() { return playerX<2400?0:playerX<5050?1:playerX<7600?2:3; }
+    private int sectionIndex() { return playerX<2400?0:playerX<5050?1:playerX<9900?2:3; }
     private String sectionKey() { return "chapter."+(level+1)+".section."+(sectionIndex()+1); }
     private static boolean overlaps(double x,int w,double x2,int w2){return x+w>x2 && x<x2+w2;}
 }

@@ -27,7 +27,8 @@ class GamePanelChapterCampaignTest {
         assertNull(h.get("blueprint"));assertNull(h.get("kernel"));assertNull(h.get("singularity"));
         assertNull(h.get("environment"));
         @SuppressWarnings("unchecked")var terrain=(List<Platform>)h.get("combatPlatforms");
-        assertEquals(route.platforms(),terrain);
+        assertTrue(terrain.containsAll(route.platforms()));
+        assertTrue(terrain.containsAll(((com.bigphil.mergehell.world.ExplorationRoute)h.get("exploration")).platforms()));
         assertTrue(terrain.size()>12);assertFalse(h.player().isDebugMode());
     }
     @TestFactory java.util.stream.Stream<DynamicTest> pauseAndDraftFreezePhysicalRouteAndRejectInteractionCases() {
@@ -115,7 +116,7 @@ class GamePanelChapterCampaignTest {
     }
     private HeapGameHarness bossWorld(int level)throws Exception {
         var h=world(level);((LevelManager)h.get("levelManager")).advanceToBossGateForTesting();
-        h.place(7600,450);assertEquals(GameState.BOSS_WARNING,h.state());
+        h.finishExplorationFixture();h.place(h.panel.getLevelManager().getBossGateX(),450);assertEquals(GameState.BOSS_WARNING,h.state());
         for(int i=0;i<260&&h.state()!=GameState.BOSS_FIGHT;i++)quiet(h,1);
         assertEquals(GameState.BOSS_FIGHT,h.state());quiet(h,18);return h;
     }

@@ -100,6 +100,26 @@ public final class TraversalEnvironment {
     private double footDistance;
     private boolean active;
     private boolean bossArena;
+    private boolean drainageOpen;
+    public void setDrainageOpen(boolean open) {
+        if(drainageOpen==open)return;
+        drainageOpen=open;rebuildGeometry();publish();
+    }
+    public Map<Long,Integer> savedBreakage() {
+        Map<Long,Integer> result=new LinkedHashMap<>();chunks.forEach((id,chunk)->result.put(id,chunk.brokenMask));return result;
+    }
+    public long savedRetiredBefore() {return retiredBefore;}
+    public void restoreBreakage(Map<Long,Integer> masks,long retired) {
+        if(masks==null || masks.size()>MAX_CHUNKS || retired<0 || retired>1000)
+            throw new IllegalArgumentException("Invalid environment checkpoint");
+        var restored=new LinkedHashMap<Long,Chunk>();
+        masks.forEach((id,mask)->{
+            if(id==null||id<0||id>1000||mask==null||mask<0)throw new IllegalArgumentException("Invalid environment chunk");
+            Chunk chunk=generate(id);if(mask>=(1<<chunk.props.size()))throw new IllegalArgumentException("Invalid breakage mask");
+            chunk.brokenMask=mask;restored.put(id,chunk);
+        });
+        chunks.clear();chunks.putAll(restored);retiredBefore=retired;rebuildGeometry();publish();
+    }
     private Snapshot snapshot = Snapshot.empty();
 
     public TraversalEnvironment(int level, long seed, int groundY) {
@@ -315,7 +335,8 @@ public final class TraversalEnvironment {
         var props = new ArrayList<PropView>();
         chunks.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             Chunk chunk = entry.getValue();
-            water.addAll(chunk.water);
+            for(var pool:chunk.water)water.add(drainageOpen && level==1 && pool.x()>7600
+                    ?new WaterView(pool.id(),pool.x(),pool.width(),pool.surfaceY(),Math.max(3,pool.depth()/4)):pool);
             if (!bossArena) {
                 platforms.addAll(chunk.platforms);
                 for (int index = 0; index < chunk.props.size(); index++)

@@ -79,7 +79,7 @@ class KernelBossTest {
     @Test void phaseChangePreservesPositionAndClearsContactAndPendingAttacks() {
         var f = new Fight(); f.until("DRILL_CHARGE");
         for (int i = 0; i < 88; i++) f.tick(200);
-        double x = f.boss.getX(); f.boss.damage(2200); f.tick(200);
+        double x = f.boss.getX(); f.boss.damage((int)(f.boss.getMaxHp()*.37)); f.tick(200);
         assertEquals(2, f.boss.getCombatStage()); assertEquals(90, f.boss.getKernelRebootTicks());
         assertEquals(x, f.boss.getX()); assertFalse(f.boss.isContactDangerous());
         assertTrue(f.boss.getAttackTelegraphs().isEmpty());

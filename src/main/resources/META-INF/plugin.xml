@@ -30,7 +30,7 @@
             <li>🪙 <b>Coins &amp; Local Leaderboard:</b> Collect coins mid-run and chase your Top 5 high scores, saved right in your IDE.</li>
             <li>🏃 <b>Tight Platforming:</b> Double-jump, dash through danger with i-frames, and rack up a <b>combo multiplier</b> for style points.</li>
             <li>🎨 <b>Illustrated worlds:</b> Volumetric 2D characters, dedicated painted panoramas, articulated mechanical and alien bosses, breakable scenery, moving lifts, conveyors and hazardous terrain.</li>
-            <li>🔇 <b>IDE-friendly:</b> Muted by default, optional music and sound, unified English and Simplified Chinese, pause and chapter checkpoints.</li>
+            <li>🔇 <b>IDE-friendly:</b> Muted by default, optional music and sound, unified English and Simplified Chinese, pause and safe-segment checkpoints.</li>
         </ul>
         <br>
         <p>
@@ -45,7 +45,16 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <h3>v1.0.0 — Illustrated Campaign Overhaul</h3>
+        <h3>v1.0.0 — Combat &amp; Exploration Expansion</h3>
+        <ul>
+            <li><b>NEW:</b> Eight-way aiming, grounded crouch fire and stationary aim with matching articulated poses for every weapon.</li>
+            <li><b>NEW:</b> Four independent operatives, including a hidden Night-shift Engineer discovered in the first chapter.</li>
+            <li><b>NEW:</b> Relaxed, Standard and Challenge profiles with separate rankings, tougher enemies and faster Boss attack combinations.</li>
+            <li><b>NEW:</b> Longer routes across all five chapters, solid jump obstacles, crawl passages, upper facilities and optional secrets.</li>
+            <li><b>NEW:</b> Safe-segment saves preserve resources, route changes and discoveries while existing entrance saves remain compatible.</li>
+            <li><b>IMPROVED:</b> Illustrated route materials, a bilingual F1 controls guide and a one-second bomb cooldown. Audio is still muted by default.</li>
+        </ul>
+        <h3>Illustrated Campaign Overhaul</h3>
         <p>Merge Hell Runner is now a complete five-mission campaign with a distinct world, enemy ecosystem, and boss encounter for every chapter.</p>
         <ul>
             <li><b>NEW:</b> Five visually distinct missions: Repository City, Heap District, Aerial Citadel, Geothermal Foundry, and Alien Hive.</li>

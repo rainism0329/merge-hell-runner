@@ -1,0 +1,39 @@
+{
+  "source": "docs\\design\\evolution\\sources\\routes\\route-props-source.png",
+  "sha256": "257fa4cead3953cfa72cb58aad11ecd66f1032c24859e850c09b930210f102cd",
+  "mode": "built-in imagegen; native RGBA; deterministic crop and atlas packing",
+  "parts": {
+    "city-wall": [
+      339,
+      439
+    ],
+    "drain-wall": [
+      361,
+      423
+    ],
+    "gantry-wall": [
+      368,
+      427
+    ],
+    "foundry-wall": [
+      349,
+      460
+    ],
+    "hive-wall": [
+      355,
+      454
+    ],
+    "walkway": [
+      493,
+      143
+    ],
+    "console": [
+      276,
+      353
+    ],
+    "nerve-console": [
+      319,
+      454
+    ]
+  }
+}

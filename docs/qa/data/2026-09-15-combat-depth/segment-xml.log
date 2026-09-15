@@ -1,0 +1,17 @@
+Configuration file for j.u.l.LogManager does not exist: D:\IdeaProjects\merge-hell-runner\.gradle\evolution-user-home\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\2023.2.2\9501eca11251de344f61d01388781a8fabcd81df\ideaIC-2023.2.2\test-log.properties
+Be careful, logger will be shut down earlier than application: Unable to make field private static java.util.IdentityHashMap java.lang.ApplicationShutdownHooks.hooks accessible: module java.base does not "opens java.lang" to unnamed module @7193666c
+
+Test run finished after 8331 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         3 tests found           ]
+[         0 tests skipped         ]
+[         3 tests started         ]
+[         0 tests aborted         ]
+[         3 tests successful      ]
+[         0 tests failed          ]
+

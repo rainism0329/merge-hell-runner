@@ -44,6 +44,10 @@ final class HeapGameHarness implements AutoCloseable {
         if (state() != GameState.BOSS_FIGHT) set("cameraX", Math.max(0, x - 288));
         tick();
     }
+    /** A completed-route fixture for focused Boss tests; production gameplay must interact at both sites. */
+    void finishExplorationFixture() throws Exception {
+        ((com.bigphil.mergehell.world.ExplorationRoute)get("exploration")).restore(java.util.Set.of(1,2));
+    }
     void bossPractice() throws Exception {
         key("LAB_TOGGLE_ALT"); tick(); key("LAB_BOSS_ALT");
         for (int i = 0; i < 220 && state() != GameState.BOSS_FIGHT; i++) tick();

@@ -75,7 +75,7 @@ public final class ChapterWorldRenderer {
             if(!scene.arena()) for(Prop prop:scene.props()) if(prop.bounds().getMaxX()>=left && prop.bounds().x<=right) prop(g,prop,scene,groundY);
         }finally{g.dispose();}
     }
-    private static void deck(Graphics2D g,int level,double x,double y,int width,boolean floating) {
+    static void deck(Graphics2D g,int level,double x,double y,int width,boolean floating) {
         if(width<=0)return;
         BufferedImage material=MATERIALS[level-2];
         g.setPaint(new TexturePaint(material,new Rectangle(0,(int)y-6,material.getWidth(),material.getHeight())));

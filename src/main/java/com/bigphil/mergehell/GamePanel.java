@@ -176,6 +176,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     private String loopErrorMessage = "";
     private int rejectedProjectiles;
     private long observedPlayerRejections, observedEnemyRejections, observedDroneRejections;
+    private com.bigphil.mergehell.progression.CharacterId selectedCharacter=com.bigphil.mergehell.progression.CharacterId.REPAIR;
+    private com.bigphil.mergehell.progression.GameDifficulty selectedDifficulty=com.bigphil.mergehell.progression.GameDifficulty.STANDARD;
     private WeaponId selectedStartingWeapon = WeaponId.COMMIT_CANNON;
     private boolean labPowerEnabled;
     private boolean runUnranked;
@@ -239,6 +241,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 () -> !LevelManager.isLegacyMission(level),
                 () -> session.runBuild().buildStats().comboGraceTicks());
         collision.setWorldImpactHandler(this::hitWorldObject);
+        collision.setEnemyWorldImpactHandler((shot,before)->exploration!=null&&exploration.consumeShot(shot,before));
 
         setupKeyBindings();
         audio.setPaused(true);
@@ -288,11 +291,12 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 powerFlashTimer = 16; shakeTimer = 25;
                 for (ObstacleManager.Enemy en : enemyManager.getEnemies()) {
                     if (!en.isDead() && en.getType().isHostile()) {
-                        en.setDead(true);
-                        int points = en.getType().pointValue;
+                        en.takeDamage(420);
+                        if(!en.isDead()) continue;
+                        int points = en.getType().pointValue / 4;
                         ctx.score += points;
                         handleCombatEvent(new CombatEvent.EnemyKilled(
-                                en.getType(), points, en.getX(), en.getY()));
+                                en.getType(), points, en.getX(), en.getY(), null, 0, CombatEvent.DamageKind.BOMB));
                     }
                 }
                 enemyManager.getEnemyBullets().clear();
@@ -350,8 +354,15 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         registerKey(im, am, "PAUSE_P", KeyEvent.VK_P, true, this::togglePause);
         registerKey(im, am, "PAUSE_ESC", KeyEvent.VK_ESCAPE, true, this::togglePause);
-        registerKey(im, am, "MENU_UP", KeyEvent.VK_UP, true, () -> { });
-        registerKey(im, am, "MENU_DOWN", KeyEvent.VK_DOWN, true, () -> { });
+        registerKey(im, am, "MENU_UP", KeyEvent.VK_UP, true, () -> { if(isActiveGameplay()) keyUp=true; });
+        registerKey(im, am, "MENU_UP_R", KeyEvent.VK_UP, false, () -> keyUp=false);
+        registerKey(im, am, "MENU_DOWN", KeyEvent.VK_DOWN, true, () -> { if(isActiveGameplay()) keyDown=true; });
+        registerKey(im, am, "MENU_DOWN_R", KeyEvent.VK_DOWN, false, () -> keyDown=false);
+        registerKey(im, am, "AIM_LOCK", KeyEvent.VK_V, true, () -> { if(isActiveGameplay()) keyAimLock=true; });
+        registerKey(im, am, "AIM_LOCK_R", KeyEvent.VK_V, false, () -> keyAimLock=false);
+        registerKey(im, am, "CHARACTER", KeyEvent.VK_Y, true, this::cycleCharacter);
+        registerKey(im, am, "DIFFICULTY", KeyEvent.VK_D, true, this::cycleDifficulty);
+        registerKey(im, am, "HELP", KeyEvent.VK_F1, true, this::toggleControlsHelp);
         registerKey(im, am, "SETTINGS", KeyEvent.VK_O, true, this::openSettings);
         registerKey(im, am, "MUTE", KeyEvent.VK_M, true, this::toggleMute);
         registerKey(im, am, "MENU", KeyEvent.VK_Q, true, () -> {
@@ -360,7 +371,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             MergeHellStateService.getInstance().releaseRun(storageOwner);
             ownsCheckpoint = false;
             clearHeldKeys();
-            addLog("Returned to menu. Continue restarts from the saved level entrance.");
+            addKernelLog("explore.returned");
         });
     }
 
@@ -370,6 +381,10 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             @Override public void actionPerformed(ActionEvent e) {
                 if (pressed) inputCommands.press(keyCode, () -> {
                     if (settingsEditor != null) { handleSettingsKey(keyCode); return; }
+                    if(controlsHelp && keyCode!=KeyEvent.VK_F1) {
+                        if(keyCode==KeyEvent.VK_ESCAPE)controlsHelp=false;
+                        return;
+                    }
                     action.run();
                 });
                 else inputCommands.release(keyCode, action);
@@ -458,6 +473,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
     private void handleClick(int x, int y) {
         if (settingsEditor != null) return;
+        if (controlsHelp) { controlsHelp=false; return; }
         if (state == GameState.MENU) {
             var choice = com.bigphil.mergehell.render.MenuLaunchRenderer.at(x, y, menuLaunchModel());
             if (choice != null) switch (choice) {
@@ -469,14 +485,50 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 case MUTE -> toggleMute();
             }
             else if (x >= 64 && x <= 544 && y >= 322 && y <= 376) handleWeaponKey();
+            else if (x >= 64 && x <= 544 && y >= 377 && y <= 417) cycleDifficulty();
+            else if (x >= 588 && x <= 918 && y >= 432 && y <= 496) cycleCharacter();
         } else selectUpgradeAt(x, y);
+    }
+
+    private boolean controlsHelp;
+    private void cycleCharacter() {
+        if(state!=GameState.MENU) return;
+        var values=com.bigphil.mergehell.progression.CharacterId.values();
+        selectedCharacter=values[(selectedCharacter.ordinal()+1)%values.length];
+    }
+    private void cycleDifficulty() {
+        if(state!=GameState.MENU) return;
+        var values=com.bigphil.mergehell.progression.GameDifficulty.values();
+        selectedDifficulty=values[(selectedDifficulty.ordinal()+1)%values.length];
+    }
+    private void toggleControlsHelp() {
+        if(settingsEditor!=null) return;
+        if(isActiveGameplay()) togglePause();
+        controlsHelp=!controlsHelp;
+        clearHeldKeys();
+    }
+
+    private void drawControlsHelp(Graphics2D original) {
+        Graphics2D g=(Graphics2D)original.create();
+        try {
+            g.setColor(new Color(5,10,17,246));g.fillRoundRect(105,80,750,415,16,16);
+            g.setFont(GameText.font(new Font(Font.SANS_SERIF,Font.BOLD,23)));
+            g.setColor(GameColors.SUDO_YELLOW);GameText.draw(g,GameText.message("controls.title"),135,121);
+            g.setFont(GameText.font(new Font(Font.SANS_SERIF,Font.PLAIN,17)));
+            for(int i=0;i<8;i++) {
+                g.setColor(i==7?GameColors.SHIELD_CYAN:new Color(220,224,222));
+                GameText.draw(g,GameText.message("controls.line."+i),135,164+i*40);
+            }
+        } finally {g.dispose();}
     }
 
     private com.bigphil.mergehell.render.MenuLaunchRenderer.Model menuLaunchModel() {
         var storage = MergeHellStateService.getInstance();
-        int savedWorld = storage.readCheckpoint().map(run -> run.mission + 1).orElse(0);
+        var saved = storage.readCheckpoint();
+        int savedWorld = saved.map(run -> run.mission + 1).orElse(0);
         return new com.bigphil.mergehell.render.MenuLaunchRenderer.Model(labPowerEnabled, savedWorld,
-                storage.ownedByAnotherWindow(storageOwner), settings.muted);
+                storage.ownedByAnotherWindow(storageOwner), settings.muted,
+                saved.map(run -> CheckpointCodec.SAFE_SEGMENT.equals(run.checkpointKind)).orElse(false));
     }
 
     private void startPractice(boolean atBoss) {
@@ -531,7 +583,11 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         }
     }
 
+    private boolean keyUp, keyDown, keyAimLock;
     private void clearHeldKeys() {
+        keyUp=keyDown=keyAimLock=false;
+        chapterInteract=explorationInteract=false;
+        player.clearAimInput();
         kernelInteract = false; singularityInteract = false;
         blueprintInteract = false;
         keyLeft = false;
@@ -740,6 +796,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void startGame() {
+        if(!labPowerEnabled && !MergeHellStateService.getInstance().getState().unlockedCharacters.contains(selectedCharacter)) {
+            addKernelLog("character.engineer.locked"); return;
+        }
         settingsEditor = null;
         logs.clear();
         ctx.score = 0; ctx.combo = 0; ctx.comboTimer = 0;
@@ -751,6 +810,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         extraLifeScore = 5000;
         long runSeed = random.nextLong();
         session = new GameSession(runSeed, selectedStartingWeapon);
+        session.runBuild().setIdentity(selectedCharacter,selectedDifficulty);
         resetWorldSystems();
         player.setCombatSeed(runSeed);
         collision.resetEffects(ctx);
@@ -908,6 +968,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         }
 
         // ── Player update ───────────────────────────────
+        player.setAimInput(keyUp,keyDown,keyAimLock,keyLeft,keyRight);
         if (chapterRoute != null) chapterRoute.beforeMove(player, state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING);
         refreshTerrain();
         double previousPlayerX = player.getX(), previousFeet = player.getY() + player.getBounds().height;
@@ -926,10 +987,29 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             if (player.getMeleeBounds() != null) chapterRoute.melee(player.getMeleeBounds());
             consumeChapterEvents();
         }
+        if(exploration!=null && state==GameState.RUNNING) {
+            exploration.update(player,explorationInteract);explorationInteract=false;
+            for(var event:exploration.drainEvents()) {
+                ctx.score+=event.reward();
+                addKernelLog(event.key()+".story");
+                if(event.secret()) {
+                    player.heal(15);player.addBomb();
+                    if(!runUnranked)MergeHellStateService.getInstance().discoverSecret(level);
+                    if(level==0 && !runUnranked)addKernelLog("character.engineer.unlocked");
+                }
+                if(event.encounter()) {
+                    EntityType air=switch(level){case 0->EntityType.LOCK;case 1->EntityType.LEAK;case 2->EntityType.RIGGER;case 3->EntityType.INTERRUPT;default->EntityType.SPORE_POD;};
+                    enemyManager.spawnEnemy((int)player.getX()+260,240,air);
+                    enemyManager.spawnEnemy((int)player.getX()+380,480-EntityType.TECHDEBT.height,
+                            level<2?EntityType.TECHDEBT:level==2?EntityType.WARDEN:level==3?EntityType.DRILLER:EntityType.MIRROR);
+                }
+            }
+        }
         if (environment != null) environment.update(new TraversalEnvironment.Step(
                 previousPlayerX, previousFeet, player.getX(), player.getY() + player.getBounds().height,
                 player.getBounds().width, cameraX, panelW, player.isGrounded(), wasDashingOnTerrain,
                 true, state == GameState.BOSS_FIGHT));
+        if(environment!=null && exploration!=null)environment.setDrainageOpen(level==1&&exploration.visited().contains(1));
         if (player.getShotSequence() != previousShot && boss != null) boss.recordPlayerShot();
         if (player.getShotSequence() != previousShot) audio.emit(CombatFeedbackEvent.of(
                 switch (player.getLastFiredWeaponId()) {
@@ -969,7 +1049,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         int aliveEnemies = (int) enemyManager.getEnemies().stream()
                 .filter(en -> !en.isDead() && en.getType().isHostile()).count();
 
-        if (!legacyMission) {
+        if (!legacyMission && (labPowerEnabled || exploration==null || exploration.complete()
+                || session.currentMissionSegment()==null || session.currentMissionSegment().kind()!=com.bigphil.mergehell.mission.MissionSegment.Kind.BOSS_GATE)) {
             double pressure = (1.0 - player.getHp() / (double) player.getMaxHp()) * 0.6
                     + Math.min(1.0, aliveEnemies / 30.0) * 0.4;
             applyDirectorCommands(session.directMission(new DirectorInput(
@@ -1012,9 +1093,10 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         // Enter the boss warning before ambient spawn checks so a LAB jump (or a fast
         // player) cannot bring a random enemy into the boss arena on the same tick.
-        if (legacyMission && state == GameState.RUNNING && levelManager.shouldSpawnBoss(player.getX())) {
-            boss = new Boss(levelManager.bossName, levelManager.bossHp,
+        if (legacyMission && state == GameState.RUNNING && (labPowerEnabled || exploration==null || exploration.complete()) && levelManager.shouldSpawnBoss(player.getX())) {
+            boss = new Boss(levelManager.bossName, session.runBuild().difficulty().health(levelManager.bossHp),
                     levelManager.bossSymbol, cameraX + panelW, level, levelSeed(0x424F5353L));
+            boss.configureCombat(session.runBuild().difficulty());
             bossFeedback.reset();
             if (level == 1) {
                 heapBossArenaLeft = cameraX;
@@ -1082,7 +1164,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                     var movement = chapterRoute.movementBounds(en.getX(), (int) Math.ceil(en.getWidth()));
                     en.setMovementBounds(movement.minX(), movement.maxX());
                 }
+                double oldEnemyX=en.getX();
                 en.update(difficultySpeed, player.getX(), player.getY(), (int) cameraX, (int) cameraX + panelW, groundY);
+                enemyManager.resolveSolidMotion(en,oldEnemyX);
                 en.maybeShoot(player.getY(), enemyBullets);
             }
         }
@@ -1149,6 +1233,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         floatingTexts.removeIf(t -> !t.update());
         for (Particle p : particles) p.update();
 
+        trySafeCheckpoint();
         enforceEntityLimits();
 
         repaint();
@@ -1194,7 +1279,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             } else if (command instanceof DirectorCommand.SpawnBoss) {
                 boss = null;
                 enemyManager.clearHostiles();
-                legacyBoss = new LegacyBossController(new Random(levelSeed(0x4C4547414359L)), 2_400);
+                legacyBoss = new LegacyBossController(new Random(levelSeed(0x4C4547414359L)), com.bigphil.mergehell.progression.CombatBalance.bossHealth(0,session.runBuild().difficulty()));
                 bossFeedback.reset();
                 legacyBossArenaLeft = cameraX;
                 legacyBoss.setOrigin(cameraX + panelWidth - 200, groundY - 290);
@@ -1412,9 +1497,9 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             var next = level < 4 ? CheckpointCodec.captureNextMission(runId, settledScore,
                     (int) Math.min(Integer.MAX_VALUE, (long) extraLifeScore + 10000),
                     session, player.checkpointForNextLevel()) : null;
-            if (level == 4) isNewHighScore = ScoreStore.isHighScore(settledScore);
+            if (level == 4) isNewHighScore = ScoreStore.isHighScore(settledScore,session.runBuild().difficulty());
             missionFirstClearReward = MergeHellStateService.getInstance().settleCampaignMission(
-                    storageOwner, level, 250, next, settledScore);
+                    storageOwner, level, 250, next, settledScore,session.runBuild().difficulty());
             if (level == 4) ownsCheckpoint = false;
         }
         ctx.score = settledScore;
@@ -1435,8 +1520,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             addLog("LAB // Unranked score was not saved.");
             return;
         }
-        isNewHighScore = ScoreStore.isHighScore(ctx.score);
-        ScoreStore.save(ctx.score);
+        isNewHighScore = ScoreStore.isHighScore(ctx.score,session.runBuild().difficulty());
+        ScoreStore.save(ctx.score,session.runBuild().difficulty());
         MergeHellStateService.getInstance().clearCheckpoint(storageOwner);
         MergeHellStateService.getInstance().releaseRun(storageOwner);
         ownsCheckpoint = false;
@@ -1475,6 +1560,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if (saved.isEmpty()) { addLog("No available checkpoint, or another window is using it."); return; }
         var run = saved.get();
         session = CheckpointCodec.restoreSession(run);
+        selectedCharacter=session.runBuild().character();
+        selectedDifficulty=session.runBuild().difficulty();
         player.restoreCheckpoint(CheckpointCodec.playerCheckpoint(run), session.runBuild(), run.checkpointX, run.checkpointY);
         player.setDebugMode(false);
         runId = run.runId; ownsCheckpoint = true; runUnranked = false; labPowerEnabled = false;
@@ -1499,11 +1586,56 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         } else {
             platforms = levelManager.getPlatforms(); coins = levelManager.getCoins(); darkRoute = null; biomeBannerTicks = 0;
         }
+        if(CheckpointCodec.SAFE_SEGMENT.equals(run.checkpointKind)) {
+            exploration.restore(run.explorationVisited);
+            if(chapterRoute!=null)chapterRoute.restoreStructures(run.routeHealth,run.routeHatches);
+            if(heap!=null)heap.restoreUsedNodes(run.heapUsed);
+            if(environment!=null)environment.restoreBreakage(run.environmentBreakage,run.environmentRetired);
+            levelManager.restoreThrough(run.checkpointX);
+            cameraX=Math.max(0,Math.min(levelManager.getCameraMaxX()-GameViewport.LOGICAL_WIDTH,run.checkpointX-200));
+            if(level==0) {
+                lastSavedDirectorSegment=run.director.segment;
+                ensureDarkRoute(run.checkpointX,480);
+                for(var coin:coins)if(coin.x<run.checkpointX+30)coin.collected=true;
+            } else {
+                for(int index:run.collectedCoins)if(index<coins.size())coins.get(index).collected=true;
+                int[] anchors={3100,5100,7650,9800};for(int i=0;i<anchors.length;i++)if(run.checkpointX>=anchors[i])lastSavedAnchor=i;
+            }
+        }
         renderer.resetVisuals(); visualWorldTick = session.worldTick();
         resetDrones();
         state = GameState.RUNNING; gameLoop.resetClock();
         syncAudio();
-        logs.clear(); addLog("Checkpoint restored // World " + (level + 1) + " entrance.");
+        logs.clear(); addKernelLog(CheckpointCodec.SAFE_SEGMENT.equals(run.checkpointKind)?"explore.restored":"explore.entry");
+    }
+
+    private void trySafeCheckpoint() {
+        if(state!=GameState.RUNNING || runUnranked || !ownsCheckpoint || !player.isGrounded()
+                || player.getBounds().height!=30 || Math.abs(player.getY()-450)>.01
+                || session.state()!=GameState.RUNNING || exploration==null || levelManager.isInBattle()
+                || enemyManager.getEnemies().stream().anyMatch(e->!e.isDead()&&e.getType().isHostile())
+                || !enemyManager.getEnemyBullets().isEmpty())return;
+        int anchor=-1;
+        if(level==0) {
+            if(session.currentMissionSegment()==null || session.currentMissionSegment().kind()!=com.bigphil.mergehell.mission.MissionSegment.Kind.RECOVERY)return;
+            anchor=session.directorCheckpoint().segment();if(anchor<=lastSavedDirectorSegment)return;
+        } else {
+            int[] starts={3100,5100,7650,9800};
+            for(int i=0;i<starts.length;i++)if(player.getX()>=starts[i]&&player.getX()<Math.min(9900,starts[i]+190))anchor=i;
+            if(anchor<0 || anchor<=lastSavedAnchor)return;
+        }
+        if(exploration.solids().stream().anyMatch(b->b.intersects(player.getBounds())))return;
+        java.util.Set<Integer> collected=new java.util.HashSet<>();
+        if(level>0)for(int i=0;i<coins.size();i++)if(coins.get(i).collected)collected.add(i);
+        var navigation=new CheckpointCodec.Navigation(player.getX(),exploration.visited(),
+                chapterRoute==null?java.util.Map.of():chapterRoute.savedHealth(),chapterRoute==null?java.util.Map.of():chapterRoute.savedHatches(),
+                heap==null?java.util.Set.of():heap.savedUsedNodes(),collected,
+                environment==null?java.util.Map.of():environment.savedBreakage(),environment==null?0:environment.savedRetiredBefore());
+        var saved=CheckpointCodec.captureSegment(runId,ctx.score,extraLifeScore,session,player.checkpointForNextLevel(),navigation);
+        if(MergeHellStateService.getInstance().saveCheckpoint(storageOwner,saved)) {
+            if(level==0)lastSavedDirectorSegment=anchor;else lastSavedAnchor=anchor;
+            recoveryX=player.getX();recoveryY=450;addKernelLog("explore.saved");
+        }
     }
 
     private void enforceEntityLimits() {
@@ -1539,8 +1671,14 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
     private com.bigphil.mergehell.world.ChapterRouteController chapterRoute;
     private boolean chapterInteract;
+    private com.bigphil.mergehell.world.ExplorationRoute exploration;
+    private boolean explorationInteract;
+    private int lastSavedAnchor=-1,lastSavedDirectorSegment=-1;
 
     private void resetWorldSystems() {
+        controlsHelp=false;
+        exploration=new com.bigphil.mergehell.world.ExplorationRoute(level);explorationInteract=false;lastSavedAnchor=lastSavedDirectorSegment=-1;
+        enemyManager.configureCombat(level,session.runBuild().difficulty());
         projectiles.reset();
         rejectedProjectiles = 0;
         observedPlayerRejections = 0;
@@ -1604,6 +1742,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void queueHeapChoice(HeapDistrictController.Choice choice) {
+        if(state==GameState.RUNNING && choice==HeapDistrictController.Choice.PURGE)explorationInteract=true;
         if (chapterRoute != null && state == GameState.RUNNING) chapterInteract = true;
         if (heap != null && isActiveGameplay() && state != GameState.BOSS_WARNING) heapChoice = choice;
         if (blueprint != null && choice == HeapDistrictController.Choice.PURGE
@@ -1788,6 +1927,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void drawEffectZones(Graphics2D original) {
+        if(exploration!=null)com.bigphil.mergehell.render.ExplorationRenderer.world(original,renderer.art(),exploration.snapshot(),cameraX,GameViewport.LOGICAL_WIDTH);
         Graphics2D g = (Graphics2D) original.create();
         try {
             if (heap != null && state != GameState.MENU) heapRenderer.drawWorld(g, heap.snapshot(),
@@ -1866,6 +2006,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         logical.setColor(GameColors.BG);
         logical.fillRect(0, 0, panelW, panelH);
         renderer.setBossHudManaged(true);
+        renderer.setRunIdentity(state==GameState.MENU?selectedCharacter:session.runBuild().character(),
+                state==GameState.MENU?selectedDifficulty:session.runBuild().difficulty());
         renderer.setFlashesEnabled(settings.flashes);
         renderer.setPowerFlashTicks(settings.flashes ? powerFlashTimer : 0);
         renderer.setChapter(chapterRoute == null ? com.bigphil.mergehell.world.ChapterRouteController.Snapshot.empty() : chapterRoute.snapshot());
@@ -1918,6 +2060,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         boolean gameplayHudVisible = state == GameState.RUNNING || state == GameState.BOSS_WARNING
                 || state == GameState.BOSS_FIGHT || state == GameState.LEVEL_CLEAR;
         if (gameplayHudVisible) {
+            if(exploration!=null && state==GameState.RUNNING)com.bigphil.mergehell.render.ExplorationRenderer.hud(logical,exploration.snapshot(),player.getX());
             hudRenderer.render(logical, session, player, ctx.score, ctx.combo, ctx.comboTimer,
                     runUnranked, !LevelManager.isLegacyMission(level));
             if (heap != null && state != GameState.BOSS_WARNING) heapHudRenderer.render(logical, heap.snapshot(), compactDisplay,
@@ -1940,6 +2083,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         }
         if (state == GameState.ERROR) drawLoopError(logical, panelW, panelH);
         if (settingsEditor != null) settingsRenderer.render(logical, settingsEditor.snapshot());
+        if (controlsHelp) drawControlsHelp(logical);
     }
 
     @Override
@@ -2037,8 +2181,17 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         String labStatus = labPowerEnabled
                 ? "Invincibility on · Practice run   [ T ] Disable"
                 : "Normal damage   [ T ] Invincibility   [ N ] New run";
-        GameText.draw(g, labStatus, left + 16, top + 75);
+        GameText.draw(g, state==GameState.MENU?"[ D ] "+GameText.message(selectedDifficulty.key())+"     [ F1 ] "+GameText.message("controls.guideLabel"):labStatus, left + 16, top + 75);
         if (state == GameState.MENU) {
+            boolean unlocked=MergeHellStateService.getInstance().getState().unlockedCharacters.contains(selectedCharacter);
+            g.setColor(new Color(8,12,20,235));g.fillRoundRect(588,432,330,64,7,7);
+            g.setColor(unlocked?GameColors.SHIELD_CYAN:GameColors.SUDO_YELLOW);
+            g.setFont(GameText.font(new Font(Font.SANS_SERIF,Font.BOLD,16)));
+            GameText.draw(g,"[ Y ] "+GameText.message(selectedCharacter.titleKey())+(unlocked?"":"  ◇"),602,455);
+            g.setFont(GameText.font(new Font(Font.SANS_SERIF,Font.PLAIN,compactDisplay?17:12)));
+            String roleDetail=GameText.message(unlocked?selectedCharacter.detailKey():"character.engineer.hint");
+            GameText.fitFont(g,roleDetail,303,compactDisplay?14:12);
+            GameText.draw(g,roleDetail,602,479);
             com.bigphil.mergehell.render.MenuLaunchRenderer.render(g, menuLaunchModel(), compactDisplay);
         }
         g.dispose();
@@ -2131,8 +2284,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void refreshTerrain() {
-        if (chapterRoute != null) { combatPlatforms = chapterRoute.platforms(); return; }
-        if (environment == null) { combatPlatforms = platforms; return; }
+        if (chapterRoute != null) { combatPlatforms = chapterRoute.platforms(); addExplorationTerrain(); return; }
+        if (environment == null) { combatPlatforms = platforms; addExplorationTerrain(); return; }
         environment.prepare(cameraX, GameViewport.LOGICAL_WIDTH,
                 state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT);
         var terrain = new ArrayList<>(platforms);
@@ -2142,9 +2295,23 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if (singularity != null && state != GameState.BOSS_WARNING) terrain.addAll(singularity.platforms());
         terrain.sort(java.util.Comparator.comparingDouble(platform -> platform.x));
         combatPlatforms = List.copyOf(terrain);
+        addExplorationTerrain();
+    }
+
+    private void addExplorationTerrain() {
+        if(exploration==null)return;
+        exploration.prepare(state==GameState.BOSS_WARNING || state==GameState.BOSS_FIGHT);
+        player.setSolids(exploration.solids());enemyManager.setSolids(exploration.solids());
+        var combined=new ArrayList<>(combatPlatforms);combined.addAll(exploration.platforms());
+        combined.sort(java.util.Comparator.comparingDouble(p->p.x));combatPlatforms=List.copyOf(combined);
     }
 
     private boolean hitWorldObject(Projectile shot, double before) {
+        double solid=exploration==null?Double.POSITIVE_INFINITY:exploration.firstSolidContact(shot);
+        if(hitChapterWorldObject(shot,Math.min(solid,before)))return true;
+        return exploration!=null && exploration.consumeShot(shot,before);
+    }
+    private boolean hitChapterWorldObject(Projectile shot, double before) {
         if (chapterRoute != null) return state == GameState.RUNNING && chapterRoute.consumeShot(shot, before);
         if (state != GameState.RUNNING && state != GameState.BOSS_FIGHT) return false;
         BlueprintCitadelController.SupportView nearest = null;

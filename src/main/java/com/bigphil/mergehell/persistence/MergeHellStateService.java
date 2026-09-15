@@ -1,5 +1,8 @@
 package com.bigphil.mergehell.persistence;
 
+import com.bigphil.mergehell.progression.CharacterId;
+import com.bigphil.mergehell.progression.GameDifficulty;
+
 import com.bigphil.mergehell.combat.WeaponId;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.Application;
@@ -48,6 +51,18 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
         if (state.topScores.size() > 5) state.topScores = new ArrayList<>(state.topScores.subList(0, 5));
     }
 
+    public synchronized boolean discoverSecret(int level) {
+        if(level<0||level>4)throw new IllegalArgumentException("Invalid chapter");
+        boolean fresh=state.foundSecrets.add("chapter"+(level+1)+"-secret");
+        if(level==0) state.unlockedCharacters.add(CharacterId.ENGINEER);
+        return fresh;
+    }
+    public synchronized void recordScore(int score,GameDifficulty difficulty) {
+        if(score<0)return;
+        var list=state.rankedScores.computeIfAbsent(Objects.requireNonNull(difficulty),ignored->new ArrayList<>());
+        list.add(score);list.sort(Comparator.reverseOrder());
+        if(list.size()>5)list.subList(5,list.size()).clear();
+    }
     public synchronized void unlockWeapon(WeaponId weapon) { state.unlockedWeapons.add(Objects.requireNonNull(weapon)); }
 
     public synchronized boolean completeMission(int mission, int refactorPoints) {
@@ -61,6 +76,10 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
      * A second live window may earn its first-clear reward but cannot touch the owner's run. */
     public synchronized boolean settleCampaignMission(String ownerId, int mission, int refactorPoints,
                                                        MergeHellState.ActiveRun nextEntrance, int finalScore) {
+        return settleCampaignMission(ownerId,mission,refactorPoints,nextEntrance,finalScore,null);
+    }
+    public synchronized boolean settleCampaignMission(String ownerId,int mission,int refactorPoints,
+            MergeHellState.ActiveRun nextEntrance,int finalScore,GameDifficulty difficulty) {
         requireOwner(ownerId);
         if (mission < 0 || mission > 4) throw new IllegalArgumentException("Invalid mission");
         MergeHellState.ActiveRun next = StateCopies.run(nextEntrance);
@@ -80,7 +99,7 @@ public final class MergeHellStateService implements PersistentStateComponent<Mer
                 state.checkpointNotice = "";
             }
         } else {
-            recordScore(finalScore);
+            if(difficulty==null)recordScore(finalScore);else recordScore(finalScore,difficulty);
             clearCheckpoint(ownerId);
             releaseRun(ownerId);
         }

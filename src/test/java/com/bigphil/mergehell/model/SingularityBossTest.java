@@ -71,7 +71,7 @@ class SingularityBossTest {
         assertEquals(6, f.enemies.getEnemies().size());
     }
     @Test void finalPhaseShedsOrgansAndCrawlsOnlyAfterFullWarning() {
-        var f = new Fight(); f.tick(200); double x = f.boss.getX(); f.boss.damage(5000); f.tick(200);
+        var f = new Fight(); f.tick(200); double x = f.boss.getX(); f.boss.damage((int)(f.boss.getMaxHp()*.72)); f.tick(200);
         assertEquals(3, f.boss.getCombatStage()); assertEquals(x, f.boss.getX());
         assertEquals(90, f.boss.getSingularityRebootTicks()); assertFalse(f.boss.isContactDangerous());
         assertTrue(f.part("left-organ").destroyed()); assertTrue(f.part("right-organ").destroyed()); assertTrue(f.part("core").weak());

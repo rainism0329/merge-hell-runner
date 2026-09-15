@@ -121,7 +121,7 @@ public class Boss {
     Boss(String name, int hpPool, String symbol, double spawnWorldX,
          int bossLevel, Random random) {
         this.name = Objects.requireNonNull(name, "name");
-        this.maxHp = Math.max(1, hpPool / 2);
+        this.maxHp = Math.max(1, hpPool);
         this.hp = this.maxHp;
         this.symbol = Objects.requireNonNull(symbol, "symbol");
         this.bossLevel = bossLevel;
@@ -140,7 +140,13 @@ public class Boss {
     }
 
     public double getX() { return x; }
+    private com.bigphil.mergehell.progression.GameDifficulty combatDifficulty;
+    public void configureCombat(com.bigphil.mergehell.progression.GameDifficulty difficulty) {
+        combatDifficulty=java.util.Objects.requireNonNull(difficulty);
+        if(chapterEncounter!=null) chapterEncounter.configureCombat(difficulty);
+    }
     public double getY() { return y; }
+    private int recovery(int ticks) { return combatDifficulty==null?ticks:com.bigphil.mergehell.progression.CombatBalance.recovery(ticks,combatDifficulty); }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
     public int getGroundY() { return lastGroundY; }
@@ -312,7 +318,7 @@ public class Boss {
             aimedVolley(bullets, 2 + stage, 0.32 + stage * 0.08,
                     4.6 + stage * 0.45, false);
             if (moveLabelTicks == 0) setMove("REFERENCE DRIP", 28);
-            minorCooldown = 72 - stage * 10;
+            minorCooldown = recovery(72 - stage * 10);
         }
 
         if (--actionCooldown > 0) return;
@@ -328,7 +334,7 @@ public class Boss {
             if (stage == 3) aimedVolley(bullets, 7, 0.9, 6.2, true);
             markMove("GC_STORM", "GC STORM // NO SAFE ROOT", 78);
         }
-        actionCooldown = 175 - stage * 24;
+        actionCooldown = recovery(175 - stage * 24);
     }
 
     private void updateArchitect(ObstacleManager om, int groundY,
@@ -339,7 +345,7 @@ public class Boss {
 
         if (--minorCooldown <= 0) {
             aimedVolley(bullets, 1 + stage, 0.26, 5.8 + stage * 0.45, stage == 3);
-            minorCooldown = 78 - stage * 9;
+            minorCooldown = recovery(78 - stage * 9);
         }
 
         if (--actionCooldown > 0) return;
@@ -356,7 +362,7 @@ public class Boss {
             if (stage >= 2) om.spawnEnemy((int) x + width + 10, groundY - 125, EntityType.SENTINEL);
             markMove("RUNTIME_WALL", "RUNTIME WALL // DESIGN IS LAW", 86);
         }
-        actionCooldown = 170 - stage * 19;
+        actionCooldown = recovery(170 - stage * 19);
     }
 
     private void updateKernelPanic(ObstacleManager om, int groundY,

@@ -22,8 +22,8 @@ class BossTest {
     @Test
     void boss_shouldStartWithCorrectHp() {
         Boss boss = new Boss("Test Boss", 1000, "⚠️", PANEL_WIDTH, 0);
-        assertEquals(500, boss.getHp());
-        assertEquals(500, boss.getMaxHp());
+        assertEquals(1000, boss.getHp());
+        assertEquals(1000, boss.getMaxHp());
     }
 
     @Test
@@ -101,7 +101,7 @@ class BossTest {
     }
 
     private static Boss bossAtLevel(int level) {
-        return new Boss("Boss " + level, 2_400, "!", PANEL_WIDTH, level, new Random(level));
+        return new Boss("Boss " + level, 1_200, "!", PANEL_WIDTH, level, new Random(level));
     }
 
     private static Boss simulateBoss(int level, int ticks) {

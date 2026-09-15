@@ -1,0 +1,10 @@
+{
+  "suites": 117,
+  "tests": 745,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "zipSha256": "764ec37574ea1ad5f6bbd70cf0039087bf46375e1fea474b408b50c1397eaf70",
+  "packageResourceCheck": "8/8 character atlas and metadata entries identical",
+  "headlessSwing": "960x600 and 600x400, zh-CN and en; packaged JAR only"
+}

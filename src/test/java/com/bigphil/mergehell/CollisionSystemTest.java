@@ -220,7 +220,7 @@ class CollisionSystemTest {
     // --- Player vs Boss ---
 
     @Test
-    void playerTouchingBossWithoutDash_shouldTakeLightDamage() {
+    void playerTouchingBossWithoutDash_shouldTakeMeaningfulContactDamage() {
         boss.activate();
         // Move player to boss position
         player = new Player(110, 200);
@@ -230,7 +230,7 @@ class CollisionSystemTest {
                           GameState.BOSS_FIGHT, PANEL_WIDTH, PANEL_HEIGHT, 0,
                           particles, texts, logMessages::add);
 
-        assertEquals(hpBefore - 5, player.getHp());
+        assertEquals(hpBefore - 18, player.getHp());
     }
 
     @Test
@@ -288,7 +288,7 @@ class CollisionSystemTest {
                           particles, texts, logMessages::add);
 
         // Boss is not dashing, so damage should be 5
-        assertEquals(hpBefore - 5, player.getHp());
+        assertEquals(hpBefore - 18, player.getHp());
     }
 
     // --- Combo system ---

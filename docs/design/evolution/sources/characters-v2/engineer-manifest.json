@@ -1,0 +1,209 @@
+{
+  "mode": "built-in imagegen; precise-object-edit; native RGBA; original preserved",
+  "source": "engineer-source.png",
+  "originalSource": "../characters/engineer-source.png",
+  "generatedOriginal": "C:/Users/lenovo/.codex/generated_images/01a0a2a7-0d1b-7d81-8c27-8284cd5c1956/exec-ff4f3af9-d61c-4a51-8bb2-3637e3c93566.png",
+  "sha256": "6e8750c48cf1c57face22c647f2ca5532dee4fa377cc7c53b2820ef1e0f60692",
+  "size": [
+    1774,
+    887
+  ],
+  "alphaExtrema": [
+    0,
+    255
+  ],
+  "parts": {
+    "head": {
+      "cell": [
+        0,
+        0,
+        443,
+        443
+      ],
+      "trimInCell": [
+        65,
+        46,
+        413,
+        375
+      ],
+      "size": [
+        348,
+        329
+      ],
+      "sourceBounds": [
+        65,
+        46,
+        413,
+        375
+      ]
+    },
+    "torso": {
+      "cell": [
+        443,
+        0,
+        887,
+        443
+      ],
+      "trimInCell": [
+        81,
+        9,
+        390,
+        436
+      ],
+      "size": [
+        309,
+        427
+      ],
+      "sourceBounds": [
+        524,
+        9,
+        833,
+        436
+      ]
+    },
+    "upper-arm": {
+      "cell": [
+        887,
+        0,
+        1330,
+        443
+      ],
+      "trimInCell": [
+        154,
+        55,
+        318,
+        412
+      ],
+      "size": [
+        164,
+        357
+      ],
+      "sourceBounds": [
+        1041,
+        55,
+        1205,
+        412
+      ]
+    },
+    "forearm": {
+      "cell": [
+        1330,
+        0,
+        1774,
+        443
+      ],
+      "trimInCell": [
+        159,
+        50,
+        292,
+        439
+      ],
+      "size": [
+        133,
+        389
+      ],
+      "sourceBounds": [
+        1489,
+        50,
+        1622,
+        439
+      ]
+    },
+    "thigh": {
+      "cell": [
+        0,
+        443,
+        443,
+        887
+      ],
+      "trimInCell": [
+        130,
+        15,
+        327,
+        399
+      ],
+      "size": [
+        197,
+        384
+      ],
+      "sourceBounds": [
+        130,
+        458,
+        327,
+        842
+      ]
+    },
+    "shin": {
+      "cell": [
+        443,
+        443,
+        820,
+        887
+      ],
+      "trimInCell": [
+        111,
+        9,
+        347,
+        418
+      ],
+      "size": [
+        236,
+        409
+      ],
+      "sourceBounds": [
+        554,
+        452,
+        790,
+        861
+      ]
+    },
+    "cannon": {
+      "cell": [
+        820,
+        443,
+        1340,
+        887
+      ],
+      "trimInCell": [
+        21,
+        88,
+        512,
+        344
+      ],
+      "size": [
+        491,
+        256
+      ],
+      "sourceBounds": [
+        841,
+        531,
+        1332,
+        787
+      ]
+    },
+    "scarf": {
+      "cell": [
+        1340,
+        443,
+        1774,
+        887
+      ],
+      "trimInCell": [
+        23,
+        137,
+        420,
+        332
+      ],
+      "size": [
+        397,
+        195
+      ],
+      "sourceBounds": [
+        1363,
+        580,
+        1760,
+        775
+      ]
+    }
+  }
+}

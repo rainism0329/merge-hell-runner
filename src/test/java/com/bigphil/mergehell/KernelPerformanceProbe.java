@@ -53,8 +53,10 @@ public final class KernelPerformanceProbe {
         final int playerBulletTarget, enemyBulletTarget, particleTarget, drawWidth, drawHeight;
         GamePanel panel;
         int fillStep;
+        final double sceneBase;
 
-        @SuppressWarnings("unchecked") Harness(int width, int height, boolean high, int world) throws Exception {
+        @SuppressWarnings("unchecked") Harness(int width, int height, boolean high, int world, boolean depth) throws Exception {
+            sceneBase = depth ? (world == 0 ? 1480 : 7720) : 0;
             MergeHellState isolated = new MergeHellState();
             isolated.settings.muted = true;
             isolated.settings.volumePercent = 0;
@@ -66,6 +68,13 @@ public final class KernelPerformanceProbe {
             advance();
             field(GamePanel.class, "level").setInt(panel, world);
             Method advanceLevel = GamePanel.class.getDeclaredMethod("advanceLevel"); advanceLevel.setAccessible(true); advanceLevel.invoke(panel);
+            if (depth) {
+                Player player = (Player)get(panel, "player");
+                player.setX(sceneBase+100); player.setY(450);
+                player.getRunBuild().setIdentity(com.bigphil.mergehell.progression.CharacterId.values()[world%4],
+                        com.bigphil.mergehell.progression.GameDifficulty.STANDARD);
+                field(GamePanel.class, "cameraX").setDouble(panel, sceneBase-188);
+            }
             SwingUtilities.invokeAndWait(() -> { });
             advance();
             physical = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
@@ -90,16 +99,16 @@ public final class KernelPerformanceProbe {
         void prepare() throws Exception {
             manager.getEnemies().clear(); manager.getEnemies().addAll(actors);
             for (int i = 0; i < actors.size(); i++) {
-                ENEMY_X.setDouble(actors.get(i), 530 + (i % 8) * 47);
+                ENEMY_X.setDouble(actors.get(i), sceneBase + 530 + (i % 8) * 47);
                 ENEMY_Y.setDouble(actors.get(i), 300 + (i / 8) * 22);
             }
             projectiles.clear(); manager.getEnemyBullets().clear(); particles.clear();
             for (int i = 0; i < playerBulletTarget; i++)
-                projectiles.add(new Projectile(60 + i % 80 * 10, 65 + i / 80 * 12, 2, 0, ProjectileType.COMMIT));
+                projectiles.add(new Projectile(sceneBase + 60 + i % 80 * 10, 65 + i / 80 * 12, 2, 0, ProjectileType.COMMIT));
             for (int i = 0; i < enemyBulletTarget; i++)
-                manager.getEnemyBullets().add(new Projectile(180 + i % 70 * 10, 155 + i / 70 * 12, -1, 0, ProjectileType.ENEMY));
+                manager.getEnemyBullets().add(new Projectile(sceneBase + 180 + i % 70 * 10, 155 + i / 70 * 12, -1, 0, ProjectileType.ENEMY));
             for (int i = 0; i < particleTarget; i++)
-                particles.add(new Particle(30 + i % 90 * 10, 210 + i / 90 * 14,
+                particles.add(new Particle(sceneBase + 30 + i % 90 * 10, 210 + i / 90 * 14,
                         (i & 1) == 0 ? Color.CYAN : Color.ORANGE, (i % 3 - 1) * .3, 0, .02f));
             fillStep++;
         }
@@ -169,10 +178,12 @@ public final class KernelPerformanceProbe {
         csv.add("case,width,height,draw_width,draw_height,index,simulation_publish_ms,edt_dispatch_ms,edt_paint_ms,published,enemies,player_bullets,enemy_bullets,particles");
         int[][] sizes = {{960,600},{600,400},{1280,800}};
         long wallStart = System.nanoTime();
-        for (int world : new int[]{1,3}) for (boolean high : new boolean[]{false,true}) for (int[] size : sizes) {
+        boolean depth = args.length > 1 && args[1].equals("depth");
+        int[] worlds = depth ? new int[]{0,1,2,3,4} : new int[]{1,3};
+        for (int world : worlds) for (boolean high : new boolean[]{false,true}) for (int[] size : sizes) {
             String name = "world" + (world + 1) + "_" + (high ? "high" : "normal") + "_" + size[0];
             long setupStart = System.nanoTime();
-            try (Harness harness = new Harness(size[0], size[1], high, world)) {
+            try (Harness harness = new Harness(size[0], size[1], high, world, depth)) {
                 double setupMillis = (System.nanoTime() - setupStart) / 1e6;
                 long start = System.nanoTime();
                 do { harness.frame(); } while (System.nanoTime() - start < WARMUP_NANOS);
@@ -201,7 +212,7 @@ public final class KernelPerformanceProbe {
         summary.add("after_explicit_gc=" + afterGc);
         summary.add("total_wall_seconds=" + (System.nanoTime() - wallStart)/1e9);
         summary.add("threads=" + Thread.getAllStackTraces().keySet().stream().map(Thread::getName).sorted().toList());
-        summary.add("all_twelve_mailboxes_closed_with_zero_retained_buffers=true");
+        summary.add("all_mailboxes_closed_with_zero_retained_buffers=true");
         Files.write(output.resolve("samples.csv"), csv);
         Files.write(output.resolve("summary.txt"), summary);
         System.out.println(summary.get(summary.size()-3));

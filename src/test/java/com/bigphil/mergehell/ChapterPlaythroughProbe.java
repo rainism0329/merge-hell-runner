@@ -80,6 +80,7 @@ public final class ChapterPlaythroughProbe {
             h.set("level", chapter); h.invoke("advanceLevel"); STEP.invoke(h.panel);
             var route = (ChapterRouteController) h.get("chapterRoute");
             var level = (LevelManager) h.get("levelManager");
+            var exploration=(com.bigphil.mergehell.world.ExplorationRoute)h.get("exploration");
             int tick = 0, lastJump = -100, lastDash = -100, lastBomb = -300, lastMelee = -50, lastProgress = 0;
             int lastHp = h.player().getHp(), lastLives = h.player().getLives(), lastKills = 0, lastBroken = 0;
             double maxX = h.player().getX(), lastProgressX = maxX; String reason = "entrance", targetName = "none";
@@ -103,6 +104,23 @@ public final class ChapterPlaythroughProbe {
                     boolean stopToShoot = aim != null && clearShotHeight && Math.abs(dx) < 280 && Math.abs(dx) > 100;
                     int direction = aim != null && dx < -25 ? -1 : stopToShoot ? 0 : 1;
                     if (aim != null && Math.abs(dx) < 90) direction = p.getFacingDir() == (dx < 0 ? -1 : 1) ? 0 : dx < 0 ? -1 : 1;
+                    var waypoint=exploration.snapshot().landmarks().stream().filter(point->!point.secret()&&!exploration.visited().contains(point.id())).findFirst().orElse(null);
+                    boolean approachSite=waypoint!=null && p.getX()>waypoint.bounds().x-360 && !closeThreat;
+                    if(approachSite)direction=p.getX()<waypoint.bounds().x-12?1:p.getX()>waypoint.bounds().x+12?-1:0;
+                    // A target behind solid cover needs a change of firing position, not repeated jumps in place.
+                    boolean covered = aim != null && exploration.solids().stream().anyMatch(b -> b.intersectsLine(
+                            p.muzzleX(), p.muzzleY(), aim.bounds().getCenterX(), aim.bounds().getCenterY()));
+                    if (covered && !approachSite) direction=1;
+                    boolean crawl = p.isGrounded() && exploration.snapshot().blocks().stream().anyMatch(block -> {
+                        var b=block.bounds();return block.canopy() && p.getX()+65>b.x && p.getX()<b.getMaxX()
+                                && p.getY()+p.getBounds().height>=b.getMaxY();
+                    });
+                    if(aim!=null) {
+                        double dy=aim.bounds().getCenterY()-(p.getY()+p.getBounds().height*.5);
+                        int axis=Math.abs(dy)>Math.abs(dx)*.414?(dy<0?-1:1):0;
+                        held(h,"MENU_UP","MENU_UP_R","keyUp",axis<0);
+                        held(h,"MENU_DOWN","MENU_DOWN_R","keyDown",crawl || axis>0&&!p.isGrounded());
+                    } else {held(h,"MENU_UP","MENU_UP_R","keyUp",false);held(h,"MENU_DOWN","MENU_DOWN_R","keyDown",crawl);}
                     // Advance through cleared arenas; off-screen enemies are approached instead of deleting them.
                     held(h, "LEFT", "LEFT_R", "keyLeft", direction < 0);
                     held(h, "RIGHT", "RIGHT_R", "keyRight", direction > 0);
@@ -115,8 +133,10 @@ public final class ChapterPlaythroughProbe {
                     boolean threateningWarning = h.enemies().getEnemies().stream().anyMatch(e -> !e.isDead()
                             && e.getTelegraphTicks() > 0 && e.getTelegraphTicks() < 16
                             && Math.abs(e.getX() - p.getX()) < 440 && e.getType() != EntityType.RIGGER);
-                    boolean needHeight = aim != null && aim.bounds().getMaxY() < p.getY() + 6;
-                    boolean jump = p.isGrounded() && (hazardAhead || threateningWarning || needHeight || closeThreat);
+                    hazardAhead |= !crawl && exploration.solids().stream().anyMatch(b->p.getX()+100>b.x && p.getX()<b.getMaxX() && p.getY()+30>b.y);
+                    boolean needHeight = aim != null && aim.bounds().getMaxY() < p.getY() + 6
+                            || approachSite && p.getY()+30>waypoint.bounds().y+35;
+                    boolean jump = !crawl && p.isGrounded() && (hazardAhead || threateningWarning || needHeight || closeThreat);
                     boolean doubleJump = !p.isGrounded() && p.getVerticalVelocity() > -1 && tick - lastJump > 18
                             && (hazardAhead || needHeight || closeThreat);
                     if ((jump || doubleJump) && tick - lastJump > 12) {

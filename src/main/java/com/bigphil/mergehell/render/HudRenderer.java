@@ -133,6 +133,10 @@ public final class HudRenderer {
         g.setFont(GameText.font(compact ? COMPACT_BODY : LABEL));
         String label = GameText.message(unlimited ? "hud.bombs.unlimited" : empty ? "hud.bombs.empty" : "hud.bombs.label");
         GameText.draw(g, fit(g, label, quantityX - labelX - 6), labelX, baseline);
+        if(!unlimited && player.getBombCooldown()>0) {
+            g.setColor(new Color(211,180,116,80));g.fillRect(x,baseline+3,right-x,2);
+            g.setColor(AMBER);g.fillRect(x,baseline+3,(int)((right-x)*(1-player.getBombCooldown()/60.0)),2);
+        }
     }
 
     record MissionCard(String route, String objective, String condition, String next, double progress) { }

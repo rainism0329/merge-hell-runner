@@ -108,7 +108,7 @@ class PlayerTerrainTest {
         player.update(false, true, false, true, GROUND, 4000, shots,
                 List.of(new Platform(140, 456, 120, 24)));
         assertEquals(1, shots.size()); assertEquals(16, shots.get(0).getVx());
-        assertEquals(0, shots.get(0).getVy()); assertEquals(441, shots.get(0).getY());
+        assertEquals(0, shots.get(0).getVy()); assertEquals(player.muzzleY(), shots.get(0).getBounds().getCenterY(),.01);
     }
 
     private static Player settled(int x) {

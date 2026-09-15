@@ -25,7 +25,8 @@ public class ObstacleManager {
         private final String symbol;
         private boolean dead = false;
         private final int damage;
-        private int hp;
+        private int hp, maxHp;
+        private com.bigphil.mergehell.progression.GameDifficulty combatDifficulty;
         private static final double STEP_SECONDS = 0.016;
         private final double motionPhase;
         private final Random random;
@@ -57,6 +58,12 @@ public class ObstacleManager {
         private int attackFacing = -1;
         private double leapStartX, leapStartY;
         private double movementLeft = Double.NEGATIVE_INFINITY, movementRight = Double.POSITIVE_INFINITY;
+        private final EnemyTerrainNavigator terrainNavigation = new EnemyTerrainNavigator();
+        private List<Rectangle> terrainSolids = List.of();
+        private double stepStartY;
+        private int navigationRetryTicks;
+        private boolean navigatedThisTick;
+        private int tunnelEscapeDirection;
 
         public Enemy(double x, double y, EntityType type) {
             this(x, y, type, 1);
@@ -80,7 +87,7 @@ public class ObstacleManager {
             this.color = type.color;
             this.symbol = type.symbol;
             this.damage = type.damage > 0 ? type.damage : 20;
-            this.hp = type.maxHp;
+            this.hp = this.maxHp = type.maxHp;
             this.random = new Random(seed);
             this.motionPhase = new Random(seed ^ 0x4D4F54494F4E5F31L).nextDouble() * Math.PI * 2;
             this.shootTimer = 40 + random.nextInt(80);
@@ -102,7 +109,17 @@ public class ObstacleManager {
         public Color getColor() { return color; }
         public int getDamage() { return damage; }
         public int getHp() { return hp; }
-        public int getMaxHp() { return type.maxHp; }
+        public int getMaxHp() { return maxHp; }
+        /** -1 climbs up, +1 climbs down, zero is ordinary movement or flight. Rendering only. */
+        public int getTerrainClimbDirection() {
+            return navigatedThisTick && !flyingNavigator() ? (int)Math.signum(y - stepStartY) : 0;
+        }
+        public int getTerrainClimbFacing() { return attackFacing; }
+        private Enemy configure(int chapter, com.bigphil.mergehell.progression.GameDifficulty difficulty) {
+            combatDifficulty = difficulty;
+            hp=maxHp=com.bigphil.mergehell.progression.CombatBalance.enemyHealth(type,chapter,difficulty);
+            return this;
+        }
         /** Land edges are world coordinates. Ground bodies and their committed paths stay inside them. */
         public void setMovementBounds(double left, double right) {
             if (!Double.isFinite(left) || !Double.isFinite(right) || right - left < width)
@@ -137,12 +154,20 @@ public class ObstacleManager {
 
         public void takeHit(int damage, double knockback, int hitDirection) {
             if (damage <= 0) return;
-            boolean armor = isShielded() && Integer.signum(hitDirection) != attackFacing;
+            boolean armor = isShielded() && hitDirection != 0 && Integer.signum(hitDirection) != attackFacing;
             takeDamage(armor ? Math.max(1, (int) Math.ceil(damage * 0.35)) : damage);
             if (!dead && knockback > 0) {
                 // Committed aim and leaps do not move their already published danger path.
-                if (!type.isChapterSpecialist() || mode == Mode.APPROACH || mode == Mode.GUARD || mode == Mode.RECOVER)
-                    x += Math.copySign(Math.min(knockback, armor ? 4 : 24), hitDirection);
+                if (!type.isChapterSpecialist() || mode == Mode.APPROACH || mode == Mode.GUARD || mode == Mode.RECOVER) {
+                    double displacement = Math.copySign(Math.min(knockback, armor ? 4 : 24), hitDirection);
+                    int steps = Math.max(1, (int)Math.ceil(Math.abs(displacement)));
+                    double from = x;
+                    for (int i = 1; i <= steps; i++) {
+                        double next = from + displacement * i / steps;
+                        if (!EnemyTerrainNavigator.clear(new EnemyTerrainNavigator.Point(next, y), width, height, terrainSolids)) break;
+                        x = next;
+                    }
+                }
                 if (type.isChapterSpecialist() && groundedSpecialist()) x = clampMovement(x);
             }
         }
@@ -168,6 +193,7 @@ public class ObstacleManager {
         }
 
         private boolean readyToShoot() {
+            if (terrainNavigation.active() || navigatedThisTick) return false;
             if (!canShoot()) return false;
             if (type.isChapterSpecialist()) {
                 if (!onScreen || spawnProtectionTicks > 0 || dead) return false;
@@ -288,6 +314,7 @@ public class ObstacleManager {
                 updateSpecialist(difficultySpeed, playerX, playerPositionY, false, 0, 0, (int) floorY);
                 return;
             }
+            if (updateTerrainNavigation(difficultySpeed, playerX, playerPositionY)) return;
             if (spawnProtectionTicks > 0) spawnProtectionTicks--;
             double t = ++ageTicks * STEP_SECONDS;
 
@@ -334,13 +361,18 @@ public class ObstacleManager {
         /** Explicit viewport makes every specialist finish its warning on screen before attacking. */
         public void update(double difficultySpeed, double playerX, double playerY,
                            int cameraLeft, int cameraRight, int groundY) {
-            if (!type.isChapterSpecialist()) { update(difficultySpeed, playerX); return; }
+            if (!type.isChapterSpecialist()) {
+                playerPositionY = playerY; floorY = groundY;
+                update(difficultySpeed, playerX); return;
+            }
             updateSpecialist(difficultySpeed, playerX, playerY, true, cameraLeft, cameraRight, groundY);
         }
 
         private void updateSpecialist(double difficultySpeed, double playerX, double playerY,
                                       boolean viewport, int cameraLeft, int cameraRight, int groundY) {
             if (dead) return;
+            floorY = groundY;
+            if (updateTerrainNavigation(difficultySpeed, playerX, playerY)) return;
             ageTicks++;
             if (spawnProtectionTicks > 0) spawnProtectionTicks--;
             playerPositionX = playerX; playerPositionY = playerY;
@@ -420,8 +452,16 @@ public class ObstacleManager {
 
         private void updateDriller(double distance, double speed) {
             if (mode == Mode.BURROWED) {
-                if (Math.abs(distance) > 135) moveX(attackFacing * 2.0 * speed);
+                boolean covered = !EnemyTerrainNavigator.clear(new EnemyTerrainNavigator.Point(x, y), width, height, terrainSolids);
+                if (covered && tunnelEscapeDirection == 0) tunnelEscapeDirection = attackFacing;
+                if (!covered) tunnelEscapeDirection = 0;
+                if (Math.abs(distance) > 135 || covered)
+                    moveX((covered ? tunnelEscapeDirection : attackFacing) * 2.0 * speed);
                 if (--modeTicks <= 0) {
+                    // Tunnelling is continuous. The full body must fit before publishing an emergence warning.
+                    if (!EnemyTerrainNavigator.clear(new EnemyTerrainNavigator.Point(x, y), width, height, terrainSolids)) {
+                        modeTicks = 1; return;
+                    }
                     originX = x; originY = y; targetX = x; targetY = y;
                     enter(Mode.EMERGE, 58); telegraphTicks = 58;
                 }
@@ -475,7 +515,11 @@ public class ObstacleManager {
             enter(Mode.AIM, ticks); telegraphTicks = ticks;
         }
 
-        private void enter(Mode next, int ticks) { mode = next; modeTicks = ticks; modeTotal = ticks; }
+        private void enter(Mode next, int ticks) {
+            if(combatDifficulty!=null && (next==Mode.RECOVER || next==Mode.GUARD || next==Mode.APPROACH))
+                ticks=com.bigphil.mergehell.progression.CombatBalance.recovery(ticks,combatDifficulty);
+            mode=next;modeTicks=ticks;modeTotal=ticks;
+        }
 
         private double clampMovement(double value) {
             return groundedSpecialist() ? Math.max(movementLeft, Math.min(movementRight, value)) : value;
@@ -488,6 +532,40 @@ public class ObstacleManager {
             if (type == EntityType.DRILLER) enter(Mode.BURROWED, 65);
             else if (type == EntityType.WARDEN) enter(Mode.GUARD, 65);
             else enter(Mode.APPROACH, 30);
+        }
+
+        private boolean flyingNavigator() {
+            return type == EntityType.RIGGER || type == EntityType.INTERRUPT || type == EntityType.SPORE_POD
+                    || type == EntityType.LOCK || type == EntityType.CRASH || type == EntityType.LEAK;
+        }
+
+        private boolean updateTerrainNavigation(double difficultySpeed, double playerX, double playerY) {
+            stepStartY = y; navigatedThisTick = false;
+            playerPositionX = playerX; playerPositionY = playerY;
+            if (navigationRetryTicks > 0) navigationRetryTicks--;
+            if (!terrainNavigation.active()) return false;
+            navigatedThisTick = true;
+            ageTicks++;
+            if (spawnProtectionTicks > 0) spawnProtectionTicks--;
+            double pace = flyingNavigator() ? 3.4 : type == EntityType.WARDEN || type == EntityType.TECHDEBT
+                    || type == EntityType.SLAG_SPITTER ? 2.2 : 3.0;
+            double left = groundedSpecialist() ? movementLeft : Double.NEGATIVE_INFINITY;
+            double right = groundedSpecialist() ? movementRight : Double.POSITIVE_INFINITY;
+            var next = terrainNavigation.step(x, y, pace * Math.max(.8, Math.min(1.3, difficultySpeed)),
+                    width, height, left, right, terrainSolids);
+            if (Math.abs(next.x() - x) > .01) attackFacing = next.x() > x ? 1 : -1;
+            else if (!flyingNavigator() && Math.abs(next.y() - y) > .01) {
+                for (Rectangle solid : terrainSolids) {
+                    if (Math.abs(x + width + 3 - solid.x) < .01) { attackFacing = 1; break; }
+                    if (Math.abs(x - solid.getMaxX() - 3) < .01) { attackFacing = -1; break; }
+                }
+            }
+            x = next.x(); y = next.y();
+            if (!terrainNavigation.active()) {
+                resetCommitment(); navigationRetryTicks = 18;
+                if (flyingNavigator()) { hoverY = y; homeY = y; }
+            }
+            return true;
         }
 
         public void draw(Graphics2D g) {
@@ -560,6 +638,60 @@ public class ObstacleManager {
     }
 
     private final List<Enemy> enemies = new ArrayList<>();
+    private int chapter;
+    private List<Rectangle> solids=List.of();
+    public void setSolids(List<Rectangle> value) {
+        solids=value.stream().map(Rectangle::new).toList();
+        for (Enemy enemy : enemies) enemy.terrainSolids = solids;
+    }
+    public void resolveSolidMotion(Enemy enemy,double previousX) {
+        if(!enemy.getType().isHostile() || enemy.isDead())return;
+        enemy.terrainSolids = solids;
+        if (enemy.navigatedThisTick) return;
+        // Burrowers travel under foundations, but updateDriller delays emergence until their full body fits.
+        if (enemy.type == EntityType.DRILLER && (enemy.mode == Enemy.Mode.BURROWED || enemy.mode == Enemy.Mode.EMERGE)) return;
+        var start = new EnemyTerrainNavigator.Point(previousX, enemy.stepStartY);
+        var desired = new EnemyTerrainNavigator.Point(enemy.x, enemy.y);
+        boolean blocked = !EnemyTerrainNavigator.clearSegment(start, desired, enemy.width, enemy.height, solids);
+        if (blocked) {
+            double dx = desired.x() - previousX, dy = desired.y() - enemy.stepStartY;
+            int steps = Math.max(1, (int)Math.ceil(Math.hypot(dx, dy)));
+            enemy.x = previousX; enemy.y = enemy.stepStartY;
+            for (int i = 1; i <= steps; i++) {
+                var next = new EnemyTerrainNavigator.Point(previousX + dx * i / steps, enemy.stepStartY + dy * i / steps);
+                if (!EnemyTerrainNavigator.clear(next, enemy.width, enemy.height, solids)) break;
+                enemy.x = next.x(); enemy.y = next.y();
+            }
+        }
+        if (enemy.navigationRetryTicks > 0 || solids.isEmpty()) return;
+        int direction = enemy.playerPositionX + 15 < enemy.x + enemy.width * .5 ? -1 : 1;
+        Rectangle barrier = null;
+        double nearest = Double.POSITIVE_INFINITY;
+        // Stationary ranged troops also reposition when their firing lane is hidden behind a wall.
+        for (Rectangle solid : solids) {
+            if (solid.getMaxY() <= enemy.y || solid.y >= enemy.y + enemy.height) continue;
+            double edge = direction > 0 ? solid.x - enemy.width : solid.getMaxX();
+            double distance = (edge - enemy.x) * direction;
+            if (distance < -2 || distance > 200 || distance >= nearest) continue;
+            if ((enemy.playerPositionX + 15 - edge) * direction <= 0) continue;
+            barrier = solid; nearest = distance;
+        }
+        if (barrier == null) return;
+        if (!blocked && (enemy.mode == Enemy.Mode.AIM || enemy.mode == Enemy.Mode.ATTACK)) return;
+        double left = enemy.groundedSpecialist() ? enemy.movementLeft : Double.NEGATIVE_INFINITY;
+        double right = enemy.groundedSpecialist() ? enemy.movementRight : Double.POSITIVE_INFINITY;
+        if (enemy.terrainNavigation.plan(enemy.x, enemy.y, enemy.width, enemy.height, barrier, direction,
+                enemy.flyingNavigator(), enemy.floorY, left, right, solids)) {
+            enemy.resetCommitment(); enemy.chargeVx = 0; enemy.chargeTimer = 120;
+            enemy.attackFacing = direction;
+        } else {
+            enemy.navigationRetryTicks = 45;
+        }
+    }
+    private com.bigphil.mergehell.progression.GameDifficulty combatDifficulty;
+    public void configureCombat(int chapter, com.bigphil.mergehell.progression.GameDifficulty difficulty) {
+        this.chapter=chapter; combatDifficulty=java.util.Objects.requireNonNull(difficulty);
+    }
     private final ProjectileBuffer enemyBullets = new ProjectileBuffer(EntityLimits.MAX_ENEMY_PROJECTILES);
     private static final long ENEMY_SEED_DOMAIN = 0x454E454D595F524EL;
     private final Random random;
@@ -588,7 +720,11 @@ public class ObstacleManager {
     }
 
     private Enemy newEnemy(double x, double y, EntityType type, int moveDir) {
-        return new Enemy(x, y, type, moveDir, enemySeeds.nextLong()).protectOnSpawn();
+        Enemy enemy=new Enemy(x,y,type,moveDir,enemySeeds.nextLong());
+        enemy.terrainSolids = solids;
+        if(combatDifficulty!=null) enemy.configure(chapter,combatDifficulty);
+        if(type.isHostile()) for(Rectangle solid:solids) if(enemy.getBounds().intersects(solid))enemy.x=solid.getMaxX()+2;
+        return enemy.protectOnSpawn();
     }
 
     public void clearHostiles() {

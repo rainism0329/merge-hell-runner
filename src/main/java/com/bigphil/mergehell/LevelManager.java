@@ -21,8 +21,8 @@ public class LevelManager {
         }
     }
 
-    private static final double BOSS_GATE_X = 7600;
-    private static final double LEVEL_WIDTH = 8600;
+    public static final double BOSS_GATE_X = 9900;
+    public static final double LEVEL_WIDTH = 10900;
     private static final double DARK_LEVEL_WIDTH = 1_000_000;
     private final int levelNum;
     private final List<SpawnTrigger> triggers;
@@ -60,7 +60,7 @@ public class LevelManager {
             case 0 -> "⚠️"; case 1 -> "💀"; case 2 -> "👑";
             case 3 -> "💀"; default -> "☠️";
         };
-        bossHp = 2000 + levelNum * 1500;
+        bossHp = com.bigphil.mergehell.progression.CombatBalance.bossHealth(levelNum, com.bigphil.mergehell.progression.GameDifficulty.STANDARD);
 
         triggers = buildTriggers(levelNum);
         battleZones = buildBattleZones(levelNum);
@@ -74,6 +74,16 @@ public class LevelManager {
             case 2 -> buildArchitectRoute(list);
             case 3 -> buildKernelRoute(list);
             default -> buildSingularityRoute(list);
+        }
+        if(level>0) {
+            EntityType[] team=switch(level) {
+                case 1 -> new EntityType[]{EntityType.LEAK,EntityType.LOCK,EntityType.TECHDEBT};
+                case 2 -> new EntityType[]{EntityType.RIGGER,EntityType.WARDEN,EntityType.SENTINEL};
+                case 3 -> new EntityType[]{EntityType.INTERRUPT,EntityType.DRILLER,EntityType.SLAG_SPITTER};
+                default -> new EntityType[]{EntityType.LURKER,EntityType.SPORE_POD,EntityType.MIRROR};
+            };
+            for(int i=0;i<6;i++) list.add(new SpawnTrigger(7760+i*330,team[i%3],i%3==0?2:1,0));
+            supplies(list,EntityType.HEALTH,9710);
         }
         return list;
     }
@@ -326,6 +336,10 @@ public class LevelManager {
         waveTimer = 0;
     }
 
+    public void restoreThrough(double worldX) {
+        discardTriggersThrough(worldX);
+        for(var battle:battleZones)if(battle.end<=worldX)completedBattles.add(battle);
+    }
     private void discardTriggersThrough(double worldX) {
         triggers.removeIf(trigger -> trigger.worldX <= worldX);
     }

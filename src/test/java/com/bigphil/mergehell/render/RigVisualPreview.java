@@ -40,7 +40,7 @@ public final class RigVisualPreview {
 
                 Production ActorVisuals renders every actor. The static sheets are labeled, controlled
                 pose inspections; motion/ contains 180 consecutive real Player updates at 16 ms each.
-                Yellow crosses mark the unchanged shot origin; green lines mark the physics floor;
+                Yellow crosses mark the horizontal shot origin; green lines mark the physics floor;
                 cyan rectangles mark the unchanged hurtbox. Guides are inspection overlays only.
                 Weapon previews show six real projectile patterns with the SAME cannon art.
                 This does not claim six separately authored guns, native UI smoothness or audio evidence.
@@ -209,8 +209,9 @@ public final class RigVisualPreview {
         g.setColor(new Color(65, 164, 124)); g.drawLine(-60, 0, 60, 0);
         g.setColor(new Color(50, 103, 121)); g.drawRect((int) (-width / 2), -(int) height, (int) width, (int) height);
         if (muzzle) {
-            g.setColor(new Color(239, 186, 61)); int x = facing * 15;
-            g.drawLine(x - 4, -15, x + 4, -15); g.drawLine(x, -19, x, -11);
+            var point=com.bigphil.mergehell.combat.HeroAim.local(1,0,false,com.bigphil.mergehell.progression.CharacterId.REPAIR);
+            g.setColor(new Color(239, 186, 61)); int x=(int)(facing*point.x()),y=(int)point.y();
+            g.drawLine(x-4,y,x+4,y);g.drawLine(x,y-4,x,y+4);
         }
     }
 }

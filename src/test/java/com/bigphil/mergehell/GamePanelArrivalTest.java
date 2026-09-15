@@ -127,7 +127,7 @@ class GamePanelArrivalTest {
         h.quietTicks(45);
         assertTrue(h.player().isGrounded());
         assertEquals(bridge.y, h.player().getY() + h.player().getBounds().height, 0.001);
-        h.panel.getSession().advanceToBossGateForTesting();
+        h.finishExplorationFixture(); h.panel.getSession().advanceToBossGateForTesting();
         h.enemies().clearHostiles(); h.tick();
         assertEquals(GameState.BOSS_WARNING, h.state());
         @SuppressWarnings("unchecked") var visibleTerrain = (List<Platform>) h.get("combatPlatforms");
@@ -152,7 +152,7 @@ class GamePanelArrivalTest {
         assertFalse(arrival(h).active());
         assertEquals(0, remaining(h));
         assertNull(h.get("legacyBoss")); assertNull(h.boss());
-        h.panel.getSession().advanceToBossGateForTesting();
+        h.finishExplorationFixture(); h.panel.getSession().advanceToBossGateForTesting();
         h.enemies().clearHostiles(); h.tick();
         assertEquals(GameState.BOSS_WARNING, h.state());
         assertEquals(BossArrivalController.DURATION_TICKS, remaining(h));
@@ -160,7 +160,7 @@ class GamePanelArrivalTest {
 
     @Test void arrivalClearsOldCombatAndNearbyRewardsCannotOpenAnUpgradeDuringPreparation() throws Exception {
         HeapGameHarness h = world(1);
-        h.panel.getLevelManager().advanceToBossGateForTesting();
+        h.finishExplorationFixture(); h.panel.getLevelManager().advanceToBossGateForTesting();
         h.player().setX(h.panel.getLevelManager().getBossGateX());
         h.set("cameraX", h.player().getX() - 288);
         h.enemies().getEnemies().add(new ObstacleManager.Enemy(h.player().getX(), h.player().getY(), EntityType.BUG, 71L));
@@ -185,9 +185,9 @@ class GamePanelArrivalTest {
 
     private HeapGameHarness enterArrival(int world) throws Exception {
         HeapGameHarness h = world(world);
-        if (world == 0) h.panel.getSession().advanceToBossGateForTesting();
+        if (world == 0) {h.finishExplorationFixture(); h.panel.getSession().advanceToBossGateForTesting();}
         else {
-            h.panel.getLevelManager().advanceToBossGateForTesting();
+            h.finishExplorationFixture(); h.panel.getLevelManager().advanceToBossGateForTesting();
             h.player().setX(h.panel.getLevelManager().getBossGateX());
             h.set("cameraX", h.player().getX() - 288);
         }

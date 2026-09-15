@@ -8,6 +8,12 @@ final class StateCopies {
     static MergeHellState state(MergeHellState source) {
         MergeHellState out = new MergeHellState();
         out.schemaVersion = source.schemaVersion;
+        out.unlockedCharacters=source.unlockedCharacters==null?null:new HashSet<>(source.unlockedCharacters);
+        out.foundSecrets=source.foundSecrets==null?null:new HashSet<>(source.foundSecrets);
+        out.rankedScores=new HashMap<>();
+        if(source.rankedScores!=null) source.rankedScores.forEach((key,values)->{
+            if(key!=null && values!=null) out.rankedScores.put(key,new ArrayList<>(values));
+        });
         out.topScores = source.topScores == null ? null : new ArrayList<>(source.topScores);
         out.unlockedWeapons = source.unlockedWeapons == null ? null : new HashSet<>(source.unlockedWeapons);
         out.completedMissions = source.completedMissions == null ? null : new HashSet<>(source.completedMissions);
@@ -32,6 +38,20 @@ final class StateCopies {
     static MergeHellState.ActiveRun run(MergeHellState.ActiveRun source) {
         if (source == null) return null;
         MergeHellState.ActiveRun out = new MergeHellState.ActiveRun();
+        out.explorationVisited=source.explorationVisited==null?null:new HashSet<>(source.explorationVisited);
+        out.environmentBreakage=source.environmentBreakage==null?null:new HashMap<>(source.environmentBreakage);
+        out.environmentRetired=source.environmentRetired;
+        out.routeHealth=source.routeHealth==null?null:new HashMap<>(source.routeHealth);
+        out.routeHatches=source.routeHatches==null?null:new HashMap<>(source.routeHatches);
+        out.heapUsed=source.heapUsed==null?null:new HashSet<>(source.heapUsed);
+        out.collectedCoins=source.collectedCoins==null?null:new HashSet<>(source.collectedCoins);
+        if(source.director!=null) {
+            out.director=new MergeHellState.DirectorData();
+            out.director.segment=source.director.segment;out.director.tick=source.director.tick;
+            out.director.startKills=source.director.startKills;out.director.budget=source.director.budget;
+            out.director.cooldown=source.director.cooldown;out.director.announced=source.director.announced;
+            out.director.randomState=source.director.randomState;
+        }
         out.checkpointVersion = source.checkpointVersion; out.checkpointKind = source.checkpointKind;
         out.runId = source.runId; out.seed = source.seed; out.score = source.score; out.nextLifeThreshold = source.nextLifeThreshold;
         out.mission = source.mission; out.checkpointX = source.checkpointX; out.checkpointY = source.checkpointY;
@@ -44,7 +64,7 @@ final class StateCopies {
     private static MergeHellState.PlayerData player(MergeHellState.PlayerData source) {
         if (source == null) return null;
         MergeHellState.PlayerData out = new MergeHellState.PlayerData();
-        out.hp = source.hp; out.lives = source.lives; out.bombs = source.bombs;
+        out.hp = source.hp; out.lives = source.lives; out.bombs = source.bombs; out.bombCooldown=source.bombCooldown;
         out.sudoTicks = source.sudoTicks; out.shieldTicks = source.shieldTicks; out.invincibleTicks = source.invincibleTicks;
         out.cooldown = source.cooldown; out.dashCooldown = source.dashCooldown; out.meleeCooldown = source.meleeCooldown;
         out.temporaryWeapon = source.temporaryWeapon; out.weapon = source.weapon; out.ammo = source.ammo;
@@ -56,6 +76,7 @@ final class StateCopies {
     private static MergeHellState.SessionData session(MergeHellState.SessionData source) {
         if (source == null) return null;
         MergeHellState.SessionData out = new MergeHellState.SessionData();
+        out.character=source.character; out.difficulty=source.difficulty;
         out.weapon = source.weapon; out.ranks = source.ranks == null ? null : new HashMap<>(source.ranks);
         out.weaponLevel = source.weaponLevel; out.evolutionCoreInstalled = source.evolutionCoreInstalled; out.evolved = source.evolved;
         out.buildLevel = source.buildLevel; out.currentXp = source.currentXp; out.pendingChoices = source.pendingChoices;

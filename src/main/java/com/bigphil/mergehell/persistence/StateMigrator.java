@@ -1,5 +1,8 @@
 package com.bigphil.mergehell.persistence;
 
+import com.bigphil.mergehell.progression.CharacterId;
+import com.bigphil.mergehell.progression.GameDifficulty;
+
 import com.bigphil.mergehell.combat.WeaponId;
 
 import java.util.ArrayList;
@@ -17,6 +20,14 @@ public final class StateMigrator {
         int sourceVersion = state.schemaVersion;
         if (sourceVersion < 0) state = new MergeHellState();
         state.schemaVersion = 2;
+        if(state.unlockedCharacters==null)state.unlockedCharacters=EnumSet.noneOf(CharacterId.class);
+        state.unlockedCharacters.remove(null);
+        state.unlockedCharacters.addAll(EnumSet.of(CharacterId.REPAIR,CharacterId.SCOUT,CharacterId.WARDEN));
+        if(state.foundSecrets==null)state.foundSecrets=new HashSet<>();
+        state.foundSecrets.removeIf(key->key==null || !key.matches("chapter[1-5]-secret"));
+        if(state.rankedScores==null)state.rankedScores=new java.util.EnumMap<>(GameDifficulty.class);
+        state.rankedScores.replaceAll((key,list)->new ArrayList<>(list.stream().filter(score->score!=null&&score>=0)
+                .sorted(Comparator.reverseOrder()).limit(5).toList()));
         if (state.topScores == null) state.topScores = new ArrayList<>();
         state.topScores.removeIf(score -> score == null || score < 0);
         if (state.unlockedWeapons == null) state.unlockedWeapons = EnumSet.noneOf(WeaponId.class);

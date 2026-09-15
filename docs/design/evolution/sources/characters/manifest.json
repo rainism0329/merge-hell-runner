@@ -1,0 +1,131 @@
+{
+  "scout": {
+    "source": "docs\\design\\evolution\\sources\\characters\\scout-source.png",
+    "sha256": "98665787bde9fe0190bc409b702eaf7a6839828e8ff426a2e87594759361f901",
+    "parts": {
+      "head": [
+        283,
+        392
+      ],
+      "torso": [
+        257,
+        412
+      ],
+      "upper-arm": [
+        142,
+        419
+      ],
+      "forearm": [
+        110,
+        424
+      ],
+      "thigh": [
+        184,
+        427
+      ],
+      "shin": [
+        251,
+        427
+      ],
+      "cannon": [
+        438,
+        218
+      ],
+      "scarf": [
+        383,
+        194
+      ]
+    },
+    "mode": "built-in imagegen; native RGBA; deterministic atlas packing",
+    "calibration": "measured joint and palm centers; see characters-v2/rig-review.md"
+  },
+  "warden": {
+    "source": "docs\\design\\evolution\\sources\\characters\\warden-source.png",
+    "sha256": "c105b68d3130b619f239353dfa6cfa61201575aa6921024e7366bfdf2327a5d1",
+    "parts": {
+      "head": [
+        329,
+        379
+      ],
+      "torso": [
+        395,
+        429
+      ],
+      "upper-arm": [
+        185,
+        425
+      ],
+      "forearm": [
+        157,
+        435
+      ],
+      "thigh": [
+        208,
+        427
+      ],
+      "shin": [
+        295,
+        424
+      ],
+      "cannon": [
+        566,
+        254
+      ],
+      "scarf": [
+        312,
+        254
+      ]
+    },
+    "mode": "built-in imagegen; native RGBA; deterministic atlas packing",
+    "calibration": "measured joint and palm centers; see characters-v2/rig-review.md"
+  },
+  "engineer": {
+    "source": "docs\\design\\evolution\\sources\\characters\\engineer-source.png",
+    "sha256": "3144d87197a791e0d8a2988810419f83a1af1627f13d246b34fdf02e802222b9",
+    "parts": {
+      "head": [
+        348,
+        329
+      ],
+      "torso": [
+        309,
+        427
+      ],
+      "upper-arm": [
+        161,
+        352
+      ],
+      "forearm": [
+        186,
+        356
+      ],
+      "thigh": [
+        194,
+        383
+      ],
+      "shin": [
+        233,
+        409
+      ],
+      "cannon": [
+        488,
+        255
+      ],
+      "scarf": [
+        396,
+        194
+      ]
+    },
+    "mode": "built-in imagegen; native RGBA; deterministic atlas packing",
+    "replacementParts": {
+      "head": "docs\\design\\evolution\\sources\\characters-v2\\engineer-source.png",
+      "torso": "docs\\design\\evolution\\sources\\characters-v2\\engineer-source.png",
+      "sha256": "6e8750c48cf1c57face22c647f2ca5532dee4fa377cc7c53b2820ef1e0f60692"
+    },
+    "replacementGrip": {
+      "forearm": "docs\\design\\evolution\\sources\\characters-v2\\engineer-grip-source.png",
+      "sha256": "65594f6b853a13bdf0738e9dfeefab79d2beef65447de75b2481725619d06519"
+    },
+    "calibration": "measured joint and palm centers; see characters-v2/rig-review.md"
+  }
+}

@@ -77,8 +77,12 @@ public final class IndustrialArt {
     public static IndustrialArt load() {
         return new IndustrialArt(AssetStore.preload(new AssetCatalog(Map.of(
                 "repair", "game/art/repair.properties",
+                "scout", "game/art/scout.properties",
+                "warden", "game/art/warden.properties",
+                "engineer", "game/art/engineer.properties",
                 "hostiles", "game/art/hostiles.properties",
                 "first-wave", "game/art/first-wave.properties",
+                "route-props", "game/art/route-props.properties",
                 "city", "game/art/city.properties")), IndustrialArt.class.getClassLoader()));
     }
 
