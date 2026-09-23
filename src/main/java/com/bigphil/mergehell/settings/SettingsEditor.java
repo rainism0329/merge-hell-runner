@@ -103,6 +103,11 @@ public final class SettingsEditor {
     public Settings settings() { return Values.from(draft).toSettings(); }
     public Snapshot snapshot() { return new Snapshot(OPTIONS[selectedIndex], Values.from(draft)); }
 
+    public void select(Option option) { selectedIndex = Objects.requireNonNull(option).ordinal(); }
+    public Result setPercentage(int value) {
+        return OPTIONS[selectedIndex].percentage() ? write(OPTIONS[selectedIndex], clamp(value)) : Result.UNCHANGED;
+    }
+
     public Result handle(Command command) {
         return switch (Objects.requireNonNull(command)) {
             case UP -> move(-1);

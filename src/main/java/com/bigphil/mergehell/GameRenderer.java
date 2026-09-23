@@ -45,6 +45,11 @@ public class GameRenderer {
     private int particlePercent = 100;
     private boolean compact;
     private boolean audioMuted = true;
+    private String pauseCheckpointDescription = "";
+    private boolean pauseCanRestore;
+    public void setPauseCheckpointDescription(String description, boolean canRestore) {
+        pauseCheckpointDescription = description; pauseCanRestore = canRestore;
+    }
     public void setAudioMuted(boolean muted) { audioMuted = muted; }
     private boolean bossHudManaged;
     private boolean flashesEnabled = true;
@@ -243,8 +248,7 @@ public class GameRenderer {
         } else if (state == GameState.GAME_OVER) {
             String sub = "SCORE: " + score + (isNewHighScore ? "  // NEW HIGH SCORE!" : "");
             drawOverlay(g, width, areaH, "BUILD FAILED", sub, GameColors.DANGER_RED);
-            drawCenteredString(g, width, "[ SPACE / ENTER ]  NEW RUN", centerY + 72, 12, Color.WHITE);
-            drawTopScores(g, width, centerY);
+            com.bigphil.mergehell.render.RunFlowRenderer.failureActions(g);
         } else if (state == GameState.MISSION_COMPLETE) {
             String sub = "SCORE: " + score + "  |  Level " + (level + 1) + " cleared";
             drawOverlay(g, width, areaH, "MISSION COMPLETE", sub, new Color(243, 191, 108));
@@ -260,6 +264,8 @@ public class GameRenderer {
     }
 
     private com.bigphil.mergehell.progression.CharacterId menuCharacter = com.bigphil.mergehell.progression.CharacterId.REPAIR;
+    private com.bigphil.mergehell.combat.WeaponId menuWeapon = com.bigphil.mergehell.combat.WeaponId.COMMIT_CANNON;
+    public void setMenuWeapon(com.bigphil.mergehell.combat.WeaponId weapon) { menuWeapon=weapon; }
     private com.bigphil.mergehell.progression.GameDifficulty scoreDifficulty = com.bigphil.mergehell.progression.GameDifficulty.STANDARD;
     public void setRunIdentity(com.bigphil.mergehell.progression.CharacterId character,
                                com.bigphil.mergehell.progression.GameDifficulty difficulty) {
@@ -282,7 +288,7 @@ public class GameRenderer {
             Graphics2D character = (Graphics2D) g.create();
             character.translate(727, 428); character.scale(4.3, 4.3);
             ActorVisuals.hero(character, industrialArt, new ActorVisuals.Hero(0, 0, -1,
-                    ActorVisuals.Action.IDLE, visualSeconds * 15, 0, 0, false, false, 1, -1, 0, false, menuCharacter));
+                    ActorVisuals.Action.IDLE, visualSeconds * 15, 0, 0, false, false, 1, -1, 0, false, menuCharacter,menuWeapon,false));
             character.dispose();
             g.setFont(GameText.font(new Font(Font.MONOSPACED, Font.PLAIN, 10))); g.setColor(new Color(215, 167, 90));
         }
@@ -290,17 +296,8 @@ public class GameRenderer {
     }
 
     private void drawPause(Graphics2D g, int width, int height) {
-        g.setColor(new Color(8, 11, 16, 205));
-        g.fillRect(0, 0, width, height);
-        drawCenteredString(g, width, "RUN PAUSED", height / 2 - 35, 34, Color.YELLOW);
-        drawCenteredString(g, width, "[ Q ] MENU / CONTINUE FROM LEVEL ENTRANCE", height / 2 - 7, 12, new Color(190, 198, 207));
-        int cardW = Math.min(350, width - 40);
-        int cardX = (width - cardW) / 2;
-        int cardY = height / 2 + 20;
-        drawPanel(g, cardX, cardY, cardW, 52, Color.YELLOW);
-        drawCenteredString(g, width, "[ P / ESC ]  RESUME RUN", cardY + 32, 13, Color.WHITE);
-        drawCenteredString(g, width, "[ O ] SETTINGS    [ M ] MUTE", cardY + 78, 12, new Color(210, 188, 149));
-        drawControlStrip(g, width, Math.min(height - 35, cardY + 124));
+        com.bigphil.mergehell.render.RunFlowRenderer.pause(g, pauseCheckpointDescription.isEmpty()
+                ? GameText.message("flow.save.none") : pauseCheckpointDescription, pauseCanRestore);
     }
 
     private void drawTopScores(Graphics2D g, int width, int centerY) {

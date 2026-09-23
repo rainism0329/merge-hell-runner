@@ -19,8 +19,24 @@ public final class ChapterRouteController {
     public record Lift(int id, Platform platform, double anchorY) { }
     public record MovementBounds(double minX, double maxX) { }
     public record Event(String key, double x, double y, int damage, boolean spawn) { }
+    public record SafeBridge(int deployedWidth, boolean requested) {
+        public double progress() {return deployedWidth/300.0;}
+    }
+    public record Mechanisms(boolean freightForward,boolean exhaustOpen,boolean broodQuiet,
+                             boolean nerveLinked,int membraneRetraction) {
+        public static Mechanisms idle(){return new Mechanisms(false,false,false,false,0);}
+    }
     public record Snapshot(int level, long tick, List<Surface> surfaces, List<Prop> props,
-                           List<Lift> lifts, List<Platform> platforms, String sectionKey, boolean arena) {
+                           List<Lift> lifts, List<Platform> platforms, String sectionKey, boolean arena,
+                           SafeBridge safeBridge,Mechanisms mechanisms) {
+        public Snapshot(int level,long tick,List<Surface> surfaces,List<Prop> props,List<Lift> lifts,
+                        List<Platform> platforms,String sectionKey,boolean arena) {
+            this(level,tick,surfaces,props,lifts,platforms,sectionKey,arena,new SafeBridge(0,false),Mechanisms.idle());
+        }
+        public Snapshot(int level,long tick,List<Surface> surfaces,List<Prop> props,List<Lift> lifts,
+                        List<Platform> platforms,String sectionKey,boolean arena,SafeBridge safeBridge) {
+            this(level,tick,surfaces,props,lifts,platforms,sectionKey,arena,safeBridge,Mechanisms.idle());
+        }
         public static Snapshot empty() { return new Snapshot(-1, 0, List.of(), List.of(), List.of(), List.of(), "", false); }
     }
     private static final class Structure {
@@ -43,6 +59,10 @@ public final class ChapterRouteController {
     private int hazardCooldown, rescueCooldown, meleeCooldown;
     private final boolean[] storySeen=new boolean[4];
     private double safeX=180, playerX;
+    private boolean safeBridgeRequested;
+    private int safeBridgeWidth;
+    private boolean freightForward,exhaustOpen,broodQuiet,nerveLinked;
+    private int membraneRetraction;
 
     public ChapterRouteController(int level, int groundY) {
         if (level < 2 || level > 4) throw new IllegalArgumentException("chapter route: " + level);
@@ -50,9 +70,15 @@ public final class ChapterRouteController {
         if (level==2) buildCitadel(); else if (level==3) buildFoundry(); else buildHive();
         if(level==2) {
             surface(8800,165,SurfaceKind.GAP,0);prop(Kind.COUNTERWEIGHT,8740,65,35,50,90);
+            // The optional overhead route ends before the boss gate at 9900. The lower route
+            // remains a normal double-jump crossing for every character without the bridge lock.
+            surface(9630,170,SurfaceKind.GAP,0);
         } else if(level==3) {
             surface(8140,250,SurfaceKind.CONVEYOR,1);surface(8890,120,SurfaceKind.VENT,80);
             prop(Kind.COOLANT,8490,0,48,86,60);
+            surface(8650,300,SurfaceKind.CONVEYOR,-1);
+            surface(9490,240,SurfaceKind.MOLTEN,0);
+            ledge(9510,70,120);ledge(9670,100,140);
         } else {
             surface(8500,220,SurfaceKind.ACID,0);prop(Kind.NEST,8910,0,82,90,145);
             prop(Kind.MEMBRANE,9700,0,96,150,210);
@@ -107,6 +133,8 @@ public final class ChapterRouteController {
     /** Runs before Player.update, so moving support transports a standing actor exactly once. */
     public void beforeMove(Player player, boolean bossArena) {
         arena=bossArena; playerX=player.getX(); tick++;
+        if(!arena && safeBridgeRequested)safeBridgeWidth=Math.min(300,safeBridgeWidth+2);
+        if(!arena && nerveLinked)membraneRetraction=Math.min(120,membraneRetraction+1);
         hazardCooldown=Math.max(0,hazardCooldown-1); rescueCooldown=Math.max(0,rescueCooldown-1);
         meleeCooldown=Math.max(0,meleeCooldown-1);
         List<Lift> previous=pendingSupportTransfer == null ? lifts : pendingSupportTransfer;
@@ -126,7 +154,7 @@ public final class ChapterRouteController {
             }
             if(Math.abs(feet-groundY)<2) for(Surface s:terrain) {
                 if(s.kind==SurfaceKind.CONVEYOR && overlaps(player.getX(),player.getBounds().width,s.x,s.width))
-                    player.setX(player.getX()+s.phase*1.05);
+                    player.setX(player.getX()+conveyorDirection(s)*1.05);
             }
         }
     }
@@ -136,6 +164,7 @@ public final class ChapterRouteController {
         if(!arena && level==2) {
             int i=0;
             for(Surface gap:terrain) if(gap.kind==SurfaceKind.GAP) {
+                if(i>=structures.size())continue; // Last shaft is the authored main/optional route choice.
                 Structure counter=structures.get(i);
                 if(counter.hp==0) {
                     Platform bridge=new Platform(gap.x,groundY-48,gap.width,22,Platform.Style.CATWALK);
@@ -148,6 +177,7 @@ public final class ChapterRouteController {
                 }
                 i++;
             }
+            if(safeBridgeWidth>0)result.add(new Platform(9560,groundY-90,safeBridgeWidth,22,Platform.Style.CATWALK));
         }
         lifts=List.copyOf(moving); platforms=List.copyOf(result);
     }
@@ -168,6 +198,10 @@ public final class ChapterRouteController {
     }
     /** Resolve solid membranes and bounded hazards after physics. Respawn never restores rewards. */
     public void afterMove(Player player,double previousX,int aliveHostiles) {
+        afterMove(player,previousX,aliveHostiles,6);
+    }
+    /** A battle's hostile budget also includes hatches requested during this update. */
+    public void afterMove(Player player,double previousX,int aliveHostiles,int hostileLimit) {
         playerX=player.getX();
         int section=sectionIndex();
         if(!storySeen[section]) {
@@ -175,8 +209,9 @@ public final class ChapterRouteController {
             events.add(new Event("chapter."+(level+1)+".story."+(section+1),playerX,player.getY()-35,0,false));
         }
         if(arena)return;
-        for(Structure s:structures) if(s.kind==Kind.MEMBRANE && s.hp>0 && player.getBounds().intersects(s.bounds)) {
-            player.setX(previousX+player.getBounds().width<=s.bounds.x+8 ? s.bounds.x-player.getBounds().width : s.bounds.getMaxX());
+        for(Structure s:structures) if(s.kind==Kind.MEMBRANE && s.hp>0 && !membraneOpen(s) && player.getBounds().intersects(structureBounds(s))) {
+            Rectangle bounds=structureBounds(s);
+            player.setX(previousX+player.getBounds().width<=bounds.x+8 ? bounds.x-player.getBounds().width : bounds.getMaxX());
         }
         if(player.getY()+player.getBounds().height>groundY+130 && rescueCooldown==0) {
             player.setX(safeX); player.setY(groundY-player.getBounds().height); player.takeDamage(15); player.setInvincibleTimer(90);
@@ -195,14 +230,16 @@ public final class ChapterRouteController {
         }
         if(!hazardous && player.isGrounded() && Math.abs(player.getY()+player.getBounds().height-groundY)<2
                 && groundFor(player.getX()-55,player.getBounds().width+110)==groundY) safeX=player.getX();
+        int hatchSlots=Math.max(0,hostileLimit-Math.max(0,aliveHostiles));
         for(Structure s:structures) if(s.kind==Kind.NEST && s.hp>0 && s.hatchCount<3) {
+            if(nestQuiet(s)){s.hatch=-1;continue;}
             boolean visible=Math.abs(s.bounds.getCenterX()-player.getX())<540;
             if(!visible){s.hatch=-1;continue;}
             if(s.hatch<0)s.hatch=120;
             if(s.hatch>0)s.hatch--;
-            if(s.hatch==0 && aliveHostiles<6) {
+            if(s.hatch==0 && hatchSlots>0) {
                 events.add(new Event("chapter.nest.hatch",s.bounds.getCenterX(),groundY-38,0,true));
-                s.hatchCount++; s.hatch=330;
+                s.hatchCount++; s.hatch=330; hatchSlots--;
             }
         }
         playerX=player.getX();
@@ -217,8 +254,8 @@ public final class ChapterRouteController {
     public boolean consumeShot(Projectile p,double beforeFraction) {
         if(arena || p.isDead())return false;
         Structure nearest=null; double closest=beforeFraction;
-        for(Structure s:structures) if(s.hp>0 && p.hits(s.bounds)) {
-            double fraction=p.hitFraction(s.bounds);
+        for(Structure s:structures) if(s.hp>0 && !membraneOpen(s) && p.hits(structureBounds(s))) {
+            double fraction=p.hitFraction(structureBounds(s));
             if(fraction<=closest){nearest=s;closest=fraction;}
         }
         if(nearest==null)return false;
@@ -226,7 +263,7 @@ public final class ChapterRouteController {
     }
     public void melee(Rectangle bounds) {
         if(arena || meleeCooldown>0)return;
-        for(Structure s:structures) if(s.hp>0 && bounds.intersects(s.bounds)) {hit(s,50);meleeCooldown=18;}
+        for(Structure s:structures) if(s.hp>0 && !membraneOpen(s) && bounds.intersects(structureBounds(s))) {hit(s,50);meleeCooldown=18;}
     }
     private void hit(Structure s,int damage) {
         int previous=s.hp; s.hp=Math.max(0,s.hp-Math.max(1,damage));
@@ -246,14 +283,44 @@ public final class ChapterRouteController {
     private List<Surface> surfaces() {
         List<Surface> result=new ArrayList<>();
         for(Surface s:terrain) {
-            int phase=s.kind==SurfaceKind.VENT?(int)((tick+s.phase)%300):s.phase;
+            int phase=s.kind==SurfaceKind.VENT?(int)((tick+s.phase)%300)
+                    :s.kind==SurfaceKind.CONVEYOR?conveyorDirection(s):s.phase;
             boolean active=!arena && (s.kind==SurfaceKind.MOLTEN || s.kind==SurfaceKind.ACID || (s.kind==SurfaceKind.VENT && phase>=90&&phase<160));
             if(active && level==3) for(Structure p:structures) if(p.kind==Kind.COOLANT && p.effectTicks>0 && Math.abs(s.x-p.bounds.x)<850)active=false;
+            if(level==3 && exhaustOpen && s.x>=8800 && (s.kind==SurfaceKind.MOLTEN || s.kind==SurfaceKind.VENT)) {
+                active=false;if(s.kind==SurfaceKind.VENT)phase=-1;
+            }
             result.add(new Surface(s.x,s.width,s.kind,phase,active));
         }
         return List.copyOf(result);
     }
     public List<Platform> platforms() { return platforms; }
+    private int conveyorDirection(Surface surface) {
+        return level==3&&surface.x>=8000?(freightForward?1:-1):surface.phase;
+    }
+    private boolean nestQuiet(Structure s) {return level==4&&broodQuiet&&s.kind==Kind.NEST&&s.bounds.x>=8000;}
+    private boolean linkedMembrane(Structure s) {return level==4&&s.kind==Kind.MEMBRANE&&s.bounds.x==9700;}
+    private boolean membraneOpen(Structure s) {return linkedMembrane(s)&&membraneRetraction==120;}
+    private Rectangle structureBounds(Structure s) {
+        if(!linkedMembrane(s)||membraneRetraction==0)return new Rectangle(s.bounds);
+        int height=Math.max(16,s.bounds.height-(int)Math.round((s.bounds.height-16)*membraneRetraction/120.0));
+        return new Rectangle(s.bounds.x,(int)s.bounds.getMaxY()-height,s.bounds.width,height);
+    }
+    /** Exploration flags are the save authority. A restored controller settles the bridge before
+     * its first physics tick; live interactions extend it over 2.5 seconds without extra rewards. */
+    public void syncExploration(java.util.Set<Integer> visited) {
+        boolean primary=visited!=null&&visited.contains(1),optional=visited!=null&&visited.contains(2);
+        if(level==2) {
+            safeBridgeRequested=optional;
+            if(tick==0){safeBridgeWidth=safeBridgeRequested?300:0;rebuildPlatforms();}
+        } else if(level==3) {
+            freightForward=primary;exhaustOpen=optional;
+        } else {
+            broodQuiet=primary;nerveLinked=optional;
+            if(tick==0)membraneRetraction=nerveLinked?120:0;
+            if(broodQuiet)for(Structure s:structures)if(nestQuiet(s))s.hatch=-1;
+        }
+    }
     public java.util.Map<Integer,Integer> savedHealth() {
         var result=new java.util.HashMap<Integer,Integer>();for(var s:structures)result.put(s.id,s.hp);return result;
     }
@@ -272,7 +339,9 @@ public final class ChapterRouteController {
     }
     public List<Event> drainEvents() { List<Event> copy=List.copyOf(events);events.clear();return copy; }
     public Snapshot snapshot() {
-        return new Snapshot(level,tick,surfaces(),structures.stream().map(s->new Prop(s.id,s.kind,s.bounds,s.hp,s.maxHp,s.effectTicks,s.hatch>0&&s.hatch<=120?s.hatch:0)).toList(),lifts,platforms,sectionKey(),arena);
+        // A fully relaxed membrane is scenery, not a target. Preserve its resource state in
+        // savedHealth, but do not offer an invulnerable object to bots or other target consumers.
+        return new Snapshot(level,tick,surfaces(),structures.stream().filter(s->!membraneOpen(s)).map(s->new Prop(s.id,s.kind,structureBounds(s),s.hp,s.maxHp,s.effectTicks,s.hatch>0&&s.hatch<=120?s.hatch:0)).toList(),lifts,platforms,sectionKey(),arena,new SafeBridge(safeBridgeWidth,safeBridgeRequested),new Mechanisms(freightForward,exhaustOpen,broodQuiet,nerveLinked,membraneRetraction));
     }
     private int sectionIndex() { return playerX<2400?0:playerX<5050?1:playerX<9900?2:3; }
     private String sectionKey() { return "chapter."+(level+1)+".section."+(sectionIndex()+1); }

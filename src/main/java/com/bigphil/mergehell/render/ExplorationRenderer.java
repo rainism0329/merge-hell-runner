@@ -17,6 +17,7 @@ public final class ExplorationRenderer {
                 case 2 -> new Color(166,220,229); case 3 -> new Color(246,136,76);
                 default -> new Color(192,209,130);
             };
+            CitadelMechanismRenderer.gateFrame(g,route,camera,width);
             for (var block : route.blocks()) {
                 Rectangle b = block.bounds();
                 if (b.getMaxX() < camera - 60 || b.x > camera + width + 60) continue;
@@ -45,6 +46,7 @@ public final class ExplorationRenderer {
                     GameText.draw(g, "↓ " + GameText.message("explore.crouch"), b.x+7, b.y+b.height-7);
                 }
             }
+            CitadelMechanismRenderer.gateStatus(g,route,camera,width);
             for (var p : route.platforms()) {
                 if (p.x+p.width < camera-60 || p.x > camera+width+60) continue;
                 if (route.chapter() >= 2) ChapterWorldRenderer.deck(g, route.chapter(), p.x, p.y, p.width, true);
@@ -85,11 +87,16 @@ public final class ExplorationRenderer {
         try {
             String text;
             if(!route.hint().isEmpty())text="[ E ] "+GameText.message(route.hint()+".name");
+            else if(route.chapter()>=2 && route.visited().contains(1) && !route.visited().contains(2) && x>9100)
+                text=GameText.message(switch(route.chapter()) {
+                    case 2->"explore.skybridge.choice";case 3->"explore.exhaust.choice";default->"explore.nerve.choice";
+                });
             else {
                 var next=route.landmarks().stream().filter(l->!l.secret()&&!route.visited().contains(l.id())).findFirst();
                 if(next.isEmpty())return;
                 var point=next.get();
-                text=(point.bounds().x>=x?"→ ":"← ")+GameText.message(point.key()+".name")+"  "+point.id()+"/2";
+                text=(point.bounds().x>=x?"→ ":"← ")+GameText.message(point.key()+".name")
+                        +(route.chapter()>=2?"":"  "+point.id()+"/2");
             }
             g.setFont(GameText.font(new Font(Font.SANS_SERIF,Font.BOLD,13)));
             int w=g.getFontMetrics().stringWidth(text)+28;

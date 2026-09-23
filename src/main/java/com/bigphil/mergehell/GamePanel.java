@@ -43,6 +43,7 @@ import com.bigphil.mergehell.render.UpgradeOverlayRenderer;
 import com.bigphil.mergehell.render.ViewportTransform;
 import com.bigphil.mergehell.render.FrameMailbox;
 import com.bigphil.mergehell.render.SettingsOverlayRenderer;
+import com.bigphil.mergehell.render.RunFlowRenderer;
 import com.bigphil.mergehell.settings.SettingsEditor;
 import com.bigphil.mergehell.persistence.MergeHellState;
 import com.bigphil.mergehell.persistence.MergeHellStateService;
@@ -90,6 +91,12 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     private boolean audioFocusSuspended;
     private boolean compactDisplay;
     private volatile boolean requestedCompactDisplay;
+    private final java.util.concurrent.atomic.AtomicBoolean frameDirty = new java.util.concurrent.atomic.AtomicBoolean(true);
+    private GameState lastPublishedState;
+    private long publishedFrames;
+    private boolean confirmNewRun;
+    private boolean confirmRanked;
+    private GameState confirmationReturnState;
     private final SettingsOverlayRenderer settingsRenderer = new SettingsOverlayRenderer();
     private long visualWorldTick;
     private final String storageOwner = UUID.randomUUID().toString();
@@ -210,6 +217,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         addComponentListener(new ComponentAdapter() {
             @Override public void componentResized(ComponentEvent event) {
                 requestedCompactDisplay = GameViewport.fit(getWidth(), getHeight()).drawWidth() < 768;
+                frameDirty.set(true);
             }
         });
 
@@ -222,7 +230,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 if (!transform.containsPhysical(e.getX(), e.getY())) return;
                 int logicalX = transform.logicalX(e.getX());
                 int logicalY = transform.logicalY(e.getY());
-                inputCommands.submit(() -> handleClick(logicalX, logicalY));
+                inputCommands.submit(() -> { frameDirty.set(true); handleClick(logicalX, logicalY); });
             }
         });
         addFocusListener(new FocusAdapter() {
@@ -341,7 +349,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         registerKey(im, am, "LAB_CLEAR_ALT", KeyEvent.VK_K, true, this::labClearWave);
         registerKey(im, am, "LAB_BOSS", KeyEvent.VK_F11, true, this::labAdvanceToBoss);
         registerKey(im, am, "LAB_BOSS_ALT", KeyEvent.VK_L, true, this::labAdvanceToBoss);
-        registerKey(im, am, "NEW_RANKED_RUN", KeyEvent.VK_N, true, this::restartRankedRun);
+        registerKey(im, am, "NEW_RANKED_RUN", KeyEvent.VK_N, true, () -> requestNewRun(true));
 
         registerKey(im, am, "DASH", KeyEvent.VK_SHIFT, true, () -> {
             if (!isActiveGameplay()) return;
@@ -365,14 +373,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         registerKey(im, am, "HELP", KeyEvent.VK_F1, true, this::toggleControlsHelp);
         registerKey(im, am, "SETTINGS", KeyEvent.VK_O, true, this::openSettings);
         registerKey(im, am, "MUTE", KeyEvent.VK_M, true, this::toggleMute);
-        registerKey(im, am, "MENU", KeyEvent.VK_Q, true, () -> {
-            if (state != GameState.PAUSED && state != GameState.MISSION_COMPLETE && state != GameState.VICTORY) return;
-            state = GameState.MENU;
-            MergeHellStateService.getInstance().releaseRun(storageOwner);
-            ownsCheckpoint = false;
-            clearHeldKeys();
-            addKernelLog("explore.returned");
-        });
+        registerKey(im, am, "MENU", KeyEvent.VK_Q, true, this::returnToMenu);
     }
 
     private void registerKey(InputMap im, ActionMap am, String name, int keyCode, boolean pressed, Runnable action) {
@@ -380,6 +381,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         am.put(name, new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
                 if (pressed) inputCommands.press(keyCode, () -> {
+                    frameDirty.set(true);
+                    if (confirmNewRun) { handleConfirmationKey(keyCode); return; }
                     if (settingsEditor != null) { handleSettingsKey(keyCode); return; }
                     if(controlsHelp && keyCode!=KeyEvent.VK_F1) {
                         if(keyCode==KeyEvent.VK_ESCAPE)controlsHelp=false;
@@ -401,6 +404,44 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 }
             });
         }
+    }
+
+    private void returnToMenu() {
+        if (state != GameState.PAUSED && state != GameState.MISSION_COMPLETE
+                && state != GameState.GAME_OVER && state != GameState.VICTORY) return;
+        state = GameState.MENU;
+        MergeHellStateService.getInstance().releaseRun(storageOwner);
+        ownsCheckpoint = false;
+        settingsEditor = null; controlsHelp = false;
+        clearHeldKeys(); syncAudio();
+        addKernelLog("explore.returned");
+    }
+
+    private void requestNewRun(boolean ranked) {
+        if (confirmNewRun || state == GameState.ERROR) return;
+        var storage = MergeHellStateService.getInstance();
+        boolean saved = storage.readCheckpoint().isPresent() && !storage.ownedByAnotherWindow(storageOwner);
+        boolean ongoing = state != GameState.MENU && state != GameState.GAME_OVER && state != GameState.VICTORY;
+        if (saved || ongoing) {
+            confirmNewRun = true; confirmRanked = ranked; confirmationReturnState = state;
+            if (isActiveGameplay()) { prePauseState = state; state = GameState.PAUSED; }
+            clearHeldKeys(); audio.setPaused(true); gameLoop.resetClock();
+        } else if (ranked) restartRankedRun(); else startGame();
+    }
+
+    private void handleConfirmationKey(int keyCode) {
+        if (keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_Q) finishConfirmation(false);
+        else if (keyCode == KeyEvent.VK_ENTER) finishConfirmation(true);
+    }
+
+    private void finishConfirmation(boolean accepted) {
+        if (!confirmNewRun) return;
+        confirmNewRun = false; state = confirmationReturnState;
+        clearHeldKeys(); gameLoop.resetClock();
+        if (accepted) {
+            if (confirmRanked) restartRankedRun(); else startGame();
+        }
+        syncAudio();
     }
 
     private void togglePause() {
@@ -472,12 +513,29 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void handleClick(int x, int y) {
-        if (settingsEditor != null) return;
+        if (confirmNewRun) {
+            if (RunFlowRenderer.cancelBounds().contains(x,y)) finishConfirmation(false);
+            else if (RunFlowRenderer.confirmBounds().contains(x,y)) finishConfirmation(true);
+            return;
+        }
+        if (settingsEditor != null) {
+            if (SettingsOverlayRenderer.closeBounds().contains(x,y)) { settingsEditor = null; clearHeldKeys(); return; }
+            var option = SettingsOverlayRenderer.optionAt(x,y);
+            if (option != null) {
+                settingsEditor.select(option);
+                var result = option.percentage() ? x >= 540
+                        ? settingsEditor.setPercentage(SettingsOverlayRenderer.percentageAt(x)) : SettingsEditor.Result.SELECTION_CHANGED
+                        : settingsEditor.handle(SettingsEditor.Command.ACTIVATE);
+                if (result == SettingsEditor.Result.VALUE_CHANGED) { settings = settingsEditor.settings(); applySettings(); }
+            }
+            return;
+        }
         if (controlsHelp) { controlsHelp=false; return; }
         if (state == GameState.MENU) {
             var choice = com.bigphil.mergehell.render.MenuLaunchRenderer.at(x, y, menuLaunchModel());
             if (choice != null) switch (choice) {
-                case START -> startGame();
+                case START -> { if(labPowerEnabled) startPractice(false); else requestNewRun(false); }
+                case NEW -> requestNewRun(true);
                 case PRACTICE -> startPractice(false);
                 case BOSS -> startPractice(true);
                 case CONTINUE -> continueRun();
@@ -487,6 +545,14 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             else if (x >= 64 && x <= 544 && y >= 322 && y <= 376) handleWeaponKey();
             else if (x >= 64 && x <= 544 && y >= 377 && y <= 417) cycleDifficulty();
             else if (x >= 588 && x <= 918 && y >= 432 && y <= 496) cycleCharacter();
+        } else if (state == GameState.PAUSED) {
+            if (RunFlowRenderer.resumeBounds().contains(x,y)) togglePause();
+            else if (RunFlowRenderer.pauseMenuBounds().contains(x,y)) returnToMenu();
+            else if (RunFlowRenderer.pauseSettingsBounds().contains(x,y)) openSettings();
+        } else if (state == GameState.GAME_OVER) {
+            if (RunFlowRenderer.retryBounds().contains(x,y)) requestNewRun(true);
+            else if (RunFlowRenderer.menuBounds().contains(x,y)) returnToMenu();
+            else if (RunFlowRenderer.practiceBounds().contains(x,y)) startPractice(true);
         } else selectUpgradeAt(x, y);
     }
 
@@ -533,8 +599,11 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
     private void startPractice(boolean atBoss) {
         // A separate practice run leaves the existing campaign checkpoint available to Continue.
+        int practiceWorld = atBoss && state == GameState.GAME_OVER ? level : 0;
+        if (state == GameState.GAME_OVER) selectedStartingWeapon = session.runBuild().weapon();
         labPowerEnabled = true;
         startGame();
+        if (practiceWorld > 0) { level = practiceWorld; advanceLevel(); }
         if (atBoss) labAdvanceToBoss();
         addLog(atBoss ? "BOSS PRACTICE // GOD ON. [T] switches damage on/off."
                 : "PRACTICE // GOD ON. [L] jumps to Boss. Campaign checkpoint preserved.");
@@ -551,6 +620,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             audio.setPaused(true);
         }
         inputCommands.clearAndSubmit(() -> {
+            frameDirty.set(true);
             clearHeldKeys();
             if (isActiveGameplay()) {
                 prePauseState = state;
@@ -562,8 +632,12 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void handleJumpOrStart() {
-        if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) {
-            startGame();
+        if (state == GameState.MENU) {
+            if (menuLaunchModel().canContinue()) continueRun();
+            else if (labPowerEnabled) startPractice(false);
+            else requestNewRun(false);
+        } else if (state == GameState.GAME_OVER || state == GameState.VICTORY) {
+            requestNewRun(true);
         } else if (state == GameState.RUNNING || state == GameState.BOSS_WARNING || state == GameState.BOSS_FIGHT) {
             player.requestJump();
         }
@@ -614,6 +688,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             labOffNoticeTicks = 0;
             markRunUnranked();
             addLog("Invincibility enabled · Unlimited ammo/bombs · No ranking");
+            addKernelLog(canRestoreCheckpoint() ? "flow.practice.preserved" : "flow.save.practice");
         } else {
             labOffNoticeTicks = 188;
             addLog("Invincibility disabled. Normal damage restored. N starts a new ranked run.");
@@ -622,6 +697,11 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
     }
 
     private void restartRankedRun() {
+        // Validate before changing any identity flags: a locked practice character must
+        // never turn its existing session into a reward-eligible campaign on a failed launch.
+        if (!MergeHellStateService.getInstance().getState().unlockedCharacters.contains(selectedCharacter)) {
+            addKernelLog("character.engineer.locked"); return;
+        }
         labPowerEnabled = false;
         runUnranked = false;
         player.setDebugMode(false);
@@ -634,7 +714,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if (state == GameState.MENU || state == GameState.GAME_OVER || state == GameState.VICTORY) return;
         if (!runUnranked) {
             var storage = MergeHellStateService.getInstance();
-            storage.clearCheckpoint(storageOwner);
+            // Fork the live run into practice; the last ranked safe point remains restorable.
             storage.releaseRun(storageOwner);
             ownsCheckpoint = false;
         }
@@ -799,6 +879,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if(!labPowerEnabled && !MergeHellStateService.getInstance().getState().unlockedCharacters.contains(selectedCharacter)) {
             addKernelLog("character.engineer.locked"); return;
         }
+        confirmNewRun = false;
         settingsEditor = null;
         logs.clear();
         ctx.score = 0; ctx.combo = 0; ctx.comboTimer = 0;
@@ -897,12 +978,16 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         try {
             advanceSimulation();
         } finally {
-            double seconds = session.worldTick() != visualWorldTick ? GameLoop.LEGACY_STEP_NANOS / 1e9 : 0;
-            visualWorldTick = session.worldTick();
-            renderer.updateVisuals(player, enemyManager.getEnemies(), seconds);
-            syncAudio();
-            frames.publish(this::renderLogicalFrame);
-            repaint();
+            boolean dirty = frameDirty.getAndSet(false);
+            if (state != GameState.PAUSED || dirty || lastPublishedState != state) {
+                double seconds = session.worldTick() != visualWorldTick ? GameLoop.LEGACY_STEP_NANOS / 1e9 : 0;
+                visualWorldTick = session.worldTick();
+                renderer.updateVisuals(player, enemyManager.getEnemies(), seconds);
+                syncAudio();
+                if (frames.publish(this::renderLogicalFrame)) { publishedFrames++; lastPublishedState = state; }
+                else frameDirty.set(true);
+                repaint();
+            }
         }
     }
 
@@ -915,7 +1000,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             settingsRenderer.setCompact(compact);
         }
         inputCommands.drain();
-        if (state == GameState.PAUSED) { repaint(); return; }
+        if (state == GameState.PAUSED || confirmNewRun) return;
         if (state == GameState.BOSS_WARNING) { updateBossArrival(); return; }
 
         if (state == GameState.ERROR) { repaint(); return; }
@@ -969,7 +1054,18 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         // ── Player update ───────────────────────────────
         player.setAimInput(keyUp,keyDown,keyAimLock,keyLeft,keyRight);
-        if (chapterRoute != null) chapterRoute.beforeMove(player, state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING);
+        boolean bossTerrain = state == GameState.BOSS_FIGHT || state == GameState.BOSS_WARNING;
+        if (exploration != null) {
+            exploration.prepare(bossTerrain);
+            exploration.beforeMove(player, level == 2
+                    ? enemyManager.getEnemies().stream().filter(en -> !en.isDead() && en.getType().isHostile())
+                        .map(ObstacleManager.Enemy::getBounds).toList()
+                    : List.of());
+        }
+        if (chapterRoute != null) {
+            if (exploration != null) chapterRoute.syncExploration(exploration.visited());
+            chapterRoute.beforeMove(player, bossTerrain);
+        }
         refreshTerrain();
         double previousPlayerX = player.getX(), previousFeet = player.getY() + player.getBounds().height;
         boolean wasDashingOnTerrain = player.isDashing();
@@ -981,7 +1077,8 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
                 projectiles, combatPlatforms, cameraX, cameraX + panelW - player.getBounds().width);
         if (chapterRoute != null) {
             chapterRoute.afterMove(player, previousPlayerX, (int) enemyManager.getEnemies().stream()
-                    .filter(en -> !en.isDead() && en.getType().isHostile()).count());
+                    .filter(en -> !en.isDead() && en.getType().isHostile()).count(),
+                    levelManager.getBattleAt(player.getX()) != null ? 3 : 6);
             if (chapterInteract) chapterRoute.interact(player);
             chapterInteract = false;
             if (player.getMeleeBounds() != null) chapterRoute.melee(player.getMeleeBounds());
@@ -1060,13 +1157,25 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
 
         if (legacyMission && levelManager.needsWaveSpawn(aliveEnemies)) {
             LevelManager.WaveDef wave = levelManager.popWave();
-            for (int i = 0; i < wave.count; i++) {
+            for (int i = 0; !wave.scripted() && i < wave.count; i++) {
                 if (wave.fromDir == 0 || wave.fromDir == 2)
                     spawnFromRight(panelW, groundY, wave.type);
                 if (wave.fromDir == 1 || wave.fromDir == 2)
                     enemyManager.spawnFromLeft(groundY, (int) cameraX, wave.type);
             }
             levelManager.startNextWaveTimer();
+        }
+        if (legacyMission && state == GameState.RUNNING) {
+            var occupied = enemyManager.getEnemies().stream().filter(e -> !e.isDead() && e.getType().isHostile())
+                    .map(ObstacleManager.Enemy::getBounds).toList();
+            levelManager.advanceEncounter(occupied.size(), groundY,
+                    exploration == null ? List.of() : exploration.solids(), occupied, player.getBounds(),
+                    bounds -> chapterRoute == null || chapterRoute.groundFor(bounds.x, bounds.width) == groundY,
+                    spawn -> {
+                        int before = enemyManager.getEnemies().size();
+                        enemyManager.spawnEnemy(spawn.x(), spawn.y(), spawn.type(), spawn.moveDir());
+                        return enemyManager.getEnemies().size() > before;
+                    });
         }
 
         // ── Triggers + random spawns ────────────────────
@@ -1562,6 +1671,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         session = CheckpointCodec.restoreSession(run);
         selectedCharacter=session.runBuild().character();
         selectedDifficulty=session.runBuild().difficulty();
+        selectedStartingWeapon=session.runBuild().weapon();
         player.restoreCheckpoint(CheckpointCodec.playerCheckpoint(run), session.runBuild(), run.checkpointX, run.checkpointY);
         player.setDebugMode(false);
         runId = run.runId; ownsCheckpoint = true; runUnranked = false; labPowerEnabled = false;
@@ -2006,8 +2116,11 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         logical.setColor(GameColors.BG);
         logical.fillRect(0, 0, panelW, panelH);
         renderer.setBossHudManaged(true);
+        if (state == GameState.PAUSED)
+            renderer.setPauseCheckpointDescription(checkpointDescription(), canRestoreCheckpoint());
         renderer.setRunIdentity(state==GameState.MENU?selectedCharacter:session.runBuild().character(),
                 state==GameState.MENU?selectedDifficulty:session.runBuild().difficulty());
+        renderer.setMenuWeapon(selectedStartingWeapon);
         renderer.setFlashesEnabled(settings.flashes);
         renderer.setPowerFlashTicks(settings.flashes ? powerFlashTimer : 0);
         renderer.setChapter(chapterRoute == null ? com.bigphil.mergehell.world.ChapterRouteController.Snapshot.empty() : chapterRoute.snapshot());
@@ -2084,6 +2197,27 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
         if (state == GameState.ERROR) drawLoopError(logical, panelW, panelH);
         if (settingsEditor != null) settingsRenderer.render(logical, settingsEditor.snapshot());
         if (controlsHelp) drawControlsHelp(logical);
+        if (state == GameState.MENU && !MergeHellStateService.getInstance().getState().checkpointNotice.isBlank()) {
+            logical.setColor(new Color(232, 188, 112));
+            logical.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compactDisplay ? 16 : 14)));
+            String notice = GameText.message("flow.save.repaired");
+            GameText.fitFont(logical, notice, 850, 13);
+            GameText.draw(logical, notice, 64, 588);
+        }
+        if (confirmNewRun) RunFlowRenderer.confirmation(logical, canRestoreCheckpoint());
+    }
+
+    private boolean canRestoreCheckpoint() {
+        var storage = MergeHellStateService.getInstance();
+        return !storage.ownedByAnotherWindow(storageOwner) && storage.readCheckpoint().isPresent();
+    }
+
+    private String checkpointDescription() {
+        var storage = MergeHellStateService.getInstance();
+        if (storage.ownedByAnotherWindow(storageOwner)) return GameText.message("flow.save.other");
+        return storage.readCheckpoint().map(saved -> GameText.message(
+                CheckpointCodec.SAFE_SEGMENT.equals(saved.checkpointKind) ? "flow.save.segment" : "flow.save.entry",
+                saved.mission + 1)).orElseGet(() -> GameText.message(runUnranked ? "flow.save.practice" : "flow.save.none"));
     }
 
     @Override
@@ -2156,7 +2290,7 @@ public class GamePanel extends JPanel implements ActionListener, Disposable {
             g.setColor(Color.WHITE);
             g.setFont(GameText.font(new Font("JetBrains Mono", Font.PLAIN, 14)));
             GameText.draw(g, "An unexpected error interrupted this run.", 70, height / 2 + 10);
-            GameText.draw(g, "Close and reopen the tool window to restart safely.", 70, height / 2 + 45);
+            GameText.draw(g, GameText.message("error.restart"), 70, height / 2 + 45);
             g.dispose();
         }
     }

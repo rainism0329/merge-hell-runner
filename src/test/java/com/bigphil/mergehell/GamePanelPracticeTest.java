@@ -69,6 +69,8 @@ class GamePanelPracticeTest {
         }
         assertEquals(0, field(h.panel, "labOffNoticeTicks"), "The confirmation must expire instead of becoming another permanent badge");
         h.key("NEW_RANKED_RUN"); h.tick();
+        assertTrue((boolean) field(h.panel, "confirmNewRun"));
+        h.key("START"); h.tick();
         assertFalse(player.isDebugMode());
         assertFalse((boolean) field(h.panel, "runUnranked"));
         assertTrue(storage.readCheckpoint().isPresent());

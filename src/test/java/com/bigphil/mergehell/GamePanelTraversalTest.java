@@ -74,6 +74,7 @@ class GamePanelTraversalTest {
         assertEquals(playerX, h.player().getX());
         pending(h).addLast(new TraversalEnvironment.BreakEvent(999, TraversalEnvironment.PropKind.SUPPLY, 400, 450, 0));
         h.key("NEW_RANKED_RUN"); h.tick();
+        h.key("START"); h.tick();
         assertEquals(GameState.RUNNING, h.state());
         assertNotSame(before, environment(h));
         assertTrue(environment(h).snapshot().ripples().isEmpty());

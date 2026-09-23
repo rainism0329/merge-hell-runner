@@ -1,0 +1,2 @@
+profile,chapter,seed,result,steps,maxX,endX,hp,lives,bombs,kills,upgrades,brokenProps,hostiles,reason
+developed,4,2026091403,STEP_LIMIT,12000,8950.0,8840.0,14,3,0,43,3,3,2,DRILLER

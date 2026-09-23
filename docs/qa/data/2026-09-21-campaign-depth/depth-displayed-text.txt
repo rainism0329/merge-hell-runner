@@ -1,0 +1,1587 @@
+=== en-weapon-commit_cannon-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-commit_cannon-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-force_push-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  2/6
+Force Push // spread + close-range + knockback
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-force_push-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  2/6
+Force Push // spread
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-rapid_ci-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  3/6
+Rapid CI // automatic + heat + burst
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-rapid_ci-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  3/6
+Rapid CI // automatic
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-garbage_collector-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  4/6
+Garbage Collector // HEAVY + piercing + area-recovery
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-garbage_collector-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  4/6
+Garbage Collector // HEAVY
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-firewall-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  5/6
+Firewall // burn + short-range + interception
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-firewall-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  5/6
+Firewall // burn
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-refactor_beam-960 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  6/6
+Refactor Beam // CHARGE + piercing + refraction
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-weapon-refactor_beam-600 ===
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  6/6
+Refactor Beam // CHARGE
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-mixed-world-2-960 ===
+$
+Drainage service room
+GC STATION
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:35] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 15%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-mixed-world-2-600 ===
+$
+Drainage service room
+GC STATION
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:35] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 15%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-mixed-world-4-960 ===
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:37] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Freight conveyor controls
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-mixed-world-4-600 ===
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:37] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Freight conveyor controls
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-mixed-world-5-960 ===
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:39] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper nerve cluster
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-mixed-world-5-600 ===
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[15:34:39] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper nerve cluster
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-freight-reverse-960 ===
+↓ CRAWL
+Freight conveyor controls
+Exhaust isolation (optional)
+R
++
++
++
++
+S
+F
+[15:34:41] These furnaces are forging something alive. Break coolant tanks to cross the trenches before heat returns.
+M UNMUTE / P PAUSE
+← Freight conveyor controls
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-freight-reverse-600 ===
+↓ CRAWL
+Freight conveyor controls
+Exhaust isolation (optional)
+R
++
++
++
++
+S
+F
+[15:34:41] These furnaces are forging something alive. Break coolant tanks to cross the trenches before he...
+M UNMUTE / P PAUSE
+← Freight conveyor controls
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-freight-forward-960 ===
+FREIGHT BELT FORWARD
+↓ CRAWL
+Freight conveyor controls
+Exhaust isolation (optional)
+[15:34:41] Freight power restored. The maintenance belt now carries you forward.
+M UNMUTE / P PAUSE
+→ Exhaust isolation (optional)
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-freight-forward-600 ===
+FREIGHT BELT FORWARD
+↓ CRAWL
+Freight conveyor controls
+Exhaust isolation (optional)
+[15:34:41] Freight power restored. The maintenance belt now carries you forward.
+M UNMUTE / P PAUSE
+→ Exhaust isolation (optional)
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-foundry-hot-960 ===
+$
+Exhaust isolation (optional)
+[15:34:41] Freight power restored. The maintenance belt now carries you forward.
+M UNMUTE / P PAUSE
+Upper: shut off the heat · Lower: jump across the hot channel
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-foundry-hot-600 ===
+$
+Exhaust isolation (optional)
+[15:34:41] Freight power restored. The maintenance belt now carries you forward.
+M UNMUTE / P PAUSE
+Upper: shut off the heat · Lower: jump across the hot channel
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-foundry-cooled-960 ===
+PRESSURE RELEASED · CHANNEL COOLED
+$
+Exhaust isolation (optional)
+[15:34:41] Pressure released. The final slag channel cools and the nearby vents fall silent.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000360
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-foundry-cooled-600 ===
+PRESSURE RELEASED · CHANNEL COOLED
+$
+Exhaust isolation (optional)
+[15:34:41] Pressure released. The final slag channel cools and the nearby vents fall silent.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-hatchery-active-960 ===
+↓ CRAWL
+Root nerve junction (optional)
+F
++
++
++
++
+S
+H
+[15:34:42] Every conduit feeds the same heartbeat. Lurkers commit to their pounce; step aside after the warning locks.
+M UNMUTE / P PAUSE
+← Upper nerve cluster
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-hatchery-active-600 ===
+↓ CRAWL
+Root nerve junction (optional)
+F
++
++
++
++
+S
+H
+[15:34:42] Every conduit feeds the same heartbeat. Lurkers commit to their pounce; step aside after the wa...
+M UNMUTE / P PAUSE
+← Upper nerve cluster
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-hatchery-silenced-960 ===
+↓ CRAWL
+Root nerve junction (optional)
+[15:34:42] The upper nerve falls silent. The forward hatchery stops producing defenders.
+M UNMUTE / P PAUSE
+→ Root nerve junction (optional)
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-hatchery-silenced-600 ===
+↓ CRAWL
+Root nerve junction (optional)
+[15:34:42] The upper nerve falls silent. The forward hatchery stops producing defenders.
+M UNMUTE / P PAUSE
+→ Root nerve junction (optional)
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-membrane-closed-960 ===
+Root nerve junction (optional)
+[15:34:42] The upper nerve falls silent. The forward hatchery stops producing defenders.
+M UNMUTE / P PAUSE
+Upper: retract the membrane · Lower: break it or jump over
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-membrane-closed-600 ===
+Root nerve junction (optional)
+[15:34:42] The upper nerve falls silent. The forward hatchery stops producing defenders.
+M UNMUTE / P PAUSE
+Upper: retract the membrane · Lower: break it or jump over
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-membrane-moving-960 ===
+Root nerve junction (optional)
+[15:34:43] The nerve releases its grip. The final membrane retracts, opening a ground route.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000360
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-membrane-moving-600 ===
+Root nerve junction (optional)
+[15:34:43] The nerve releases its grip. The final membrane retracts, opening a ground route.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-membrane-open-960 ===
+GROUND PASSAGE OPEN
+Root nerve junction (optional)
+[15:34:43] The nerve releases its grip. The final membrane retracts, opening a ground route.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000360
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-membrane-open-600 ===
+GROUND PASSAGE OPEN
+Root nerve junction (optional)
+[15:34:43] The nerve releases its grip. The final membrane retracts, opening a ground route.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== zh-CN-weapon-commit_cannon-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-commit_cannon-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-force_push-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  2/6
+强制推送 // 散射 + 近距离 + 击退
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-force_push-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  2/6
+强制推送 // 散射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-rapid_ci-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  3/6
+持续集成速射枪 // 自动 + 热量 + 连射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-rapid_ci-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  3/6
+持续集成速射枪 // 自动
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-garbage_collector-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  4/6
+内存回收炮 // 重炮 + 穿透 + 区域回收
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-garbage_collector-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  4/6
+内存回收炮 // 重炮
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-firewall-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  5/6
+防火墙 // 灼烧 + 短射程 + 拦截
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-firewall-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  5/6
+防火墙 // 灼烧
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-refactor_beam-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  6/6
+重构光束 // 充能 + 穿透 + 折射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-weapon-refactor_beam-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  6/6
+重构光束 // 充能
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-mixed-world-2-960 ===
+排水检修间
+回收站
+竞技场已锁定 // 第 1 / 2 波
+[15:34:47] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-mixed-world-2-600 ===
+排水检修间
+回收站
+竞技场已锁定 // 第 1 / 2 波
+[15:34:47] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 15%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-mixed-world-4-960 ===
+竞技场已锁定 // 第 1 / 2 波
+[15:34:49] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 货运传送控制台
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-mixed-world-4-600 ===
+竞技场已锁定 // 第 1 / 2 波
+[15:34:49] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 货运传送控制台
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-mixed-world-5-960 ===
+$
+$
+竞技场已锁定 // 第 1 / 2 波
+[15:34:51] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 上巢神经簇
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-mixed-world-5-600 ===
+$
+$
+竞技场已锁定 // 第 1 / 2 波
+[15:34:51] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 上巢神经簇
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-freight-reverse-960 ===
+↓ 蹲行
+货运传送控制台
+排气隔离台（可选）
+R
++
++
++
++
+S
+F
+[15:34:52] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+← 货运传送控制台
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-freight-reverse-600 ===
+↓ 蹲行
+货运传送控制台
+排气隔离台（可选）
+R
++
++
++
++
+S
+F
+[15:34:52] 熔炉铸造的竟是活物。打破冷却罐，趁温度回升前穿越战壕。
+M 开启声音 / P 暂停
+← 货运传送控制台
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-freight-forward-960 ===
+货运传送带已顺行
+↓ 蹲行
+货运传送控制台
+排气隔离台（可选）
+[15:34:53] 货运电力已恢复，检修传送带转为顺行。
+M 开启声音 / P 暂停
+→ 排气隔离台（可选）
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-freight-forward-600 ===
+货运传送带已顺行
+↓ 蹲行
+货运传送控制台
+排气隔离台（可选）
+[15:34:53] 货运电力已恢复，检修传送带转为顺行。
+M 开启声音 / P 暂停
+→ 排气隔离台（可选）
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-foundry-hot-960 ===
+$
+排气隔离台（可选）
+[15:34:53] 货运电力已恢复，检修传送带转为顺行。
+M 开启声音 / P 暂停
+上层：关闭热源 · 下层：跳过热料槽
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-foundry-hot-600 ===
+$
+排气隔离台（可选）
+[15:34:53] 货运电力已恢复，检修传送带转为顺行。
+M 开启声音 / P 暂停
+上层：关闭热源 · 下层：跳过热料槽
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-foundry-cooled-960 ===
+压力已释放 · 热料槽已冷却
+$
+排气隔离台（可选）
+[15:34:53] 压力已释放，末端热料槽冷却，附近喷口停止喷发。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000360
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-foundry-cooled-600 ===
+压力已释放 · 热料槽已冷却
+$
+排气隔离台（可选）
+[15:34:53] 压力已释放，末端热料槽冷却，附近喷口停止喷发。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-hatchery-active-960 ===
+↓ 蹲行
+根部神经结（可选）
+F
++
++
++
++
+S
+H
+[15:34:54] 所有导管都汇向同一颗心脏。潜猎兽起跳后不会转向，锁定后及时避让。
+M 开启声音 / P 暂停
+← 上巢神经簇
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-hatchery-active-600 ===
+↓ 蹲行
+根部神经结（可选）
+F
++
++
++
++
+S
+H
+[15:34:54] 所有导管都汇向同一颗心脏。潜猎兽起跳后不会转向，锁定后及时避让。
+M 开启声音 / P 暂停
+← 上巢神经簇
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-hatchery-silenced-960 ===
+↓ 蹲行
+根部神经结（可选）
+[15:34:54] 上巢神经失去活性，前方孵化囊停止产生守卫。
+M 开启声音 / P 暂停
+→ 根部神经结（可选）
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-hatchery-silenced-600 ===
+↓ 蹲行
+根部神经结（可选）
+[15:34:54] 上巢神经失去活性，前方孵化囊停止产生守卫。
+M 开启声音 / P 暂停
+→ 根部神经结（可选）
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-closed-960 ===
+根部神经结（可选）
+[15:34:54] 上巢神经失去活性，前方孵化囊停止产生守卫。
+M 开启声音 / P 暂停
+上层：收起膜障 · 下层：击破或跳过
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-closed-600 ===
+根部神经结（可选）
+[15:34:54] 上巢神经失去活性，前方孵化囊停止产生守卫。
+M 开启声音 / P 暂停
+上层：收起膜障 · 下层：击破或跳过
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-moving-960 ===
+根部神经结（可选）
+[15:34:55] 神经松开了牵引，末端膜障正在收缩，地面通路随之打开。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000360
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-moving-600 ===
+根部神经结（可选）
+[15:34:55] 神经松开了牵引，末端膜障正在收缩，地面通路随之打开。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-open-960 ===
+地面通路已打开
+根部神经结（可选）
+[15:34:55] 神经松开了牵引，末端膜障正在收缩，地面通路随之打开。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000360
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-membrane-open-600 ===
+地面通路已打开
+根部神经结（可选）
+[15:34:55] 神经松开了牵引，末端膜障正在收缩，地面通路随之打开。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭

@@ -6,11 +6,12 @@ import java.awt.*;
 
 /** The menu's visible actions and their logical hit areas share the same layout. */
 public final class MenuLaunchRenderer {
-    public enum Choice { START, PRACTICE, BOSS, CONTINUE, SETTINGS, MUTE }
+    public enum Choice { START, PRACTICE, BOSS, CONTINUE, NEW, SETTINGS, MUTE }
     public record Model(boolean godArmed, int savedWorld, boolean otherWindow, boolean muted, boolean savedSegment) {
         public Model(boolean godArmed, int savedWorld, boolean otherWindow, boolean muted) {
             this(godArmed, savedWorld, otherWindow, muted, false);
         }
+        public boolean canContinue() { return savedWorld > 0 && !otherWindow; }
     }
 
     private static Rectangle bounds(Choice choice) {
@@ -18,15 +19,16 @@ public final class MenuLaunchRenderer {
             case START -> new Rectangle(64, 426, 152, 68);
             case PRACTICE -> new Rectangle(228, 426, 152, 68);
             case BOSS -> new Rectangle(392, 426, 152, 68);
-            case CONTINUE -> new Rectangle(64, 504, 480, 32);
+            case CONTINUE, NEW -> new Rectangle(64, 504, 480, 32);
             case SETTINGS -> new Rectangle(642, 504, 106, 32);
             case MUTE -> new Rectangle(756, 504, 162, 32);
         };
     }
 
     public static Choice at(int x, int y, Model model) {
+        if (bounds(Choice.START).contains(x, y)) return model.canContinue() ? Choice.CONTINUE : Choice.START;
         for (Choice choice : Choice.values()) {
-            if (choice == Choice.CONTINUE && (model.savedWorld() < 1 || model.otherWindow())) continue;
+            if (choice == Choice.START || choice == Choice.CONTINUE || choice == Choice.NEW && !model.canContinue()) continue;
             if (bounds(choice).contains(x, y)) return choice;
         }
         return null;
@@ -35,8 +37,10 @@ public final class MenuLaunchRenderer {
     public static void render(Graphics2D target, Model model, boolean compact) {
         Graphics2D g = (Graphics2D) target.create();
         try {
-            button(g, Choice.START, "ENTER / SPACE", model.godArmed() ? "Start practice" : "Campaign",
-                    model.godArmed() ? "Invincible · No rank" : "Normal · Auto-save", true, compact);
+            button(g, Choice.START, "ENTER / SPACE", model.canContinue() ? GameText.message("flow.continue")
+                            : model.godArmed() ? "Start practice" : "Campaign",
+                    model.canContinue() ? GameText.message(model.savedSegment() ? "flow.world.segment" : "flow.world.entry", model.savedWorld())
+                            : model.godArmed() ? "Invincible · No rank" : "Normal · Auto-save", true, compact);
             button(g, Choice.PRACTICE, "G", "Invincible", "Unlimited supplies", false, compact);
             button(g, Choice.BOSS, "L", "Boss practice", "Jump to Legacy", false, compact);
             Rectangle saved = bounds(Choice.CONTINUE);
@@ -44,10 +48,12 @@ public final class MenuLaunchRenderer {
             g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compact ? 18 : 15)));
             g.setColor(new Color(205, 220, 207));
             String continuation = model.otherWindow() ? "ANOTHER WINDOW IS SAVING THE CAMPAIGN"
+                    : model.canContinue() ? GameText.message("flow.new.menu")
                     : model.savedWorld() > 0 ? model.savedSegment()
                         ? GameText.message("explore.continue", model.savedWorld())
                         : "[ R ] Continue · World " + model.savedWorld() + " entrance"
                     : GameText.message("explore.noSave");
+            GameText.fitFont(g, continuation, saved.width - 24, 14);
             GameText.draw(g, continuation, saved.x + 12, saved.y + 22);
             g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.PLAIN, compact ? 17 : 14)));
             for (Choice choice : new Choice[]{Choice.SETTINGS, Choice.MUTE}) {

@@ -35,7 +35,8 @@ class GamePanelEvolutionTest {
         Harness h = window();
         for (WeaponId weapon : WeaponId.values()) {
             assertEquals(weapon, field(h.panel, "selectedStartingWeapon"));
-            h.key("START"); h.tick();
+            h.key("NEW_RANKED_RUN"); h.tick();
+            if ((boolean)field(h.panel, "confirmNewRun")) { h.key("START"); h.tick(); }
             assertEquals(weapon, h.panel.getSession().runBuild().weapon());
             set(h.panel, "state", GameState.MENU);
             h.key("WEAPON"); h.tick();
@@ -84,6 +85,7 @@ class GamePanelEvolutionTest {
         assertEquals(paused, h.pixels());
         set(h.panel, "hitstop", 19);
         h.key("NEW_RANKED_RUN"); h.tick();
+        h.key("START"); h.tick();
         assertEquals(0, field(h.panel, "hitstop"));
         assertEquals(GameState.RUNNING, field(h.panel, "state"));
     }

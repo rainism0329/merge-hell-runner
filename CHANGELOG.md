@@ -4,6 +4,12 @@ All notable changes to Merge Hell Runner are documented here.
 
 ## [Unreleased]
 
+- Safer campaign restarts, preserved saves during practice, and improved retry and settings controls.
+- Staggered mixed squads across later chapters and meaningful Foundry and Hive route choices.
+- Working winch and bridge controls, deeper siege Boss phases, and a more varied final Boss sequence.
+- Distinct held weapons and visible evolution modules across all four characters.
+- Reduced rendering while paused and improved enemy navigation around moving terrain.
+
 ## [2.0.0] - 2026-09-15
 
 A major upgrade to the campaign, combat, and visual experience.

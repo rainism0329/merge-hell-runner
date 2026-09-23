@@ -187,7 +187,8 @@ public final class ChapterActorRenderer {
                 g.setColor(DARK); g.setStroke(new BasicStroke(5));
                 for (int mark = 2; mark < b.width(); mark += 16) g.drawLine((int) b.x() + mark,
                         (int) (b.y() + b.height()) - 1, (int) b.x() + mark + 8, (int) (b.y() + b.height()) - 9);
-            } else if (boss.getEncounterAction().equals("CROSSBEAM")) {
+            } else if (boss.getEncounterAction().equals("CROSSBEAM")
+                    || boss.getEncounterAction().equals("LEFT_SWEEP") || boss.getEncounterAction().equals("RIGHT_SWEEP")) {
                 double cy = b.y() + b.height() / 2;
                 g.setColor(new Color(255, 165, 58, 150)); g.setStroke(new BasicStroke(18));
                 g.draw(new Line2D.Double(b.x(), cy, b.x() + b.width(), cy));
@@ -195,6 +196,35 @@ public final class ChapterActorRenderer {
                 g.draw(new Line2D.Double(b.x(), cy, b.x() + b.width(), cy));
                 g.setColor(new Color(255, 253, 226)); g.setStroke(new BasicStroke(2));
                 g.draw(new Line2D.Double(b.x(), cy, b.x() + b.width(), cy));
+            } else if (boss.getEncounterAction().equals("GANTRY_LOCK")) {
+                // The circuit appears only inside the committed dangerous half; the
+                // unpainted central corridor remains easy to read at IDE window sizes.
+                g.setColor(new Color(249, 194, 91, 175)); g.setStroke(new BasicStroke(2));
+                for (double cable = b.x() + 12; cable < b.x() + b.width(); cable += 30)
+                    g.draw(new Line2D.Double(cable, b.y(), cable, b.y() + b.height()));
+                g.setColor(new Color(245, 224, 167, 150)); g.setStroke(new BasicStroke(1));
+                for (double bar = b.y() + 20; bar < b.y() + b.height(); bar += 36)
+                    g.draw(new Line2D.Double(b.x(), bar, b.x() + b.width(), bar));
+            }
+        }
+        if (boss.getEncounterAction().endsWith("SWEEP") || boss.getEncounterAction().equals("GANTRY_LOCK")) {
+            boolean lock = boss.getEncounterAction().equals("GANTRY_LOCK");
+            for (var arm : boss.getParts()) if (!arm.destroyed() && !arm.id().equals("core")) {
+                boolean right = arm.id().startsWith("right");
+                if (!lock && right != boss.getEncounterAction().startsWith("RIGHT")) continue;
+                var b = arm.bounds();
+                targetBrackets(g, b, GOLD, 1.5f);
+                var tells = boss.getAttackTelegraphs();
+                int armIndex = right && part(boss, "left-arm") != null && !part(boss, "left-arm").destroyed() ? 1 : 0;
+                for (int i = 0; i < tells.size(); i++) {
+                    var tell = tells.get(i);
+                    var region = tell.bounds();
+                    if (lock && i != armIndex) continue;
+                    g.setStroke(new BasicStroke(tell.active() ? 2.5f : 1.2f));
+                    g.setColor(new Color(255, 212, 119, tell.active() ? 220 : 115));
+                    g.draw(new Line2D.Double(b.x() + b.width() / 2, b.y() + b.height() - 14,
+                            region.x() + region.width() / 2, region.y() + (lock ? 6 : region.height() / 2)));
+                }
             }
         }
         var core = part(boss, "core");
@@ -207,6 +237,7 @@ public final class ChapterActorRenderer {
 
     private static void siege(Graphics2D g, ChapterArt art, Boss boss, double seconds, boolean flashes) {
         double x = boss.getX(), y = boss.getY(); int facing = boss.getDashDirection() > 0 ? 1 : -1;
+        siegeTrail(g, boss);
         mirroredFit(g, art, 3, "boss-shell", x, y + 38, 240, 122, facing);
         Boss.PartView plate = part(boss, "armor-plate"), vent = part(boss, "heat-vent"), core = part(boss, "core");
         if (plate != null && !plate.destroyed()) {
@@ -216,6 +247,12 @@ public final class ChapterActorRenderer {
         } else if (plate != null) {
             var b = plate.bounds();
             brokenJoint(g, b.x() + b.width() / 2, b.y() + 45, HEAT);
+            // Broken drive links remain visible after the temporary hit flash ends.
+            g.setStroke(new BasicStroke(4)); g.setColor(new Color(29, 24, 21));
+            for (int i = 0; i < 4; i++) {
+                double tx = x + (facing < 0 ? 20 + i * 15 : 220 - i * 15);
+                g.draw(new Line2D.Double(tx - 5, y + 146, tx + 3, y + 157));
+            }
         }
         if (vent != null) {
             var b = vent.bounds();
@@ -238,6 +275,26 @@ public final class ChapterActorRenderer {
             component(g, art, 3, "boss-core", core, 1);
             targetBrackets(g, b, HEAT, 2);
         }
+        if (boss.getEncounterAction().equals("VENT_PURGE")) {
+            for (var tell : boss.getAttackTelegraphs()) if (!tell.id().equals("slag-trail")) {
+                var b = tell.bounds(); double cy = b.y() + b.height() / 2;
+                if (tell.active()) {
+                    g.setColor(new Color(232, 167, 104, 175)); g.setStroke(new BasicStroke(18));
+                    g.draw(new Line2D.Double(b.x(), cy, b.x() + b.width(), cy));
+                    g.setColor(new Color(255, 232, 188, 230)); g.setStroke(new BasicStroke(6));
+                    g.draw(new Line2D.Double(b.x(), cy, b.x() + b.width(), cy));
+                    for (double px = b.x() + 8; px < b.x() + b.width(); px += 28) {
+                        g.setColor(new Color(253, 238, 212, 150)); g.setStroke(new BasicStroke(1.5f));
+                        g.draw(new Ellipse2D.Double(px, b.y() + 3, 19, b.height() - 6));
+                    }
+                } else if (vent != null) {
+                    var v = vent.bounds();
+                    double r = 7 + 8 * (1 - tell.warningTicks() / (double) tell.fullWarningTicks());
+                    g.setColor(new Color(255, 214, 155)); g.setStroke(new BasicStroke(2));
+                    g.draw(new Ellipse2D.Double(v.x() + v.width() / 2 - r, cy - r, 2 * r, 2 * r));
+                }
+            }
+        }
         if (boss.isDashing()) {
             g.setStroke(new BasicStroke(2)); g.setColor(new Color(232, 164, 87, 130));
             for (int i = 0; i < 6; i++) {
@@ -247,6 +304,28 @@ public final class ChapterActorRenderer {
             }
         }
         if (flashes && boss.getHitFlashTicks() > 0) spark(g, x + 118, y + 84, HEAT, boss.getHitFlashTicks());
+    }
+
+    private static void siegeTrail(Graphics2D g, Boss boss) {
+        for (var tell : boss.getAttackTelegraphs()) if (tell.id().equals("slag-trail")) {
+            var b = tell.bounds();
+            g.setColor(new Color(47, 38, 31)); g.fill(b.rectangle());
+            // Split steel and tread impressions distinguish this temporary heat strip
+            // from the route's flowing lava. Its top never exceeds the damage volume.
+            for (int i = 0; i < 6; i++) {
+                double sx = b.x() + 7 + i * 20;
+                Path2D crack = new Path2D.Double(); crack.moveTo(sx - 5, b.y() + b.height() - 2);
+                crack.lineTo(sx + 4, b.y() + 9); crack.lineTo(sx - 1, b.y() + 5); crack.lineTo(sx + 8, b.y() + 1);
+                g.setStroke(new BasicStroke(tell.active() ? 3 : 1));
+                g.setColor(tell.active() ? new Color(255, 168, 63) : new Color(190, 110, 52)); g.draw(crack);
+                if (tell.active()) {
+                    g.setStroke(new BasicStroke(1)); g.setColor(new Color(255, 239, 165)); g.draw(crack);
+                }
+            }
+            g.setColor(tell.active() ? new Color(255, 210, 102) : new Color(199, 144, 75));
+            g.setStroke(new BasicStroke(2));
+            g.draw(new Line2D.Double(b.x(), b.y() + b.height() - 1, b.x() + b.width(), b.y() + b.height() - 1));
+        }
     }
 
     private static void rootheart(Graphics2D g, ChapterArt art, Boss boss, double seconds, boolean flashes) {
@@ -314,6 +393,33 @@ public final class ChapterActorRenderer {
                     g.setColor(new Color(229, 228, 199)); g.setStroke(new BasicStroke(4));
                     for (int claw = -1; claw <= 1; claw++) g.draw(new Line2D.Double(b.x() + b.width() / 2,
                             b.y() + b.height() - 38, b.x() + b.width() / 2 + claw * 28, b.y() + b.height() - 3));
+                }
+            }
+        }
+        if (boss.getEncounterAction().equals("HEART_PULSE")) {
+            for (var shot : boss.getSingularityPredictedShots()) {
+                double charge = 1 - boss.getWarningTicks() / 86.0;
+                double r = 5 + charge * 7;
+                g.setColor(new Color(194, 226, 119, 180)); g.setStroke(new BasicStroke(2));
+                g.draw(new Ellipse2D.Double(shot.x() + 7 - r, shot.y() + 7 - r, r * 2, r * 2));
+                g.setColor(new Color(245, 247, 181));
+                g.fill(new Ellipse2D.Double(shot.x() + 4, shot.y() + 4, 6, 6));
+            }
+        } else if (boss.getEncounterAction().equals("ROOT_SURGE")) {
+            for (var tell : boss.getAttackTelegraphs()) {
+                var b = tell.bounds();
+                double rise = tell.active() ? b.height() : 6;
+                g.setColor(new Color(47, 34, 56)); g.setStroke(new BasicStroke(7, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g.draw(new Line2D.Double(b.x() + 3, b.y() + b.height() - 3,
+                        b.x() + b.width() - 3, b.y() + b.height() - 3));
+                for (double root = b.x() + 12; root < b.x() + b.width() - 8; root += 25) {
+                    Path2D spike = new Path2D.Double();
+                    spike.moveTo(root - 8, b.y() + b.height());
+                    spike.curveTo(root - 9, b.y() + b.height() - rise * .5,
+                            root + 9, b.y() + b.height() - rise * .6, root + 3, b.y() + b.height() - rise);
+                    spike.lineTo(root + 10, b.y() + b.height()); spike.closePath();
+                    g.setColor(tell.active() ? new Color(150, 158, 100) : new Color(113, 113, 93)); g.fill(spike);
+                    g.setColor(SPORE); g.setStroke(new BasicStroke(1)); g.draw(spike);
                 }
             }
         }

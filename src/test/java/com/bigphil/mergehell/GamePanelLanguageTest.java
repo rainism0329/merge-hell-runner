@@ -42,8 +42,8 @@ class GamePanelLanguageTest {
         try (HeapGameHarness en = new HeapGameHarness(); HeapGameHarness zh = new HeapGameHarness()) {
             en.set("state", GameState.MENU); zh.set("state", GameState.MENU);
             ((MergeHellState.Settings) zh.get("settings")).language = "zh-CN";
-            assertTrue(frame(zh).lines().contains("开始战役"));
-            assertTrue(frame(en).lines().contains("Campaign"));
+            assertTrue(frame(zh).lines().contains("开始战役")); // This panel cannot claim the other window's run.
+            assertTrue(frame(en).lines().contains("Continue"));
             assertTrue(frame(zh).lines().contains("开始战役"));
             assertEquals(GameLanguage.ENGLISH, GameText.language());
         }

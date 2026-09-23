@@ -113,7 +113,7 @@ public final class BossFeedbackController {
         } else if (next.hp() > 0) {
             if (status.shielded() && !next.shielded() || !status.vulnerable() && next.vulnerable()) {
                 signal(Kind.GUARD_BREAK, 5, 16);
-                banner(next.vulnerable() ? "CORE WINDOW // DAMAGE +50%" : "CORE EXPOSED", Kind.GUARD_BREAK, 75);
+                banner(next.vulnerable() ? "CORE WINDOW // BONUS DAMAGE" : "CORE EXPOSED", Kind.GUARD_BREAK, 75);
             } else if (status.stage() != next.stage()) {
                 signal(Kind.PHASE, 3, 12); banner(next.stageLabel(), Kind.PHASE, 75);
             }

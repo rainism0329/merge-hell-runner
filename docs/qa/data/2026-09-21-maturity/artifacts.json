@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0-maturity-preview",
+  "archive": "build/distributions/merge-hell-runner-2.0.0-maturity-preview.zip",
+  "bytes": 35784561,
+  "sha256": "37fe36d006a7fb85504d2bdead5b4f878114e96e1d99088c45beb5086b9d403c",
+  "tests": {
+    "tests": 788,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "packagedClassesCompared": 392,
+  "packagedGameResourcesCompared": 40,
+  "buildPlugin": "passed",
+  "verifyPlugin": "passed",
+  "bilingualCaptureChecks": {
+    "campaign": 68,
+    "maturity": 40
+  },
+  "nativeIdePlaytest": "not run",
+  "externalPublication": "not performed"
+}

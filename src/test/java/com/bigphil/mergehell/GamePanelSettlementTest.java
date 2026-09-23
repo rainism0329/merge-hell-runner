@@ -179,17 +179,41 @@ class GamePanelSettlementTest {
         owner.panel.dispose();
     }
 
-    @Test void labInvalidatesOnlyItsOwnedCheckpointAndNeverAwardsAClear() throws Exception {
-        Harness h = window(0); h.action("LAB_TOGGLE");
-        assertTrue(storage.readCheckpoint().isEmpty());
+    @Test void labPreservesItsRankedCheckpointAndNeverAwardsAClear() throws Exception {
+        Harness h = window(0);
+        var before = storage.readCheckpoint().orElseThrow();
+        h.action("LAB_TOGGLE");
+        assertSameSafeCheckpoint(before);
+        assertFalse((boolean) get(h.panel, "ownsCheckpoint"));
+        assertFalse(storage.ownedByAnotherWindow("new-window"), "Practice releases the saved campaign for Continue");
+
+        Harness continued = emptyWindow(); continued.action("START");
+        assertEquals(before.runId, get(continued.panel, "runId"));
+        assertTrue((boolean) get(continued.panel, "ownsCheckpoint"));
+        assertTrue(storage.ownedByAnotherWindow((String) get(h.panel, "storageOwner")));
         h.finishBoss();
         assertEquals(GameState.MISSION_COMPLETE, get(h.panel, "state"));
         assertTrue(storage.getState().completedMissions.isEmpty());
         assertEquals(0, storage.getState().refactorPoints);
         assertTrue(storage.getState().rankedScores.getOrDefault(com.bigphil.mergehell.progression.GameDifficulty.STANDARD,java.util.List.of()).isEmpty());
+        assertSameSafeCheckpoint(before);
         h.action("START");
         assertEquals(1, get(h.panel, "level"));
-        assertTrue(storage.readCheckpoint().isEmpty());
+        assertSameSafeCheckpoint(before);
+        h.panel.dispose();
+        assertTrue(storage.ownedByAnotherWindow((String) get(h.panel, "storageOwner")),
+                "Closing practice must not release the other window's resumed campaign");
+        assertSameSafeCheckpoint(before);
+    }
+
+    private void assertSameSafeCheckpoint(MergeHellState.ActiveRun expected) {
+        var actual = storage.readCheckpoint().orElseThrow();
+        assertEquals(expected.runId, actual.runId);
+        assertEquals(expected.mission, actual.mission);
+        assertEquals(expected.score, actual.score);
+        assertEquals(expected.nextLifeThreshold, actual.nextLifeThreshold);
+        assertEquals(CheckpointCodec.playerCheckpoint(expected), CheckpointCodec.playerCheckpoint(actual));
+        assertEquals(CheckpointCodec.sessionCheckpoint(expected), CheckpointCodec.sessionCheckpoint(actual));
     }
 
     private Harness window(int level) throws Exception {

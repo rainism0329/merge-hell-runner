@@ -1,0 +1,888 @@
+=== en-pause-960 ===
+$
+$
+GC STATION
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+=== en-pause-600 ===
+$
+$
+GC STATION
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+=== en-continue-menu-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-continue-menu-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-new-confirmation-960 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+Start a new campaign?
+Your saved campaign will be replaced.
+Scores, discoveries and settings will be kept.
+[ ESC ] Cancel
+[ ENTER ] Start new
+=== en-new-confirmation-600 ===
+$
+$
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+Start a new campaign?
+Your saved campaign will be replaced.
+Scores, discoveries and settings will be kept.
+[ ESC ] Cancel
+[ ENTER ] Start new
+=== en-settings-960 ===
+$
+$
+GC STATION
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Scale camera shake during hits, explosions and boss attacks.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-600 ===
+$
+$
+GC STATION
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Reduce camera movement during combat.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-failure-960 ===
+$
+$
+GC STATION
+BUILD FAILED
+SCORE: 0  // NEW HIGH SCORE!
+[ ENTER ] Retry loadout
+[ Q ] Main menu
+[ L ] Practice this Boss
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Normal damage   [ T ] Invincibility   [ N ] New run
+=== en-failure-600 ===
+$
+$
+GC STATION
+BUILD FAILED
+SCORE: 0  // NEW HIGH SCORE!
+[ ENTER ] Retry loadout
+[ Q ] Main menu
+[ L ] Practice this Boss
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Normal damage   [ T ] Invincibility   [ N ] New run
+=== en-mixed-encounter-960 ===
+$
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[10:42:29] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper winch console
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-mixed-encounter-600 ===
+$
+$
+ARENA LOCKED  //  WAVE 1 / 2
+[10:42:29] Enemy ambush! Clear the area.
+M UNMUTE / P PAUSE
+→ Upper winch console
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-winch-closed-960 ===
+Upper winch console
+Skybridge lock (optional)
+L
++
++
++
+S
+H
+[10:42:31] The crown routes every machine below. Cable wasps mark two lanes; the gap between them stays open.
+M UNMUTE / P PAUSE
+← Upper winch console
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-winch-closed-600 ===
+Upper winch console
+Skybridge lock (optional)
+L
++
++
++
+S
+H
+[10:42:31] The crown routes every machine below. Cable wasps mark two lanes; the gap between them sta...
+M UNMUTE / P PAUSE
+← Upper winch console
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-winch-moving-960 ===
+WINCH LIFTING
+Upper winch console
+Skybridge lock (optional)
+[10:42:31] The winch lifts the gate. A guarded inspection crew moves in.
+M UNMUTE / P PAUSE
+→ Skybridge lock (optional)
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-winch-moving-600 ===
+WINCH LIFTING
+Upper winch console
+Skybridge lock (optional)
+[10:42:31] The winch lifts the gate. A guarded inspection crew moves in.
+M UNMUTE / P PAUSE
+→ Skybridge lock (optional)
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-bridge-choice-960 ===
+GATE RAISED
+Skybridge lock (optional)
+[10:42:31] The winch lifts the gate. A guarded inspection crew moves in.
+M UNMUTE / P PAUSE
+Upper: activate the safe bridge · Lower: double-jump the gap
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000180
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-bridge-choice-600 ===
+GATE RAISED
+Skybridge lock (optional)
+[10:42:31] The winch lifts the gate. A guarded inspection crew moves in.
+M UNMUTE / P PAUSE
+Upper: activate the safe bridge · Lower: double-jump the gap
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-bridge-open-960 ===
+SAFE ROUTE CONNECTED
+GATE RAISED
+Skybridge lock (optional)
+[10:42:33] The upper bridge opens a safe route across the gap.
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000360
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-bridge-open-600 ===
+SAFE ROUTE CONNECTED
+GATE RAISED
+Skybridge lock (optional)
+[10:42:33] The upper bridge opens a safe route across the gap.
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== zh-CN-pause-960 ===
+回收站
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+=== zh-CN-pause-600 ===
+回收站
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+=== zh-CN-continue-menu-960 ===
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-continue-menu-600 ===
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-new-confirmation-960 ===
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+开始新的战役？
+这将替换已保存的战役进度。
+历史成绩、探索发现和设置会保留。
+[ ESC ] 取消
+[ ENTER ] 开始新战役
+=== zh-CN-new-confirmation-600 ===
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+开始新的战役？
+这将替换已保存的战役进度。
+历史成绩、探索发现和设置会保留。
+[ ESC ] 取消
+[ ENTER ] 开始新战役
+=== zh-CN-settings-960 ===
+回收站
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+系统设置
+[ ESC ] 返回
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+调整命中、爆炸与首领攻击时的画面震动。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-600 ===
+回收站
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+系统设置
+[ ESC ] 返回
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+调整战斗时的画面震动。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-failure-960 ===
+回收站
+构建失败
+得分：0 // 新纪录！
+[ ENTER ] 原配置重试
+[ Q ] 返回菜单
+[ L ] 练习本关首领
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+=== zh-CN-failure-600 ===
+回收站
+构建失败
+得分：0 // 新纪录！
+[ ENTER ] 原配置重试
+[ Q ] 返回菜单
+[ L ] 练习本关首领
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+普通伤害   [ T ] 开启无敌   [ N ] 普通新局
+=== zh-CN-mixed-encounter-960 ===
+$
+$
+竞技场已锁定 // 第 1 / 2 波
+[10:42:36] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 高层绞盘台
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-mixed-encounter-600 ===
+$
+$
+竞技场已锁定 // 第 1 / 2 波
+[10:42:36] 遭遇敌人伏击！清空区域。
+M 开启声音 / P 暂停
+→ 高层绞盘台
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-winch-closed-960 ===
+高层绞盘台
+天桥锁止台（可选）
+L
++
++
++
+S
+H
+[10:42:37] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+← 高层绞盘台
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-winch-closed-600 ===
+高层绞盘台
+天桥锁止台（可选）
+L
++
++
++
+S
+H
+[10:42:37] 城冠控制着下方所有机器。索翼蜂标出双线，线间留有躲避空间。
+M 开启声音 / P 暂停
+← 高层绞盘台
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-winch-moving-960 ===
+绞盘提升中
+高层绞盘台
+天桥锁止台（可选）
+[10:42:37] 绞盘正在升起闸门，带护卫的检修队向这里赶来。
+M 开启声音 / P 暂停
+→ 天桥锁止台（可选）
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-winch-moving-600 ===
+绞盘提升中
+高层绞盘台
+天桥锁止台（可选）
+[10:42:37] 绞盘正在升起闸门，带护卫的检修队向这里赶来。
+M 开启声音 / P 暂停
+→ 天桥锁止台（可选）
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-bridge-choice-960 ===
+闸门已升起
+天桥锁止台（可选）
+[10:42:37] 绞盘正在升起闸门，带护卫的检修队向这里赶来。
+M 开启声音 / P 暂停
+上层：操作桥锁走安全支路 · 下层：双跳越沟
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000180
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-bridge-choice-600 ===
+闸门已升起
+天桥锁止台（可选）
+[10:42:37] 绞盘正在升起闸门，带护卫的检修队向这里赶来。
+M 开启声音 / P 暂停
+上层：操作桥锁走安全支路 · 下层：双跳越沟
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-bridge-open-960 ===
+安全支路已接通
+闸门已升起
+天桥锁止台（可选）
+[10:42:39] 上层天桥已经接通，可以沿安全支路越过断口。
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000360
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-bridge-open-600 ===
+安全支路已接通
+闸门已升起
+天桥锁止台（可选）
+[10:42:39] 上层天桥已经接通，可以沿安全支路越过断口。
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭

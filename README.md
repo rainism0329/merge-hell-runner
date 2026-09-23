@@ -58,13 +58,32 @@ to fire down. On the ground **↓** crouches with a lower muzzle and smaller hit
 to aim without walking. All six weapons and all four illustrated operatives use the new aiming
 poses. **F1** opens the bilingual controls guide and pauses combat.
 
-All five routes now include solid obstacles, upper routes, two required facility interactions
-and an optional secret room. Boss gates in chapters 2–5 move from 7,600 to 9,900 world units; the first
+All five routes include solid obstacles, upper routes, facility interactions
+and an optional secret room. In Sky Blueprint, the winch raises a physical gate and the second
+console opens an optional safe bridge; the lower route can be crossed with a double jump.
+Foundry exhaust isolation and the Hive's final nerve junction are also optional: use them to
+cool the final crossing or retract its membrane, or take the more demanding direct route.
+The first two chapters retain two required facilities. Boss gates in chapters 2–5 move from 7,600 to 9,900 world units; the first
 mission gains about 27% more authored time. Press **E** at the marked facilities. The first
 chapter's abandoned office unlocks the tired, bespectacled **Night-shift Engineer** in a normal
 campaign. Practice can preview the character. Quiet ground segments save resources, route
 changes and discovery state; **R** continues that checkpoint. Existing entrance saves remain
 compatible and default to Repair / Standard. Audio remains muted by default.
+
+Chapters 2–5 now have staggered mixed squads with at most three active encounter enemies.
+Sky Blueprint's Boss adds arm sweeps and a closing gantry corridor; the final world's exposed heart adds
+pulses and ground roots. Pausing caches the completed frame, while controls, settings and
+window resizing still update immediately. The menu prioritizes Continue when a save is available;
+starting a replacement campaign requires confirmation.
+
+The Foundry's freight controls reverse its maintenance belt, and optional exhaust isolation
+shuts down the final hot crossing. In the Hive, the upper nerve silences the forward hatchery;
+the optional root junction physically retracts the last membrane. The siege Boss adds heated
+charge trails and a rear-vent purge: break its armor to shorten its charges, or overheat the
+rear vent to extinguish the trails and expose the engine.
+All six equipped weapons now have distinct barrel assemblies and visible evolution modules,
+including the menu preview. Temporary pickups show their own weapon and return to the core
+weapon's appearance when their ammunition runs out.
 
 本轮新增八向射击、地面蹲射、三档难度、独立角色选择，以及五关的跳跃路线、设施事件和秘密。
 主菜单 **Y 选角色 / D 选难度 / Z 选武器**，游戏内 **F1 看操作、E 交互、V 定点瞄准**。
@@ -116,7 +135,7 @@ Play a **five-chapter campaign** with distinct worlds, arena survival, explorati
 | Key | Action | Description |
 | :--- | :--- | :--- |
 | **Space** | `Jump` | Press once to jump. **Press again in mid-air for Double Jump.** |
-| **Enter** | `Start / Jump / Continue` | Start a run, jump during combat, or continue after clearing a world. |
+| **Enter** | `Start / Jump / Continue` | Continue the saved campaign by default, start if no save exists, or advance after clearing a world. |
 | **C** | `Commit / Shoot` | Fire code projectiles to debug enemies. |
 | **← / →** | `Move` | Dodge left and right. |
 | **↑ / ↓** | `Aim / Crouch` | Aim up, crouch on the ground, or aim down in the air. Combine with left/right for diagonals. |
@@ -132,8 +151,9 @@ Play a **five-chapter campaign** with distinct worlds, arena survival, explorati
 | **1** / **2** / **3** | `Upgrade` | Choose an upgrade when a draft appears. |
 | **R** | `Continue / Reroll` | Continue from the saved safe segment or level entrance in the menu; reroll an upgrade draft when available. |
 | **P** / **Esc** | `Pause` | Pause the game (and pretend you're working). |
-| **Q** | `Return to menu` | Available while paused or at world completion; Continue restores the saved checkpoint. |
-| **O** | `Settings` | Open from menu/pause; arrows adjust, Enter toggles, Esc returns. |
+| **Q** | `Return to menu` | Available while paused, after failure or at world completion; Continue restores the saved checkpoint. |
+| **O** | `Settings` | Open from menu/pause; use arrows or click sliders and switches. Enter toggles; Esc or Back closes. |
+| **N** | `New campaign` | Start a fresh ranked run; replacing saved progress or an ongoing run requires Enter confirmation (Esc cancels). |
 | **M** | `Mute` | Toggle saved mute without changing volume. |
 | **G** | `Invincible practice` | Start from the menu with invincibility; preserves the campaign checkpoint. |
 | **L** | `Boss practice` | From the menu, start invincible practice at Legacy; during Lab, advance to the current Boss. |
@@ -156,12 +176,14 @@ Both start with invincibility and unlimited ammunition/bombs, without replacing 
 campaign checkpoint. While enabled, the HUD shows **无敌开启 · [ T ] 关闭**. Switching it off
 confirms normal damage for about three seconds, then removes the status badge. The result
 screen explains that a run which used practice does not award ranking or permanent rewards.
-**R** resumes the saved campaign with normal damage; **N** starts a new normal campaign.
+**Enter / R** resumes the saved campaign with normal damage; **N** requests a new normal campaign.
+After failure, **Enter** retries the starting loadout, **Q** returns to the menu, and **L** opens
+practice against that world's Boss. Retrying starts a new campaign; it does not restore spent lives.
 
 During a run, press **F12** or **T** to toggle invincibility; enabling it marks that run
-permanently **unranked** and discards its own campaign checkpoint. Use **H** for supplies, **U** for an upgrade draft,
+permanently **unranked** while preserving its last ranked checkpoint. Use **H** for supplies, **U** for an upgrade draft,
 **J** for the next encounter, **K** to clear the current wave, and **L** to arm the boss
-gate. Press **N** to start a fresh ranked run with Lab Mode disabled.
+gate. Press **N**, then confirm with **Enter**, to replace an ongoing run with a fresh ranked campaign.
 
 Repository City's route now shows stage number, current-stage time and the actual Boss
 gate conditions. Its seven timed stages take approximately 5:30 of active game time; the last requires

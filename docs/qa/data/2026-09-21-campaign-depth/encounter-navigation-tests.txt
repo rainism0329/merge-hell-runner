@@ -1,0 +1,17 @@
+Driller input diagnostic: start=(2916.15,260), enemy=2979.3, fullHp=203, defeated in 451 ticks, player=(2949.9,450.0), hp=76
+Driller input diagnostic: start=(8840.00,370), enemy=8744.5, fullHp=203, defeated in 420 ticks, player=(8950.0,450.0), hp=76
+
+Test run finished after 17361 ms
+[        11 containers found      ]
+[         0 containers skipped    ]
+[        11 containers started    ]
+[         0 containers aborted    ]
+[        11 containers successful ]
+[         0 containers failed     ]
+[        51 tests found           ]
+[         0 tests skipped         ]
+[        51 tests started         ]
+[         0 tests aborted         ]
+[        51 tests successful      ]
+[         0 tests failed          ]
+

@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0-campaign-depth-preview",
+  "archive": "build/distributions/merge-hell-runner-2.0.0-campaign-depth-preview.zip",
+  "bytes": 35801478,
+  "sha256": "092885b3f08f8268acd7c113dbc7034f9c3fe9ea2087b9ae109ca1fb9e14980e",
+  "tests": {
+    "tests": 839,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "packagedClassesCompared": 397,
+  "packagedGameResourcesCompared": 40,
+  "buildPlugin": "passed",
+  "verifyPlugin": "passed",
+  "bilingualCaptureChecks": {
+    "campaign": 68,
+    "depth": 72
+  },
+  "nativeIdePlaytest": "not run",
+  "externalPublication": "not performed"
+}

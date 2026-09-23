@@ -12,6 +12,67 @@ import static org.junit.jupiter.api.Assertions.*;
 class EnemyTerrainNavigationTest {
     private static final int GROUND = 480;
 
+    @Test void aPlayerBesideTheSameWallFaceDoesNotSendTheEnemyToItsOppositeSide() {
+        Rectangle wall = new Rectangle(400, 320, 170, 160);
+        for (EntityType type : new EntityType[]{EntityType.SENTINEL, EntityType.DRILLER}) {
+            for (boolean onLeft : new boolean[]{true, false}) {
+                var manager = new ObstacleManager(60);
+                manager.setSolids(List.of(wall));
+                manager.spawnEnemy(onLeft ? 250 : 650, GROUND - type.height, type);
+                var enemy = manager.getEnemies().get(0);
+                double playerX = onLeft ? wall.x - 30 : wall.getMaxX();
+                for (int tick = 0; tick < 350; tick++) {
+                    advance(manager, enemy, playerX, new ArrayList<>());
+                    assertEquals(0, enemy.getTerrainClimbDirection(),
+                            type + " must not climb a wall behind the player, side=" + onLeft);
+                    assertTrue(onLeft ? enemy.getX() + type.width <= wall.x : enemy.getX() >= wall.getMaxX());
+                    assertFalse(enemy.getBounds().intersects(wall));
+                }
+            }
+        }
+    }
+
+    @Test void aPlayerOnTheActualOppositeSideStillMakesTroopsCrossEitherWallFace() {
+        Rectangle wall = new Rectangle(400, 320, 170, 160);
+        for (boolean onLeft : new boolean[]{true, false}) {
+            var manager = new ObstacleManager(61);
+            manager.setSolids(List.of(wall));
+            manager.spawnEnemy(onLeft ? 250 : 650, GROUND - EntityType.SENTINEL.height, EntityType.SENTINEL);
+            var enemy = manager.getEnemies().get(0);
+            boolean crossed = false;
+            for (int tick = 0; tick < 600; tick++) {
+                advance(manager, enemy, onLeft ? 750 : 160, new ArrayList<>());
+                assertFalse(enemy.getBounds().intersects(wall));
+                if ((onLeft ? enemy.getX() > wall.getMaxX() : enemy.getX() + EntityType.SENTINEL.width < wall.x)
+                        && Math.abs(enemy.getY() + EntityType.SENTINEL.height - GROUND) < 2) {
+                    crossed = true;
+                    break;
+                }
+            }
+            assertTrue(crossed, "A real wall between the actors still requires navigation, side=" + onLeft);
+        }
+    }
+
+    @Test void repeatedEquivalentGeometryDoesNotResetNavigationOrAttackTiming() {
+        Rectangle wall=new Rectangle(400,320,170,160);
+        var unchanged=new ObstacleManager(59);var republished=new ObstacleManager(59);
+        unchanged.setSolids(List.of(wall));republished.setSolids(List.of(new Rectangle(wall)));
+        unchanged.spawnEnemy(650,GROUND-EntityType.WARDEN.height,EntityType.WARDEN);
+        republished.spawnEnemy(650,GROUND-EntityType.WARDEN.height,EntityType.WARDEN);
+        var a=unchanged.getEnemies().get(0);var b=republished.getEnemies().get(0);
+        var shotsA=new ArrayList<Projectile>();var shotsB=new ArrayList<Projectile>();
+        boolean crossed=false;
+        for(int tick=0;tick<550;tick++) {
+            republished.setSolids(List.of(new Rectangle(wall)));
+            advance(unchanged,a,160,shotsA);advance(republished,b,160,shotsB);
+            assertEquals(a.getX(),b.getX(),1e-9);assertEquals(a.getY(),b.getY(),1e-9);
+            assertEquals(a.getTelegraphTicks(),b.getTelegraphTicks());
+            assertEquals(a.getTactics().mode(),b.getTactics().mode());assertEquals(shotsA.size(),shotsB.size());
+            crossed|=b.getX()+EntityType.WARDEN.width<wall.x;
+        }
+        assertTrue(crossed,"ordinary per-tick terrain publication must not keep restarting a climb");
+    }
+
     @Test void everyAuthoredWallCanBeClimbedByItsChapterTroopsWithoutCrossingSolidPixels() {
         EntityType[][] troops = {
                 {EntityType.BUG, EntityType.CONFLICT, EntityType.TECHDEBT},

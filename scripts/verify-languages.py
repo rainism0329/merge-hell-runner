@@ -5,6 +5,7 @@ import re
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('transcript', nargs='?', default='build/language-preview/displayed-text.txt')
+parser.add_argument('--profile', choices=('campaign', 'maturity', 'depth'), default='campaign')
 args = parser.parse_args()
 
 # Literal keycap names and recognizable code syntax stay invariant in the programming-themed world.
@@ -30,6 +31,15 @@ for line in Path(args.transcript).read_text(encoding='utf-8').splitlines():
 expected = {'menu', 'settings', 'settings-background', 'settings-mute', 'heap-choice', 'heap-leak', 'upgrade', 'boss-impact', 'pause',
             'complete', 'repository', 'legacy', 'game-over', 'world-3-boss', 'world-4-boss',
             'world-5-boss', 'error'}
+if args.profile == 'maturity':
+    expected = {'pause', 'continue-menu', 'new-confirmation', 'settings', 'failure',
+                'mixed-encounter', 'winch-closed', 'winch-moving', 'bridge-choice', 'bridge-open'}
+elif args.profile == 'depth':
+    expected = {'weapon-' + name for name in ('commit_cannon', 'force_push', 'rapid_ci',
+                'garbage_collector', 'firewall', 'refactor_beam')}
+    expected |= {'mixed-world-2', 'mixed-world-4', 'mixed-world-5', 'freight-reverse', 'freight-forward',
+                 'foundry-hot', 'foundry-cooled', 'hatchery-active', 'hatchery-silenced',
+                 'membrane-closed', 'membrane-moving', 'membrane-open'}
 for language in ('en', 'zh-CN'):
     for name in expected:
         for width in (600, 960):

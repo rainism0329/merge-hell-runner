@@ -62,6 +62,7 @@ public class ObstacleManager {
         private List<Rectangle> terrainSolids = List.of();
         private double stepStartY;
         private int navigationRetryTicks;
+        private Rectangle navigationObstacle;
         private boolean navigatedThisTick;
         private int tunnelEscapeDirection;
 
@@ -641,8 +642,24 @@ public class ObstacleManager {
     private int chapter;
     private List<Rectangle> solids=List.of();
     public void setSolids(List<Rectangle> value) {
+        if(solids.equals(value))return;
         solids=value.stream().map(Rectangle::new).toList();
-        for (Enemy enemy : enemies) enemy.terrainSolids = solids;
+        for (Enemy enemy : enemies) {
+            enemy.terrainSolids = solids;
+            // A moving gate changes its height without changing its physical identity. Replan
+            // an active crossing before physics can follow corners belonging to the old panel.
+            Rectangle old=enemy.navigationObstacle;
+            if(old==null || !enemy.terrainNavigation.active())continue;
+            Rectangle moved=solids.stream().filter(b->b.x==old.x&&b.width==old.width).findFirst().orElse(null);
+            if(moved==null || moved.equals(old))continue;
+            int direction=enemy.playerPositionX+15<enemy.x+enemy.width*.5?-1:1;
+            double left=enemy.groundedSpecialist()?enemy.movementLeft:Double.NEGATIVE_INFINITY;
+            double right=enemy.groundedSpecialist()?enemy.movementRight:Double.POSITIVE_INFINITY;
+            enemy.terrainNavigation.plan(enemy.x,enemy.y,enemy.width,enemy.height,moved,direction,
+                    enemy.flyingNavigator(),enemy.floorY,left,right,solids);
+            enemy.navigationObstacle=new Rectangle(moved);enemy.navigationRetryTicks=0;
+            if(enemy.flyingNavigator()&&!enemy.terrainNavigation.active()) {enemy.hoverY=enemy.y;enemy.homeY=enemy.y;}
+        }
     }
     public void resolveSolidMotion(Enemy enemy,double previousX) {
         if(!enemy.getType().isHostile() || enemy.isDead())return;
@@ -673,7 +690,11 @@ public class ObstacleManager {
             double edge = direction > 0 ? solid.x - enemy.width : solid.getMaxX();
             double distance = (edge - enemy.x) * direction;
             if (distance < -2 || distance > 200 || distance >= nearest) continue;
-            if ((enemy.playerPositionX + 15 - edge) * direction <= 0) continue;
+            // The expanded approach edge tells this body where to stop, not which side of
+            // the physical wall the player occupies. A nearby ally-sized player can stand
+            // between that edge and the wall without requiring a crossing at all.
+            double playerCenter = enemy.playerPositionX + 15;
+            if (direction > 0 ? playerCenter <= solid.getMaxX() : playerCenter >= solid.x) continue;
             barrier = solid; nearest = distance;
         }
         if (barrier == null) return;
@@ -682,6 +703,7 @@ public class ObstacleManager {
         double right = enemy.groundedSpecialist() ? enemy.movementRight : Double.POSITIVE_INFINITY;
         if (enemy.terrainNavigation.plan(enemy.x, enemy.y, enemy.width, enemy.height, barrier, direction,
                 enemy.flyingNavigator(), enemy.floorY, left, right, solids)) {
+            enemy.navigationObstacle=new Rectangle(barrier);
             enemy.resetCommitment(); enemy.chargeVx = 0; enemy.chargeTimer = 120;
             enemy.attackFacing = direction;
         } else {

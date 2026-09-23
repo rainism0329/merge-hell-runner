@@ -148,6 +148,7 @@ class GamePanelArrivalTest {
         HeapGameHarness h = enterArrival(0);
         h.ticks(50);
         h.key("NEW_RANKED_RUN"); h.tick();
+        h.key("START"); h.tick();
         assertEquals(GameState.RUNNING, h.state());
         assertFalse(arrival(h).active());
         assertEquals(0, remaining(h));

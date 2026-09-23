@@ -19,7 +19,9 @@ final class HeapGameHarness implements AutoCloseable {
     GamePanel panel;
     HeapGameHarness() throws Exception {
         SwingUtilities.invokeAndWait(() -> { panel = new GamePanel(scheduler, clock::get); panel.setSize(960, 600); });
-        key("START"); tick(); set("level", 1); invoke("advanceLevel"); tick();
+        key("NEW_RANKED_RUN"); tick();
+        if ((boolean)get("confirmNewRun")) { key("START"); tick(); }
+        set("level", 1); invoke("advanceLevel"); tick();
     }
     void key(String name) throws Exception {
         SwingUtilities.invokeAndWait(() -> {

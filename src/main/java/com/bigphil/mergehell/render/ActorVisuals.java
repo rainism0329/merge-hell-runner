@@ -4,6 +4,8 @@ import com.bigphil.mergehell.i18n.GameText;
 
 import com.bigphil.mergehell.model.*;
 import com.bigphil.mergehell.progression.CharacterId;
+import com.bigphil.mergehell.combat.WeaponId;
+import com.bigphil.mergehell.combat.WeaponCatalog;
 import com.bigphil.mergehell.assets.AnimationClip;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,7 +23,13 @@ public final class ActorVisuals {
     public enum Action { IDLE, RUN, RISE, FALL, LAND, DASH, MELEE, HURT, DEAD }
     public record Hero(double x, double footY, int facing, Action action, double phase,
                        double shot, double impact, boolean shield, boolean sudo, float opacity,
-                       double aimX,double aimY,boolean crouching,CharacterId character) {
+                       double aimX,double aimY,boolean crouching,CharacterId character,
+                       WeaponId weapon, boolean evolved) {
+        public Hero(double x,double footY,int facing,Action action,double phase,double shot,double impact,
+                    boolean shield,boolean sudo,float opacity,double aimX,double aimY,boolean crouching,CharacterId character) {
+            this(x,footY,facing,action,phase,shot,impact,shield,sudo,opacity,aimX,aimY,crouching,character,
+                    WeaponId.COMMIT_CANNON,false);
+        }
         public Hero(double x,double footY,int facing,Action action,double phase,double shot,double impact,
                     boolean shield,boolean sudo,float opacity) {
             this(x,footY,facing,action,phase,shot,impact,shield,sudo,opacity,facing,0,false,CharacterId.REPAIR);
@@ -81,10 +89,13 @@ public final class ActorVisuals {
                 : moving ? Action.RUN : landing > 0.2 ? Action.LAND : Action.IDLE;
         float opacity = player.getInvincibleTimer() > 0 && !player.isDashing()
                 && (player.getInvincibleTimer() / 4) % 2 == 0 ? 0.42f : 1f;
+        WeaponId heldWeapon=player.getSudoTimer()>0?WeaponId.FORCE_PUSH:WeaponCatalog.fromLegacy(player.getWeapon());
         Hero hero = new Hero(player.getX() + player.getBounds().width / 2.0,
                 player.getY() + player.getBounds().height, player.getFacingDir(), action,
                 action == Action.MELEE ? player.getMeleeProgress() : action == Action.RUN ? runPhase : time * 15,
-                shot, Math.max(impact, landing), player.getShieldTimer() > 0, player.getSudoTimer() > 0, opacity,player.getAim().x(),player.getAim().y(),player.isCrouching(),player.getRunBuild().character());
+                shot, Math.max(impact, landing), player.getShieldTimer() > 0, player.getSudoTimer() > 0, opacity,
+                player.getAim().x(),player.getAim().y(),player.isCrouching(),player.getRunBuild().character(),
+                heldWeapon, player.getRunBuild().evolved() && heldWeapon == player.getRunBuild().weapon());
         lastX = player.getX(); lastHp = player.getHp(); lastShot = player.getShotSequence(); grounded = player.isGrounded();
         tracks.values().forEach(track -> track.seen = false);
         List<Hostile> poses = new ArrayList<>();
@@ -193,12 +204,13 @@ public final class ActorVisuals {
             double armEndX=melee?12+Math.sin(p.phase()*Math.PI)*9:grip.getX();
             double armEndY=melee?-30+p.phase()*24:grip.getY();
             if (!melee) {
-                transformedPart(g, art, id, "cannon", cannon);
+                HeldWeaponRenderer.render(g, art, id, p, cannon);
                 arm(g,art,id,shoulder.getX(),shoulder.getY(),armEndX,armEndY,p.crouching());
                 if (p.shot() > 0 && p.action() != Action.DEAD) {
                     Graphics2D flash=(Graphics2D)g.create();
                     flash.translate(muzzleX,muzzleY);flash.rotate(aimAngle);
-                    flash.setColor(new Color(255,163,46,(int)(210*p.shot())));
+                    Color light=HeldWeaponRenderer.accent(p.weapon());
+                    flash.setColor(new Color(light.getRed(),light.getGreen(),light.getBlue(),(int)(210*p.shot())));
                     Path2D flame=new Path2D.Double();flame.moveTo(0,0);flame.lineTo(12*p.shot(),-3);
                     flame.lineTo(6,0);flame.lineTo(12*p.shot(),3);flame.closePath();flash.fill(flame);
                     flash.setColor(new Color(255,248,201,(int)(255*p.shot())));flash.fillOval(-1,-2,5,4);flash.dispose();

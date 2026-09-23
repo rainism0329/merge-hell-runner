@@ -62,7 +62,7 @@ public final class BossFeedbackRenderer {
                     : snapshot.shielded() ? new Color(116, 183, 215) : new Color(244, 176, 84);
             g.setFont(GameText.font(new Font(Font.SANS_SERIF, Font.BOLD, compact ? 18 : 14))); g.setColor(accent);
             String state = snapshot.shielded() ? "SHIELDED // BREAK LINKS" : snapshot.vulnerable()
-                    ? exposureCaption == null ? "CORE WINDOW // DAMAGE +50%" : exposureCaption : snapshot.stageLabel();
+                    ? exposureCaption == null ? "CORE WINDOW // BONUS DAMAGE" : exposureCaption : snapshot.stageLabel();
             String health = snapshot.hp() + " / " + snapshot.maxHp();
             int stateWidth = barWidth - g.getFontMetrics().stringWidth(GameText.text(health)) - 24;
             GameText.draw(g, fitText(g.getFontMetrics(), state, stateWidth), left, 124);

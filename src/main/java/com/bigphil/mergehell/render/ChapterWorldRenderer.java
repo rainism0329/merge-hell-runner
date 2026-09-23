@@ -67,12 +67,14 @@ public final class ChapterWorldRenderer {
                         g.draw(new Line2D.Double(p.x+9,moving.anchorY(),p.x+9,p.y));
                         g.draw(new Line2D.Double(p.x+p.width-9,moving.anchorY(),p.x+p.width-9,p.y));
                         g.setColor(new Color(230,188,98));g.fill(new Rectangle2D.Double(p.x+6,p.y+2,p.width-12,3));
-                    } else support(g,scene.level(),p,groundY);
+                    } else if(p.x!=9560) support(g,scene.level(),p,groundY);
                 } else if(scene.level()==3) {
                     support(g,scene.level(),p,groundY);
                 } else support(g,scene.level(),p,groundY);
             }
             if(!scene.arena()) for(Prop prop:scene.props()) if(prop.bounds().getMaxX()>=left && prop.bounds().x<=right) prop(g,prop,scene,groundY);
+            CitadelMechanismRenderer.bridge(g,scene,camera,width,groundY);
+            LateChapterMechanismRenderer.world(g,scene,camera,width,groundY);
         }finally{g.dispose();}
     }
     static void deck(Graphics2D g,int level,double x,double y,int width,boolean floating) {
@@ -153,7 +155,7 @@ public final class ChapterWorldRenderer {
             g.setColor(new Color(24,30,34));g.fill(new RoundRectangle2D.Double(x,floor-7,w,20,9,9));
             g.setColor(new Color(111,113,101));for(int i=8;i<w;i+=12)g.fill(new Rectangle2D.Double(x+i,floor-4,5,7));
             ChapterArt.load().terrain(g,3,"prop-b",x,floor-6,w,24);
-            boolean warning=s.phase()<90;
+            boolean warning=s.phase()>=0 && s.phase()<90;
             if(warning||s.active()) {
                 g.setColor(s.active()?new Color(241,181,107,115):new Color(229,174,91,35));
                 for(int i=0;i<5;i++) {
@@ -305,17 +307,21 @@ public final class ChapterWorldRenderer {
             caption=p.effectTicks()>0?"chapter.coolant.cooling":"chapter.prop.coolant";
         } else if(p.kind()==Kind.MEMBRANE) {
             if(p.hp()==0){root(g,b.getCenterX(),floor-18,floor,scene.tick(),true);return true;}
-            art.fitTerrain(g,level,"prop-a",b.x,b.y,b.width,b.height);
-            caption="chapter.prop.membrane";
+            boolean relaxing=level==4&&b.x==9700&&scene.mechanisms().nerveLinked();
+            if(relaxing)art.terrain(g,level,"prop-a",b.x,b.y,b.width,b.height);
+            else art.fitTerrain(g,level,"prop-a",b.x,b.y,b.width,b.height);
+            caption=relaxing?(scene.mechanisms().membraneRetraction()==120?"explore.nerve.active":"explore.nerve.motion")
+                    :"chapter.prop.membrane";
         } else {
             if(p.hp()==0){root(g,b.getCenterX(),floor-12,floor,scene.tick(),false);return true;}
-            double pulse=Math.sin(scene.tick()*.05+p.id())*1.2;
+            boolean quiet=level==4&&b.x>=8000&&scene.mechanisms().broodQuiet();
+            double pulse=quiet?0:Math.sin(scene.tick()*.05+p.id())*1.2;
             art.terrain(g,level,"prop-b",b.x-pulse,b.y-pulse,b.width+pulse*2,b.height+pulse);
             if(p.warningTicks()>0) {
                 g.setColor(new Color(191,236,109,175));g.setStroke(new BasicStroke(2));
                 g.draw(new Arc2D.Double(b.getCenterX()-10,b.y-28,20,20,90,-360*(1-p.warningTicks()/120.0),Arc2D.OPEN));
             }
-            caption=p.warningTicks()>0?"chapter.nest.warning":"chapter.prop.nest";
+            caption=quiet?"explore.uppernest.active":p.warningTicks()>0?"chapter.nest.warning":"chapter.prop.nest";
         }
         int labelWidth=compactLabels?180:140;
         label(g,caption,b.getCenterX()-labelWidth*.5,b.y-(p.kind()==Kind.COOLANT?34:12),labelWidth);

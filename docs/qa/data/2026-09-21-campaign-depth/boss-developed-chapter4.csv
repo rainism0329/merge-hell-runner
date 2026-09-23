@@ -1,0 +1,2 @@
+profile,chapter,seed,result,steps,bossHp,bossMaxHp,bossStage,playerHp,lives,bombs,kills,partBreaks,damageEvents,longestDamageStall,reason
+developed,4,2026091453,BOSS_DEFEATED,3369,0,4900,3,100,2,3,0,1,7,52,aim:heat-vent

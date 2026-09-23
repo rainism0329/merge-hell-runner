@@ -53,6 +53,8 @@ class LevelManagerTest {
                 level.popWave();
                 level.startNextWaveTimer();
             }
+            level.advanceEncounter(0, 480, List.of(), List.of(), new java.awt.Rectangle(920, 450, 30, 30),
+                    bounds -> true, spawn -> true);
         }
 
         assertFalse(level.isInBattle());
@@ -140,6 +142,11 @@ class LevelManagerTest {
                 assertEquals(end, battle.end);
                 assertTrue(battle.waves.length >= 2 && battle.waves.length <= 3);
                 for (var wave : battle.waves) {
+                    if (wave.scripted()) {
+                        assertTrue(wave.maxConcurrent <= 3, "Staggered formations keep at most three threats alive");
+                        assertTrue(wave.beats.size() >= 3 && wave.beats.size() <= 5);
+                        continue;
+                    }
                     int actors = wave.count * (wave.fromDir == 2 ? 2 : 1);
                     assertTrue(actors <= 2, "Each specialist gets readable attack space");
                 }

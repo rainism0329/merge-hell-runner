@@ -21,9 +21,9 @@ import java.util.Set;
 public final class ChapterBossEncounter {
     public enum Action {
         ARRIVAL, READY, RECONFIGURE, EXPOSED, REBUILD,
-        LEFT_STAMP, RIGHT_STAMP, CROSSBEAM, GIRDER_FALL,
-        DRILL_CHARGE, MAGMA_MORTAR, COOLING, OVERHEATED,
-        LEFT_TENDRIL, RIGHT_TENDRIL, SPORE_FAN, HATCH, HEART_CRAWL
+        LEFT_STAMP, RIGHT_STAMP, CROSSBEAM, GIRDER_FALL, LEFT_SWEEP, RIGHT_SWEEP, GANTRY_LOCK,
+        DRILL_CHARGE, MAGMA_MORTAR, VENT_PURGE, COOLING, OVERHEATED,
+        LEFT_TENDRIL, RIGHT_TENDRIL, SPORE_FAN, HATCH, HEART_CRAWL, HEART_PULSE, ROOT_SURGE
     }
     private enum Step { REST, WARNING, ACTIVE }
     public record Damage(int coreDamage, int partDamage) { }
@@ -45,6 +45,10 @@ public final class ChapterBossEncounter {
     }
     private List<Boss.Bounds> volumes = List.of();
     private List<Boss.PredictedShot> shots = List.of();
+    private Boss.Bounds siegeTrail;
+    private int trailWarning, trailActive;
+    private double chargeStartX;
+    private static final int TRAIL_WARNING = 36, TRAIL_DURATION = 90;
 
     public ChapterBossEncounter(int chapter, int maxHp, double homeX, double spawnX) {
         if (chapter < 2 || chapter > 4) throw new IllegalArgumentException("Multipart chapter must be 2–4");
@@ -65,7 +69,7 @@ public final class ChapterBossEncounter {
     public int tick() { return tick; }
     public Action action() { return action; }
     public int heat() { return heat; }
-    public int exposureTicks() { return exposure; }
+    public int exposureTicks() { return coreContracting() ? 0 : exposure; }
     public int recoveryTicks() { return action == Action.RECONFIGURE ? remaining : 0; }
     public double rebuildProgress() { return action == Action.REBUILD ? 1 - remaining / (chapter == 2 ? 90.0 : 110.0) : 0; }
     public int warningTicks() { return step == Step.WARNING ? remaining : 0; }
@@ -79,11 +83,20 @@ public final class ChapterBossEncounter {
     public Set<String> movesSeen() { return Set.copyOf(movesSeen); }
     public String moveKey() { return "chapter.boss.move." + action.name().toLowerCase(java.util.Locale.ROOT); }
     public String hintKey() {
+        if (coreContracting()) return "chapter.boss.core.transition";
         return switch (chapter) {
-            case 2 -> exposure > 0 ? "chapter.boss.architect.open" : "chapter.boss.architect.arms";
+            case 2 -> exposure > 0 ? "chapter.boss.architect.open"
+                    : action == Action.GANTRY_LOCK ? "chapter.boss.architect.corridor"
+                    : action == Action.LEFT_SWEEP || action == Action.RIGHT_SWEEP ? "chapter.boss.architect.sweep"
+                    : "chapter.boss.architect.arms";
             case 3 -> action == Action.OVERHEATED ? "chapter.boss.siege.open"
+                    : action == Action.VENT_PURGE ? "chapter.boss.siege.purge"
+                    : siegeTrail != null ? "chapter.boss.siege.trail"
+                    : appendageHp[0] == 0 ? "chapter.boss.siege.crippled"
                     : coolingTicks > 0 || appendageHp[0] == 0 ? "chapter.boss.siege.vent" : "chapter.boss.siege.plate";
-            default -> exposure > 0 || stage == 3 ? "chapter.boss.rootheart.open" : "chapter.boss.rootheart.organs";
+            default -> action == Action.HEART_PULSE ? "chapter.boss.rootheart.pulse"
+                    : action == Action.ROOT_SURGE ? "chapter.boss.rootheart.roots"
+                    : exposure > 0 || stage == 3 ? "chapter.boss.rootheart.open" : "chapter.boss.rootheart.organs";
         };
     }
 
@@ -112,8 +125,10 @@ public final class ChapterBossEncounter {
         tick++;
         if (stage != this.stage) {
             this.stage = stage;
+            pattern = 0;
             // A phase transition cannot teleport the body, retaliate, or preserve an active strike.
             clearAttack();
+            clearSiegeTrail();
             rest(Action.RECONFIGURE, 90);
             if (chapter == 4 && stage == 3) {
                 appendageHp[0] = appendageHp[1] = 0;
@@ -121,6 +136,7 @@ public final class ChapterBossEncounter {
             }
             return;
         }
+        updateSiegeTrail();
         if (action == Action.RECONFIGURE || action == Action.REBUILD) {
             if (--remaining <= 0) {
                 if (action == Action.RECONFIGURE && regrowAfterRecovery) {
@@ -132,7 +148,14 @@ public final class ChapterBossEncounter {
                     appendageHp[0] = appendageHp[1] = appendageMax;
                     restoreCount++;
                 }
-                rest(Action.READY, 50);
+                if (action == Action.RECONFIGURE) {
+                    // Preserve an earned part-break window, but do not stack another
+                    // idle delay onto the already harmless phase transition.
+                    if (exposure > 0) rest(chapter == 3 ? Action.OVERHEATED : Action.EXPOSED, exposure);
+                    else if (chapter == 2) chooseArchitect(playerX, playerY);
+                    else if (chapter == 3) chooseSiege(playerX, playerY);
+                    else chooseRootheart(playerX, playerY);
+                } else rest(Action.READY, 50);
             }
             return;
         }
@@ -155,7 +178,7 @@ public final class ChapterBossEncounter {
         }
         if (step == Step.ACTIVE) {
             if (action == Action.DRILL_CHARGE || action == Action.HEART_CRAWL) {
-                double speed = action == Action.DRILL_CHARGE ? 14 + stage * 2 : 3.5 + stage;
+                double speed = action == Action.DRILL_CHARGE ? chargeSpeed() : 3.5 + stage;
                 x += Math.copySign(Math.min(speed, Math.abs(chargeEndX - x)), chargeEndX - x);
             }
             if (--remaining <= 0) finishAttack();
@@ -173,17 +196,46 @@ public final class ChapterBossEncounter {
     private double baseY() { return groundY - height - (chapter == 2 ? 12 : 0); }
 
     private void chooseArchitect(double px, double py) {
-        Action next = switch (pattern++ % 4) {
+        int cycle = pattern++;
+        Action next = stage == 1 ? switch (cycle % 4) {
             case 0 -> Action.LEFT_STAMP;
             case 1 -> Action.CROSSBEAM;
             case 2 -> Action.RIGHT_STAMP;
             default -> Action.GIRDER_FALL;
+        } : stage == 2 ? switch (cycle % 6) {
+            case 0 -> Action.LEFT_SWEEP;
+            case 1 -> Action.RIGHT_STAMP;
+            case 2 -> Action.GIRDER_FALL;
+            case 3 -> Action.RIGHT_SWEEP;
+            case 4 -> Action.LEFT_STAMP;
+            default -> Action.CROSSBEAM;
+        } : switch (cycle % 5) {
+            case 0 -> Action.GANTRY_LOCK;
+            case 1 -> Action.LEFT_SWEEP;
+            case 2 -> Action.RIGHT_STAMP;
+            case 3 -> Action.RIGHT_SWEEP;
+            default -> Action.GIRDER_FALL;
         };
-        if ((next == Action.LEFT_STAMP && appendageHp[0] == 0)
-                || (next == Action.RIGHT_STAMP && appendageHp[1] == 0)) {
+        if ((ownsLeftArm(next) && appendageHp[0] == 0)
+                || (ownsRightArm(next) && appendageHp[1] == 0)) {
             rest(Action.READY, 45); return;
         }
-        if (next == Action.LEFT_STAMP || next == Action.RIGHT_STAMP) {
+        if (next == Action.GANTRY_LOCK) {
+            // Each surviving arm controls one side. The 144px corridor is locked once,
+            // clear of the boss body, and reachable even by Warden during the full wind-up.
+            double left = homeX - 640, right = homeX + 150;
+            double shift = px + 16 < homeX - 330 ? 150 : -150;
+            double center = Math.max(left + 110, Math.min(homeX - 95, px + 16 + shift));
+            List<Boss.Bounds> closing = new ArrayList<>();
+            if (appendageHp[0] > 0) closing.add(new Boss.Bounds(left, 80, center - 72 - left, groundY - 80));
+            if (appendageHp[1] > 0) closing.add(new Boss.Bounds(center + 72, 80, right - center - 72, groundY - 80));
+            warn(next, 110, closing, List.of());
+        } else if (next == Action.LEFT_SWEEP || next == Action.RIGHT_SWEEP) {
+            // A suspended arm sweeps at standing chest height: duck or jump, rather than
+            // repeating the stamp's lateral dodge. Breaking that arm removes this attack.
+            double left = next == Action.LEFT_SWEEP ? homeX - 640 : homeX - 285;
+            warn(next, 88, List.of(new Boss.Bounds(left, groundY - 44, 435, 20)), List.of());
+        } else if (next == Action.LEFT_STAMP || next == Action.RIGHT_STAMP) {
             double locked = clampArena(px - 28, 100);
             warn(next, 72, List.of(new Boss.Bounds(locked, groundY - 162, 96, 162)), List.of());
         } else if (next == Action.CROSSBEAM) {
@@ -206,7 +258,19 @@ public final class ChapterBossEncounter {
     }
 
     private void chooseSiege(double px, double py) {
-        if (pattern++ % 3 == 1) {
+        int beat = pattern++ % (stage == 1 ? 3 : 4);
+        if (stage == 3 && beat == 0) {
+            // Rear pressure builds with the vent visibly open. Crouching, jumping,
+            // or overheating that physical component are three valid responses.
+            Boss.Bounds vent = appendageBounds(1);
+            double emitter = vent.x() + vent.width() / 2;
+            boolean right = direction < 0;
+            double start = right ? emitter : Math.max(homeX - 635, emitter - 300);
+            double end = right ? Math.min(homeX + 325, emitter + 300) : emitter;
+            coolingTicks = 124;
+            warn(Action.VENT_PURGE, 92,
+                    List.of(new Boss.Bounds(start, groundY - 44, Math.max(30, end - start), 20)), List.of());
+        } else if (beat == (stage == 3 ? 2 : 1)) {
             List<Boss.Bounds> landings = new ArrayList<>();
 
             for (int i = 0; i < 3; i++) {
@@ -215,16 +279,18 @@ public final class ChapterBossEncounter {
 
             }
             warn(Action.MAGMA_MORTAR, 100, landings, List.of());
-        } else if (pattern % 3 == 0) {
+        } else if (beat == (stage == 1 ? 2 : 3)) {
             coolingTicks = 180;
             rest(Action.COOLING, 180);
         } else {
             direction = px + 16 < x + width / 2.0 ? -1 : 1;
             // Commit only to a bounded run. No homing after the warning begins.
-            chargeEndX = Math.max(homeX - 540, Math.min(homeX + 70, x + direction * (330 + stage * 35)));
+            double range = appendageHp[0] == 0 ? 180 : 330 + stage * 35;
+            chargeStartX = x;
+            chargeEndX = Math.max(homeX - 540, Math.min(homeX + 70, x + direction * range));
             if (Math.abs(chargeEndX - x) < 90) {
                 direction = -direction;
-                chargeEndX = Math.max(homeX - 540, Math.min(homeX + 70, x + direction * 350));
+                chargeEndX = Math.max(homeX - 540, Math.min(homeX + 70, x + direction * range));
             }
             double left = Math.min(x, chargeEndX), right = Math.max(x, chargeEndX) + width;
             warn(Action.DRILL_CHARGE, 80,
@@ -232,14 +298,19 @@ public final class ChapterBossEncounter {
         }
     }
 
+    private double chargeSpeed() { return appendageHp[0] == 0 ? 10 : 14 + stage * 2; }
+
+    private void updateSiegeTrail() {
+        if (siegeTrail == null) return;
+        if (trailWarning > 0) trailWarning--;
+        else if (--trailActive <= 0) clearSiegeTrail();
+    }
+
+    private void clearSiegeTrail() { siegeTrail = null; trailWarning = trailActive = 0; }
+
     private void chooseRootheart(double px, double py) {
-        if (stage == 3 && pattern % 4 == 0) {
-            pattern++;
-            direction = px + 16 < x + width / 2.0 ? -1 : 1;
-            chargeEndX = Math.max(homeX - 490, Math.min(homeX + 70, x + direction * 260));
-            double left = Math.min(x, chargeEndX), right = Math.max(x, chargeEndX) + width;
-            warn(Action.HEART_CRAWL, 90,
-                    List.of(new Boss.Bounds(left + 72, groundY - 160, right - left - 144, 150)), List.of());
+        if (stage == 3) {
+            chooseExposedHeart(px);
             return;
         }
         Action next = switch (pattern++ % 4) {
@@ -281,6 +352,41 @@ public final class ChapterBossEncounter {
         }
     }
 
+    private void chooseExposedHeart(double px) {
+        int beat = pattern++ % 3;
+        if (beat == 0) {
+            direction = px + 16 < x + width / 2.0 ? -1 : 1;
+            chargeEndX = Math.max(homeX - 490, Math.min(homeX + 70, x + direction * 260));
+            // Reposition away from the nearest boundary instead of issuing a zero-length crawl.
+            if (Math.abs(chargeEndX - x) < 90) {
+                direction = -direction;
+                chargeEndX = Math.max(homeX - 490, Math.min(homeX + 70, x + direction * 220));
+            }
+            double left = Math.min(x, chargeEndX), right = Math.max(x, chargeEndX) + width;
+            warn(Action.HEART_CRAWL, 90,
+                    List.of(new Boss.Bounds(left + 72, groundY - 160, right - left - 144, 150)), List.of());
+        } else if (beat == 1) {
+            // The exposed heart fires from visible ports in two horizontal tiers. Ground
+            // crouching clears the low tier; jumping blindly meets the upper one.
+            List<Boss.PredictedShot> pulse = new ArrayList<>();
+            for (int side : new int[]{-1, 1}) for (int rise : new int[]{38, 126})
+                pulse.add(new Boss.PredictedShot(x + (side < 0 ? 87 : 169), groundY - rise, side * 4.8, 0));
+            warn(Action.HEART_PULSE, 86, List.of(), pulse);
+        } else {
+            // Its surviving locomotion roots strike the floor, not the severed organs.
+            // A short, locked patch asks for a jump or a move out, after the pulse has cleared.
+            warn(Action.ROOT_SURGE, 88,
+                    List.of(new Boss.Bounds(clampArena(px - 134, 300), groundY - 48, 300, 48)), List.of());
+        }
+    }
+
+    private static boolean ownsLeftArm(Action action) {
+        return action == Action.LEFT_STAMP || action == Action.LEFT_SWEEP;
+    }
+    private static boolean ownsRightArm(Action action) {
+        return action == Action.RIGHT_STAMP || action == Action.RIGHT_SWEEP;
+    }
+
     private double clampArena(double at, double w) {
         return Math.max(homeX - 640, Math.min(homeX + 150 - w, at));
     }
@@ -297,14 +403,17 @@ public final class ChapterBossEncounter {
     private void release(ObstacleManager enemies, List<Projectile> destination) {
         step = Step.ACTIVE;
         remaining = switch (action) {
-            case DRILL_CHARGE -> (int) Math.ceil(Math.abs(chargeEndX - x) / (14 + stage * 2)) + 1;
+            case DRILL_CHARGE -> (int) Math.ceil(Math.abs(chargeEndX - x) / chargeSpeed()) + 1;
             case HEART_CRAWL -> (int) Math.ceil(Math.abs(chargeEndX - x) / (3.5 + stage)) + 1;
-            case CROSSBEAM -> 26;
+            case CROSSBEAM, LEFT_SWEEP, RIGHT_SWEEP -> 26;
+            case GANTRY_LOCK -> 38;
+            case ROOT_SURGE -> 24;
+            case VENT_PURGE -> 32;
             case MAGMA_MORTAR -> MagmaMortarProjectile.FLIGHT_TICKS + 2;
-            case SPORE_FAN, HATCH -> 1;
+            case SPORE_FAN, HEART_PULSE, HATCH -> 1;
             default -> 18;
         };
-        if (action == Action.SPORE_FAN) {
+        if (action == Action.SPORE_FAN || action == Action.HEART_PULSE) {
             List<Boss.PredictedShot> locked = shots;
             ProjectileBudget.emit(destination, locked.size(), () -> locked.stream().map(shot ->
                     new Projectile(shot.x(), shot.y(), shot.vx(), shot.vy(), ProjectileType.ENEMY)).toList());
@@ -335,10 +444,19 @@ public final class ChapterBossEncounter {
     }
 
     private void finishAttack() {
+        Action completed = action;
         clearAttack();
         if (chapter == 3) {
+            if (completed == Action.DRILL_CHARGE && stage >= 2 && appendageHp[0] > 0) {
+                // Only a short central strip heats up after the vehicle has passed.
+                double center = (chargeStartX + x) / 2 + width / 2.0;
+                siegeTrail = new Boss.Bounds(clampArena(center - 60, 120), groundY - 16, 120, 16);
+                trailWarning = TRAIL_WARNING; trailActive = TRAIL_DURATION;
+            }
             coolingTicks = Math.max(coolingTicks, 115);
             rest(Action.COOLING, 115);
+        } else if (chapter == 4 && stage == 3) {
+            rest(Action.READY, completed == Action.HEART_PULSE ? 120 : 90);
         } else rest(Action.READY, Math.max(46, 84 - stage * 10));
     }
 
@@ -346,7 +464,8 @@ public final class ChapterBossEncounter {
         if(combatDifficulty!=null && action==Action.READY) {
             ticks=com.bigphil.mergehell.progression.CombatBalance.recovery(ticks,combatDifficulty);
             // Later stages pair attacks, with a full warning before each commitment.
-            if(stage>=2 && pattern%2==1) ticks=Math.max(24,ticks/2);
+            if(stage>=2 && pattern%2==1 && !(chapter==4 && stage==3)) ticks=Math.max(24,ticks/2);
+            if(chapter==4 && stage==3) ticks=Math.max(72,ticks);
         }
         this.action = action;
         step = Step.REST;
@@ -395,9 +514,12 @@ public final class ChapterBossEncounter {
                 : chapter == 3 ? new Boss.Bounds(x + 74, y + 62, 96, 82)
                 : new Boss.Bounds(x + 88, y + (stage == 3 ? 84 : 44), 94, stage == 3 ? 132 : 128);
         result.add(new Boss.PartView("core", core, hp, maxHp, true,
-                exposure > 0 || chapter == 4 && stage == 3, false));
+                coreOpen() && !coreContracting(), false));
         return List.copyOf(result);
     }
+
+    private boolean coreOpen() { return exposure > 0 || chapter == 4 && stage == 3; }
+    private boolean coreContracting() { return action == Action.RECONFIGURE; }
 
     public boolean canHit(Rectangle hit, int hp, int maxHp) {
         return parts(hp, maxHp).stream().anyMatch(p -> p.targetable() && p.bounds().intersects(hit));
@@ -417,7 +539,10 @@ public final class ChapterBossEncounter {
         }
         if (selected == null) return new Damage(0, 0);
         if (selected.id().equals("core")) {
-            double factor = selected.weak() ? (chapter == 4 ? 2.2 : 2.0) : chapter == 4 ? .40 : .60;
+            // The visible closing core loses its bonus only; it never becomes immune.
+            // Already-armored cores keep their ordinary protection during reconfiguration.
+            double factor = coreContracting() && coreOpen() ? 1.0
+                    : selected.weak() ? (chapter == 4 ? 2.2 : 2.0) : chapter == 4 ? .40 : .60;
             return new Damage(scale(amount, factor), 0);
         }
         int index = selected.id().startsWith("right") || selected.id().equals("heat-vent") ? 1 : 0;
@@ -436,7 +561,10 @@ public final class ChapterBossEncounter {
     }
 
     private static int scale(int amount, double factor) {
-        return (int) Math.max(1, Math.min(Integer.MAX_VALUE, Math.ceil(amount * factor)));
+        // Authored multipliers use hundredths. Integer rounding avoids e.g. 100 * 2.2
+        // becoming 220.00000000000003 and incorrectly dealing 221 damage.
+        long scaled = ((long) amount * Math.round(factor * 100) + 99) / 100;
+        return (int) Math.max(1, Math.min(Integer.MAX_VALUE, scaled));
     }
 
     /** Area damage affects both appendages once, without multiplying damage to the shared core. */
@@ -450,21 +578,27 @@ public final class ChapterBossEncounter {
     }
 
     private void onPartDestroyed(int index) {
-        if (chapter == 3) { coolingTicks = Math.max(coolingTicks, 160); return; }
+        if (chapter == 3) {
+            coolingTicks = Math.max(coolingTicks, 160);
+            clearSiegeTrail();
+            if (action == Action.DRILL_CHARGE) rest(Action.COOLING, 160);
+            return;
+        }
         if (appendageHp[0] == 0 && appendageHp[1] == 0) {
             expose(Action.EXPOSED, chapter == 2 ? 240 : 260);
             return;
         }
-        if ((index == 0 && (action == Action.LEFT_STAMP || action == Action.LEFT_TENDRIL))
-                || (index == 1 && (action == Action.RIGHT_STAMP || action == Action.RIGHT_TENDRIL))) {
+        if ((index == 0 && (ownsLeftArm(action) || action == Action.LEFT_TENDRIL))
+                || (index == 1 && (ownsRightArm(action) || action == Action.RIGHT_TENDRIL))) {
             rest(Action.READY, 65);
-        } else if (action == Action.CROSSBEAM || action == Action.HATCH) {
+        } else if (action == Action.CROSSBEAM || action == Action.GANTRY_LOCK || action == Action.HATCH) {
             // Cancel and re-warn rather than editing an already announced attack under the player.
             rest(Action.READY, 65);
         }
     }
 
     private void expose(Action action, int ticks) {
+        clearSiegeTrail();
         exposure = ticks;
         rest(action, ticks);
         movesSeen.add(action.name());
@@ -474,6 +608,7 @@ public final class ChapterBossEncounter {
     public void interrupt(int ticks) { expose(chapter == 3 ? Action.OVERHEATED : Action.EXPOSED, Math.min(180, ticks)); }
 
     public void resetTransient() {
+        clearSiegeTrail();
         exposure = heat = coolingTicks = 0;
         regrowAfterRecovery = chapter != 3 && !(chapter == 4 && stage == 3)
                 && appendageHp[0] == 0 && appendageHp[1] == 0;
@@ -482,15 +617,16 @@ public final class ChapterBossEncounter {
     }
 
     public List<Boss.AttackTelegraph> telegraphs() {
-        if (step == Step.REST) return List.of();
         List<Boss.AttackTelegraph> result = new ArrayList<>();
         boolean damaging = step == Step.ACTIVE && action != Action.HATCH
                 && action != Action.DRILL_CHARGE && action != Action.HEART_CRAWL
                 && action != Action.MAGMA_MORTAR;
-        for (int i = 0; i < volumes.size(); i++) result.add(new Boss.AttackTelegraph(
+        if (step != Step.REST) for (int i = 0; i < volumes.size(); i++) result.add(new Boss.AttackTelegraph(
                 action.name().toLowerCase(java.util.Locale.ROOT) + "-" + i, volumes.get(i),
                 warningTicks(), step == Step.ACTIVE, damaging ? (chapter == 4 ? 22 : 18) : 0,
                 warningDuration));
+        if (siegeTrail != null) result.add(new Boss.AttackTelegraph("slag-trail", siegeTrail,
+                trailWarning, trailWarning == 0, trailWarning == 0 ? 12 : 0, TRAIL_WARNING));
         return List.copyOf(result);
     }
 

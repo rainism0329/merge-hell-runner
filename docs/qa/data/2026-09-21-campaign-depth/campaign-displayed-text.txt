@@ -1,0 +1,1837 @@
+=== en-menu-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-menu-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+=== en-settings-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Choose one language for every game screen and message.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+One language across menus, combat and story.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Choose one language for every game screen and message.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-background-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+One language across menus, combat and story.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-960 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] DOUBLE JUMP   [C] FIRE   [X] MELEE   [SHIFT] DASH   [B] BOMB
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes apply immediately. Return to your game with Esc.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Scale camera shake during hits, explosions and boss attacks.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-settings-mute-600 ===
+INDUSTRIAL BUILD  /  REPOSITORY CITY
+MERGE
+HELL
+RUN THE BUILD. OUTRUN THE FAILURE.
+Five worlds. Six weapons. Four unlikely operatives.
+[←/→] MOVE   [SPACE] JUMP   [C] FIRE   [P] PAUSE
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+[ D ] Standard     [ F1 ] Controls
+[ Y ] Repair unit
+Balanced armor and mobility
+[ ENTER / SPACE ]
+Continue
+World 2 · entrance
+[ G ]
+Invincible
+Unlimited supplies
+[ L ]
+Boss practice
+Jump to Legacy
+[ N ] New campaign · replace saved progress
+[ O ] Settings
+[ M ] Unmute
+SYSTEM SETTINGS
+[ ESC ] Back
+Changes save automatically. Esc returns.
+01
+SCREEN SHAKE
+70%
+02
+CRT FILTER
+ON
+03
+FLASH EFFECTS
+ON
+04
+PARTICLE DENSITY
+100%
+05
+MASTER VOLUME
+35%
+06
+BACKGROUND AUDIO
+20%
+07
+MUTE AUDIO
+ON
+08
+AUTO FIRE
+OFF
+09
+HIGH CONTRAST
+OFF
+10
+LANGUAGE
+‹ English ›
+Reduce camera movement during combat.
+UP/DOWN SELECT   LEFT/RIGHT ADJUST   ENTER TOGGLE   ESC BACK
+=== en-heap-choice-960 ===
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[15:35:09] Practice enabled. Your last campaign checkpoint is preserved; use Continue to return.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 15%
+E Purge: safer / F Salvage: more reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-choice-600 ===
+E  PURGE   F  SALVAGE
+CAPACITOR · SHOOT TO OPEN
+[15:35:09] Practice enabled. Your last campaign checkpoint is preserved; use Continue to return.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 15%
+E Purge: safer / F Salvage: more
+reward, more leaks
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-960 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[15:35:09] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000600
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 40%
+Reach the next GC station. Jump over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-heap-leak-600 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+[15:35:09] Salvaged +600 score / +30 XP. Pipe pressure increased.
+M UNMUTE / P PAUSE
+→ Upper flood valve  1/2
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 40%
+Reach the next GC station. Jump
+over leaks.
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-upgrade-960 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  EVOLUTION_CORE
+Cherry-Pick Core
+Unlock Commit evolution
+ACTUAL EFFECT
+ENABLES EVOLUTION AT
+LEVEL 5 / SAFE NODE
+RANK 0 → 1 / 1
+[ 2 ]  MOVEMENT
+Dash Cache
+-15% dash cooldown; next
+volley after dash crits and
+pierces
+ACTUAL EFFECT
+DASH COOLDOWN 45f →
+38f
+RANK 0 → 1 / 3
+[ 3 ]  COMBO
+Long Transaction
++30 combo grace ticks;
+critical hits extend the current
+COMBO
+ACTUAL EFFECT
+COMBO GRACE 0 → 30
+TICKS
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-upgrade-600 ===
+GC / USED
+CAPACITOR · SHOOT TO OPEN
+BUILD SUCCESSFUL // SELECT PATCH
+BUILD XP FULL • WORLD PAUSED • CHOOSE ONE UPGRADE
+[ 1 ]  EVOLUTION_CORE
+Cherry-Pick Core
+Unlock Commit evolution
+ACTUAL EFFECT
+ENABLES EVOLUTION AT
+LEVEL 5 / SAFE NODE
+RANK 0 → 1 / 1
+[ 2 ]  MOVEMENT
+Dash Cache
+-15% dash cooldown; next
+volley after dash crits and
+pierces
+ACTUAL EFFECT
+DASH COOLDOWN 45f →
+38f
+RANK 0 → 1 / 3
+[ 3 ]  COMBO
+Long Transaction
++30 combo grace ticks;
+critical hits extend the current
+COMBO
+ACTUAL EFFECT
+COMBO GRACE 0 → 30
+TICKS
+RANK 0 → 1 / 3
+[ R ] REROLL AVAILABLE
+PRESS 1 / 2 / 3  OR CLICK A CARD
+=== en-boss-impact-960 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // BONUS DAMAGE
+2200 / 2650
+CORE WINDOW // BONUS DAMAGE
+[15:35:14] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+HEAP DISTRICT · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-boss-impact-600 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // BONUS DAMAGE
+2200 / 2650
+CORE WINDOW // BONUS DAMAGE
+[15:35:14] EMERGENCY PROTOCOL: Screen cleared!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+HEAP · Pressure 0%
+Core exposed: focus your fire!
+MAINTENANCE RADIO / FIELD LOG
+Intake: the old system kept every memory allocation. The leaks started here.
+=== en-pause-960 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // BONUS DAMAGE
+2200 / 2650
+CORE WINDOW // BONUS DAMAGE
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+=== en-pause-600 ===
+COOLING 12s
+GC BREAKER
+-450
+CORE WINDOW // BONUS DAMAGE
+2200 / 2650
+CORE WINDOW // BONUS DAMAGE
+RUN PAUSED
+Campaign saved: World 2 · entrance
+Menu returns to this saved point. Progress since then is not saved.
+[ P / ESC ] Resume
+[ Q ] Main menu
+[ O ] Settings
+=== en-complete-960 ===
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-complete-600 ===
+COOLING 12s
+GC BREAKER
+MISSION COMPLETE
+SCORE: 0  |  Level 2 cleared
+[ ENTER ]  CONTINUE TO WORLD 3
+[ Q ]  BACK TO MENU
+CLEAR BONUS +1250     FIRST CLEAR +250 RP
+Practice used · No rankings or permanent rewards
+=== en-repository-960 ===
+$
+[15:35:15] Practice enabled. Your last campaign checkpoint is preserved; use Continue to return.
+M UNMUTE / P PAUSE
+→ Rooftop relay  1/2
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:42
+BOSS: ROUTE + CLEAR AREA
+Invincible · [ T ] Disable
+=== en-repository-600 ===
+$
+[15:35:15] Practice enabled. Your last campaign checkpoint is preserved; use Continue to return.
+M UNMUTE / P PAUSE
+→ Rooftop relay  1/2
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+ROUTE 1/8 · 7 LEFT
+SURVIVE THE FIRST PUSH
+THIS STAGE 00:42
+BOSS: ROUTE + CLEAR AREA
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-legacy-960 ===
+$
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+4680 / 4680
+[15:35:17] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-legacy-600 ===
+$
+BOSS GATE
+LINK 1
+SHOOT
+LINK 2
+SHOOT
+LINK 3
+SHOOT
+SHIELDED // BREAK LINKS
+4680 / 4680
+[15:35:17] ALERT: Legacy Code Monstrosity engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-game-over-960 ===
+$
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ ENTER ] Retry loadout
+[ Q ] Main menu
+[ L ] Practice this Boss
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision + critical + ricochet
+Invincibility on · Practice run   [ T ] Disable
+=== en-game-over-600 ===
+$
+BOSS GATE
+BUILD FAILED
+SCORE: 0
+[ ENTER ] Retry loadout
+[ Q ] Main menu
+[ L ] Practice this Boss
+[ Z ] STARTING WEAPON  1/6
+Commit Cannon // precision
+Invincibility on · Practice run   [ T ] Disable
+=== en-world-3-boss-960 ===
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+3800 / 3800
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[15:35:18] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-3-boss-600 ===
+LEFT CLAW
+RIGHT CLAW
+AERIAL GANTRY ARCHITECT / P1
+3800 / 3800
+P1 ASSEMBLE  //  WATCH THE BODY
+Break both claws. Each broken claw loses its attacks.
+[15:35:18] ALERT: AERIAL GANTRY ARCHITECT engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-world-4-boss-960 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+4900 / 4900
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[15:35:19] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-4-boss-600 ===
+ARMOR
+REAR VENT
+GEOTHERMAL SIEGE ENGINE / P1
+4900 / 4900
+P1 ARMORED  //  WATCH THE BODY
+Break the front plate, or wait for its cooling cycle.
+[15:35:19] ALERT: GEOTHERMAL SIEGE ENGINE engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-world-5-boss-960 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+6100 / 6100
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[15:35:21] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+SUDO
+CHARGE
+Commit Cannon L1
+LV 1
+0000000
+COMBO --
+[B]
+∞
+UNLIMITED
+LIVES 3
+DASH READY
+JUMPS 2/2
+Invincible · [ T ] Disable
+=== en-world-5-boss-600 ===
+LEFT ORGAN
+RIGHT ORGAN
+ALIEN ROOTHEART / P1
+6100 / 6100
+P1 BROOD  //  WATCH THE BODY
+Destroy both brood organs to open the heart.
+[15:35:21] ALERT: ALIEN ROOTHEART engaged!
+M UNMUTE / P PAUSE
+HP
+100/100
+Commit Cannon L1
+LIVES 3
+[B]
+∞
+UNLIMITED
+DASH READY
+JUMPS 2/2
+SUDO 0%
+Invincible · [ T ] Disable
+=== en-error-960 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Reopen this project to recover. Existing campaign saves are kept.
+=== en-error-600 ===
+GAME LOOP PAUSED
+An unexpected error interrupted this run.
+Reopen this project to recover. Existing campaign saves are kept.
+=== zh-CN-menu-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-menu-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+=== zh-CN-settings-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+所有游戏界面、提示与剧情使用同一种语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+菜单、战斗提示与剧情统一使用所选语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+所有游戏界面、提示与剧情使用同一种语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-background-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+菜单、战斗提示与剧情统一使用所选语言。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-960 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 二段跳   [C] 射击   [X] 近战   [SHIFT] 冲刺   [B] 炸弹
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改立即生效并自动保存，按 Esc 返回游戏。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+调整命中、爆炸与首领攻击时的画面震动。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-settings-mute-600 ===
+$
+工业版本 / 仓库之城
+合并
+地狱
+启动构建，甩开故障。
+五个世界，六种武器，四位不平凡的行动员。
+[←/→] 移动   [SPACE] 跳跃   [C] 射击   [P] 暂停
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+[ D ] 标准     [ F1 ] 操作说明
+[ Y ] 维修机器人
+均衡的护甲与机动
+[ ENTER / SPACE ]
+继续战役
+第 2 关 · 入口
+[ G ]
+无敌练习
+无限弹药与炸弹
+[ L ]
+首领练习
+直接挑战遗留巨兽
+[ N ] 新建战役 · 替换已有进度
+[ O ] 设置
+[ M ] 开启声音
+系统设置
+[ ESC ] 返回
+修改自动保存，按 Esc 返回。
+01
+画面震动
+70%
+02
+扫描线滤镜
+开启
+03
+闪光效果
+开启
+04
+粒子密度
+100%
+05
+主音量
+35%
+06
+背景音量
+20%
+07
+静音
+开启
+08
+自动射击
+关闭
+09
+高对比度
+关闭
+10
+界面语言
+‹ 简体中文 ›
+调整战斗时的画面震动。
+↑/↓ 选择   ←/→ 调整   Enter 切换   Esc 返回
+=== zh-CN-heap-choice-960 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[15:35:22] 练习已开启，原战役检查点已保留；返回菜单后可继续战役。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 15%
+E 净化：安全 / F 回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-choice-600 ===
+$
+E 净化   F 回收
+电容罐 · 射击开启
+[15:35:22] 练习已开启，原战役检查点已保留；返回菜单后可继续战役。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 15%
+E 净化：安全 / F
+回收：高奖励、高风险
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[15:35:23] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000600
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-heap-leak-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+[15:35:23] 回收缓存 +600 分 / +30 经验 · 管网压力上升。
+M 开启声音 / P 暂停
+→ 上层排水阀  1/2
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 40%
+前往下一回收站，跳过闪烁的泄漏区
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-upgrade-960 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  进化核心
+精选提交核心
+解锁提交炮进化
+实际效果
+武器 5 级后在安全节点进化
+等级 0 → 1 / 1
+[ 2 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ 3 ]  护盾
+热备份
+致命伤害护盾重启次数 +1
+实际效果
+致命保护 0 → 1
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-upgrade-600 ===
+$
+回收站 / 已使用
+电容罐 · 射击开启
+构建成功 // 选择补丁
+经验已满 · 世界已暂停 · 选择一项升级
+[ 1 ]  进化核心
+精选提交核心
+解锁提交炮进化
+实际效果
+武器 5 级后在安全节点进化
+等级 0 → 1 / 1
+[ 2 ]  连击
+长事务
+连击宽限 +30
+帧；暴击延长当前连击
+实际效果
+连击宽限 0 → 30 帧
+等级 0 → 1 / 3
+[ 3 ]  护盾
+热备份
+致命伤害护盾重启次数 +1
+实际效果
+致命保护 0 → 1
+等级 0 → 1 / 3
+[ R ] 可刷新一次
+按 1 / 2 / 3 或点击卡片
+=== zh-CN-boss-impact-960 ===
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害提升
+2200 / 2650
+核心暴露 // 伤害提升
+[15:35:26] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+堆内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-boss-impact-600 ===
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害提升
+2200 / 2650
+核心暴露 // 伤害提升
+[15:35:26] 应急协议：屏幕已清场！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+内存区 · 压力 0%
+核心暴露：集中火力！
+维修频道 / 现场记录
+进水口：旧系统保留了所有历史内存，泄漏从这里开始。
+=== zh-CN-pause-960 ===
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害提升
+2200 / 2650
+核心暴露 // 伤害提升
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+=== zh-CN-pause-600 ===
+冷却中 12秒
+破防回收站
+-450
+核心暴露 // 伤害提升
+2200 / 2650
+核心暴露 // 伤害提升
+游戏已暂停
+战役已保存：第 2 关 · 入口
+返回菜单后从此处续玩，存档点之后的进度不保存。
+[ P / ESC ] 继续游戏
+[ Q ] 返回菜单
+[ O ] 设置
+=== zh-CN-complete-960 ===
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-complete-600 ===
+冷却中 12秒
+破防回收站
+任务完成
+得分：0 · 第 2 关已完成
+[ ENTER ] 进入第 3 关
+[ Q ] 返回菜单
+通关奖励 +1250    首次通关 +250 重构点
+本局使用过练习功能 · 不计排名与永久奖励
+=== zh-CN-repository-960 ===
+$
+$
+[15:35:27] 练习已开启，原战役检查点已保留；返回菜单后可继续战役。
+M 开启声音 / P 暂停
+→ 屋顶中继站  1/2
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:42
+首领条件：完成路线并清场
+无敌开启 · [ T ] 关闭
+=== zh-CN-repository-600 ===
+$
+$
+[15:35:27] 练习已开启，原战役检查点已保留；返回菜单后可继续战役。
+M 开启声音 / P 暂停
+→ 屋顶中继站  1/2
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+阶段 1/8 · 剩余 7 段
+挺过第一轮推送
+本阶段 00:42
+首领条件：完成路线并清场
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-960 ===
+$
+$
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+4680 / 4680
+[15:35:28] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-legacy-600 ===
+$
+$
+首领关卡
+连接 1
+射击
+连接 2
+射击
+连接 3
+射击
+护盾保护 // 击破连接
+4680 / 4680
+[15:35:28] 警报：遗留代码巨兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-game-over-960 ===
+$
+$
+首领关卡
+构建失败
+得分：0
+[ ENTER ] 原配置重试
+[ Q ] 返回菜单
+[ L ] 练习本关首领
+[ Z ] 起始武器  1/6
+提交炮 // 精准 + 暴击 + 弹射
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-game-over-600 ===
+$
+$
+首领关卡
+构建失败
+得分：0
+[ ENTER ] 原配置重试
+[ Q ] 返回菜单
+[ L ] 练习本关首领
+[ Z ] 起始武器  1/6
+提交炮 // 精准
+无敌已开启 · 不计排名   [ T ] 关闭无敌
+=== zh-CN-world-3-boss-960 ===
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+3800 / 3800
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[15:35:30] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-3-boss-600 ===
+左机械爪
+右机械爪
+天空构架师 / 阶段 1
+3800 / 3800
+P1 构装  //  观察动作
+拆掉双爪；断爪不会再发动攻击。
+[15:35:30] 警报：天空构架师已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-4-boss-960 ===
+$
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+4900 / 4900
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[15:35:31] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-4-boss-600 ===
+$
+前装甲
+后散热口
+地热攻城兽 / 阶段 1
+4900 / 4900
+P1 装甲推进  //  观察动作
+击破前装甲，或等待散热循环。
+[15:35:31] 警报：地热攻城兽已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-5-boss-960 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+6100 / 6100
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[15:35:33] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+超频
+充能
+提交炮 1级
+等级 1
+0000000
+连击 --
+[B]
+∞
+无限
+生命 3
+冲刺就绪
+跳跃 2/2
+无敌开启 · [ T ] 关闭
+=== zh-CN-world-5-boss-600 ===
+左育巢器
+右育巢器
+异星根源之心 / 阶段 1
+6100 / 6100
+P1 巢群  //  观察动作
+摧毁两侧育巢器官，打开心核。
+[15:35:33] 警报：异星根源之心已进入战斗！
+M 开启声音 / P 暂停
+生命
+100/100
+提交炮 1级
+生命 3
+[B]
+∞
+无限
+冲刺就绪
+跳跃 2/2
+超频 0%
+无敌开启 · [ T ] 关闭
+=== zh-CN-error-960 ===
+游戏运行已暂停
+游戏因意外错误中断。
+重新打开当前项目可恢复游戏，已有战役存档会保留。
+=== zh-CN-error-600 ===
+游戏运行已暂停
+游戏因意外错误中断。
+重新打开当前项目可恢复游戏，已有战役存档会保留。

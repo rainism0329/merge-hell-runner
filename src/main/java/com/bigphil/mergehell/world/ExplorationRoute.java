@@ -17,7 +17,14 @@ public final class ExplorationRoute {
     }
     public record Event(String key, int reward, boolean secret, boolean encounter) { }
     public record Snapshot(int chapter, List<Block> blocks, List<Platform> platforms,
-                           List<Landmark> landmarks, Set<Integer> visited, String hint, boolean arena) { }
+                           List<Landmark> landmarks, Set<Integer> visited, String hint, boolean arena,
+                           int gateLift) {
+        public Snapshot(int chapter, List<Block> blocks, List<Platform> platforms,
+                        List<Landmark> landmarks, Set<Integer> visited, String hint, boolean arena) {
+            this(chapter,blocks,platforms,landmarks,visited,hint,arena,0);
+        }
+    }
+    private static final int GATE_X=9250, GATE_TRAVEL=180;
     private final int chapter;
     private final Material material;
     private final List<Block> blocks=new ArrayList<>();
@@ -26,6 +33,7 @@ public final class ExplorationRoute {
     private final Set<Integer> visited=new HashSet<>();
     private final List<Event> events=new ArrayList<>();
     private boolean arena;
+    private int gateLift;
     private String hint="";
 
     public ExplorationRoute(int chapter) {
@@ -89,13 +97,39 @@ public final class ExplorationRoute {
         landmarks.add(new Landmark(id,new Rectangle(x,y,34,30),"explore."+name,secret));
     }
     public void prepare(boolean bossArena) {arena=bossArena;}
-    public List<Rectangle> solids() {return arena?List.of():blocks.stream().map(Block::bounds).toList();}
+    /** Opening only: riders are carried, and an airborne body above the panel pauses the motor. */
+    public void beforeMove(Player player) {
+        beforeMove(player,List.of());
+    }
+    public void beforeMove(Player player,List<Rectangle> otherBodies) {
+        if(arena || chapter!=2 || !visited.contains(1) || gateLift>=GATE_TRAVEL)return;
+        Rectangle old=gateBounds(gateLift), next=gateBounds(gateLift+1);
+        double feet=player.getY()+player.getBounds().height;
+        boolean overlaps=player.getX()+player.getBounds().width>old.x && player.getX()<old.getMaxX();
+        boolean rider=player.isGrounded() && overlaps && Math.abs(feet-old.y)<2;
+        Rectangle body=new Rectangle((int)Math.floor(player.getX()),(int)Math.floor(feet-player.movementHeight()),
+                player.getBounds().width,player.movementHeight());
+        if(!rider && next.intersects(body) && !old.intersects(body))return;
+        // Enemy damage rectangles use integer coordinates; keep one pixel for subpixel movement.
+        if(otherBodies.stream().anyMatch(b->{var occupied=new Rectangle(b);occupied.grow(1,1);
+            return next.intersects(occupied)&&!old.intersects(occupied);}))return;
+        gateLift++;
+        if(rider)player.setY(player.getY()-1);
+    }
+    private static Rectangle gateBounds(int lift) {return new Rectangle(GATE_X,320-lift,170,160);}
+    private List<Block> currentBlocks() {
+        if(chapter!=2)return List.copyOf(blocks);
+        return blocks.stream().map(b->b.bounds.x==GATE_X
+                ?new Block(gateBounds(gateLift),b.material,b.canopy):b).toList();
+    }
+    public List<Rectangle> solids() {return arena?List.of():currentBlocks().stream().map(Block::bounds).toList();}
     public List<Platform> platforms() {return arena?List.of():List.copyOf(platforms);}
-    public boolean complete() {return visited.contains(1) && visited.contains(2);}
+    public boolean complete() {return visited.contains(1) && (chapter>=2 || visited.contains(2));}
     public Set<Integer> visited() {return Set.copyOf(visited);}
     public void restore(Set<Integer> flags) {
         if(flags==null || flags.stream().anyMatch(v->v==null||v<0||v>2)) throw new IllegalArgumentException("Invalid exploration flags");
-        visited.clear();visited.addAll(flags);
+        visited.clear();visited.addAll(flags);events.clear();hint="";
+        gateLift=chapter==2&&visited.contains(1)?GATE_TRAVEL:0;
     }
     public void update(Player player, boolean interact) {
         if(arena)return;
@@ -123,10 +157,10 @@ public final class ExplorationRoute {
     public double firstSolidContact(Projectile shot) {
         if(arena)return Double.POSITIVE_INFINITY;
         double nearest=Double.POSITIVE_INFINITY;
-        for(Block block:blocks)nearest=Math.min(nearest,shot.hitFraction(block.bounds));
+        for(Block block:currentBlocks())nearest=Math.min(nearest,shot.hitFraction(block.bounds));
         return nearest;
     }
     public List<Event> drainEvents() {var result=List.copyOf(events);events.clear();return result;}
-    public Snapshot snapshot() {return new Snapshot(chapter,List.copyOf(blocks),platforms(),List.copyOf(landmarks),visited(),hint,arena);}
+    public Snapshot snapshot() {return new Snapshot(chapter,currentBlocks(),platforms(),List.copyOf(landmarks),visited(),hint,arena,gateLift);}
 }
 

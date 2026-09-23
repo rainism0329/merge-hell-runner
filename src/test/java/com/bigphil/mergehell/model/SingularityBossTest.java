@@ -74,8 +74,9 @@ class SingularityBossTest {
         var f = new Fight(); f.tick(200); double x = f.boss.getX(); f.boss.damage((int)(f.boss.getMaxHp()*.72)); f.tick(200);
         assertEquals(3, f.boss.getCombatStage()); assertEquals(x, f.boss.getX());
         assertEquals(90, f.boss.getSingularityRebootTicks()); assertFalse(f.boss.isContactDangerous());
-        assertTrue(f.part("left-organ").destroyed()); assertTrue(f.part("right-organ").destroyed()); assertTrue(f.part("core").weak());
-        f.until("HEART_CRAWL"); assertEquals(90, f.boss.getWarningTicks()); x = f.boss.getX();
+        assertTrue(f.part("left-organ").destroyed()); assertTrue(f.part("right-organ").destroyed()); assertFalse(f.part("core").weak());
+        assertTrue(f.part("core").targetable());
+        f.until("HEART_CRAWL"); assertEquals(90, f.boss.getWarningTicks()); assertTrue(f.part("core").weak()); x = f.boss.getX();
         for (int i = 0; i < 89; i++) { f.tick(1300); assertEquals(x, f.boss.getX()); }
         f.tick(1300); f.tick(1300); assertTrue(f.boss.getX() < x);
         f.boss.clearVulnerability(); assertEquals(90, f.boss.getSingularityRebootTicks());

@@ -2,8 +2,11 @@ package com.bigphil.mergehell;
 
 import com.bigphil.mergehell.model.*;
 import com.bigphil.mergehell.world.ChapterRouteController;
+import com.bigphil.mergehell.encounter.EncounterWaveController;
 
+import java.awt.Rectangle;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class LevelManager {
 
@@ -36,6 +39,7 @@ public class LevelManager {
     private final Set<BattleZone> completedBattles = new HashSet<>();
     private int currentWave;
     private int waveTimer;
+    private final EncounterWaveController encounter = new EncounterWaveController();
 
     public final String bossName, bossSymbol;
     public final int bossHp;
@@ -165,55 +169,128 @@ public class LevelManager {
 
     private List<BattleZone> memoryBattles() {
         return List.of(
-                battle(900, 1500, wave(EntityType.LEAK, 7, 2, WaveType.RUSH),
-                        wave(EntityType.BUG, 6, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 1, 0, WaveType.MINIBOSS)),
-                battle(2300, 3000, wave(EntityType.LEAK, 9, 2, WaveType.RUSH),
-                        wave(EntityType.CRASH, 5, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 2, 0, WaveType.MINIBOSS)),
-                battle(4200, 5000, wave(EntityType.LEAK, 11, 2, WaveType.RUSH),
-                        wave(EntityType.BUG, 8, 2, WaveType.MIXED), wave(EntityType.TECHDEBT, 3, 2, WaveType.MINIBOSS)),
-                battle(6200, 7000, wave(EntityType.LEAK, 12, 2, WaveType.RUSH),
-                        wave(EntityType.CRASH, 7, 2, WaveType.MIXED), wave(EntityType.LEAK, 8, 2, WaveType.SNIPER),
-                        wave(EntityType.TECHDEBT, 3, 2, WaveType.MINIBOSS)));
+                // Drain intake: a floor carrier draws fire while leakage passes above it.
+                // The second group adds the familiar lock's aimed fire, rather than a wall of bodies.
+                battle(900, 1500,
+                        mixed(3, beat(EntityType.TECHDEBT, 0, 340, 0),
+                                beat(EntityType.LEAK, 32, 460, 125), beat(EntityType.BUG, 80, 480, 0),
+                                beat(EntityType.LEAK, 145, 385, 180)),
+                        mixed(3, beat(EntityType.LOCK, 0, 455, 105),
+                                beat(EntityType.LEAK, 36, 340, 175), beat(EntityType.TECHDEBT, 88, 490, 0),
+                                beat(EntityType.BUG, 160, 405, 0))),
+                // Pump gallery: high leakage and low charging bodies leave different dodge lanes.
+                battle(2300, 3000,
+                        mixed(3, beat(EntityType.LEAK, 0, 410, 165),
+                                beat(EntityType.CRASH, 38, 530, 45), beat(EntityType.TECHDEBT, 100, 585, 0),
+                                beat(EntityType.LOCK, 180, 480, 120)),
+                        mixed(3, beat(EntityType.TECHDEBT, 0, 425, 0),
+                                beat(EntityType.LOCK, 32, 580, 105), beat(EntityType.LEAK, 82, 475, 205),
+                                beat(EntityType.CRASH, 170, 540, 30))),
+                // Collector works: alternate grounded pressure and an elevated shooting lane.
+                battle(4200, 5000,
+                        mixed(3, beat(EntityType.LOCK, 0, 630, 145),
+                                beat(EntityType.TECHDEBT, 35, 420, 0), beat(EntityType.LEAK, 90, 565, 210),
+                                beat(EntityType.BUG, 175, 685, 0)),
+                        mixed(3, beat(EntityType.LEAK, 0, 445, 175),
+                                beat(EntityType.CRASH, 40, 570, 30), beat(EntityType.LOCK, 100, 665, 115),
+                                beat(EntityType.TECHDEBT, 185, 490, 0), beat(EntityType.LEAK, 260, 630, 225))),
+                // Outfall: repeat the learned roles in relief shifts, never simultaneous swarms.
+                battle(6200, 7000,
+                        mixed(3, beat(EntityType.TECHDEBT, 0, 440, 0),
+                                beat(EntityType.LEAK, 30, 620, 180), beat(EntityType.LOCK, 85, 535, 105),
+                                beat(EntityType.CRASH, 165, 665, 35)),
+                        mixed(3, beat(EntityType.LOCK, 0, 650, 155),
+                                beat(EntityType.LEAK, 35, 460, 215), beat(EntityType.TECHDEBT, 95, 535, 0),
+                                beat(EntityType.CRASH, 185, 620, 35), beat(EntityType.LEAK, 260, 400, 125))));
     }
 
     private List<BattleZone> architectBattles() {
         return List.of(
-                battle(1250, 2050, wave(EntityType.SENTINEL, 2, 0, WaveType.SNIPER),
-                        wave(EntityType.WARDEN, 1, 0, WaveType.MINIBOSS),
-                        wave(EntityType.RIGGER, 2, 0, WaveType.MIXED)),
-                battle(5200, 6000, wave(EntityType.RIGGER, 1, 2, WaveType.MIXED),
-                        wave(EntityType.SENTINEL, 2, 0, WaveType.SNIPER),
-                        wave(EntityType.WARDEN, 2, 0, WaveType.MINIBOSS)));
+                // Bridgehead: the shield approaches ahead of the marksman; a cable unit then
+                // asks for an upward shot, leaving time to identify each new responsibility.
+                battle(1250, 2050,
+                        mixed(3, beat(EntityType.WARDEN, 0, 430, 0),
+                                beat(EntityType.SENTINEL, 40, 690, 0),
+                                beat(EntityType.RIGGER, 110, 590, 205)),
+                        mixed(3, beat(EntityType.SENTINEL, 0, 650, 0),
+                                beat(EntityType.RIGGER, 42, 400, 245),
+                                beat(EntityType.WARDEN, 100, 500, 0),
+                                beat(EntityType.RIGGER, 190, 690, 175))),
+                // Relay yard: staggered high/low cable patrols contest the air while a
+                // ground battery arrives. Reinforcements wait for a vacancy instead of stacking.
+                battle(5200, 6000,
+                        mixed(3, beat(EntityType.RIGGER, 0, 520, 235),
+                                beat(EntityType.SENTINEL, 45, 680, 0),
+                                beat(EntityType.RIGGER, 100, 340, 135),
+                                beat(EntityType.WARDEN, 175, 460, 0)),
+                        mixed(3, beat(EntityType.WARDEN, 0, 420, 0),
+                                beat(EntityType.RIGGER, 40, 580, 230),
+                                beat(EntityType.SENTINEL, 95, 690, 0),
+                                beat(EntityType.RIGGER, 165, 330, 165),
+                                beat(EntityType.SENTINEL, 240, 620, 0))));
+    }
+
+    private static EncounterWaveController.Beat beat(EntityType type, int delay, int x, int altitude) {
+        return new EncounterWaveController.Beat(type, delay, x, altitude);
+    }
+
+    private static WaveDef mixed(int cap, EncounterWaveController.Beat... beats) {
+        return new WaveDef(List.of(beats), cap);
     }
 
     private List<BattleZone> kernelBattles() {
         return List.of(
-                battle(1700, 2400, wave(EntityType.DRILLER, 2, 0, WaveType.RUSH),
-                        wave(EntityType.INTERRUPT, 2, 0, WaveType.MIXED)),
-                battle(4200, 4850, wave(EntityType.SLAG_SPITTER, 2, 0, WaveType.SNIPER),
-                        wave(EntityType.INTERRUPT, 1, 2, WaveType.MIXED),
-                        wave(EntityType.DRILLER, 2, 0, WaveType.RUSH)),
-                battle(6350, 7000, wave(EntityType.INTERRUPT, 2, 0, WaveType.MIXED),
-                        wave(EntityType.DRILLER, 1, 2, WaveType.RUSH),
-                        wave(EntityType.SLAG_SPITTER, 2, 0, WaveType.MINIBOSS)));
+                // Furnace mouth: read the drill's floor warning before the welder contests jumps.
+                battle(1700, 2400,
+                        mixed(3, beat(EntityType.DRILLER, 0, 365, 0),
+                                beat(EntityType.INTERRUPT, 85, 480, 155),
+                                beat(EntityType.SLAG_SPITTER, 160, 580, 0)),
+                        mixed(3, beat(EntityType.INTERRUPT, 0, 390, 180),
+                                beat(EntityType.SLAG_SPITTER, 75, 565, 0),
+                                beat(EntityType.DRILLER, 160, 470, 0))),
+                // Casting bay: slag owns the back line while drilling forces a new landing spot.
+                battle(4200, 4850,
+                        mixed(3, beat(EntityType.SLAG_SPITTER, 0, 530, 0),
+                                beat(EntityType.DRILLER, 70, 340, 0),
+                                beat(EntityType.INTERRUPT, 155, 450, 190)),
+                        mixed(3, beat(EntityType.DRILLER, 0, 360, 0),
+                                beat(EntityType.SLAG_SPITTER, 80, 530, 0),
+                                beat(EntityType.INTERRUPT, 165, 455, 135),
+                                beat(EntityType.DRILLER, 270, 470, 0))),
+                // Pressure chamber: the air threat arrives first; the ground pair follows slowly.
+                battle(6350, 7000,
+                        mixed(3, beat(EntityType.INTERRUPT, 0, 390, 210),
+                                beat(EntityType.DRILLER, 85, 470, 0),
+                                beat(EntityType.SLAG_SPITTER, 175, 535, 0)),
+                        mixed(3, beat(EntityType.SLAG_SPITTER, 0, 530, 0),
+                                beat(EntityType.INTERRUPT, 75, 380, 160),
+                                beat(EntityType.DRILLER, 165, 470, 0),
+                                beat(EntityType.INTERRUPT, 270, 530, 220))));
     }
 
     private List<BattleZone> singularityBattles() {
         return List.of(
-                battle(1850, 2550, wave(EntityType.LURKER, 2, 0, WaveType.RUSH),
-                        wave(EntityType.SPORE_POD, 1, 0, WaveType.SNIPER),
-                        wave(EntityType.MIRROR, 2, 0, WaveType.MINIBOSS)),
-                battle(5900, 6500, wave(EntityType.SPORE_POD, 2, 0, WaveType.SNIPER),
-                        wave(EntityType.LURKER, 1, 2, WaveType.RUSH),
-                        wave(EntityType.MIRROR, 2, 0, WaveType.MINIBOSS)));
+                // Incubator guard: falling spores teach lateral movement before a lurker closes.
+                battle(1850, 2550,
+                        mixed(3, beat(EntityType.SPORE_POD, 0, 515, 155),
+                                beat(EntityType.LURKER, 85, 340, 0),
+                                beat(EntityType.MIRROR, 180, 585, 0)),
+                        mixed(3, beat(EntityType.LURKER, 0, 350, 0),
+                                beat(EntityType.MIRROR, 80, 565, 0),
+                                beat(EntityType.SPORE_POD, 175, 460, 190))),
+                // Root corridor: a retreating resin gunner and high spores cover the hunting pair.
+                battle(5900, 6500,
+                        mixed(3, beat(EntityType.SPORE_POD, 0, 445, 145),
+                                beat(EntityType.MIRROR, 80, 490, 0),
+                                beat(EntityType.LURKER, 175, 310, 0),
+                                beat(EntityType.LURKER, 290, 450, 0)),
+                        mixed(3, beat(EntityType.MIRROR, 0, 490, 0),
+                                beat(EntityType.SPORE_POD, 95, 370, 180),
+                                beat(EntityType.LURKER, 195, 305, 0))));
     }
 
     private BattleZone battle(double start, double end, WaveDef... waves) {
         return new BattleZone(start, end, waves);
-    }
-
-    private WaveDef wave(EntityType type, int count, int direction, WaveType waveType) {
-        return new WaveDef(type, count, direction, waveType);
     }
 
     private List<Platform> buildPlatforms(int level) {
@@ -271,6 +348,7 @@ public class LevelManager {
     public void enterBattle(BattleZone bz) {
         if (activeBattle != null || completedBattles.contains(bz)) return;
         activeBattle = bz;
+        encounter.clear();
         currentWave = 0;
         waveTimer = 30; // brief pause before first wave
     }
@@ -283,6 +361,7 @@ public class LevelManager {
 
     public boolean needsWaveSpawn(int aliveEnemies) {
         if (activeBattle == null) return false;
+        if (encounter.hasPending()) return false;
         if (aliveEnemies > 0) return false;
         if (waveTimer > 0) {
             waveTimer--;
@@ -326,6 +405,7 @@ public class LevelManager {
         activeBattle = null;
         currentWave = 0;
         waveTimer = 0;
+        encounter.clear();
         discardTriggersThrough(BOSS_GATE_X);
     }
 
@@ -334,6 +414,7 @@ public class LevelManager {
         activeBattle = null;
         currentWave = 0;
         waveTimer = 0;
+        encounter.clear();
     }
 
     public void restoreThrough(double worldX) {
@@ -345,8 +426,19 @@ public class LevelManager {
     }
 
     public WaveDef popWave() {
-        return activeBattle.waves[currentWave++];
+        WaveDef wave = activeBattle.waves[currentWave++];
+        if (wave.scripted()) encounter.begin(wave.beats, wave.maxConcurrent, activeBattle.start, activeBattle.end);
+        return wave;
     }
+
+    public int advanceEncounter(int aliveHostiles, int groundY, List<Rectangle> solids,
+                                List<Rectangle> occupied, Rectangle player,
+                                Predicate<Rectangle> groundSupported,
+                                Predicate<EncounterWaveController.Spawn> spawn) {
+        return encounter.advance(aliveHostiles, groundY, solids, occupied, player, groundSupported, spawn);
+    }
+
+    public boolean hasPendingReinforcements() { return encounter.hasPending(); }
 
     public void startNextWaveTimer() {
         waveTimer = 40;
@@ -387,7 +479,10 @@ public class LevelManager {
         EnumSet<EntityType> roster = EnumSet.noneOf(EntityType.class);
         triggers.stream().map(trigger -> trigger.type).filter(EntityType::isHostile).forEach(roster::add);
         for (BattleZone battle : battleZones) {
-            for (WaveDef wave : battle.waves) if (wave.type.isHostile()) roster.add(wave.type);
+            for (WaveDef wave : battle.waves) {
+                if (wave.type.isHostile()) roster.add(wave.type);
+                wave.beats.forEach(beat -> roster.add(beat.type()));
+            }
         }
         return Collections.unmodifiableSet(roster);
     }
@@ -407,9 +502,19 @@ public class LevelManager {
         public final int count;
         public final int fromDir;
         public final WaveType waveType;
+        public final List<EncounterWaveController.Beat> beats;
+        public final int maxConcurrent;
         public WaveDef(EntityType t, int c, int d, WaveType wt) {
             type = t; count = c; fromDir = d; waveType = wt;
+            beats = List.of(); maxConcurrent = c * (d == 2 ? 2 : 1);
         }
+        public WaveDef(List<EncounterWaveController.Beat> beats, int maxConcurrent) {
+            if (beats.isEmpty() || maxConcurrent < 1 || maxConcurrent > 8)
+                throw new IllegalArgumentException("Invalid mixed wave");
+            this.beats = List.copyOf(beats); this.maxConcurrent = maxConcurrent;
+            type = beats.get(0).type(); count = beats.size(); fromDir = 0; waveType = WaveType.MIXED;
+        }
+        public boolean scripted() { return !beats.isEmpty(); }
     }
 
     public static class Coin {

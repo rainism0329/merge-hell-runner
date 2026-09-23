@@ -11,7 +11,7 @@ class GamePanelDepthTest {
     @Test void realMenuKeysChooseCharacterAndDifficultyAndPauseClearsAiming()throws Exception {
         try(var h=new HeapGameHarness()) {
             h.set("state",GameState.MENU);h.key("CHARACTER");h.key("DIFFICULTY");h.tick();
-            h.key("START");h.tick();
+            h.key("NEW_RANKED_RUN");h.tick();h.key("START");h.tick();
             assertEquals(CharacterId.SCOUT,h.player().getRunBuild().character());
             assertEquals(GameDifficulty.CHALLENGE,h.player().getRunBuild().difficulty());
             h.key("MENU_UP");h.key("SHOOT");h.ticks(8);
@@ -30,7 +30,7 @@ class GamePanelDepthTest {
     }
     @Test void theOldOfficeUnlocksEngineerUsingTheActualInteractionKeyExactlyOnce()throws Exception {
         try(var h=new HeapGameHarness()) {
-            h.set("state",GameState.MENU);h.key("START");h.tick();
+            h.set("state",GameState.MENU);h.key("NEW_RANKED_RUN");h.tick();h.key("START");h.tick();
             var route=(ExplorationRoute)h.get("exploration");
             var office=route.snapshot().landmarks().get(0);
             h.place(office.bounds().x,462);h.key("MENU_DOWN");h.tick();

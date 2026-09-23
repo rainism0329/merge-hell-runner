@@ -110,6 +110,7 @@ class GamePanelDronesTest {
         double respawnX = h.player().getX();
         assertTrue(h.drones().snapshot().drones().stream().allMatch(p -> Math.abs(p.x() - respawnX) < 100));
         h.key("NEW_RANKED_RUN"); h.tick();
+        h.key("START"); h.tick();
         assertTrue(h.drones().snapshot().drones().isEmpty());
         assertTrue(h.shots().stream().noneMatch(p -> p.getDamageKind() == com.bigphil.mergehell.combat.CombatEvent.DamageKind.DRONE));
     }

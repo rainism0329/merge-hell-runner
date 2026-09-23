@@ -30,6 +30,14 @@ public final class SettingsOverlayRenderer {
     private static final Color CREAM = new Color(241, 237, 225);
     private static final int ROW_X = 136, ROW_Y = 132, ROW_WIDTH = 688, ROW_HEIGHT = 31, ROW_PITCH = 34;
 
+    public static java.awt.Rectangle closeBounds() { return new java.awt.Rectangle(730, 55, 95, 38); }
+    public static Option optionAt(int x, int y) {
+        if (x < ROW_X || x >= ROW_X + ROW_WIDTH || y < ROW_Y) return null;
+        int row = (y - ROW_Y) / ROW_PITCH;
+        return row < Option.values().length && (y - ROW_Y) % ROW_PITCH < ROW_HEIGHT ? Option.values()[row] : null;
+    }
+    public static int percentageAt(int x) { return Math.max(0, Math.min(100, (int) Math.round((x - 559) * 100.0 / 156))); }
+
     public void render(Graphics2D target, SettingsEditor.Snapshot snapshot) {
         Objects.requireNonNull(target);
         Objects.requireNonNull(snapshot);
@@ -51,7 +59,7 @@ public final class SettingsOverlayRenderer {
             GameText.draw(g, "SYSTEM SETTINGS", 142, 84);
             g.setFont(GameText.font(compact ? COMPACT_BODY : MONO));
             g.setColor(AMBER);
-            rightAligned(g, "LOCAL PROFILE", 818, 82);
+            rightAligned(g, GameText.message("flow.settings.close"), 818, 82);
             g.setFont(GameText.font(compact ? COMPACT_BODY : BODY));
             g.setColor(new Color(191, 199, 205));
             GameText.draw(g, compact ? "Changes save automatically. Esc returns."

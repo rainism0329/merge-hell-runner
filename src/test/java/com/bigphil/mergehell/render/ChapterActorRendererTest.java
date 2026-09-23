@@ -21,6 +21,28 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChapterActorRendererTest {
+    @Test void newDepthActionsDrawAtSmallSizeWithFlashesOffWithoutAdvancingTheEncounter() {
+        for (String action : List.of("LEFT_SWEEP", "RIGHT_SWEEP", "GANTRY_LOCK", "HEART_PULSE", "ROOT_SURGE")) {
+            int chapter = action.startsWith("HEART") || action.startsWith("ROOT") ? 4 : 2;
+            var boss = new Boss("Depth", 16000, "!", 960, chapter, 4);
+            var enemies = new ObstacleManager(); var shots = new ArrayList<Projectile>();
+            boss.previewArrival(1, 480); boss.activate(); boss.update(enemies, 480, 180, 450, shots);
+            boss.damageAt(boss.getParts().get(2).bounds().rectangle(), action.endsWith("SWEEP") ? 10000 : chapter == 2 ? 20000 : 30000);
+            for (int i = 0; i < 5000 && !boss.getEncounterAction().equals(action); i++) boss.update(enemies, 480, 180, 450, shots);
+            assertEquals(action, boss.getEncounterAction());
+            for (int active = 0; active < 2; active++) {
+                if (active == 1) while (boss.getWarningTicks() > 0) boss.update(enemies, 480, 180, 450, shots);
+                int tick = boss.getCombatTick(); var warnings = boss.getAttackTelegraphs(); var parts = boss.getParts();
+                var image = new BufferedImage(600, 400, BufferedImage.TYPE_INT_ARGB); var g = image.createGraphics();
+                g.scale(.625, .625); var before = g.getTransform();
+                ChapterActorRenderer.boss(g, boss, 0, false, true);
+                assertEquals(before, g.getTransform()); g.dispose();
+                assertEquals(tick, boss.getCombatTick()); assertEquals(warnings, boss.getAttackTelegraphs()); assertEquals(parts, boss.getParts());
+                assertTrue(Arrays.stream(image.getRGB(0, 0, 600, 400, null, 0, 600)).filter(p -> p >>> 24 > 100).count() > 1000);
+            }
+        }
+    }
+
     @Test void bothLanguagesRenderRealMultipartWarningsWithoutChangingAnyPhysicsOrCallerGraphics() {
         for (GameLanguage language : GameLanguage.values()) try (var scope = GameText.use(language)) {
             for (int level = 2; level <= 4; level++) {
